@@ -251,6 +251,7 @@ function clicToText(element) {
 
 // VI : Cible == Img
 function clicToImg(element) {
+    $(element).removeAttr('border');
     $('[data-display-img]').show();
     $(targetTheTargetParent(element)+' a').attr('data-href', 'true');
     parent = '[data-href]';
@@ -341,7 +342,7 @@ function backgroundText(element) {
 
     (function change(){
         $(document).on('change', '.background-color .choose_color', function(){
-            let backgroundSection = $(this).val();
+            backgroundSection = $(this).val();
             $(element).css('background-color', backgroundSection);
         });
         $(document).on('blur', '.background-color .choose_color', function(){
@@ -355,8 +356,19 @@ function backgroundText(element) {
 // XIII : Récupération/Modification de la police de texte
 function familyText(element) {
     familySection = $(element).css('font-family').split(', ');
-    $('.font-family').find('option').removeAttr('selected')
-    $('.font-family').find('#'+familySection+'').attr('selected', 'selected');
+    input = $('.font-family').find('select');
+    newFamilySection = familySection[0].replace(' ','').replace('"', '').replace('"', '');
+    console.log(newFamilySection);
+    input.find('option').removeAttr('selected');
+    input.find('#'+newFamilySection).attr('selected', 'selected');
+
+    (function change() {
+        $(document).on('change', '.font-family select', function() {
+            input = $(this);
+            val = input.val();
+            $(element).css('font-family', "'"+val+"'"); 
+        });
+    })();
 }
 
 // XIV : Récupération/Modification du lien de redirection
@@ -407,11 +419,6 @@ function paddingObjet(element) {
 
 // XVI : Récupération/Modification de la taille des bordures
 function borderSizeObjet(element) {
-    if ($(element).css('border-style') !== 'solid') {
-        $(element).css('border-style', 'solid');
-        $(element).css('border-width', '0px');
-        $(element).css('border-color', '#000');
-    }
     borderSizeTopSection = parseFloat($(element).css('border-top-width'));
     borderSizeRightSection = parseFloat($(element).css('border-right-width'));
     borderSizeBottomSection = parseFloat($(element).css('border-bottom-width'));
@@ -420,6 +427,12 @@ function borderSizeObjet(element) {
     $('.border').find('#border-right input.change_value').val(borderSizeRightSection).attr('value', borderSizeRightSection);
     $('.border').find('#border-bottom input.change_value').val(borderSizeBottomSection).attr('value', borderSizeBottomSection);
     $('.border').find('#border-left input.change_value').val(borderSizeLeftSection).attr('value', borderSizeLeftSection);
+
+    if ($(element).css('border-style') !== 'solid') {
+        $(element).css('border-style', 'solid');
+        $(element).css('border-width', '0px');
+        $(element).css('border-color', '#000');
+    }
 
     (function change(){
         $(document).on('change', '.border input.change_value', function(){
@@ -452,6 +465,19 @@ function borderColorObjet(element) {
     $('.border').find('#border-right input.minicolors-input').attr('value', borderColorRightSection).minicolors('value', borderColorRightSection);
     $('.border').find('#border-bottom input.minicolors-input').attr('value', borderColorBottomSection).minicolors('value', borderColorBottomSection);
     $('.border').find('#border-left input.minicolors-input').attr('value', borderColorLeftSection).minicolors('value', borderColorLeftSection);
+
+    (function change(){
+        $(document).on('change', '.border input.minicolors-input', function() {
+            input = $(this);
+            val = input.val();
+            $(element).css(input.parents('.block').attr('id')+'-color', val);
+        });
+        $(document).on('blur', '.border input.minicolors-input', function(){
+            if (input.val() == '') {
+                input.attr('value', val).val(val).minicolors('value',val);
+            }
+        });
+    })();
 }
 
 // XVIII : Disparition des items
