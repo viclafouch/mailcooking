@@ -378,6 +378,13 @@ function paddingObjet(element) {
     $('.padding').find('#padding-right input').val(paddingRightSection).attr('value', paddingRightSection);
     $('.padding').find('#padding-bottom input').val(paddingBottomSection).attr('value', paddingBottomSection);
     $('.padding').find('#padding-left input').val(paddingLeftSection).attr('value', paddingLeftSection); 
+
+    (function change(){
+        $(document).on('change', '.padding input', function(){
+            $(element).css($(this).parents('.block').attr('id'), $(this).val()+'px');
+        });
+    })();
+
 }
 
 // XVI : Récupération/Modification de la taille des bordures
