@@ -47,6 +47,7 @@ var borderColorLeftSection; // Couleur de bordure gauche de l'objet
 var target; // Cible à modifier
 var parent; // Parent Cible
 
+var val; // Valeur en cours d'insertion
 var max; // Valeur max à insérer
 var min; // Valeur min à insérer
 
@@ -387,16 +388,12 @@ function paddingObjet(element) {
             max = parseFloat($(this).attr('data-max'));
             min = parseFloat($(this).attr('data-min'));
             val = $(this).val();
-            
-            if (val == '') {
-                $(element).css($(this).parents('.block').attr('id'), min+'px');
-                $(this).attr('value', min).val(min);
-            }
-            else if (val > max) {
+
+            if (val > max) {
                 $(element).css($(this).parents('.block').attr('id'), max+'px');
                 $(this).attr('value', max).val(max);
             }
-            else if (val < min) {
+            else if (val < min || val == '') {
                 $(element).css($(this).parents('.block').attr('id'), min+'px');
                 $(this).attr('value', min).val(min);
             }
@@ -406,19 +403,43 @@ function paddingObjet(element) {
             }
         });
     })();
-
 }
 
 // XVI : Récupération/Modification de la taille des bordures
 function borderSizeObjet(element) {
-    borderSizeTopSection = parseFloat($(element).css('border-top'));
-    borderSizeRightSection = parseFloat($(element).css('border-right'));
-    borderSizeBottomSection = parseFloat($(element).css('border-bottom'));
-    borderSizeLeftSection = parseFloat($(element).css('border-left'));
-    $('.border').find('#border-top input').val(borderSizeTopSection).attr('value', borderSizeTopSection);
-    $('.border').find('#border-right input').val(borderSizeRightSection).attr('value', borderSizeRightSection);
-    $('.border').find('#border-bottom input').val(borderSizeBottomSection).attr('value', borderSizeBottomSection);
-    $('.border').find('#border-left input').val(borderSizeLeftSection).attr('value', borderSizeLeftSection);
+    if ($(element).css('border-style') !== 'solid') {
+        $(element).css('border-style', 'solid');
+        $(element).css('border-width', '0px');
+        $(element).css('border-color', '#000');
+    }
+    borderSizeTopSection = parseFloat($(element).css('border-top-width'));
+    borderSizeRightSection = parseFloat($(element).css('border-right-width'));
+    borderSizeBottomSection = parseFloat($(element).css('border-bottom-width'));
+    borderSizeLeftSection = parseFloat($(element).css('border-left-width'));
+    $('.border').find('#border-top input.change_value').val(borderSizeTopSection).attr('value', borderSizeTopSection);
+    $('.border').find('#border-right input.change_value').val(borderSizeRightSection).attr('value', borderSizeRightSection);
+    $('.border').find('#border-bottom input.change_value').val(borderSizeBottomSection).attr('value', borderSizeBottomSection);
+    $('.border').find('#border-left input.change_value').val(borderSizeLeftSection).attr('value', borderSizeLeftSection);
+
+    (function change(){
+        $(document).on('change', '.border input.change_value', function(){
+            max = parseFloat($(this).attr('data-max'));
+            min = parseFloat($(this).attr('data-min'));
+            val = $(this).val();
+            if (val > max) {
+                $(element).css($(this).parents('.block').attr('id')+'-width', max+'px');
+                $(this).attr('value', max).val(max);
+            }
+            else if (val < min || val == '') {
+                $(element).css($(this).parents('.block').attr('id')+'-width', min+'px');
+                $(this).attr('value', min).val(min);
+            }
+            else {
+                $(element).css($(this).parents('.block').attr('id')+'-width', val+'px');
+                $(this).attr('value', val);
+            }
+        });
+    })();
 }
 
 // XVII : Récupération/Modification de la couleur des bordures
