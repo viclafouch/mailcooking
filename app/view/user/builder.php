@@ -84,7 +84,7 @@
 				<div class="field_tools_item_block verhor-center font-size" data-display-text data-display-cta>
 					<div class="item col">
 						<label>Taille de la police <span class="taille">(en px)</span></label>
-						<input type="text" value="48" class="input btn_tools change_value" data-change='font-size' data-max="20" data-min="6" />
+						<input type="text" value="48" class="input btn_tools change_value" data-change='font-size' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="6" />
 						<span class="change_value_action btn_action_plus" id="plus" data-control='font-size'>
 							<i class="signe material-icons">add</i>
 						</span>

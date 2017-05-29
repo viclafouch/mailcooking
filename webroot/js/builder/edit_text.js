@@ -314,7 +314,13 @@ function sizeText(element) {
 
     (function change(){
         $(document).on('change', '.font-size input', function(){
-            sizeSection = $(this).val();
+                       
+            if ($(this).val() == '') {
+                sizeSection = sizeSection;
+                $(this).val(sizeSection);
+            } else {
+                sizeSection = $(this).val();
+            }
             $(element).css('font-size', ''+sizeSection+'px');
         });
     })();
@@ -366,7 +372,7 @@ function familyText(element) {
         $(document).on('change', '.font-family select', function() {
             input = $(this);
             val = input.val();
-            $(element).css('font-family', "'"+val+"'"); 
+            $(element).css('font-family', "'"+val+"', Arial, sans-serif"); 
         });
     })();
 }
