@@ -47,6 +47,9 @@ var borderColorLeftSection; // Couleur de bordure gauche de l'objet
 var target; // Cible à modifier
 var parent; // Parent Cible
 
+var max; // Valeur max à insérer
+var min; // Valeur min à insérer
+
 /*----------  Functions  ----------*/
 
 /**
@@ -381,7 +384,26 @@ function paddingObjet(element) {
 
     (function change(){
         $(document).on('change', '.padding input', function(){
-            $(element).css($(this).parents('.block').attr('id'), $(this).val()+'px');
+            max = parseFloat($(this).attr('data-max'));
+            min = parseFloat($(this).attr('data-min'));
+            val = $(this).val();
+            
+            if (val == '') {
+                $(element).css($(this).parents('.block').attr('id'), min+'px');
+                $(this).attr('value', min).val(min);
+            }
+            else if (val > max) {
+                $(element).css($(this).parents('.block').attr('id'), max+'px');
+                $(this).attr('value', max).val(max);
+            }
+            else if (val < min) {
+                $(element).css($(this).parents('.block').attr('id'), min+'px');
+                $(this).attr('value', min).val(min);
+            }
+            else {
+                $(element).css($(this).parents('.block').attr('id'), val+'px');
+                $(this).attr('value', val);
+            }
         });
     })();
 
