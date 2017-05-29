@@ -314,14 +314,26 @@ function sizeText(element) {
 
     (function change(){
         $(document).on('change', '.font-size input', function(){
-                       
-            if ($(this).val() == '') {
-                sizeSection = sizeSection;
-                $(this).val(sizeSection);
-            } else {
-                sizeSection = $(this).val();
+            max = parseFloat($(this).attr('data-max'));
+            min = parseFloat($(this).attr('data-min'));
+            val = $(this).val();
+
+            if (val == '') {
+                $(element).css('font-size', parseFloat($(element).css('font-size'))+'px');
+                $(this).attr('value', parseFloat($(element).css('font-size'))).val(parseFloat($(element).css('font-size')));
             }
-            $(element).css('font-size', ''+sizeSection+'px');
+            else if (val < min) {
+                $(element).css('font-size', min+'px');
+                $(this).attr('value', min).val(min);
+            }
+            else if (val > max) {
+                $(element).css('font-size', max+'px');
+                $(this).attr('value', max).val(max);
+            }
+            else {
+                $(element).css('font-size', val+'px');
+                $(this).attr('value', val);
+            }      
         });
     })();
 }
@@ -407,7 +419,11 @@ function paddingObjet(element) {
             min = parseFloat($(this).attr('data-min'));
             val = $(this).val();
 
-            if (val > max) {
+            if (val == '') {
+                $(element).css($(this).attr('data-change'), parseFloat($(element).css($(this).attr('data-change'))));
+                $(this).attr('value', parseFloat($(element).css($(this).attr('data-change')))).val(parseFloat($(element).css($(this).attr('data-change'))));
+            }
+            else if (val > max) {
                 $(element).css($(this).parents('.block').attr('id'), max+'px');
                 $(this).attr('value', max).val(max);
             }
@@ -445,7 +461,12 @@ function borderSizeObjet(element) {
             max = parseFloat($(this).attr('data-max'));
             min = parseFloat($(this).attr('data-min'));
             val = $(this).val();
-            if (val > max) {
+            
+            if (val == '') {
+                $(element).css($(this).attr('data-change'), parseFloat($(element).css($(this).attr('data-change'))));
+                $(this).attr('value', parseFloat($(element).css($(this).attr('data-change')))).val(parseFloat($(element).css($(this).attr('data-change'))));
+            }
+            else if (val > max) {
                 $(element).css($(this).parents('.block').attr('id')+'-width', max+'px');
                 $(this).attr('value', max).val(max);
             }

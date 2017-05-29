@@ -178,7 +178,7 @@
 									<div class="flipper">
 										<div class="front">
 											<div class="number">
-												<input type="text" class="change_value" data-change='border-top' data-min="0" data-max="20" placeholder="..." value="0" name=""/>
+												<input type="text" class="change_value" data-change='border-top-width' data-min="0" data-max="20" placeholder="..." value="0" name=""/>
 											</div>
 											<div class="action_number">
 												<span class="btn_action_plus" data-control='border-top'><i class="signe material-icons">add</i></span>
@@ -206,7 +206,7 @@
 									<div class="flipper">
 										<div class="front">
 											<div class="number">
-												<input type="text" class="change_value" data-change='border-bottom' data-min="0" data-max="20" placeholder="..." name=""/>
+												<input type="text" class="change_value" data-change='border-bottom-width' data-min="0" data-max="20" placeholder="..." name=""/>
 											</div>
 											<div class="action_number">
 												<span class="btn_action_plus" data-control='border-bottom'><i class="signe material-icons">add</i></span>
