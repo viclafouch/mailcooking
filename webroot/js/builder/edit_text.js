@@ -358,9 +358,9 @@ function familyText(element) {
     familySection = $(element).css('font-family').split(', ');
     input = $('.font-family').find('select');
     newFamilySection = familySection[0].replace(' ','').replace('"', '').replace('"', '');
-    console.log(newFamilySection);
     input.find('option').removeAttr('selected');
-    input.find('#'+newFamilySection).attr('selected', 'selected');
+    input.find('#'+newFamilySection).attr('selected', 'true');
+    input.val(newFamilySection);
 
     (function change() {
         $(document).on('change', '.font-family select', function() {
