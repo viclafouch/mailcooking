@@ -173,7 +173,7 @@ function exportDocument(storageID) {
     getContent();
     $(storageID).html(DomMail);
     cleanAttr(storageID);
-    console.log($(storageID).html());
+
     
 }
 
