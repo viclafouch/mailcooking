@@ -28,7 +28,7 @@
 			);
 
 			if($savefile){
-				echo "file created";
+				echo $random;
 			}
 			else {
 				echo 'upload fail';

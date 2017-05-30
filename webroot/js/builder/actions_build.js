@@ -145,6 +145,38 @@ function createId() {
     return undoRedoStack.length;
 }
 
+function cleanAttr(storage) {
+    $(storage+' [data-content]').removeClass('activeover');
+    $(storage+' [contenteditable]').removeAttr('contenteditable');
+    $(storage+' [spellcheck]').removeAttr('spellcheck');
+    $(storage+' [data-medium-editor-element]').removeAttr('data-medium-editor-element');
+    $(storage+' [data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
+    $(storage+' [data-medium-focused]').removeAttr('data-medium-focused');
+    $(storage+' [data-placeholder]').removeAttr('data-placeholder');
+    $(storage+' [medium-editor-index]').removeAttr('medium-editor-index');
+    $(storage+' [data-original-title]').removeAttr('data-original-title');
+    $(storage+' [data-text]').removeAttr('data-text');
+    $(storage+' [data-cta]').removeAttr('data-cta');
+    $(storage+' [data-img]').removeAttr('data-img');
+    $(storage+' [data-spacer]').removeAttr('data-spacer');
+    $(storage+' [data-section]').removeAttr('data-section');
+    $(storage+' [data-content]').removeAttr('data-content');
+    $(storage+' [data-target]').removeAttr('data-target');
+    $(storage+' [data-target-parent]').removeAttr('data-target-parent');
+    $(storage+' [data-parent-target]').removeAttr('data-parent-target');
+    $(storage+' [data-href]').removeAttr('data-href');
+    $(storage+' .medium-editor-element').removeClass('medium-editor-element');
+    $(storage+' *').removeAttr('id');
+}
+
+function exportDocument(storageID) {
+    getContent();
+    $(storageID).html(DomMail);
+    cleanAttr(storageID);
+    console.log($(storageID).html());
+    
+}
+
 /*----------  Actions  ----------*/
 
 // Démarrage des modules d'actions du builder
@@ -162,14 +194,18 @@ $(document).ready(function() {
         undoManager.undo();
         console.log('undo');
         e.preventDefault();
-    })
+    });
 
     /* Réaffecter une modification */
     $(document).on('click', '#redo', function (e){ 
         undoManager.redo();
         console.log('redo');
         e.preventDefault();
-    })
+    });
+
+    $(document).on('click', '#exportDocument', function(){
+        exportDocument('#storage_email_to_export');
+    });
 
     /* Sauvegarde du mail */
     saveInStack(createId(), $('#storage_email').html());

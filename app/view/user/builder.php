@@ -15,14 +15,14 @@
 				<button class="clic icon-action" id="undo"><i class="material-icons">undo</i></button>
 				<button class="clic icon-action" id="redo"><i class="material-icons">redo</i></button>
 				<span class="icon-action clic text-gris" id="saveDocument"><i class="material-icons">save</i></span>						
-				<span class="icon-action clic text-gris"><i class="material-icons">email</i></span>
+				<span class="icon-action clic text-gris" id="exportDocument"><i class="material-icons">email</i></span>
 			</div>
 		</div>
 		<div class="edit_img croppie_sleep" id="imgToCroppie">
 		</div>
 		<div id="storage_template" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['DOM'])); ?></div>
 		<div id="storage_email" style="background-color: <?= $user[0]['email_background'];?>"><?php echo htmlspecialchars_decode(html_entity_decode($user[0]['email_dom'])); ?></div>
-		<div id="stop" style="display: none"></div>
+		<div id="storage_email_to_export" style="display: none"></div>
 		
 	</div>
 	<div class="sidebar_tools">

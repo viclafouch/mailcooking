@@ -1,0 +1,89 @@
+[33mcommit 8c5349f5d1d659b3a471db35e362e74a0c34ed36[m[33m ([m[1;36mHEAD -> [m[1;32mbuilder[m[33m, [m[1;31morigin/builder[m[33m)[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Tue May 30 14:30:53 2017 +0200
+
+    modif des insertions d id random
+
+[33mcommit 983bf09860494247807d12525575166d05e349cc[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Tue May 30 13:02:25 2017 +0200
+
+    bordures aux images directes
+
+[33mcommit 77fc478b2003b06cbf1cc762f06cbb4176b3b857[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Tue May 30 12:54:35 2017 +0200
+
+    rangement
+
+[33mcommit cca5ce45357fed47b93121513631a4880ceb217d[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Tue May 30 12:40:22 2017 +0200
+
+    Amélioration et wrap/unwrap des liens de redirections
+
+[33mcommit 08404f6cc0998b126984003beb4e312e059df159[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Tue May 30 11:55:34 2017 +0200
+
+    Modification en live du spacer
+
+[33mcommit 21cc6c014996378f098e8568fec8f1ca1a7311e9[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 17:57:38 2017 +0200
+
+    Si champs vide dans input, insertion dernière valeur
+
+[33mcommit e8548fce3bb93201827bc6286dcd7f0c7c9cf755[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 17:26:24 2017 +0200
+
+    empeche une valeur vide dans la modif de taille de texte
+
+[33mcommit b27cc5a34e69737de4fd2f5fb6689e142fcb8c4f[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 16:55:51 2017 +0200
+
+    Modification des font family en live
+
+[33mcommit 292d7e25cb86e811ea974fec5dc49c8af9b055ad[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 16:30:13 2017 +0200
+
+    configure le changement de couleur des bordures
+
+[33mcommit 665c6be274b2b3b2350625349738c1349e7841b2[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 14:45:29 2017 +0200
+
+    configure la modification de la taille des bordures
+
+[33mcommit b6dabc02afc5b5ce79e260310520b4fe282227f0[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 13:42:51 2017 +0200
+
+    configure la sécurité min & max des paddings
+
+[33mcommit 25086701fd5ba2a57cbbb52abd8fd47662dcb54d[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 12:17:33 2017 +0200
+
+    add changment padding in live
+
+[33mcommit a60509babd560eefb850769fcbea1f2a5ce3f080[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 11:57:06 2017 +0200
+
+    add config.rb to ignore
+
+[33mcommit ef760fad027baacd38c5964d869d650d3e8d942f[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 11:50:41 2017 +0200
+
+    add gitignore
+
+[33mcommit 9908928814309e4ae1d6bc33de707f71bf8ff3a5[m
+Author: Victor de la Fouchardiere <victor.dlf@outlook.fr>
+Date:   Mon May 29 11:33:35 2017 +0200
+
+    first commit
