@@ -258,8 +258,8 @@ function clicToImg(element) {
     $(element).removeAttr('border');
     $('[data-display-img]').show();
     linkObjet(element);
-    borderSizeObjet(targetTheTargetParent(element));
-    borderColorObjet(targetTheTargetParent(element));
+    borderSizeObjet(element);
+    borderColorObjet(element);
     dataImg = $(element).attr('data-img');
     $('#active-croppie').attr('data-tocroppie', dataImg);
 }
@@ -384,8 +384,8 @@ function backgroundText(element) {
 
 // XIV : Récupération/Modification de la police de texte
 function familyText(element) {
+    let input = $('.font-family').find('select');
     familySection = $(element).css('font-family').split(', ');
-    input = $('.font-family').find('select');
     newFamilySection = familySection[0].replace(' ','').replace('"', '').replace('"', '');
     input.find('option').removeAttr('selected');
     input.find('#'+newFamilySection).attr('selected', 'true');
@@ -402,8 +402,8 @@ function familyText(element) {
 
 // XV : Récupération/Modification de la hauteur
 function heightObjet (element) {
+    let input = $('.height').find('input.change_value');
     height = parseFloat($(element).attr('height'));
-    input = $('.height').find('input.change_value')
     input.val(height).attr('value', height);
 
     (function change() {
@@ -436,8 +436,8 @@ function heightObjet (element) {
 
 // XVI : Récupération/Modification du lien de redirection
 function linkObjet(element){
+    let input = $('.link').find('input');
     parentLink = $(element).parent('a')[0];
-    input = $('.link').find('input');
     if (parentLink !== undefined) {
         $(parentLink).attr('data-href', 'true');
         linkSection = $('[data-href]').attr('href');
