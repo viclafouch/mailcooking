@@ -1954,7 +1954,7 @@ div.field_tools_item_block p {
     }
 
     // Boutons + et -
-    & > div.font-size {
+    & > div.font-size, div.height {
         span.change_value_action {
             position: absolute;
             content: '';

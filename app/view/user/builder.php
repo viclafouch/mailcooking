@@ -32,7 +32,7 @@
 				<span id="sections_builder" class="btn_menu_builder">Sections</span>
 			</header>
 			<div class="items_builder_block task menuactive">
-				<div class="field_tools_item_block verhor-center background-color" data-display-text data-display-cta>
+				<div class="field_tools_item_block verhor-center background-color" data-display-spacer data-display-text data-display-cta>
 					<div class="item col">
 						<label>Couleur de fond</label>
 						<input type="text" value="#ffffff" class="choose_color" />
@@ -55,15 +55,15 @@
 						<input type="url" placeholder="http://" class="input" />
 					</div>
 				</div>
-				<div class="field_tools_item_block verhor-center height">
+				<div class="field_tools_item_block verhor-center height" data-display-spacer>
 					<div class="item col">
-						<label>Hauteur<span class="taille">(en px)</span></label>
-						<input type="text" value="10" maxlength="20" min="6" class="input btn_tools change_value" data-change='font-size' data-max="100" data-min="6" />
-						<span class="change_value_action btn_action_plus" id="plus" data-control='font-size'>
+						<label>Hauteur  <span class="taille">(en px)</span></label>
+						<input type="text" value="" class="input btn_tools change_value" data-change='height' data-max="150" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="20" />
+						<span class="change_value_action btn_action_plus" id="plus" data-control='heigth'>
 							<i class="signe material-icons">add</i>
 						</span>
-						<span class="change_value_action btn_action_moins" id="moins" data-control='font-size'>
-							<i class=" signe material-icons">remove</i>
+						<span class="change_value_action btn_action_moins" id="moins" data-control='heigth'>
+							<i class="signe material-icons">remove</i>
 						</span>
 					</div>
 				</div>
@@ -104,7 +104,7 @@
 						</p>
 					</div>
 				</div>
-				<div class="field_tools_item_block verhor-center padding" data-display-img data-display-text>
+				<div class="field_tools_item_block verhor-center padding" data-display-text>
 					<div class="item col">
 						<label>Padding <span class="taille">(en px)</span></label>
 						<div class="map_block">
@@ -164,7 +164,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="field_tools_item_block verhor-center border" data-display-text data-display-img data-display-cta>
+				<div class="field_tools_item_block verhor-center border" data-display-spacer data-display-text data-display-img data-display-cta>
 					<div class="item col">
 						<label>Bordure <span class="taille">(en px)</span></label>
 						<div class="map_block">

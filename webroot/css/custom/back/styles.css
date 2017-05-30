@@ -2865,7 +2865,7 @@ div.field_tools_item_block p.active::after {
 .items_builder_block > div.background-color span.minicolors-swatch, .items_builder_block > div.color span.minicolors-swatch {
   top: 4px !important;
 }
-.items_builder_block > div.font-size span.change_value_action {
+.items_builder_block > div.font-size span.change_value_action, .items_builder_block div.height span.change_value_action {
   position: absolute;
   content: '';
   width: 29px;
@@ -2880,7 +2880,7 @@ div.field_tools_item_block p.active::after {
   -ms-user-select: none;
   user-select: none;
 }
-.items_builder_block > div.font-size span.change_value_action i {
+.items_builder_block > div.font-size span.change_value_action i, .items_builder_block div.height span.change_value_action i {
   position: absolute;
   top: 50%;
   -moz-transform: translate(-50%, -50%);
@@ -2890,13 +2890,13 @@ div.field_tools_item_block p.active::after {
   font-size: 14px;
   color: #444;
 }
-.items_builder_block > div.font-size span.change_value_action:active i {
+.items_builder_block > div.font-size span.change_value_action:active i, .items_builder_block div.height span.change_value_action:active i {
   margin-top: 3px;
 }
-.items_builder_block > div.font-size span.change_value_action#plus {
+.items_builder_block > div.font-size span.change_value_action#plus, .items_builder_block div.height span.change_value_action#plus {
   right: 0px;
 }
-.items_builder_block > div.font-size span.change_value_action#moins {
+.items_builder_block > div.font-size span.change_value_action#moins, .items_builder_block div.height span.change_value_action#moins {
   right: 29px;
   border-left: 1px solid rgba(0, 0, 0, 0.3);
   border-right: 1px solid rgba(0, 0, 0, 0.3);

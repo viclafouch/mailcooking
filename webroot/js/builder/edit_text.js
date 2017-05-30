@@ -31,6 +31,7 @@ var alignmentSection; // Alignement de l'objet
 var colorSection; // Couleur de texte de l'objet
 var backgroundSection; // Couleur de fond de l'objet
 var familySection; // Police de texte de l'objet
+var height; // Hauteur de l'objet
 var linkSection; // Lien de redirection de l'objet
 var paddingTopSection; // Espacement haut de l'objet
 var paddingRightSection; // Espacement droit de l'objet
@@ -59,7 +60,7 @@ var min; // Valeur min à insérer
     - II    :  Transformation d'un rgb en hex
     - III   :  Concentration des données modifiées vers la cible
     - IV    :  Concentration des données modifiées vers le parent cible
-    - V     :  Cible == Texte
+    - V     :  Cible == Text
     - VI    :  Cible == Img
     - VII   :  Cible == Cta
     - VIII  :  Affichage des items selon le clic
@@ -77,7 +78,7 @@ var min; // Valeur min à insérer
 
 // I : Création de Medium Editor
 var creatMediumEditor = function() {
-    new MediumEditor('#resize_text', {
+    new MediumEditor('[data-text]', {
         targetBlank: true,
         spellcheck: false,
         toolbar: {
@@ -221,7 +222,7 @@ function rgb2hex(rgb){
 
 // III : Concentration des données modifiées vers la cible
 function targetTheTarget(element) {
-    $('[data-text], [data-img], [data-cta]').removeAttr('data-target');
+    $('[data-text], [data-img], [data-cta], [data-spacer]').removeAttr('data-target');
     $('[data-content]').removeAttr('data-parent-target');
     $('[data-content] a').removeAttr('data-href');
     $(element).attr('data-target', 'true');
@@ -256,9 +257,8 @@ function clicToImg(element) {
     $(targetTheTargetParent(element)+' a').attr('data-href', 'true');
     parent = '[data-href]';
     linkObjet(parent);
-    paddingObjet(element);
-    borderSizeObjet(element);
-    borderColorObjet(element);
+    borderSizeObjet(targetTheTargetParent(element));
+    borderColorObjet(targetTheTargetParent(element));
     dataImg = $(element).attr('data-img');
     $('#active-croppie').attr('data-tocroppie', dataImg);
 }
@@ -271,6 +271,15 @@ function clicToCta(element) {
     backgroundText(element);
     familyText(element);
     linkObjet(element);
+    borderSizeObjet(element);
+    borderColorObjet(element);
+}
+
+// VIII : Cible == Spacer
+function clicToSpacer(element) {
+    $('[data-display-spacer]').show();
+    backgroundText(element);
+    heightObjet(element);
     borderSizeObjet(element);
     borderColorObjet(element);
 }
@@ -289,6 +298,7 @@ function editSidebar(element) {
     if ($(element).attr('data-text')) { clicToText(element) }
     else if ($(element).attr('data-img')) { clicToImg(element) }
     else if ($(element).attr('data-cta')) { clicToCta(element) }
+    else if ($(element).attr('data-spacer')) { clicToSpacer(element) }
 }
 
 // IX : Récupération/Modification de l'alignement
@@ -385,6 +395,40 @@ function familyText(element) {
             input = $(this);
             val = input.val();
             $(element).css('font-family', "'"+val+"', Arial, sans-serif"); 
+        });
+    })();
+}
+
+function heightObjet (element) {
+    height = parseFloat($(element).attr('height'));
+    input = $('.height').find('input.change_value')
+    input.val(height).attr('value', height);
+
+    (function change() {
+        $(document).on('change', '.height input.change_value', function(input) {
+            targetStyle = $(this).attr('data-change');
+
+            max = parseFloat($(this).attr('data-max'));
+            min = parseFloat($(this).attr('data-min'));
+            val = $(this).val();
+            console.log(targetStyle);
+
+            if (val == '') {
+                $(element).attr(targetStyle, parseFloat($(element).attr(targetStyle)));
+                $(this).attr('value', parseFloat($(element).attr(targetStyle))).val(parseFloat($(element).css($(this).attr('data-change'))));
+            }
+            else if (val > max) {
+                $(element).attr(targetStyle, max);
+                $(this).attr('value', max).val(max);
+            }
+            else if (val < min || val == '') {
+                $(element).attr(targetStyle, min);
+                $(this).attr('value', min).val(min);
+            }
+            else {
+                $(element).attr(targetStyle, val);
+                $(this).attr('value', val);
+            }
         });
     })();
 }
@@ -531,7 +575,7 @@ $(document).ready(function() {
     creatMediumEditor();
 
     /* Démarre le clic sur les data-txt */
-    $(document).on("click", '[data-text], [data-img], [data-cta]', function(e) {
+    $(document).on("click", '[data-text], [data-img], [data-cta], [data-spacer]', function(e) {
         stopRedirection(e);
         editSidebar(targetTheTarget(this));
     });

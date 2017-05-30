@@ -62,6 +62,7 @@ function newID(section){
     section.find('[data-text]').attr('data-text', IDGen());
     section.find('[data-cta]').attr('data-cta', IDGen());
     section.find('[data-img]').attr('data-img', IDGen());
+    section.find('[data-spacer]').attr('data-spacer', IDGen());
 }
 
 // III : Récupération des paramètres d'URL
