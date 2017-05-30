@@ -47,6 +47,7 @@ var borderColorBottomSection; // Couleur de bordure basse de l'objet
 var borderColorLeftSection; // Couleur de bordure gauche de l'objet
 var target; // Cible à modifier
 var parent; // Parent Cible
+var parentLink; // Parent direct href de l'objet
 
 var val; // Valeur en cours d'insertion
 var max; // Valeur max à insérer
@@ -63,17 +64,19 @@ var min; // Valeur min à insérer
     - V     :  Cible == Text
     - VI    :  Cible == Img
     - VII   :  Cible == Cta
-    - VIII  :  Affichage des items selon le clic
-    - IX    :  Récupération/Modification de l'alignement
-    - X     :  Récupération/Modification de la taille de texte
-    - XI    :  Récupération/Modification de la couleur de texte
-    - XII   :  Récupération/Modification de la couleur de fond
-    - XIII  :  Récupération/Modification de la police de texte
-    - XIV   :  Récupération/Modification du lien de redirection
-    - XV    :  Récupération/Modification de l'espacement
-    - XVI   :  Récupération/Modification de la taille des bordures
-    - XVII  :  Récupération/Modification de la couleur des bordures
-    - XVIII :  Disparition des items
+    - VIII  :  Cible == Spacer
+    - IX    :  Affichage des items selon le clic
+    - X     :  Récupération/Modification de l'alignement
+    - XI    :  Récupération/Modification de la taille de texte
+    - XII   :  Récupération/Modification de la couleur de texte
+    - XIII  :  Récupération/Modification de la couleur de fond
+    - XIV   :  Récupération/Modification de la police de texte
+    - XV    :  Récupération/Modification de la hauteur
+    - XVI   :  Récupération/Modification du lien de redirection
+    - XVII  :  Récupération/Modification de l'espacement
+    - XVIII :  Récupération/Modification de la taille des bordures
+    - XIX   :  Récupération/Modification de la couleur des bordures
+    - XX    :  Disparition des items
 **/
 
 // I : Création de Medium Editor
@@ -254,8 +257,6 @@ function clicToText(element) {
 function clicToImg(element) {
     $(element).removeAttr('border');
     $('[data-display-img]').show();
-    // $(targetTheTargetParent(element)+' a').attr('data-href', 'true');
-    // parent = '[data-href]';
     linkObjet(element);
     borderSizeObjet(targetTheTargetParent(element));
     borderColorObjet(targetTheTargetParent(element));
@@ -284,7 +285,7 @@ function clicToSpacer(element) {
     borderColorObjet(element);
 }
 
-// VIII : Affichage des items selon le clic
+// IX : Affichage des items selon le clic
 function editSidebar(element) {
     element = '[data-target]';
     $('#sections_builder').removeClass('active');
@@ -301,7 +302,7 @@ function editSidebar(element) {
     else if ($(element).attr('data-spacer')) { clicToSpacer(element) }
 }
 
-// IX : Récupération/Modification de l'alignement
+// X : Récupération/Modification de l'alignement
 function alignmentText(element) {
     alignmentSection = $(element).css('text-align');
     $('.format_align').removeClass('active');
@@ -317,7 +318,7 @@ function alignmentText(element) {
     })();
 }
 
-// X : Récupération/Modification de la taille de texte
+// XI : Récupération/Modification de la taille de texte
 function sizeText(element) {
     sizeSection = parseFloat($(element).css('font-size'));
     $('.font-size').find('input').val(sizeSection).attr('value', sizeSection);
@@ -348,7 +349,7 @@ function sizeText(element) {
     })();
 }
 
-// XI : Récupération/Modification de la couleur de texte
+// XII : Récupération/Modification de la couleur de texte
 function colorText(element) {
     let input = $('.color').find('input.choose_color');
     colorSection = rgb2hex($(element).css('color'));
@@ -362,7 +363,7 @@ function colorText(element) {
     })();
 }
 
-// XII : Récupération/Modification de la couleur de fond
+// XIII : Récupération/Modification de la couleur de fond
 function backgroundText(element) {
     let input = $('.background-color').find('input.choose_color');
     backgroundSection = rgb2hex($(element).css('background-color'));
@@ -381,7 +382,7 @@ function backgroundText(element) {
     })();
 }
 
-// XIII : Récupération/Modification de la police de texte
+// XIV : Récupération/Modification de la police de texte
 function familyText(element) {
     familySection = $(element).css('font-family').split(', ');
     input = $('.font-family').find('select');
@@ -399,6 +400,7 @@ function familyText(element) {
     })();
 }
 
+// XV : Récupération/Modification de la hauteur
 function heightObjet (element) {
     height = parseFloat($(element).attr('height'));
     input = $('.height').find('input.change_value')
@@ -432,28 +434,28 @@ function heightObjet (element) {
     })();
 }
 
-// XIV : Récupération/Modification du lien de redirection
+// XVI : Récupération/Modification du lien de redirection
 function linkObjet(element){
     parentLink = $(element).parent('a')[0];
+    input = $('.link').find('input');
     if (parentLink !== undefined) {
         $(parentLink).attr('data-href', 'true');
         linkSection = $('[data-href]').attr('href');
-        $('.link input').val(linkSection).attr('value', linkSection);
+        input.val(linkSection).attr('value', linkSection);
     }
     else {
         if ($(element).attr('data-cta')) {
             linkSection = $(element).attr('href');
-            $('.link input').val(linkSection).attr('value', linkSection);
+            input.val(linkSection).attr('value', linkSection);
         } else {
             linkSection = '';
-            $('.link input').val(linkSection).attr('value', linkSection);
+            input.val(linkSection).attr('value', linkSection);
         }
     }
 
     (function change(){
         $(document).on('change', '.link input', function(){
             linkSection = $(this).val();
-            console.log(parentLink);
             if ($(element).attr('data-cta')) {
                 $(element).attr('href', linkSection);
             } 
@@ -475,7 +477,7 @@ function linkObjet(element){
     })();
 }
 
-// XV : Récupération/Modification de l'espacement
+// XVII : Récupération/Modification de l'espacement
 function paddingObjet(element) {
     paddingTopSection = parseFloat($(element).css('padding-top'));
     paddingRightSection = parseFloat($(element).css('padding-right'));
@@ -512,7 +514,7 @@ function paddingObjet(element) {
     })();
 }
 
-// XVI : Récupération/Modification de la taille des bordures
+// XVIII : Récupération/Modification de la taille des bordures
 function borderSizeObjet(element) {
     borderSizeTopSection = parseFloat($(element).css('border-top-width'));
     borderSizeRightSection = parseFloat($(element).css('border-right-width'));
@@ -555,7 +557,7 @@ function borderSizeObjet(element) {
     })();
 }
 
-// XVII : Récupération/Modification de la couleur des bordures
+// XIX : Récupération/Modification de la couleur des bordures
 function borderColorObjet(element) {
     borderColorTopSection = rgb2hex($(element).css('border-top-color'));
     borderColorRightSection = rgb2hex($(element).css('border-right-color'));
@@ -580,7 +582,7 @@ function borderColorObjet(element) {
     })();
 }
 
-// XVIII : Disparition des items
+// XX : Disparition des items
 function disappearItem(e) {
     var click =  $(e.target).children();
     if (click.is("[data-content]")){
