@@ -179,7 +179,6 @@ var saveCroppie = function(input, selection) {
             circle: false
         }).then(function (resp) {
             /* Insertion des attributs */
-            selection.attr('src', resp);
             selection.attr('alt', $alt);
 
             id_mail = getUrlParameter('id');
@@ -190,7 +189,7 @@ var saveCroppie = function(input, selection) {
                 data: {new_img : resp, id_mail: id_mail},
                 url : "?module=user&action=email_builder",
                 success : function(html) {
-                    alert(html);
+                    selection.attr('src', html);
                 }
             });
         });

@@ -28,7 +28,7 @@
 			);
 
 			if($savefile){
-				echo $random;
+				echo $chemin.'/'.$random;
 			}
 			else {
 				echo 'upload fail';
