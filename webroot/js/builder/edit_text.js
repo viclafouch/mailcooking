@@ -254,9 +254,9 @@ function clicToText(element) {
 function clicToImg(element) {
     $(element).removeAttr('border');
     $('[data-display-img]').show();
-    $(targetTheTargetParent(element)+' a').attr('data-href', 'true');
-    parent = '[data-href]';
-    linkObjet(parent);
+    // $(targetTheTargetParent(element)+' a').attr('data-href', 'true');
+    // parent = '[data-href]';
+    linkObjet(element);
     borderSizeObjet(targetTheTargetParent(element));
     borderColorObjet(targetTheTargetParent(element));
     dataImg = $(element).attr('data-img');
@@ -411,7 +411,6 @@ function heightObjet (element) {
             max = parseFloat($(this).attr('data-max'));
             min = parseFloat($(this).attr('data-min'));
             val = $(this).val();
-            console.log(targetStyle);
 
             if (val == '') {
                 $(element).attr(targetStyle, parseFloat($(element).attr(targetStyle)));
@@ -435,13 +434,43 @@ function heightObjet (element) {
 
 // XIV : Récupération/Modification du lien de redirection
 function linkObjet(element){
-    linkSection = $(element).attr('href');
-    $('.link input').val(linkSection).attr('value', linkSection);
+    parentLink = $(element).parent('a')[0];
+    if (parentLink !== undefined) {
+        $(parentLink).attr('data-href', 'true');
+        linkSection = $('[data-href]').attr('href');
+        $('.link input').val(linkSection).attr('value', linkSection);
+    }
+    else {
+        if ($(element).attr('data-cta')) {
+            linkSection = $(element).attr('href');
+            $('.link input').val(linkSection).attr('value', linkSection);
+        } else {
+            linkSection = '';
+            $('.link input').val(linkSection).attr('value', linkSection);
+        }
+    }
 
     (function change(){
         $(document).on('change', '.link input', function(){
             linkSection = $(this).val();
-            $(element).attr('href', linkSection);
+            console.log(parentLink);
+            if ($(element).attr('data-cta')) {
+                $(element).attr('href', linkSection);
+            } 
+            else {
+                if (linkSection == '') {
+                    $(element).unwrap('a');
+                } 
+                else {
+                    if ($(element).parent('a')[0] == undefined) {
+                        $(element).wrap('<a href="'+linkSection+'" title="" target="_blank"></a>')
+                    }
+                    else {
+                        element = $(element).parent('a');
+                        $(element).attr('href', linkSection);
+                    }
+                }
+            }            
         });
     })();
 }
