@@ -59,10 +59,18 @@ function IDGen() {
 
 // II : Attribution d'un ID unique
 function newID(section){
-    section.find('[data-text]').attr('data-text', IDGen());
-    section.find('[data-cta]').attr('data-cta', IDGen());
-    section.find('[data-img]').attr('data-img', IDGen());
-    section.find('[data-spacer]').attr('data-spacer', IDGen());
+    section.find('[data-text]').each(function() {
+        $(this).attr('data-text', IDGen());
+    });
+    section.find('[data-cta]').each(function() {
+        $(this).attr('data-cta', IDGen());
+    });
+    section.find('[data-img]').each(function() {
+        $(this).attr('data-img', IDGen());
+    });
+    section.find('[data-spacer]').each(function() {
+        $(this).attr('data-spacer', IDGen());
+    });
 }
 
 // III : Récupération des paramètres d'URL
