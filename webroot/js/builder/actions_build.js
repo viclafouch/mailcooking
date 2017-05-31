@@ -174,7 +174,14 @@ function exportDocument(storageID) {
     $(storageID).html(DomMail);
     cleanAttr(storageID);
 
-    
+    $.ajax({
+        type: "POST",
+        data: {domExport : $(storageID).html()},
+        url : "?module=user&action=email_builder",
+        success : function(html) {
+            alert(html);
+        }
+    });
 }
 
 /*----------  Actions  ----------*/

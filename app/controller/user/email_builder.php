@@ -61,6 +61,29 @@
 				echo ''.$chemin.''.$new_folder.'/thumbnails/';
 			}
 		}
+		elseif (isset($_POST['domExport'])) {
+			$files = glob($chemin.'exports/*');
+			foreach($files as $file) {
+				if(is_file($file)) {
+				    unlink($file);
+				}
+			}
+			$files = glob($chemin.'exports/images/*');
+			foreach($files as $file) {
+				if(is_file($file)) {
+				    unlink($file);
+				}
+			}
+			
+			$path = $chemin.'exports/images';
+			@mkdir($path, 0777, false);
+
+			$myFile = $chemin."exports/indsex.html";
+			$fh = fopen($myFile, 'w') or die("can't open file");
+			$stringData = $_POST['domExport'];
+			fwrite($fh, $stringData);
+			echo $chemin;
+		}
 		else {
 			// Save
 			include_once('app/model/user/builder/save.php');

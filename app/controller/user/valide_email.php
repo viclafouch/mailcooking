@@ -19,6 +19,7 @@
 	    	@mkdir($chemin, 0777, true);
 	    	@mkdir($chemin.'commandes', 0777, true);
 	    	@mkdir($chemin.'templates', 0777, true);
+	    	@mkdir($chemin.'exports', 0777, true);
 	    	@mkdir($chemin.'emails', 0777, true);
 	    	@mkdir($chemin.'factures', 0777, true);
 
