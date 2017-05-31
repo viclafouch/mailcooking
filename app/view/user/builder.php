@@ -4,6 +4,20 @@
 ?>
 
 <div class="container_builder">
+	<div class="popup_overlay"></div>
+	<div class="popup_container" id="popupExport">
+		<div class="download_icon" id="downloading">
+			<svg width="180" height="178">
+				<g transform="scale(5) translate(0,0)" style="cursor: pointer;" >
+				<circle class="outer_circle" cx="175" cy="20" r="14" transform="rotate(-90, 95, 95)"/>
+				<g><path style="stroke:none;stroke-opacity:1;fill-opacity:1"
+				d="m 15,14.013038 c -0.288333,-0.296648 -0.120837,-0.785812 0.379028,-0.785812 0.65373,0 1.306936,0 1.960405,0 0,-2.427829 0,-4.855658 0,-7.283712 0,-0.250992 0.244035,-0.4603768 0.536562,-0.4603768 1.450579,0 2.900896,0 4.350688,0 0.292527,0 0.536563,0.2093848 0.536563,0.4603768 0,2.428054 0,4.855883 0,7.283712 0.653468,0 1.306674,0 1.960405,0 0.499865,0 0.667361,0.489164 0.379027,0.785812 -1.557262,1.605358 -3.114787,3.210716 -4.67205,4.816075 -0.114285,0.118072 -0.249277,0.160801 -0.379288,0.153158 -0.130013,0.0077 -0.264481,-0.03531 -0.37929,-0.153158 -1.557263,-1.605359 -3.114787,-3.210717 -4.67205,-4.816075 z" />
+				<rect y="22" x="13" height="0.17780706" width="14" style="opacity:1;fill-opacity:1;fill-rule:evenodd;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+				</g>
+			</svg>  
+		</div>
+		<p>Cliquez sur le bouton ci-dessus pour démarrer le téléchargement de l'export</p>
+	</div>
 	<div class="content_email">
 		<div class="header">
 			<input id="documentTitle" spellcheck="false" placeholder="Nom de l'email" autocomplete="off" value='<?= $user[0]['email_name']; ?>' type="text" required>

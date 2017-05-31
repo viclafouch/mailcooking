@@ -117,8 +117,12 @@
 				    }
 				}
 				$zip->close();
-				
+				echo $chemin.'/'.$_POST['titleExport'].'.zip';
 			}
+		}
+
+		elseif (isset($_POST['test'])) {
+			echo '<script>window.open("'.$_POST['test'].'")</script>';
 		}
 		else {
 			// Save

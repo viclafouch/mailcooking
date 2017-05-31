@@ -1999,6 +1999,7 @@ div.block_rows.add_section div.flipper span.cancel_flip i {
 ============================================*/
 div.container_builder {
   overflow-x: hidden;
+  position: relative;
   margin-left: -15px;
   width: calc(100% + 30px);
   height: calc(100vh - 65px);
@@ -2038,6 +2039,113 @@ div.container_builder div.sidebar_tools > .menu {
   height: auto;
 }
 
+div.popup_overlay,
+div.popup_container#popupExport {
+  visibility: hidden;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-transition: opacity 0.3s ease 0s;
+  -o-transition: opacity 0.3s ease 0s;
+  -webkit-transition: opacity 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: opacity 0.3s ease 0s;
+}
+div.popup_overlay.active,
+div.popup_container#popupExport.active {
+  visibility: visible;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+
+div.popup_overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  z-index: 999;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+div.popup_container#popupExport {
+  z-index: 9999;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  right: 0;
+  left: 50%;
+  top: 50%;
+  bottom: 0;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 700px;
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  height: 300px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+div.popup_container#popupExport #downloading {
+  stroke: #0676B2;
+  fill: #0676B2;
+}
+div.popup_container#popupExport .outer_circle {
+  fill: transparent;
+  stroke-width: 2;
+  stroke-dasharray: 500;
+}
+div.popup_container#popupExport #downloading .outer_circle {
+  stroke-dashoffset: 0;
+  stroke: transparent;
+}
+div.popup_container#popupExport #downloading .outer_circle.active {
+  stroke: #0676B2;
+  -moz-animation: show 2s linear 0s infinite;
+  -webkit-animation: show 2s linear 0s infinite;
+  animation: show 2s linear 0s infinite;
+}
+@-moz-keyframes show {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 400;
+  }
+}
+@-webkit-keyframes show {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 400;
+  }
+}
+@keyframes show {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 400;
+  }
+}
 /* Menu superieur de l'email */
 div.header {
   background-color: #fff;
@@ -2737,7 +2845,6 @@ div.sidebar_tools > div.menu > header.tools_menu_email_block span {
   text-transform: uppercase;
   font-family: roboto;
   font-size: 15px;
-  z-index: 99999;
   cursor: pointer;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;

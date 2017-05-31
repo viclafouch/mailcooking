@@ -1380,6 +1380,7 @@ div.block_rows.add_section {
 
 div.container_builder {
     overflow-x: hidden;
+    position: relative;
     margin-left: -15px;
     width: calc(100% + 30px);
     height: calc(100vh - 65px);
@@ -1408,6 +1409,68 @@ div.container_builder {
             width: 100%;
             height: auto;
         }
+    }
+}
+
+div.popup_overlay,
+div.popup_container#popupExport {
+    visibility: hidden;
+    @include opacity(0);
+    @include single-transition(opacity, 0.3s, ease, 0s);
+    &.active {
+        visibility: visible;
+        @include opacity(1.0);
+    }
+}
+
+div.popup_overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.5);
+    position: absolute;
+    z-index: 999;
+    margin: 0; padding:0; border:0;
+    right: 0; left: 0; top: 0; bottom: 0;
+   
+}
+
+div.popup_container#popupExport {
+    z-index: 9999;
+    position: absolute;
+    margin: 0; padding:0; border:0;
+    right: 0; left: 50%; top: 50%; bottom: 0;
+    @include translate(-50%, -50%);
+    width: 70%;
+    max-width: 700px;
+    @include box-shadow($shadow0);
+    height: 300px;
+    background-color: rgba(255,255,255,0.90);
+    border: 1px solid rgba(0,0,0,0.75);
+    @include flex(column nowrap, center, center);
+
+    #downloading {
+        stroke:$primary-color;
+        fill: $primary-color;
+    }
+
+    .outer_circle {
+        fill: transparent;
+        stroke-width: 2;
+        stroke-dasharray: 500;
+    }
+
+    #downloading .outer_circle {
+        stroke-dashoffset: 0;
+        stroke: transparent;
+        &.active {
+            stroke: $primary-color;
+            @include animation(show 2s linear 0s infinite);
+        }
+    }
+
+    @include keyframes(show) {
+        from { stroke-dashoffset: 500; }
+        to { stroke-dashoffset: 400; }
     }
 }
 
@@ -1842,7 +1905,6 @@ div.sidebar_tools > div.menu { background-color: #fff; min-height: 100%;
             text-transform: uppercase;
             font-family: roboto;
             font-size: 15px;
-            z-index: 99999;
             cursor: pointer;
             @include single-transition(all, 0.3s, ease, 0s);
 

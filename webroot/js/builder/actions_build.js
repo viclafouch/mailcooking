@@ -177,6 +177,8 @@ function exportDocument(storageID) {
     for (var i = $(storageID+ ' img').length - 1; i >= 0; i--) {
         var nameFile = $(storageID+ ' img').eq(i).attr('src');
         src.push(nameFile);
+        newSrc = nameFile.split('/');
+        $(storageID+ ' img').eq(i).attr('src', 'images/'+newSrc[4]);
     }
 
     $.ajax({
@@ -184,7 +186,8 @@ function exportDocument(storageID) {
         data: {domExport : $(storageID).html(), titleExport: titleMail, img: src},
         url : "?module=user&action=email_builder",
         success : function(html) {
-            alert(html);
+            $('.popup_overlay, #popupExport').addClass('active');
+            $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
         }
     });
 }
@@ -221,6 +224,20 @@ $(document).ready(function() {
 
     /* Sauvegarde du mail */
     saveInStack(createId(), $('#storage_email').html());
+
+    $(document).on('click', '#downloading', function(){
+        $('.outer_circle').addClass('active').css('stroke', '#0676B2');
+        setTimeout(function(){
+            $('.outer_circle').removeClass('active');
+
+            $('.popup_overlay, .popup_container').removeClass('active');
+
+        }, 2000);
+    });
+
+    $(document).on('click', '.popup_overlay', function(){
+        $('.popup_overlay, .popup_container').removeClass('active');
+    });
 
 });
 
