@@ -178,7 +178,7 @@ function exportDocument(storageID) {
         var nameFile = $(storageID+ ' img').eq(i).attr('src');
         src.push(nameFile);
         newSrc = nameFile.split('/');
-        $(storageID+ ' img').eq(i).attr('src', 'images/'+newSrc[4]);
+        // $(storageID+ ' img').eq(i).attr('src', 'images/'+newSrc[4]);
     }
 
     $.ajax({
