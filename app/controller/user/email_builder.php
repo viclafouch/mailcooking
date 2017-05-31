@@ -62,27 +62,63 @@
 			}
 		}
 		elseif (isset($_POST['domExport'])) {
-			$files = glob($chemin.'exports/*');
-			foreach($files as $file) {
-				if(is_file($file)) {
-				    unlink($file);
+			$chemin = $chemin.'exports';
+			$path = $chemin.'/images';
+			function removeFiles($path) {
+				foreach($path as $file) {
+					if(is_file($file)) {
+					    unlink($file);
+					}
 				}
 			}
-			$files = glob($chemin.'exports/images/*');
-			foreach($files as $file) {
-				if(is_file($file)) {
-				    unlink($file);
+			if (count(glob($chemin."/*")) === 0 ) {
+				@mkdir($path, 0777, true);
+			}
+			else {
+				removeFiles(glob($chemin.'/*'));
+				if (file_exists($path)) {
+					removeFiles(glob($chemin.'/images/*'));
 				}
 			}
 			
-			$path = $chemin.'exports/images';
-			@mkdir($path, 0777, false);
+			$file = $chemin."/index.html";
+			$fh = fopen($file, 'w');
+			$data = $_POST['domExport'];
+			fwrite($fh, $data);
+			
+			$i = $_POST['img'];
 
-			$myFile = $chemin."exports/indsex.html";
-			$fh = fopen($myFile, 'w') or die("can't open file");
-			$stringData = $_POST['domExport'];
-			fwrite($fh, $stringData);
-			echo $chemin;
+			foreach ($i as $src){
+				$imagePath = $src;
+				$newPath = $path.'/';
+				$newName  = $newPath.explode('/', $src)[4];
+				$copied = copy($imagePath , $newName);
+			}
+			
+			if (count(glob($path."/*")) !== 0 ) {
+				$zip = new ZipArchive();
+				$rootPath = realpath($path);
+
+				$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+
+				$files = new RecursiveIteratorIterator(
+				    new RecursiveDirectoryIterator($rootPath),
+				    RecursiveIteratorIterator::LEAVES_ONLY
+				);
+				$zip->addFile($file,'index.html');
+				foreach ($files as $name => $file)
+				{
+				    if (!$file->isDir())
+				    {
+				        $filePath = $file->getRealPath();
+				        $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+				        $zip->addFile($filePath, 'images/'.$relativePath);
+				    }
+				}
+				$zip->close();
+				
+			}
 		}
 		else {
 			// Save

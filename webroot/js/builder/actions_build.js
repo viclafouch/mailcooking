@@ -173,10 +173,15 @@ function exportDocument(storageID) {
     getContent();
     $(storageID).html(DomMail);
     cleanAttr(storageID);
+    var src = [];
+    for (var i = $(storageID+ ' img').length - 1; i >= 0; i--) {
+        var nameFile = $(storageID+ ' img').eq(i).attr('src');
+        src.push(nameFile);
+    }
 
     $.ajax({
         type: "POST",
-        data: {domExport : $(storageID).html()},
+        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src},
         url : "?module=user&action=email_builder",
         success : function(html) {
             alert(html);
