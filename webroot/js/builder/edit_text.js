@@ -395,9 +395,9 @@ function familyText(element) {
         $(document).on('change', '.font-family select', function() {
             input = $(this);
             val = input.val().replace('+', '-')
-            console.log(val);
             $(element).css('font-family', val+", Arial, sans-serif");
-            console.log(val);
+            let style =  $(element).attr('style').replace('"', "'").replace('"', "'");
+            $(element).attr('style', style);
         });
     })();
 }
