@@ -430,7 +430,6 @@ function familyText(element) {
             'Tahoma'];
             val = input.val();
             if (webSaveFonts.includes(val)) {
-                console.log('yep ca lest');
                 $(element).css('font-family', val);
             } else {
                  $(element).css('font-family', val+", Arial, sans-serif");
