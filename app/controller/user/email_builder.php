@@ -63,10 +63,23 @@
 		}
 		elseif (isset($_POST['domExport'])) {
 			$dom = $_POST['domExport'];
+			$email_id = $_POST['ID'];
 			$background = $_POST['background'];
 			$i = $_POST['img'];
 			$chemin = $chemin.'exports';
 			$path = $chemin.'/images';
+
+			$options = array( "wherecolumn"	=>	"id_mail",
+							"wherevalue"	=>	$email_id);
+		
+			$email = selecttable("mail_editor", $options);
+
+			$options = array( "wherecolumn"	=>	"id_template",
+							"wherevalue"	=>	$email[0]['template_id']);
+		
+			$template_mail = selecttable("template_mail", $options);
+
+			$medias = $template_mail[0]['medias'];
 			
 			function removeFiles($path) {
 				foreach($path as $file) {
@@ -75,6 +88,7 @@
 					}
 				}
 			}
+
 			if (count(glob($chemin."/*")) === 0 ) {
 				@mkdir($path, 0777, true);
 			}
@@ -119,39 +133,45 @@
 			$styles->setAttribute('type', 'text/css');
 			$head->appendChild($styles);
 
-			$body = $document->createElement('body', $newDom);
-			$html->appendChild($body);
+			$query = $document->createElement('style', $medias);
+			$query->setAttribute('type', 'text/css');
+			$head->appendChild($query);
+
+			// $body = $document->createElement('body', $newDom);
+			// $html->appendChild($body);
 			$document->formatOutput = true;
 			$test = $document->saveHTML();
-			$file = $chemin."/index.html";
-			$fh = fopen($file, 'w');
-			$data = htmlspecialchars_decode($test);
-			fwrite($fh, $data);
 
-			if (count(glob($path."/*")) !== 0 ) {
-				$zip = new ZipArchive();
-				$rootPath = realpath($path);
+			echo $test;
+			// $file = $chemin."/index.html";
+			// $fh = fopen($file, 'w');
+			// $data = htmlspecialchars_decode($test);
+			// fwrite($fh, $data);
 
-				$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+			// if (count(glob($path."/*")) !== 0 ) {
+			// 	$zip = new ZipArchive();
+			// 	$rootPath = realpath($path);
 
-				$files = new RecursiveIteratorIterator(
-				    new RecursiveDirectoryIterator($rootPath),
-				    RecursiveIteratorIterator::LEAVES_ONLY
-				);
-				$zip->addFile($file,'index.html');
-				foreach ($files as $name => $file)
-				{
-				    if (!$file->isDir())
-				    {
-				        $filePath = $file->getRealPath();
-				        $relativePath = substr($filePath, strlen($rootPath) + 1);
+			// 	$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-				        $zip->addFile($filePath, 'images/'.$relativePath);
-				    }
-				}
-				$zip->close();
-				echo $chemin.'/'.$_POST['titleExport'].'.zip';
-			}
+			// 	$files = new RecursiveIteratorIterator(
+			// 	    new RecursiveDirectoryIterator($rootPath),
+			// 	    RecursiveIteratorIterator::LEAVES_ONLY
+			// 	);
+			// 	$zip->addFile($file,'index.html');
+			// 	foreach ($files as $name => $file)
+			// 	{
+			// 	    if (!$file->isDir())
+			// 	    {
+			// 	        $filePath = $file->getRealPath();
+			// 	        $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+			// 	        $zip->addFile($filePath, 'images/'.$relativePath);
+			// 	    }
+			// 	}
+			// 	$zip->close();
+			// 	echo $chemin.'/'.$_POST['titleExport'].'.zip';
+			// }
 		}
 
 		else {

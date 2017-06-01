@@ -182,12 +182,12 @@ function exportDocument(storageID) {
 
     $.ajax({
         type: "POST",
-        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail},
+        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, ID:id_mail},
         url : "?module=user&action=email_builder",
         success : function(html) {
-            // console.log(html);
-            $('.popup_overlay, #popupExport').addClass('active');
-            $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
+            console.log(html);
+            // $('.popup_overlay, #popupExport').addClass('active');
+            // $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
         }
     });
 }
