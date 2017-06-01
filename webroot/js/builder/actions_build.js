@@ -172,6 +172,15 @@ function cleanAttr(storage) {
 function exportDocument(storageID) {
     getContent();
     $(storageID).html(DomMail);
+
+    var family = []
+    $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
+        var familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
+        if (!family.includes(familyName)) {
+            family.push(familyName);
+        }
+    });
+
     cleanAttr(storageID);
     var src = [];
     for (var i = $(storageID+ ' img').length - 1; i >= 0; i--) {
@@ -182,11 +191,12 @@ function exportDocument(storageID) {
 
     $.ajax({
         type: "POST",
-        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, ID:id_mail},
+        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, fonts: family, ID:id_mail},
         url : "?module=user&action=email_builder",
         success : function(html) {
-            $('.popup_overlay, #popupExport').addClass('active');
-            $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
+            console.log(html);
+            // $('.popup_overlay, #popupExport').addClass('active');
+            // $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
         }
     });
 }

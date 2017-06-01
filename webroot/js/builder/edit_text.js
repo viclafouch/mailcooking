@@ -386,7 +386,7 @@ function backgroundText(element) {
 function familyText(element) {
     let input = $('.font-family').find('select');
     familySection = $(element).css('font-family').split(', ');
-    newFamilySection = familySection[0].replace(' ','').replace('"', '').replace('"', '');
+    newFamilySection = familySection[0].replace('"', '').replace('"', '');
     input.find('option').removeAttr('selected');
     input.find('#'+newFamilySection).attr('selected', 'true');
     input.val(newFamilySection);
@@ -394,8 +394,10 @@ function familyText(element) {
     (function change() {
         $(document).on('change', '.font-family select', function() {
             input = $(this);
-            val = input.val();
-            $(element).css('font-family', "'"+val+"', Arial, sans-serif"); 
+            val = input.val().replace('+', '-')
+            console.log(val);
+            $(element).css('font-family', val+", Arial, sans-serif");
+            console.log(val);
         });
     })();
 }

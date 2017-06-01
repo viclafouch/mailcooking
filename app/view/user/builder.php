@@ -86,12 +86,12 @@
 						<label>Police</label>
 						<select class="input btn_tools">
 							<option value="Arial" id="Arial">Arial</option>
-							<option value="OpenSans" id="OpenSans">Open Sans</option>
+							<option value="Open Sans" id="OpenSans">Open Sans</option>
 							<option value="Roboto" id="Roboto">Roboto</option>
 							<option value="Lato" id="Lato">Lato</option>
 							<option value='Montserrat' id="Montserrat">Montserrat</option>
 							<option value="Lobster" id="Lobster">Lobster</option>
-							<option value="KaushanScript" id="KaushanScript">Kaushan Script</option>
+							<option value="Kaushan Script" id="Kaushan+Script">Kaushan Script</option>
 						</select>
 					</div>
 				</div>
