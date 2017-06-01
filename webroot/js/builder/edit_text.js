@@ -394,10 +394,48 @@ function familyText(element) {
     (function change() {
         $(document).on('change', '.font-family select', function() {
             input = $(this);
-            val = input.val().replace('+', '-')
-            $(element).css('font-family', val+", Arial, sans-serif");
-            let style =  $(element).attr('style').replace('"', "'").replace('"', "'");
-            $(element).attr('style', style);
+            webSaveFonts = ['Arial',
+            'Andale Mono',
+            'Arial Black',
+            'Bitstream Vera Sans',
+            'Courier',
+            'Courier New',
+            'DejaVu Serif',
+            'DejaVu Sans Mono',
+            'Georgia',
+            'Geneva',
+            'Helvetica',
+            'Impact',
+            'Kalimati',
+            'Liberation Sans',
+            'Liberation Mono',
+            'Lucida Console',
+            'FreeSans',
+            'FreeMono',
+            'Times New Roman', 
+            'Times',
+            'Trebuchet MS',
+            'FreeSerif', 
+            'Liberation Serif',
+            'Lucida Sans',
+            'Lucida Grande',
+            'Lucida Sans Unicode',
+            'Luxi Sans',
+            'monospace',
+            'Monaco',
+            'Norasi',
+            'serif', 
+            'sans-serif',
+            'Verdana',
+            'Tahoma'];
+            val = input.val();
+            if (webSaveFonts.includes(val)) {
+                console.log('yep ca lest');
+                $(element).css('font-family', val);
+            } else {
+                 $(element).css('font-family', val+", Arial, sans-serif");
+            }
+            $(element).attr('style', $(element).attr('style').replace('"', "'").replace('"', "'"));
         });
     })();
 }

@@ -86,7 +86,7 @@
 						<label>Police</label>
 						<select class="input btn_tools">
 							<option value="Arial" id="Arial">Arial</option>
-							<option value="Open Sans" id="OpenSans">Open Sans</option>
+							<option value="Open Sans" id="Open+Sans">Open Sans</option>
 							<option value="Roboto" id="Roboto">Roboto</option>
 							<option value="Lato" id="Lato">Lato</option>
 							<option value='Montserrat' id="Montserrat">Montserrat</option>

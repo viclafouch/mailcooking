@@ -31,6 +31,10 @@ var saved = -1; // Etat de sauvegarde
 var undoManager = new UndoManager(); // Creation du module undo/redo
 undoManager.setLimit(15); // Limite du nombre de changements
 var undoRedoStack = []; // Tableau des modifications
+var family; // Tableau des polices
+var familyName; // Police à exporter
+var src; // Tableau des images
+var srcImg; // Image à exporter
 
 /*----------  Functions  ----------*/
 
@@ -40,7 +44,11 @@ var undoRedoStack = []; // Tableau des modifications
     - II    :  Récupèration des informations de l'email
     - III   :  Sauvegarde du builder
     - IV    :  Mise à jour des boutons Undo/Redo
-    - V     : Redo
+    - V     :  Undo/Redo
+    - VI    :  Réserve un ID pour l'undo/redo
+    - VII   :  Nettoyage des attributs
+    - VIII  :  Exporter le document
+
 **/
 
 // I : Récupèration des paramètres d'URL
@@ -141,10 +149,12 @@ function saveInStack(id, dem) {
     });
 }
 
+// VI : Réserve un ID pour l'undo/redo
 function createId() {
     return undoRedoStack.length;
 }
 
+// VII : Nettoyage des attributs
 function cleanAttr(storage) {
     $(storage+' [data-content]').removeClass('activeover');
     $(storage+' [contenteditable]').removeAttr('contenteditable');
@@ -169,24 +179,24 @@ function cleanAttr(storage) {
     $(storage+' *').removeAttr('id');
 }
 
+// VIII : Exporter le document
 function exportDocument(storageID) {
+    src = [];
+    family = [];
     getContent();
     $(storageID).html(DomMail);
 
-    var family = []
     $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
-        var familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
+        familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
         if (!family.includes(familyName)) {
             family.push(familyName);
         }
     });
 
     cleanAttr(storageID);
-    var src = [];
     for (var i = $(storageID+ ' img').length - 1; i >= 0; i--) {
-        var nameFile = $(storageID+ ' img').eq(i).attr('src');
-        src.push(nameFile);
-        newSrc = nameFile.split('/');
+        srcImg = $(storageID+ ' img').eq(i).attr('src');
+        src.push(srcImg);
     }
 
     $.ajax({
@@ -194,9 +204,8 @@ function exportDocument(storageID) {
         data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, fonts: family, ID:id_mail},
         url : "?module=user&action=email_builder",
         success : function(html) {
-            console.log(html);
-            // $('.popup_overlay, #popupExport').addClass('active');
-            // $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
+            $('.popup_overlay, #popupExport').addClass('active');
+            $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
         }
     });
 }
@@ -227,6 +236,7 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
+    /* Exporter le document */
     $(document).on('click', '#exportDocument', function(){
         exportDocument('#storage_email_to_export');
     });
@@ -234,11 +244,11 @@ $(document).ready(function() {
     /* Sauvegarde du mail */
     saveInStack(createId(), $('#storage_email').html());
 
+    /* Démarre le téléchargement de l'archive */
     $(document).on('click', '#downloading', function(){
         $('.outer_circle').addClass('active').css('stroke', '#0676B2');
         setTimeout(function(){
             $('.outer_circle').removeClass('active');
-
             $('.popup_overlay, .popup_container').removeClass('active');
 
         }, 2000);

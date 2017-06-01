@@ -105,7 +105,7 @@
 				$update_link = $link.$font.'|';
 				$link = $update_link;
 			}
-			echo substr($link, 0, -1);
+			$googleFontLink = substr($link, 0, -1);
 
 			foreach ($i as $key => $src) {
 				$name_img = explode("/", $src);
@@ -137,7 +137,13 @@
 			$title = $document->createElement('title', $_POST['titleExport']);
 			$head->appendChild($title);
 
-			$styles = $document->createElement('style', 'body { background-color: '.$background.'}');
+			$fonts = $document->createElement('link');
+			$fonts->setAttribute('href', $googleFontLink);
+			$fonts->setAttribute('rel', 'stylesheet');
+			$fonts->setAttribute('type', 'text/css');
+			$head->appendChild($fonts);
+
+			$styles = $document->createElement('style', 'body { text-size-adjust:none; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; padding:0; margin:0; background-color:#'.$background.'!important; } .ReadMsgBody{ width:100%; } .ExternalClass{ width:100%; }');
 			$styles->setAttribute('type', 'text/css');
 			$head->appendChild($styles);
 
@@ -150,35 +156,35 @@
 			$document->formatOutput = true;
 			$newDom = $document->saveHTML();
 
-			// $file = $chemin."/index.html";
-			// $fh = fopen($file, 'w');
-			// $data = htmlspecialchars_decode($newDom);
-			// fwrite($fh, $data);
+			$file = $chemin."/index.html";
+			$fh = fopen($file, 'w');
+			$data = htmlspecialchars_decode($newDom);
+			fwrite($fh, $data);
 
-			// if (count(glob($path."/*")) !== 0 ) {
-			// 	$zip = new ZipArchive();
-			// 	$rootPath = realpath($path);
+			if (count(glob($path."/*")) !== 0 ) {
+				$zip = new ZipArchive();
+				$rootPath = realpath($path);
 
-			// 	$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+				$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-			// 	$files = new RecursiveIteratorIterator(
-			// 	    new RecursiveDirectoryIterator($rootPath),
-			// 	    RecursiveIteratorIterator::LEAVES_ONLY
-			// 	);
-			// 	$zip->addFile($file,'index.html');
-			// 	foreach ($files as $name => $file)
-			// 	{
-			// 	    if (!$file->isDir())
-			// 	    {
-			// 	        $filePath = $file->getRealPath();
-			// 	        $relativePath = substr($filePath, strlen($rootPath) + 1);
+				$files = new RecursiveIteratorIterator(
+				    new RecursiveDirectoryIterator($rootPath),
+				    RecursiveIteratorIterator::LEAVES_ONLY
+				);
+				$zip->addFile($file,'index.html');
+				foreach ($files as $name => $file)
+				{
+				    if (!$file->isDir())
+				    {
+				        $filePath = $file->getRealPath();
+				        $relativePath = substr($filePath, strlen($rootPath) + 1);
 
-			// 	        $zip->addFile($filePath, 'images/'.$relativePath);
-			// 	    }
-			// 	}
-			// 	$zip->close();
-			// 	echo $chemin.'/'.$_POST['titleExport'].'.zip';
-			// }
+				        $zip->addFile($filePath, 'images/'.$relativePath);
+				    }
+				}
+				$zip->close();
+				echo $chemin.'/'.$_POST['titleExport'].'.zip';
+			}
 		}
 
 		else {
