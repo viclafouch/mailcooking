@@ -178,7 +178,6 @@ function exportDocument(storageID) {
         var nameFile = $(storageID+ ' img').eq(i).attr('src');
         src.push(nameFile);
         newSrc = nameFile.split('/');
-        // $(storageID+ ' img').eq(i).attr('src', 'images/'+newSrc[4]);
     }
 
     $.ajax({
@@ -186,8 +185,9 @@ function exportDocument(storageID) {
         data: {domExport : $(storageID).html(), titleExport: titleMail, img: src},
         url : "?module=user&action=email_builder",
         success : function(html) {
-            $('.popup_overlay, #popupExport').addClass('active');
-            $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
+            console.log(html);
+            // $('.popup_overlay, #popupExport').addClass('active');
+            // $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
         }
     });
 }

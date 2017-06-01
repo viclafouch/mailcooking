@@ -62,8 +62,11 @@
 			}
 		}
 		elseif (isset($_POST['domExport'])) {
+			$dom = $_POST['domExport'];
+			$i = $_POST['img'];
 			$chemin = $chemin.'exports';
 			$path = $chemin.'/images';
+			
 			function removeFiles($path) {
 				foreach($path as $file) {
 					if(is_file($file)) {
@@ -80,50 +83,72 @@
 					removeFiles(glob($chemin.'/images/*'));
 				}
 			}
-			
-			$file = $chemin."/index.html";
-			$fh = fopen($file, 'w');
-			$data = $_POST['domExport'];
-			fwrite($fh, $data);
-			
-			$i = $_POST['img'];
 
-			foreach ($i as $src){
-				$imagePath = $src;
+			foreach ($i as $key => $src) {
+				$name_img = explode("/", $src);
+				$newDom = str_replace($src, "images/".$name_img[4], $dom);
+				$dom = $newDom;
+
 				$newPath = $path.'/';
 				$newName  = $newPath.explode('/', $src)[4];
-				$copied = copy($imagePath , $newName);
+				$copied = copy($src , $newName);
 			}
+
+			// Creating new DOM document and loading HTML content
+			$dom = new DOMImplementation;
+			$doctype = $dom->createDocumentType('html');
+			$document = $dom->createDocument(null, 'html', $doctype);
+			$head = $document->createElement('head');
+
+			$html = $document->getElementsByTagName('html')->item(0);
+			$html->setAttribute('lang', 'en');
+			$html->setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+			$html->appendChild($head);
+
+			$metahttp = $document->createElement('meta');
+			$metahttp->setAttribute('content', 'text/html; charset=utf-8');
+			$metahttp->setAttribute('http-equiv', 'Content-Type');
+
+
+			$head->appendChild($metahttp);
+			 
+			$title = $document->createElement('title', $_POST['titleExport']);
+			$head->appendChild($title);
+			 
+			$document->formatOutput = true;
+			echo $document->saveHTML();
 			
-			if (count(glob($path."/*")) !== 0 ) {
-				$zip = new ZipArchive();
-				$rootPath = realpath($path);
+			// $file = $chemin."/index.html";
+			// $fh = fopen($file, 'w');
+			// $data = $newDom;
+			// fwrite($fh, $data);
 
-				$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+			// if (count(glob($path."/*")) !== 0 ) {
+			// 	$zip = new ZipArchive();
+			// 	$rootPath = realpath($path);
 
-				$files = new RecursiveIteratorIterator(
-				    new RecursiveDirectoryIterator($rootPath),
-				    RecursiveIteratorIterator::LEAVES_ONLY
-				);
-				$zip->addFile($file,'index.html');
-				foreach ($files as $name => $file)
-				{
-				    if (!$file->isDir())
-				    {
-				        $filePath = $file->getRealPath();
-				        $relativePath = substr($filePath, strlen($rootPath) + 1);
+			// 	$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-				        $zip->addFile($filePath, 'images/'.$relativePath);
-				    }
-				}
-				$zip->close();
-				echo $chemin.'/'.$_POST['titleExport'].'.zip';
-			}
+			// 	$files = new RecursiveIteratorIterator(
+			// 	    new RecursiveDirectoryIterator($rootPath),
+			// 	    RecursiveIteratorIterator::LEAVES_ONLY
+			// 	);
+			// 	$zip->addFile($file,'index.html');
+			// 	foreach ($files as $name => $file)
+			// 	{
+			// 	    if (!$file->isDir())
+			// 	    {
+			// 	        $filePath = $file->getRealPath();
+			// 	        $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+			// 	        $zip->addFile($filePath, 'images/'.$relativePath);
+			// 	    }
+			// 	}
+			// 	$zip->close();
+			// 	echo $chemin.'/'.$_POST['titleExport'].'.zip';
+			// }
 		}
 
-		elseif (isset($_POST['test'])) {
-			echo '<script>window.open("'.$_POST['test'].'")</script>';
-		}
 		else {
 			// Save
 			include_once('app/model/user/builder/save.php');
