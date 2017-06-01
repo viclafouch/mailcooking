@@ -185,9 +185,8 @@ function exportDocument(storageID) {
         data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, ID:id_mail},
         url : "?module=user&action=email_builder",
         success : function(html) {
-            console.log(html);
-            // $('.popup_overlay, #popupExport').addClass('active');
-            // $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
+            $('.popup_overlay, #popupExport').addClass('active');
+            $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
         }
     });
 }

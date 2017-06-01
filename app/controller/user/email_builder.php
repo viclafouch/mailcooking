@@ -137,41 +137,40 @@
 			$query->setAttribute('type', 'text/css');
 			$head->appendChild($query);
 
-			// $body = $document->createElement('body', $newDom);
-			// $html->appendChild($body);
+			$body = $document->createElement('body', $newDom);
+			$html->appendChild($body);
 			$document->formatOutput = true;
-			$test = $document->saveHTML();
+			$newDom = $document->saveHTML();
 
-			echo $test;
-			// $file = $chemin."/index.html";
-			// $fh = fopen($file, 'w');
-			// $data = htmlspecialchars_decode($test);
-			// fwrite($fh, $data);
+			$file = $chemin."/index.html";
+			$fh = fopen($file, 'w');
+			$data = htmlspecialchars_decode($newDom);
+			fwrite($fh, $data);
 
-			// if (count(glob($path."/*")) !== 0 ) {
-			// 	$zip = new ZipArchive();
-			// 	$rootPath = realpath($path);
+			if (count(glob($path."/*")) !== 0 ) {
+				$zip = new ZipArchive();
+				$rootPath = realpath($path);
 
-			// 	$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+				$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-			// 	$files = new RecursiveIteratorIterator(
-			// 	    new RecursiveDirectoryIterator($rootPath),
-			// 	    RecursiveIteratorIterator::LEAVES_ONLY
-			// 	);
-			// 	$zip->addFile($file,'index.html');
-			// 	foreach ($files as $name => $file)
-			// 	{
-			// 	    if (!$file->isDir())
-			// 	    {
-			// 	        $filePath = $file->getRealPath();
-			// 	        $relativePath = substr($filePath, strlen($rootPath) + 1);
+				$files = new RecursiveIteratorIterator(
+				    new RecursiveDirectoryIterator($rootPath),
+				    RecursiveIteratorIterator::LEAVES_ONLY
+				);
+				$zip->addFile($file,'index.html');
+				foreach ($files as $name => $file)
+				{
+				    if (!$file->isDir())
+				    {
+				        $filePath = $file->getRealPath();
+				        $relativePath = substr($filePath, strlen($rootPath) + 1);
 
-			// 	        $zip->addFile($filePath, 'images/'.$relativePath);
-			// 	    }
-			// 	}
-			// 	$zip->close();
-			// 	echo $chemin.'/'.$_POST['titleExport'].'.zip';
-			// }
+				        $zip->addFile($filePath, 'images/'.$relativePath);
+				    }
+				}
+				$zip->close();
+				echo $chemin.'/'.$_POST['titleExport'].'.zip';
+			}
 		}
 
 		else {
