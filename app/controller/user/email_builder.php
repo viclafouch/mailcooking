@@ -63,6 +63,7 @@
 		}
 		elseif (isset($_POST['domExport'])) {
 			$dom = $_POST['domExport'];
+			$background = $_POST['background'];
 			$i = $_POST['img'];
 			$chemin = $chemin.'exports';
 			$path = $chemin.'/images';
@@ -94,10 +95,11 @@
 				$copied = copy($src , $newName);
 			}
 
-			// Creating new DOM document and loading HTML content
 			$dom = new DOMImplementation;
 			$doctype = $dom->createDocumentType('html');
-			$document = $dom->createDocument(null, 'html', $doctype);
+			$document = $dom->createDocument(null, 'html', $dom->createDocumentType("html", 
+        	"-//W3C//DTD XHTML 1.0 Transitional//EN", "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"));
+
 			$head = $document->createElement('head');
 
 			$html = $document->getElementsByTagName('html')->item(0);
@@ -108,45 +110,48 @@
 			$metahttp = $document->createElement('meta');
 			$metahttp->setAttribute('content', 'text/html; charset=utf-8');
 			$metahttp->setAttribute('http-equiv', 'Content-Type');
-
-
 			$head->appendChild($metahttp);
 			 
 			$title = $document->createElement('title', $_POST['titleExport']);
 			$head->appendChild($title);
-			 
+
+			$styles = $document->createElement('style', 'body { background-color: '.$background.'}');
+			$styles->setAttribute('type', 'text/css');
+			$head->appendChild($styles);
+
+			$body = $document->createElement('body', $newDom);
+			$html->appendChild($body);
 			$document->formatOutput = true;
-			echo $document->saveHTML();
-			
-			// $file = $chemin."/index.html";
-			// $fh = fopen($file, 'w');
-			// $data = $newDom;
-			// fwrite($fh, $data);
+			$test = $document->saveHTML();
+			$file = $chemin."/index.html";
+			$fh = fopen($file, 'w');
+			$data = htmlspecialchars_decode($test);
+			fwrite($fh, $data);
 
-			// if (count(glob($path."/*")) !== 0 ) {
-			// 	$zip = new ZipArchive();
-			// 	$rootPath = realpath($path);
+			if (count(glob($path."/*")) !== 0 ) {
+				$zip = new ZipArchive();
+				$rootPath = realpath($path);
 
-			// 	$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+				$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-			// 	$files = new RecursiveIteratorIterator(
-			// 	    new RecursiveDirectoryIterator($rootPath),
-			// 	    RecursiveIteratorIterator::LEAVES_ONLY
-			// 	);
-			// 	$zip->addFile($file,'index.html');
-			// 	foreach ($files as $name => $file)
-			// 	{
-			// 	    if (!$file->isDir())
-			// 	    {
-			// 	        $filePath = $file->getRealPath();
-			// 	        $relativePath = substr($filePath, strlen($rootPath) + 1);
+				$files = new RecursiveIteratorIterator(
+				    new RecursiveDirectoryIterator($rootPath),
+				    RecursiveIteratorIterator::LEAVES_ONLY
+				);
+				$zip->addFile($file,'index.html');
+				foreach ($files as $name => $file)
+				{
+				    if (!$file->isDir())
+				    {
+				        $filePath = $file->getRealPath();
+				        $relativePath = substr($filePath, strlen($rootPath) + 1);
 
-			// 	        $zip->addFile($filePath, 'images/'.$relativePath);
-			// 	    }
-			// 	}
-			// 	$zip->close();
-			// 	echo $chemin.'/'.$_POST['titleExport'].'.zip';
-			// }
+				        $zip->addFile($filePath, 'images/'.$relativePath);
+				    }
+				}
+				$zip->close();
+				echo $chemin.'/'.$_POST['titleExport'].'.zip';
+			}
 		}
 
 		else {
