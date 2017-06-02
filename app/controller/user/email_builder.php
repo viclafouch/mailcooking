@@ -67,6 +67,7 @@
 			$background = $_POST['background'];
 			$fonts = $_POST['fonts'];
 			$i = $_POST['img'];
+			$fixGmailApp = $_POST['fixGmail'];
 			$chemin = $chemin.'exports';
 			$path = $chemin.'/images';
 
@@ -117,6 +118,13 @@
 				$copied = copy($src , $newName);
 			}
 
+			header ("Content-type: image/png");
+			$image = imagecreate(750,1);
+			$black = imagecolorallocate($image, 0, 0, 0);
+			imagecolortransparent($image, $black);
+			imagepng($image, $path."/spacer.png");
+			imagedestroy($image);
+
 			$dom = new DOMImplementation;
 			$doctype = $dom->createDocumentType('html');
 			$document = $dom->createDocument(null, 'html', $dom->createDocumentType("html", 
@@ -143,7 +151,7 @@
 			$fonts->setAttribute('type', 'text/css');
 			$head->appendChild($fonts);
 
-			$styles = $document->createElement('style', 'body { text-size-adjust:none; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; padding:0; margin:0; background-color:#'.$background.'!important; } .ReadMsgBody{ width:100%; } .ExternalClass{ width:100%; }');
+			$styles = $document->createElement('style', 'body { text-size-adjust:none; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; padding:0; margin:0; background-color:'.$background.'!important; } .ReadMsgBody{ width:100%; } .ExternalClass{ width:100%; } .gmapp{ display:none; display:none!important;}');
 			$styles->setAttribute('type', 'text/css');
 			$head->appendChild($styles);
 
@@ -153,6 +161,9 @@
 
 			$body = $document->createElement('body', $newDom);
 			$html->appendChild($body);
+			$fix = $document->createElement('div', $fixGmailApp);
+			$body->appendChild($fix);
+
 			$document->formatOutput = true;
 			$newDom = $document->saveHTML();
 

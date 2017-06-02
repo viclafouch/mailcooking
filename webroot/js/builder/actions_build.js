@@ -36,6 +36,9 @@ var familyName; // Police à exporter
 var src; // Tableau des images
 var srcImg; // Image à exporter
 
+// Bout de code pour correction dans de l'app Gmail
+var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center"><table class="container" align="center" width="650" border="0" cellpadding="0" cellspacing="0"><tr><td height="30"><table class="gmapp" align="center" width="650" border="0" cellpadding="0" cellspacing="0"  style="border-collapse:collapse;border:0px;"><tbody><tr><td><div class="gmapp" style="white-space:nowrap; font:15px courier; color:#F4F3F1;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div></td></tr><tr><td><img class="gmapp" src="images/spacer.png" width="650" height="1" style="min-width:650px;width:650px" border="0" /></td></tr></tbody></table></td></tr></table></td></tr></table>';
+
 /*----------  Functions  ----------*/
 
 /**
@@ -188,8 +191,10 @@ function exportDocument(storageID) {
 
     $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
         familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
-        if (!family.includes(familyName)) {
-            family.push(familyName);
+        if (!webSaveFonts.includes(familyName)) {
+            if (!family.includes(familyName)) {
+                family.push(familyName);
+            }
         }
     });
 
@@ -201,7 +206,7 @@ function exportDocument(storageID) {
 
     $.ajax({
         type: "POST",
-        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, fonts: family, ID:id_mail},
+        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, fonts: family, ID:id_mail, fixGmail: fixGmailApp},
         url : "?module=user&action=email_builder",
         success : function(html) {
             $('.popup_overlay, #popupExport').addClass('active');

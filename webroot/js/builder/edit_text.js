@@ -53,6 +53,9 @@ var val; // Valeur en cours d'insertion
 var max; // Valeur max à insérer
 var min; // Valeur min à insérer
 
+// Les polices websave
+var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','Courier','Courier New','DejaVu Serif','DejaVu Sans Mono','Georgia','Geneva','Helvetica','Impact','Kalimati','Liberation Sans','Liberation Mono','Lucida Console','FreeSans','FreeMono','Times New Roman', 'Times','Trebuchet MS','FreeSerif', 'Liberation Serif','Lucida Sans','Lucida Grande','Lucida Sans Unicode','Luxi Sans','monospace','Monaco','Norasi','serif', 'sans-serif','Verdana','Tahoma'];
+
 /*----------  Functions  ----------*/
 
 /**
@@ -394,40 +397,6 @@ function familyText(element) {
     (function change() {
         $(document).on('change', '.font-family select', function() {
             input = $(this);
-            webSaveFonts = ['Arial',
-            'Andale Mono',
-            'Arial Black',
-            'Bitstream Vera Sans',
-            'Courier',
-            'Courier New',
-            'DejaVu Serif',
-            'DejaVu Sans Mono',
-            'Georgia',
-            'Geneva',
-            'Helvetica',
-            'Impact',
-            'Kalimati',
-            'Liberation Sans',
-            'Liberation Mono',
-            'Lucida Console',
-            'FreeSans',
-            'FreeMono',
-            'Times New Roman', 
-            'Times',
-            'Trebuchet MS',
-            'FreeSerif', 
-            'Liberation Serif',
-            'Lucida Sans',
-            'Lucida Grande',
-            'Lucida Sans Unicode',
-            'Luxi Sans',
-            'monospace',
-            'Monaco',
-            'Norasi',
-            'serif', 
-            'sans-serif',
-            'Verdana',
-            'Tahoma'];
             val = input.val();
             if (webSaveFonts.includes(val)) {
                 $(element).css('font-family', val);
