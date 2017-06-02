@@ -190,6 +190,7 @@ function exportDocument(storageID) {
     $(storageID).html(DomMail);
 
     $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
+        $(this).addClass('fallback-font');
         familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
         if (!webSaveFonts.includes(familyName)) {
             if (!family.includes(familyName)) {

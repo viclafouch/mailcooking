@@ -154,12 +154,15 @@
 			$styles = $document->createElement('style', 'body { text-size-adjust:none; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; padding:0; margin:0; background-color:'.$background.'!important; } .ReadMsgBody{ width:100%; } .ExternalClass{ width:100%; } .gmapp{ display:none; display:none!important;}');
 			$styles->setAttribute('type', 'text/css');
 			$head->appendChild($styles);
+			$stylesOutlook = $document->createElement('style', '<!--[if mso]>.fallback-font {font-family: Arial, sans-serif!important;}<![endif]-->');
+			$head->appendChild($stylesOutlook);
 
 			$query = $document->createElement('style', $medias);
 			$query->setAttribute('type', 'text/css');
 			$head->appendChild($query);
 
 			$body = $document->createElement('body', $newDom);
+			$body->setAttribute('style', 'background-color:'.$background);
 			$html->appendChild($body);
 			$fix = $document->createElement('div', $fixGmailApp);
 			$body->appendChild($fix);
