@@ -29,7 +29,7 @@
 				<button class="clic icon-action" id="undo"><i class="material-icons">undo</i></button>
 				<button class="clic icon-action" id="redo"><i class="material-icons">redo</i></button>
 				<span class="icon-action clic text-gris" id="saveDocument"><i class="material-icons">save</i></span>						
-				<span class="icon-action clic text-gris" id="exportDocument"><i class="material-icons">email</i></span>
+				<span class="icon-action clic text-gris" id="exportDocument"><i class="material-icons">file_download</i></span>
 			</div>
 		</div>
 		<div class="edit_img croppie_sleep" id="imgToCroppie">

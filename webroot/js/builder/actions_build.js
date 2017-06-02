@@ -242,8 +242,9 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    /* Exporter le document */
+    /* Sauvegarde et exporte le document */
     $(document).on('click', '#exportDocument', function(){
+        saveBuilder($(this));
         exportDocument('#storage_email_to_export');
     });
 
@@ -254,9 +255,8 @@ $(document).ready(function() {
     $(document).on('click', '#downloading', function(){
         $('.outer_circle').addClass('active').css('stroke', '#0676B2');
         setTimeout(function(){
-            $('.outer_circle').removeClass('active');
+            $('.outer_circle').removeClass('active').css('stroke', 'transparent');
             $('.popup_overlay, .popup_container').removeClass('active');
-
         }, 2000);
     });
 
