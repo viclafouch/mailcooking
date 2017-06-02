@@ -1390,10 +1390,19 @@ div.container_builder {
         overflow-x: hidden;
         width: 70%;
         min-width: 500px;
-        height: 100%;
         position: relative;
-        overflow-y: auto;
         &.croppieActive { overflow-y: hidden; }
+
+        div#storage_email {
+            padding: 10px 0px;
+            @include box-sizing(border-box);
+            width: 100%;
+            margin: 0 auto;
+            overflow-x: hidden;
+            min-height: 100%;
+            height: 100%;
+        }
+
     }
 
     div.sidebar_tools {
@@ -1557,6 +1566,7 @@ div.header {
         &:hover{@include opacity(1.0);}
         & > i { @include single-transition(transform, 0.3s, ease, 0s); color: inherit; }
         &.clic:active { @include translate(0px, 5px); border-bottom-width: 1px; }
+        &.active { color: #1565C0; }
         &.saving {@include opacity(0.3); cursor: wait; }
     }
 
@@ -1565,7 +1575,6 @@ div.header {
         border:0;
         @include opacity(1);
         outline: none;
-
     }
     .minicolors {
         width: 17px;
@@ -1608,12 +1617,6 @@ div.header {
 
 // Container direct      
 div#storage_email {
-    padding: 10px 0px;
-    @include box-sizing(border-box);
-    width: 100%;
-    margin:auto;
-    overflow-x: hidden;
-    min-height: 100%;
 
     .sortable-placeholder {
         border: 1px dotted #444;
@@ -1623,6 +1626,13 @@ div#storage_email {
     }
 
     table[data-content] { position: relative; }
+
+    table[data-section], table[data-section] * {
+         @include single-transition(width, 0.5s, ease, 0s);
+    }
+    table[data-mobile] {
+        width: 500px!important;  
+    }
 
     table, td { outline: none; word-break: break-all; }
 }

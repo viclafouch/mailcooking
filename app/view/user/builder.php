@@ -28,6 +28,7 @@
 				<input type="text" value="<?= $user[0]['email_background'];?>" id="background_email" class="choose_color_background" />
 				<button class="clic icon-action" id="undo"><i class="material-icons">undo</i></button>
 				<button class="clic icon-action" id="redo"><i class="material-icons">redo</i></button>
+				<span class="icon-action clic text-gris" id="mobileView"><i class="material-icons">phone_iphone</i></span>
 				<span class="icon-action clic text-gris" id="saveDocument"><i class="material-icons">save</i></span>						
 				<span class="icon-action clic text-gris" id="exportDocument"><i class="material-icons">file_download</i></span>
 			</div>
@@ -35,6 +36,7 @@
 		<div class="edit_img croppie_sleep" id="imgToCroppie">
 		</div>
 		<div id="storage_template" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['DOM'])); ?></div>
+		<div id="storage_medias" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['medias'])); ?></div>
 		<div id="storage_email" style="background-color: <?= $user[0]['email_background'];?>"><?php echo htmlspecialchars_decode(html_entity_decode($user[0]['email_dom'])); ?></div>
 		<div id="storage_email_to_export" style="display: none"></div>
 		

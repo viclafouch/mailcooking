@@ -35,6 +35,8 @@ var family; // Tableau des polices
 var familyName; // Police à exporter
 var src; // Tableau des images
 var srcImg; // Image à exporter
+var mediasMobile; // Media Query
+var viewDesktop = true;
 
 // Bout de code pour correction dans de l'app Gmail
 var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center"><table class="container" align="center" width="650" border="0" cellpadding="0" cellspacing="0"><tr><td height="30"><table class="gmapp" align="center" width="650" border="0" cellpadding="0" cellspacing="0"  style="border-collapse:collapse;border:0px;"><tbody><tr><td><div class="gmapp" style="white-space:nowrap; font:15px courier; color:#F4F3F1;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div></td></tr><tr><td><img class="gmapp" src="images/spacer.png" width="650" height="1" style="min-width:650px;width:650px" border="0" /></td></tr></tbody></table></td></tr></table></td></tr></table>';
@@ -51,6 +53,7 @@ var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0"
     - VI    :  Réserve un ID pour l'undo/redo
     - VII   :  Nettoyage des attributs
     - VIII  :  Exporter le document
+    - IX    :  Active la vue mobile
 
 **/
 
@@ -85,6 +88,7 @@ function saveBuilder(btnSave) {
         $('[data-content]').removeClass('activeover');
         $('[contenteditable]').removeAttr('contenteditable');
         $('[spellcheck]').removeAttr('spellcheck');
+        $('[data-section]').removeAttr('[data-mobile]');
         $('[data-medium-editor-element]').removeAttr('data-medium-editor-element');
         $('[data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
         $('[medium-editor-index]').removeAttr('medium-editor-index');
@@ -178,6 +182,7 @@ function cleanAttr(storage) {
     $(storage+' [data-target-parent]').removeAttr('data-target-parent');
     $(storage+' [data-parent-target]').removeAttr('data-parent-target');
     $(storage+' [data-href]').removeAttr('data-href');
+    $(storage+' [data-mobile]').removeAttr('data-mobile');
     $(storage+' .medium-editor-element').removeClass('medium-editor-element');
     $(storage+' *').removeAttr('id');
 }
@@ -214,6 +219,23 @@ function exportDocument(storageID) {
             $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
         }
     });
+}
+
+// IX : Active la vue mobile
+function mobileView(btn) {
+    $(btn).toggleClass('active');
+    if (viewDesktop) {
+        mediasMobile = $('#storage_medias').html().replace('and (max-width:600px)', '');
+        $("[data-section]").attr('data-mobile', 'true');
+        $('#storage_medias').html('<style>'+mediasMobile+'</style>');
+        viewDesktop = false;
+    }
+    else {
+        $('[data-mobile]').removeAttr('data-mobile');
+        $('#storage_medias').html(mediasMobile);
+        viewDesktop = true;
+    }
+   
 }
 
 /*----------  Actions  ----------*/
@@ -262,6 +284,10 @@ $(document).ready(function() {
 
     $(document).on('click', '.popup_overlay', function(){
         $('.popup_overlay, .popup_container').removeClass('active');
+    });
+
+    $(document).on('click', '#mobileView', function(){
+        mobileView(this);
     });
 
 });
