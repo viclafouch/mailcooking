@@ -264,6 +264,7 @@ function creatSortable(container) {
         over: function(event, ui){},
         /* Event recoit des éléments d'un autre container */
         receive: function(event, ui){
+            console.log('receive');
             var droppedSection = ui.helper.attr('data-thumbnail');
             var newSection = $('#storage_template table[data-section="' + droppedSection + '"]');
             newID(newSection);
@@ -271,6 +272,8 @@ function creatSortable(container) {
             ui.helper.replaceWith(function() {
                 ui.helper.replaceWith(newSection);
             });
+            $(newSection).attr('data-section', IDGen());           
+            creatMediumEditor();
             sectionHeight = newSection.height();
             $('#storage_email').height($('#storage_email').height()+sectionHeight+"px");
         },
@@ -378,8 +381,10 @@ $(document).ready(function() {
 
     /* Apparition des outils de contrôle */
     $(document).on('mouseenter', '#storage_email [data-content]', function() {
-        if (!sort) {
+        if (viewDesktop) {
+            if (!sort) {
             $(this).prepend(tools_section);
+            }
         }
     });
 

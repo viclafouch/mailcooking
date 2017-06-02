@@ -84,7 +84,7 @@ var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','C
 
 // I : Création de Medium Editor
 var creatMediumEditor = function() {
-    new MediumEditor('[data-text]', {
+    new MediumEditor('[data-text], [data-cta]', {
         targetBlank: true,
         spellcheck: false,
         toolbar: {
