@@ -38,8 +38,7 @@
 		<div id="storage_template" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['DOM'])); ?></div>
 		<div id="storage_medias" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['medias'])); ?></div>
 		<div id="storage_email" style="background-color: <?= $user[0]['email_background'];?>"><?php echo htmlspecialchars_decode(html_entity_decode($user[0]['email_dom'])); ?></div>
-		<div id="storage_email_to_export" style="display: none"></div>
-		
+		<div id="storage_email_to_export" style="display: none"></div>	
 	</div>
 	<div class="sidebar_tools">
 		<div class="container-fluid col menu">

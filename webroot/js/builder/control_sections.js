@@ -378,8 +378,10 @@ $(document).ready(function() {
 
     /* Apparition des outils de contrôle */
     $(document).on('mouseenter', '#storage_email [data-content]', function() {
-        if (!sort) {
+        if (viewDesktop) {
+            if (!sort) {
             $(this).prepend(tools_section);
+            }
         }
     });
 

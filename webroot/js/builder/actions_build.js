@@ -235,7 +235,6 @@ function mobileView(btn) {
         $('#storage_medias').html(mediasMobile);
         viewDesktop = true;
     }
-   
 }
 
 /*----------  Actions  ----------*/
