@@ -224,6 +224,7 @@ function exportDocument(storageID) {
 // IX : Active la vue mobile
 function mobileView(btn) {
     $(btn).toggleClass('active');
+    console.log(viewDesktop);
     if (viewDesktop) {
         mediasMobile = $('#storage_medias').html().replace('and (max-width:600px)', '');
         $("[data-section]").attr('data-mobile', 'true');
@@ -287,6 +288,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#mobileView', function(){
         mobileView(this);
+        console.log('test');
     });
 
 });
