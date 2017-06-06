@@ -329,6 +329,9 @@ var creatMediumEditor = function() {
             $(this).text('Votre texte ici');
         }
     });
+
+    $('.medium-editor-toolbar-save').html('<i class="material-icons">check</i>');
+    $('.medium-editor-toolbar-close').html('<i class="material-icons">close</i>');
 }
 
 // II : Transformation d'un rgb en hex
@@ -572,7 +575,7 @@ function linkObjet(element){
         }
         else {
             input.val('').attr('value', '');
-            $(element).wrap('<a title="" target="_blank" data-href="true"></a>')
+            $(element).wrap('<a title="" href="" target="_blank" data-href="true"></a>')
         }
     }
 

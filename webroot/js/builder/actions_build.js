@@ -184,7 +184,7 @@ function cleanAttr(storage) {
     $(storage+' [data-href]').removeAttr('data-href');
     $(storage+' [data-mobile]').removeAttr('data-mobile');
     $(storage+' .medium-editor-element').removeClass('medium-editor-element');
-    $(storage+' *').removeAttr('id');
+    $(storage+' *').removeAttr('id').removeAttr('role').removeAttr('aria-multiline');
 }
 
 // VIII : Exporter le document
@@ -194,21 +194,35 @@ function exportDocument(storageID) {
     getContent();
     $(storageID).html(DomMail);
 
-    $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
-        $(this).addClass('fallback-font');
-        familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
-        if (!webSaveFonts.includes(familyName)) {
-            if (!family.includes(familyName)) {
-                family.push(familyName);
-            }
-        }
-    });
+    // $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
+    //     $(this).addClass('fallback-font');
+    //     familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
+    //     if (!webSaveFonts.includes(familyName)) {
+    //         if (!family.includes(familyName)) {
+    //             family.push(familyName);
+    //         }
+    //     }
+    // });
 
     cleanAttr(storageID);
     for (var i = $(storageID+ ' img').length - 1; i >= 0; i--) {
         srcImg = $(storageID+ ' img').eq(i).attr('src');
         src.push(srcImg);
     }
+
+    $(storageID+' a').each(function(){
+        if ($(this).children('img')[0] != undefined) {
+            if ($(this).attr('href') == '') {
+                $(this).children('img').unwrap();
+            }
+        }
+
+        else {
+            if ($(this).attr('href') == '') {
+                $(this).attr('href', '#');
+            }
+        }
+    });
 
     $.ajax({
         type: "POST",
