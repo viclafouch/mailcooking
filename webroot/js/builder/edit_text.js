@@ -84,7 +84,7 @@ var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','C
 
 // I : Création de Medium Editor
 var creatMediumEditor = function() {
-    new MediumEditor('[data-text], [data-cta]', {
+    new MediumEditor('[data-text]', {
         targetBlank: true,
         spellcheck: false,
         toolbar: {
@@ -212,6 +212,110 @@ var creatMediumEditor = function() {
 
         // Rend un lien cliquable (créer une balise <a> autour du lien collé)
         autoLink: true,
+        // Empêche le dragging & dropping dans la section
+        imageDragging: false,
+    });
+    new MediumEditor('[data-cta]', {
+        targetBlank: false,
+        spellcheck: false,
+        anchorPreview: false,
+        toolbar: {
+            // Left style
+            diffLeft: -10,
+            // top style
+            diffTop: -10,
+            // Menu apparait/disparait au clic
+            static: false,
+            // Ajout de boutons
+            buttons: 
+            [
+                { name: 'bold', contentDefault: '<i class="material-icons">format_bold</i>' },
+                { name: 'italic', contentDefault: '<i class="material-icons">format_italic</i>' },
+                { name: 'underline', contentDefault: '<i class="material-icons">format_underlined</i>' },
+                { name: 'strikethrough', contentDefault: '<i class="material-icons">format_strikethrough</i>' }
+            ]
+        },
+
+        // Si le user colle qq chose dans la section
+        paste: {
+            // Force le texte brut
+            forcePlainText: true,
+            // On clean toutes les balises/attr/meta du clipboard
+            cleanPastedHTML: false,
+            // Si on veut remplacer des valeurs
+            cleanReplacements: [],
+            // Clean les attributs
+            cleanAttrs: ['class', 'style', 'dir', 'id'],
+            // Clean les balises et leur enfants
+            cleanTags: ['meta','script','style','img','object','iframe'],
+            // Supprime une balise MAIS garde les balises enfantes
+            unwrapTags: []
+        },
+
+        // Si la section texte est vide de texte
+        placeholder: {
+            // Le placeholder
+            text: '',
+            // Cacher au clic ou pas
+            hideOnClick: true
+        },
+
+        // Possibilité d'utiliser les touches du clavier
+        keyboardCommands: {
+            commands: [
+                {
+                    // La cible
+                    command: 'bold',
+                    // La commande
+                    key: 'B',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                },
+                {
+                    // La cible
+                    command: 'italic',
+                    // La commande
+                    key: 'I',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                },
+                {
+                    // La cible
+                    command: 'underline',
+                    // La commande
+                    key: 'U',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                },
+                {
+                    // La cible
+                    command: 'strikethrough',
+                    // La commande
+                    key: 'M',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                }
+            ],
+        },
+
+        // Rend un lien cliquable (créer une balise <a> autour du lien collé)
+        autoLink: false,
         // Empêche le dragging & dropping dans la section
         imageDragging: false,
     });
