@@ -13,7 +13,6 @@
 				<script src="lib/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 
 				<!-- CUSTOM -->
-				<script src="webroot/js/builder/edit_items.js" type="text/javascript"></script>
 				<script src="webroot/js/builder/edit_img.js" type="text/javascript"></script>
 				<script src="webroot/js/builder/edit_text.js" type="text/javascript"></script>
 				<script src="webroot/js/builder/control_sections.js" type="text/javascript"></script>

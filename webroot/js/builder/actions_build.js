@@ -194,15 +194,14 @@ function exportDocument(storageID) {
     getContent();
     $(storageID).html(DomMail);
 
-    // $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
-    //     $(this).addClass('fallback-font');
-    //     familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
-    //     if (!webSaveFonts.includes(familyName)) {
-    //         if (!family.includes(familyName)) {
-    //             family.push(familyName);
-    //         }
-    //     }
-    // });
+    $(storageID+' [data-text],'+storageID+' [data-cta]').each(function(){
+        familyName = $(this).css('font-family').split(',')[0].replace('"', '').replace('"', '').replace(' ', '+');
+        if (!webSaveFonts.includes(familyName)) {
+            if (!family.includes(familyName)) {
+                family.push(familyName);
+            }
+        }
+    });
 
     cleanAttr(storageID);
     for (var i = $(storageID+ ' img').length - 1; i >= 0; i--) {
@@ -302,7 +301,6 @@ $(document).ready(function() {
 
     $(document).on('click', '#mobileView', function(){
         mobileView(this);
-        console.log('test');
     });
 
 });

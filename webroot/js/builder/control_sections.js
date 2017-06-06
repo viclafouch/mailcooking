@@ -314,15 +314,15 @@ function creatSortable(container) {
 }
 
 // VIII : Ajout d'un espacement en fin de l'email
-(function upHsize(){
-    $("[data-section]").each(function(){
-       var thisH = $(this).height();
-       if (thisH > maxHeight) { maxHeight = thisH; }
-    });
+// (function upHsize(){
+//     $("[data-section]").each(function(){
+//        var thisH = $(this).height();
+//        if (thisH > maxHeight) { maxHeight = thisH; }
+//     });
 
-    x = $('#storage_email').height()+maxHeight+"px";
-    $('#storage_email').height(x);
-})();
+//     x = $('#storage_email').height()+maxHeight+"px";
+//     $('#storage_email').height(x);
+// })();
 
 // IX : Suppression d'une section
 function removeSection(targetClic) {
