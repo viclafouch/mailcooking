@@ -2452,6 +2452,10 @@ div#storage_email table[data-section], div#storage_email table[data-section] * {
 div#storage_email table[data-mobile] {
   width: 500px !important;
 }
+div#storage_email a[data-cta] p {
+  margin: 0;
+  outline: none;
+}
 div#storage_email table, div#storage_email td {
   outline: none;
   word-break: break-all;

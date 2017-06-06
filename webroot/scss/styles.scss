@@ -1633,6 +1633,11 @@ div#storage_email {
         width: 500px!important;  
     }
 
+    a[data-cta] p {
+        margin: 0;
+        outline: none;
+    }
+
     table, td { outline: none; word-break: break-all; }
 }
 

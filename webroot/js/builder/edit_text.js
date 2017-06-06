@@ -215,7 +215,7 @@ var creatMediumEditor = function() {
         // Empêche le dragging & dropping dans la section
         imageDragging: false,
     });
-    new MediumEditor('[data-cta]', {
+    new MediumEditor('[data-cta] > p', {
         targetBlank: false,
         spellcheck: false,
         anchorPreview: false,
@@ -318,6 +318,16 @@ var creatMediumEditor = function() {
         autoLink: false,
         // Empêche le dragging & dropping dans la section
         imageDragging: false,
+    }).subscribe("editableKeydownEnter", function (event, element) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    }.bind(event));
+
+    $(document).on('focusout', '[data-cta] > p', function(){
+        if ($(this).text() == '') {
+            $(this).text('Votre texte ici');
+        }
     });
 }
 
@@ -549,19 +559,20 @@ function heightObjet (element) {
 // XVI : Récupération/Modification du lien de redirection
 function linkObjet(element){
     let input = $('.link').find('input');
-    parentLink = $(element).parent('a')[0];
-    if (parentLink !== undefined) {
-        $(parentLink).attr('data-href', 'true');
-        linkSection = $('[data-href]').attr('href');
+
+    if ($(element).attr('data-cta')) {
+        linkSection = $(element).attr('href');
         input.val(linkSection).attr('value', linkSection);
     }
-    else {
-        if ($(element).attr('data-cta')) {
-            linkSection = $(element).attr('href');
+    else if ($(element).attr('data-img')) {
+        $(element).parent('a').attr('data-href', 'true');
+        if ($(element).parent('[data-href]').length != 0) {
+            linkSection = $('[data-href]').attr('href');
             input.val(linkSection).attr('value', linkSection);
-        } else {
-            linkSection = '';
-            input.val(linkSection).attr('value', linkSection);
+        }
+        else {
+            input.val('').attr('value', '');
+            $(element).wrap('<a title="" target="_blank" data-href="true"></a>')
         }
     }
 
@@ -569,21 +580,28 @@ function linkObjet(element){
         $(document).on('change', '.link input', function(){
             linkSection = $(this).val();
             if ($(element).attr('data-cta')) {
-                $(element).attr('href', linkSection);
-            } 
-            else {
                 if (linkSection == '') {
-                    $(element).unwrap('a');
+                    $(element).attr('href', '');
                 } 
-                else {
-                    if ($(element).parent('a')[0] == undefined) {
-                        $(element).wrap('<a href="'+linkSection+'" title="" target="_blank"></a>')
-                    }
-                    else {
-                        element = $(element).parent('a');
-                        $(element).attr('href', linkSection);
-                    }
+                else if (linkSection.indexOf('http') == -1 ) {
+                    $(element).attr('href', 'http://'+linkSection);
+                    $('.link input').val('http://'+linkSection);
                 }
+                else {
+                    $(element).attr('href', linkSection);
+                }
+            } 
+            else if ($(element).parent('a').attr('data-href')) {
+                if (linkSection == '') {
+                    $('[data-href]').attr('href', '');
+                }
+                else if (linkSection.indexOf('http') == -1 ) {
+                    $('[data-href]').attr('href', 'http://'+linkSection);
+                    $('.link input').val('http://'+linkSection);
+                }
+                else {
+                    $('[data-href]').attr('href', linkSection);
+                } 
             }            
         });
     })();
