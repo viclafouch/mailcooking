@@ -73,13 +73,7 @@
 				<div class="field_tools_item_block verhor-center height" data-display-spacer>
 					<div class="item col">
 						<label>Hauteur  <span class="taille">(en px)</span></label>
-						<input type="text" value="" class="input btn_tools change_value" data-change='height' data-max="150" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="20" />
-						<span class="change_value_action btn_action_plus" id="plus" data-control='heigth'>
-							<i class="signe material-icons">add</i>
-						</span>
-						<span class="change_value_action btn_action_moins" id="moins" data-control='heigth'>
-							<i class="signe material-icons">remove</i>
-						</span>
+						<input type="text" id="height" value="" class="input btn_tools change_value" data-change='height' data-max="150" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="20" />
 					</div>
 				</div>
 				<div class="field_tools_item_block verhor-center font-family" data-display-text data-display-cta>
@@ -99,25 +93,13 @@
 				<div class="field_tools_item_block verhor-center font-size" data-display-text data-display-cta>
 					<div class="item col">
 						<label>Taille de la police <span class="taille">(en px)</span></label>
-						<input type="text" value="48" class="input btn_tools change_value" data-change='font-size' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="6" />
-						<span class="change_value_action btn_action_plus" id="plus" data-control='font-size'>
-							<i class="signe material-icons">add</i>
-						</span>
-						<span class="change_value_action btn_action_moins" id="moins" data-control='font-size'>
-							<i class="signe material-icons">remove</i>
-						</span>
+						<input type="text" id="fontSize" value="" class="input btn_tools change_value" data-change='font-size' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="6" />
 					</div>
 				</div>
 				<div class="field_tools_item_block verhor-center line-height" data-display-text>
 					<div class="item col">
 						<label>Interlignage <span class="taille">(en px)</span></label>
-						<input type="text" value="" class="input btn_tools change_value" data-change='line-height' data-max="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="" />
-						<span class="change_value_action btn_action_plus" id="plus" data-control='line-height'>
-							<i class="signe material-icons">add</i>
-						</span>
-						<span class="change_value_action btn_action_moins" id="moins" data-control='line-height'>
-							<i class="signe material-icons">remove</i>
-						</span>
+						<input type="text" id="lineHeight" value="" class="input btn_tools change_value" data-change='line-height' data-max="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="" />
 					</div>
 				</div>
 				<div class="field_tools_item_block verhor-center text-align" data-display-text>
@@ -138,53 +120,25 @@
 							<div class="row">
 								<div class="block none"></div>
 								<div class="block" id="padding-top">
-									<div class="number">
-										<input type="text" class="change_value" data-change='padding-top' data-max="100" data-min="0" placeholder="..." value="6" name=""/>
-									</div>
-									<div class="action_number">
-										<span class="btn_action_plus" data-control='padding-top'><i class="signe material-icons">add</i></span>
-										<hr>
-										<span class="btn_action_moins" data-control='padding-top'><i class="signe material-icons">remove</i></span>
-									</div>
+									<input type="text" id="paddingTop" value="" class="change_value" data-change='padding-top' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 								</div>
 								<div class="block none"></div>
 							</div>
 							<div class="row">
 								<div class="block" id="padding-left">
-									<div class="number">
-										<input type="text" class="change_value" data-change='padding-left' data-max="80" data-min="0" placeholder="..." value="6" name=""/>
-									</div>
-									<div class="action_number">
-										<span class="btn_action_plus" data-control='padding-left'><i class="signe material-icons">add</i></span>
-										<hr>
-										<span class="btn_action_moins" data-control='padding-left'><i class="signe material-icons">remove</i></span>
-									</div>
+									<input type="text" id="paddingLeft" value="" class="change_value" data-change='padding-left' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 								</div>
 								<div class="center block">
 									<p>Section</p>
 								</div>
 								<div class="block" id="padding-right">
-									<div class="number">
-										<input type="text" class="change_value" data-change='padding-right' placeholder="..." data-max="80" data-min="0" value="6" name=""/>
-									</div>
-									<div class="action_number">
-										<span class="btn_action_plus" data-control='padding-right'><i class="signe material-icons">add</i></span>
-										<hr>
-										<span class="btn_action_moins" data-control='padding-right'><i class="signe material-icons">remove</i></span>
-									</div>
+									<input type="text" id="paddingRight" value="" class="change_value" data-change='padding-right' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 								</div>
 							</div>
 							<div class="row">
 								<div class="block none"></div>
 								<div class="block" id="padding-bottom">
-									<div class="number">
-										<input type="text" class="change_value" data-change='padding-bottom' data-max="100" data-min="0" placeholder="..." value="6" name=""/>
-									</div>
-									<div class="action_number">
-										<span class="btn_action_plus" data-control='padding-bottom'><i class="signe material-icons">add</i></span>
-										<hr>
-										<span class="btn_action_moins" data-control='padding-bottom'><i class="signe material-icons">remove</i></span>
-									</div>
+									<input type="text" id="paddingBottom" value="" class="change_value" data-change='padding-bottom' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 								</div>
 								<div class="block none"></div>
 							</div>
@@ -204,14 +158,7 @@
 								<div class="block" id="border-top">
 									<div class="flipper">
 										<div class="front">
-											<div class="number">
-												<input type="text" class="change_value" data-change='border-top-width' data-min="0" data-max="20" placeholder="..." value="0" name=""/>
-											</div>
-											<div class="action_number">
-												<span class="btn_action_plus" data-control='border-top'><i class="signe material-icons">add</i></span>
-												<hr>
-												<span class="btn_action_moins" data-control='border-top'><i class="signe material-icons">remove</i></span>
-											</div>
+											<input type="text" id="borderTop" value="" class="change_value" data-change='border-top-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 										</div>
 										<div class="back">
 											<input type="text" value="#ffffff" class="choose_color_border" />
@@ -221,7 +168,7 @@
 								<div class="block none"></div>
 							</div>
 							<div class="row">
-								<div class="block none"> </div>
+								<div class="block none"></div>
 								<div class="center block">
 									<p>Section</p>
 								</div>
@@ -232,14 +179,7 @@
 								<div class="block" id="border-bottom">
 									<div class="flipper">
 										<div class="front">
-											<div class="number">
-												<input type="text" class="change_value" data-change='border-bottom-width' data-min="0" data-max="20" placeholder="..." name=""/>
-											</div>
-											<div class="action_number">
-												<span class="btn_action_plus" data-control='border-bottom'><i class="signe material-icons">add</i></span>
-												<hr>
-												<span class="btn_action_moins" data-control='border-bottom'><i class="signe material-icons">remove</i></span>
-											</div>
+											<input type="text" id="borderBottom" value="" class="change_value" data-change='border-bottom-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 										</div>
 										<div class="back">
 											<input type="text" value="#ffffff" class="choose_color_border" />
