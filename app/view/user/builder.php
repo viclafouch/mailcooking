@@ -108,6 +108,18 @@
 						</span>
 					</div>
 				</div>
+				<div class="field_tools_item_block verhor-center line-height" data-display-text>
+					<div class="item col">
+						<label>Interlignage <span class="taille">(en px)</span></label>
+						<input type="text" value="" class="input btn_tools change_value" data-change='line-height' data-max="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="" />
+						<span class="change_value_action btn_action_plus" id="plus" data-control='line-height'>
+							<i class="signe material-icons">add</i>
+						</span>
+						<span class="change_value_action btn_action_moins" id="moins" data-control='line-height'>
+							<i class="signe material-icons">remove</i>
+						</span>
+					</div>
+				</div>
 				<div class="field_tools_item_block verhor-center text-align" data-display-text>
 					<div class="item col">
 						<label>Alignement</label>

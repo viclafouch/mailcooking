@@ -2029,7 +2029,7 @@ div.field_tools_item_block p {
     }
 
     // Boutons + et -
-    & > div.font-size, div.height {
+    & > div.font-size, div.height, div.line-height {
         span.change_value_action {
             position: absolute;
             content: '';

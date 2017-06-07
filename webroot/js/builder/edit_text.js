@@ -32,6 +32,7 @@ var colorSection; // Couleur de texte de l'objet
 var backgroundSection; // Couleur de fond de l'objet
 var familySection; // Police de texte de l'objet
 var height; // Hauteur de l'objet
+var line; // Interlignage de l'objet
 var linkSection; // Lien de redirection de l'objet
 var paddingTopSection; // Espacement haut de l'objet
 var paddingRightSection; // Espacement droit de l'objet
@@ -74,12 +75,13 @@ var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','C
     - XII   :  Récupération/Modification de la couleur de texte
     - XIII  :  Récupération/Modification de la couleur de fond
     - XIV   :  Récupération/Modification de la police de texte
-    - XV    :  Récupération/Modification de la hauteur
-    - XVI   :  Récupération/Modification du lien de redirection
-    - XVII  :  Récupération/Modification de l'espacement
-    - XVIII :  Récupération/Modification de la taille des bordures
-    - XIX   :  Récupération/Modification de la couleur des bordures
-    - XX    :  Disparition des items
+    - XV    :  Récupération/Modification de l'interlignage
+    - XVI   :  Récupération/Modification de la hauteur
+    - XVII  :  Récupération/Modification du lien de redirection
+    - XVIII :  Récupération/Modification de l'espacement
+    - XIV   :  Récupération/Modification de la taille des bordures
+    - XX    :  Récupération/Modification de la couleur des bordures
+    - XXI   :  Disparition des items
 **/
 
 // I : Création de Medium Editor
@@ -368,6 +370,7 @@ function clicToText(element) {
     colorText(element);
     backgroundText(targetTheTargetParent(element));
     familyText(element);
+    lineText(element);
     paddingObjet(element);
     borderSizeObjet(element);
     borderColorObjet(element);
@@ -525,6 +528,49 @@ function familyText(element) {
     })();
 }
 
+// XV : Récupération/Modification de l'interlignage
+function lineText(element) {
+    let input = $('.line-height').find('input.change_value');
+    line = parseFloat($(element).css('line-height'));
+
+    sizeSection = parseFloat($(element).css('font-size'));
+    if (!line) {
+        input.val(sizeSection * 1.5).attr('value', sizeSection * 1.5);
+    }
+    else {
+        input.val(line).attr('value', line);
+    }
+
+    input.attr('data-min', sizeSection);
+    input.attr('data-max', sizeSection * 3);
+
+    (function change() {
+        $(document).on('change', '.line-height input.change_value', function(input) {
+            targetStyle = $(this).attr('data-change');
+            max = parseFloat($(this).attr('data-max'));
+            min = parseFloat($(this).attr('data-min'));
+            val = $(this).val();
+
+            if (val == '') {
+                $(element).css(targetStyle, parseFloat($(element).attr(targetStyle))+'px');
+                $(this).attr('value', parseFloat($(element).attr(targetStyle))).val(parseFloat($(element).css($(this).attr('data-change'))));
+            }
+            else if (val > max) {
+                $(element).css(targetStyle, max+'px');
+                $(this).attr('value', max).val(max);
+            }
+            else if (val < min || val == '') {
+                $(element).css(targetStyle, min+'px');
+                $(this).attr('value', min).val(min);
+            }
+            else {
+                $(element).css(targetStyle, val+'px');
+                $(this).attr('value', val);
+            }
+        });
+    })();
+}
+
 // XV : Récupération/Modification de la hauteur
 function heightObjet (element) {
     let input = $('.height').find('input.change_value');
@@ -544,15 +590,15 @@ function heightObjet (element) {
                 $(this).attr('value', parseFloat($(element).attr(targetStyle))).val(parseFloat($(element).css($(this).attr('data-change'))));
             }
             else if (val > max) {
-                $(element).attr(targetStyle, max);
+                $(element).attr(targetStyle, max).height(max+'px');
                 $(this).attr('value', max).val(max);
             }
             else if (val < min || val == '') {
-                $(element).attr(targetStyle, min);
+                $(element).attr(targetStyle, min).height(min+'px');
                 $(this).attr('value', min).val(min);
             }
             else {
-                $(element).attr(targetStyle, val);
+                $(element).attr(targetStyle, val).height(val+'px');
                 $(this).attr('value', val);
             }
         });
