@@ -82,8 +82,8 @@ function getContent(){
 // III : Sauvegarde du builder
 function saveBuilder(btnSave) {
     if (saving == false) {
-        btnSave.addClass('saving').removeClass('clic');
-        saving = true
+        saving = false
+        // btnSave.addClass('saving').removeClass('clic');
         
         $('[data-content]').removeClass('activeover');
         $('[contenteditable]').removeAttr('contenteditable');
@@ -96,24 +96,30 @@ function saveBuilder(btnSave) {
         
         getContent();
         
-        $.ajax({
-            type: "POST",
-            data: {emailTitle : titleMail, emailID: id_mail, emailDom: DomMail, emailbackground: backgroundMail},
-            url : "?module=user&action=email_builder",
-            success : function() {
-                $('#loader_saving').html('<div class="snippet snippet__11"></div>');
-                setTimeout(function(){
-                    $('#loader_saving').html('<p class="safeguard_confirmed">sauvegardé <i class="material-icons">check</i></p>');
-                    btnSave.removeClass('saving').addClass('clic');
-                    saving = false;
-                }, 4000);
-                setTimeout(function(){
-                    $('.safeguard_confirmed').animate({
-                        opacity: 0
-                    }, 1000);
-                }, 7000);
+        DOM = document.getElementById('storage_email');
 
-                creatMediumEditor();
+        html2canvas(DOM, {
+            onrendered: function(canvas) {
+                $.ajax({
+                    type: "POST",
+                    data: {thumbs: canvas.toDataURL("image/png"), emailTitle : titleMail, emailID: id_mail, emailDom: DomMail, emailbackground: backgroundMail},
+                    url : "?module=user&action=email_builder",
+                    success : function() {
+                        $('#loader_saving').html('<div class="snippet snippet__11"></div>');
+                        setTimeout(function(){
+                            $('#loader_saving').html('<p class="safeguard_confirmed">sauvegardé <i class="material-icons">check</i></p>');
+                            btnSave.removeClass('saving').addClass('clic');
+                            saving = false;
+                        }, 4000);
+                        setTimeout(function(){
+                            $('.safeguard_confirmed').animate({
+                                opacity: 0
+                            }, 1000);
+                        }, 7000);
+
+                        creatMediumEditor();
+                    }
+                });
             }
         });
     }

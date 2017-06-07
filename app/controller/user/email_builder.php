@@ -204,6 +204,25 @@
 		else {
 			// Save
 			include_once('app/model/user/builder/save.php');
+			
+			$options = array( 	
+					"wherecolumn"	=>	"id_mail",
+					"wherevalue"	=>	$_POST['emailID']);
+		
+			$email = selecttable("mail_editor", $options);
+
+			$timestamp = new DateTime($email[0]['timestamp']);
+			$email_date = $timestamp->format('d-m-Y');
+
+			$folder = ''.$email[0]['id_mail'].'_'.$email_date.'';
+
+			$chemin = $chemin.'emails/'.$folder;
+
+			$thumbsName = 'thumbs.png';
+
+			$savefile = @file_put_contents(	
+				$chemin.'/'.$thumbsName, 
+				base64_decode(explode(",", $_POST["thumbs"])[1]));
 
 			if ($_POST['emailbackground'] == '') {
 				$_POST['emailbackground'] = '#f0f0f0';
