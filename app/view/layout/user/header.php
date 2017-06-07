@@ -15,6 +15,8 @@
 			<link rel="stylesheet" href="lib/css/medium-editor/medium-editor.min.css">
 			<link rel="stylesheet" href="lib/css/croppie/croppie-2.4.1.css">
 			<link rel="stylesheet" href="lib/css/jquery-minicolors/jquery.minicolors.css">
+
+			<link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Lato|Lobster|Montserrat|Open+Sans|Roboto" rel="stylesheet">
 		<?php } ?>
 
 		<!-- Custom [CSS]-->
