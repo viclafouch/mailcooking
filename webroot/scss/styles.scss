@@ -1575,6 +1575,11 @@ div.header {
         @include opacity(1);
         outline: none;
     }
+
+    input.choose_color_background {
+        visibility: hidden;
+    }
+
     .minicolors {
         width: 17px;
         height: 17px;
@@ -1596,17 +1601,15 @@ div.header {
 
         .minicolors-panel {
             top: 17px;
-            display: none;
-            visibility: hidden;
             @include opacity(0);
             @include single-transition(none, 0.3s, ease, 0s);
-            @include transition-property(opacity, visibility);
+            @include transition-property(opacity);
         }
 
         &:hover {
             width: 95px;
-            input { @include opacity(1); }
-            .minicolors-panel { display: block; @include opacity(1); visibility: visible; }
+            input { @include opacity(1); visibility: visible; }
+            .minicolors-panel { @include opacity(1); display: block; }
         }
     }
 }

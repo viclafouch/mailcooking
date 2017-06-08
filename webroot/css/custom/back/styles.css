@@ -2362,6 +2362,9 @@ div.header button {
   opacity: 1;
   outline: none;
 }
+div.header input.choose_color_background {
+  visibility: hidden;
+}
 div.header .minicolors {
   width: 17px;
   height: 17px;
@@ -2402,8 +2405,6 @@ div.header .minicolors .minicolors-swatch {
 }
 div.header .minicolors .minicolors-panel {
   top: 17px;
-  display: none;
-  visibility: hidden;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   -moz-transition: none 0.3s ease 0s;
@@ -2411,10 +2412,10 @@ div.header .minicolors .minicolors-panel {
   -webkit-transition: none 0.3s ease;
   -webkit-transition-delay: 0s;
   transition: none 0.3s ease 0s;
-  -moz-transition-property: opacity, visibility;
-  -o-transition-property: opacity, visibility;
-  -webkit-transition-property: opacity, visibility;
-  transition-property: opacity, visibility;
+  -moz-transition-property: opacity;
+  -o-transition-property: opacity;
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
 }
 div.header .minicolors:hover {
   width: 95px;
@@ -2422,12 +2423,12 @@ div.header .minicolors:hover {
 div.header .minicolors:hover input {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
+  visibility: visible;
 }
 div.header .minicolors:hover .minicolors-panel {
-  display: block;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
-  visibility: visible;
+  display: block;
 }
 
 /*----------  Container email  ----------*/
