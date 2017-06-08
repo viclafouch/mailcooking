@@ -36,7 +36,8 @@ var familyName; // Police à exporter
 var src; // Tableau des images
 var srcImg; // Image à exporter
 var mediasMobile; // Media Query
-var viewDesktop = true;
+var viewDesktop = true; // Affichage du builder
+var invalidExport; // Invalidité de l'export
 
 // Bout de code pour correction dans de l'app Gmail
 var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center"><table class="container" align="center" width="650" border="0" cellpadding="0" cellspacing="0"><tr><td height="30"><table class="gmapp" align="center" width="650" border="0" cellpadding="0" cellspacing="0"  style="border-collapse:collapse;border:0px;"><tbody><tr><td><div class="gmapp" style="white-space:nowrap; font:15px courier; color:#F4F3F1;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div></td></tr><tr><td><img class="gmapp" src="images/spacer.png" width="650" height="1" style="min-width:650px;width:650px" border="0" /></td></tr></tbody></table></td></tr></table></td></tr></table>';
@@ -199,6 +200,19 @@ function cleanAttr(storage) {
     .removeClass('noactive');
 }
 
+var checkSrc = function () {
+    $('#storage_email img').each(function(){
+        src = $(this).attr('src');
+        if (src.indexOf('template_all') != -1) {
+            invalidExport = true;
+        }
+        else {
+            invalidExport = false;
+        }
+    });
+    return invalidExport;
+}
+
 // VIII : Exporter le document
 function exportDocument(storageID) {
     src = [];
@@ -290,8 +304,13 @@ $(document).ready(function() {
 
     /* Sauvegarde et exporte le document */
     $(document).on('click', '#exportDocument', function(){
-        saveBuilder($(this));
-        exportDocument('#storage_email_to_export');
+        if (checkSrc()) {
+            alert('Attention : il vous reste des images du template ! Modifiez-les !');
+        }
+        else {
+            saveBuilder($(this));
+            exportDocument('#storage_email_to_export');
+        }
     });
 
     /* Sauvegarde du mail */

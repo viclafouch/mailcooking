@@ -36,11 +36,11 @@
 		try 
 		{
 			$req = "INSERT INTO template_mail (DOM, 
-											mco_template_mobile, 
+											medias, 
 											id_allow,
 											id_template_commande)
 							VALUES (:DOM, 
-									:mco_template_mobile, 
+									:medias, 
 									:id_allow,
 									:id_template_commande)";
 
@@ -48,7 +48,7 @@
 
 			// On initialise le paramètre
 			$query->bindParam(':DOM', $dom, PDO::PARAM_INT);
-			$query->bindParam(':mco_template_mobile', $mobile, PDO::PARAM_INT);
+			$query->bindParam(':medias', $mobile, PDO::PARAM_INT);
 			$query->bindParam(':id_allow', $id_user, PDO::PARAM_INT);
 			$query->bindParam(':id_template_commande', $id_commande, PDO::PARAM_INT);
 
