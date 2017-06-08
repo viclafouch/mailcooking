@@ -235,7 +235,7 @@ function creatSortable(container) {
         /* Classe du placeholder */
         placeholder: "sortable-placeholder",
         /* Anime le retour de l'élément au drop */
-        revert: 500,
+        revert: false,
         /* Autorise le scroll en fin de page */
         scroll: true,
         /* A partir de combien (px) avant la fin de page pour scroller */
@@ -339,6 +339,10 @@ function removeSection(targetClic) {
 function duplicateSection(targetClic) {
     sectionSelected = $(targetClic).closest('table[data-section]');
     duplicatedSection = sectionSelected.clone();
+    if ($(sectionSelected).find('.active').length == 1) {
+         $(duplicatedSection).find('.active').removeClass('active').addClass('noactive');
+    };
+   
     $(duplicatedSection).closest('table[data-section]').find('.tools_section').remove();
     duplicatedSection.insertAfter(sectionSelected);
 
@@ -401,11 +405,6 @@ $(document).ready(function() {
         if (!sort) {
             $(this).find('.tools_section').remove();
         }
-    });
-
-    /* Préparation du style pour le drag */
-    $(document).on('mouseenter', '#thumbs', function()  {
-        $('.content_email').css('position', 'static');
     });
 });
 

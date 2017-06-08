@@ -83,7 +83,7 @@ function getContent(){
 function saveBuilder(btnSave) {
     if (saving == false) {
         saving = false
-        // btnSave.addClass('saving').removeClass('clic');
+        btnSave.addClass('saving').removeClass('clic');
         
         $('[data-content]').removeClass('activeover');
         $('[contenteditable]').removeAttr('contenteditable');
@@ -93,6 +93,7 @@ function saveBuilder(btnSave) {
         $('[data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
         $('[medium-editor-index]').removeAttr('medium-editor-index');
         $('[data-original-title]').removeAttr('data-original-title');
+        $('#storage_email *').removeClass('active noactive');
         
         getContent();
         
@@ -190,7 +191,12 @@ function cleanAttr(storage) {
     $(storage+' [data-href]').removeAttr('data-href');
     $(storage+' [data-mobile]').removeAttr('data-mobile');
     $(storage+' .medium-editor-element').removeClass('medium-editor-element');
-    $(storage+' *').removeAttr('id').removeAttr('role').removeAttr('aria-multiline');
+    $(storage+' *')
+    .removeAttr('id')
+    .removeAttr('role')
+    .removeAttr('aria-multiline')
+    .removeClass('active')
+    .removeClass('noactive');
 }
 
 // VIII : Exporter le document

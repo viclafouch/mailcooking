@@ -1627,14 +1627,26 @@ div#storage_email {
 
     table[data-section], table[data-section] * {
          @include single-transition(width, 0.5s, ease, 0s);
+
+         a { cursor: default; }
+         .active { @include opacity(1.0); }
+         .noactive { @include opacity(0.75); }
     }
+
     table[data-mobile] {
         width: 500px!important;  
     }
 
-    a[data-cta] p {
-        margin: 0;
-        outline: none;
+    td[data-text], img[data-img], td[data-spacer], a[data-cta] {
+        @include single-transition(opacity, 0.2s, ease, 0s);
+    }
+
+    a[data-cta] {
+        cursor: text!important;
+        p {
+            margin: 0;
+            outline: none;
+        }
     }
 
     table, td { outline: none; word-break: break-all; }

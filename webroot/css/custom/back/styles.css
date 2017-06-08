@@ -2446,8 +2446,29 @@ div#storage_email table[data-section], div#storage_email table[data-section] * {
   -webkit-transition-delay: 0s;
   transition: width 0.5s ease 0s;
 }
+div#storage_email table[data-section] a, div#storage_email table[data-section] * a {
+  cursor: default;
+}
+div#storage_email table[data-section] .active, div#storage_email table[data-section] * .active {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+div#storage_email table[data-section] .noactive, div#storage_email table[data-section] * .noactive {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
+  opacity: 0.75;
+}
 div#storage_email table[data-mobile] {
   width: 500px !important;
+}
+div#storage_email td[data-text], div#storage_email img[data-img], div#storage_email td[data-spacer], div#storage_email a[data-cta] {
+  -moz-transition: opacity 0.2s ease 0s;
+  -o-transition: opacity 0.2s ease 0s;
+  -webkit-transition: opacity 0.2s ease;
+  -webkit-transition-delay: 0s;
+  transition: opacity 0.2s ease 0s;
+}
+div#storage_email a[data-cta] {
+  cursor: text !important;
 }
 div#storage_email a[data-cta] p {
   margin: 0;

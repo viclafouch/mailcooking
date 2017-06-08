@@ -440,7 +440,6 @@ function changeSpinner(element, idInput) {
     $(function() {        
         input.spinner({
             spin: function(event, ui) {
-                console.log('spin');
                 $(element).css(style, ui.value+'px');
                 if ($(element).attr('data-text')) {
                     if ($(event.target).attr('id') == 'fontSize') {
@@ -731,7 +730,9 @@ function disappearItem(e) {
     if (click.is("[data-content]")){
        $('.field_tools_item_block').hide();
         $('#storage_email [data-content]').removeClass('activeover');
-        $('[data-text], [data-img], [data-cta]').removeAttr('data-target');
+        $('[data-text], [data-img], [data-cta], [data-spacer]')
+        .removeAttr('data-target')
+        .removeClass('active noactive');
     }
 }
 
@@ -759,6 +760,12 @@ $(document).ready(function() {
     $(document).on("click", '[data-text], [data-img], [data-cta], [data-spacer]', function(e) {
         stopRedirection(e);
         editSidebar(targetTheTarget(this));
+
+        $('[data-text], [data-img], [data-cta], [data-spacer]').removeClass('active');
+        $(this).addClass('active');
+
+        $('[data-text], [data-img], [data-cta], [data-spacer]').not('.active').addClass('noactive');
+        $(this).removeClass('noactive');
     });
 
     /* Disparition des items */
