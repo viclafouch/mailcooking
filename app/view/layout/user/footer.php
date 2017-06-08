@@ -17,6 +17,7 @@
 				<script src="webroot/js/builder/edit_img.js" type="text/javascript"></script>
 				<script src="webroot/js/builder/edit_text.js" type="text/javascript"></script>
 				<script src="webroot/js/builder/control_sections.js" type="text/javascript"></script>
+				<script src="webroot/js/builder/control_menus.js" type="text/javascript"></script>
 				<script src="webroot/js/builder/actions_build.js" type="text/javascript"></script>
 			<?php }
 		?>

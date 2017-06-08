@@ -7,7 +7,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Lib [CSS]-->
-<!-- 		<link rel="stylesheet" href="lib/css/material/material-1.3.0.min.css"> -->
 		<link rel="stylesheet" href="lib/css/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="lib/css/jquery-ui/jquery-ui.structure.min.css">
 		<?php 
@@ -20,7 +19,6 @@
 		<?php } ?>
 
 		<!-- Custom [CSS]-->
-		<!-- <link rel="stylesheet" href="webroot/css/custom/back/reset.css"> -->
 		<link rel="stylesheet" href="webroot/css/custom/back/styles.css">
 		<link rel="stylesheet" href="webroot/css/custom/back/fonts.css">
 
@@ -32,7 +30,6 @@
 		<script defer src="lib/js/croppie/croppie-2.4.1.min.js"></script>
 		<script defer src="lib/js/jquery-ui/jquery-ui.min.js"></script>
 		<script defer src="lib/js/jquery-minicolors/jquery.minicolors.min.js"></script>
-		<script defer src="lib/js/jquery/jquery-numeric.min.js"></script>
 
 		<!-- Custom [JS]-->
 		<script defer src="webroot/js/script.js"></script>

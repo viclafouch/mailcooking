@@ -1498,11 +1498,12 @@ div.header {
         padding: 0;
         outline: none;
         border: 0;
+        font-family: 'Roboto';
         color: #444;
         width: 200px;
         @include opacity(0.85);
         border-bottom:1px solid rgba(0,0,0,0.1);
-        font-size: 20px;
+        font-size: 18px;
         &:focus { color: #000; @include opacity(1.0); }
     }
 
@@ -1946,7 +1947,32 @@ div.sidebar_tools > div.menu { background-color: #fff; min-height: 100%;
         width: 100%;
         display: none;
 
-        &.menuactive { display: block!important; }
+        &.menuactive { display: block; }
+
+        &.todo {
+            width: 100%;
+            position: relative;
+            flex-grow: 1;
+
+            & > div {
+                position: absolute;
+                width: 100%;
+                top: calc(50% - 48px);
+                @include translateY(-50%);
+            }
+            svg {
+                height: 120px;
+                width: 120px;
+                @include opacity(0.8);
+            }
+
+            p { 
+                text-align: center; 
+                font-family: 'Roboto';
+                font-size: 17px;
+                font-style: italic;
+            }
+        }
     }
 }
 

@@ -2180,12 +2180,13 @@ div.header input#documentTitle {
   padding: 0;
   outline: none;
   border: 0;
+  font-family: 'Roboto';
   color: #444;
   width: 200px;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
   opacity: 0.85;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 20px;
+  font-size: 18px;
 }
 div.header input#documentTitle:focus {
   color: #000;
@@ -2900,7 +2901,33 @@ div.sidebar_tools > div.menu > div.task {
   display: none;
 }
 div.sidebar_tools > div.menu > div.task.menuactive {
-  display: block !important;
+  display: block;
+}
+div.sidebar_tools > div.menu > div.task.todo {
+  width: 100%;
+  position: relative;
+  flex-grow: 1;
+}
+div.sidebar_tools > div.menu > div.task.todo > div {
+  position: absolute;
+  width: 100%;
+  top: calc(50% - 48px);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+div.sidebar_tools > div.menu > div.task.todo svg {
+  height: 120px;
+  width: 120px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+div.sidebar_tools > div.menu > div.task.todo p {
+  text-align: center;
+  font-family: 'Roboto';
+  font-size: 17px;
+  font-style: italic;
 }
 
 .menu .items_builder_block > div.field_tools_item_block {

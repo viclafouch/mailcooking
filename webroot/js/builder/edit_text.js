@@ -733,6 +733,11 @@ function disappearItem(e) {
         $('[data-text], [data-img], [data-cta], [data-spacer]')
         .removeAttr('data-target')
         .removeClass('active noactive');
+
+        if ($('#items_builder').hasClass('active')) {
+            $('.items_builder_block').removeClass('menuactive');
+            $('.todo').addClass('menuactive');
+        }
     }
 }
 
@@ -759,8 +764,10 @@ $(document).ready(function() {
     /* Démarre le clic sur les data-txt */
     $(document).on("click", '[data-text], [data-img], [data-cta], [data-spacer]', function(e) {
         stopRedirection(e);
+        $('.todo').removeClass('menuactive');
         editSidebar(targetTheTarget(this));
 
+        /* Active / Désactive le hover opacity */
         $('[data-text], [data-img], [data-cta], [data-spacer]').removeClass('active');
         $(this).addClass('active');
 
