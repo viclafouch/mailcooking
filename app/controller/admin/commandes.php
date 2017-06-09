@@ -6,7 +6,7 @@
 			$name = $_POST['nameThumb'];
 
 			$savefile = @file_put_contents(	
-				$chemin.$name.'.png', 
+				$chemin.$name.'.png',  
 				base64_decode(explode(",", $_POST["thumb"])[1])
 			);
 		}
