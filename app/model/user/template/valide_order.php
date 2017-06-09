@@ -9,12 +9,12 @@
 			// On voit la requête
 			$query = $connexion->prepare('SELECT * 
 											FROM template_commande, users
-												WHERE id_user=	user_id
-												AND id_commande=:id_commande');
+												WHERE id_commande =	:id_commande
+												AND id_user=user_id');
 
 			// On initialise le paramètre
 			$query->bindParam(':id_commande', $id, PDO::PARAM_INT);
-
+			
 			$query->execute();
 			$order = $query->fetchAll();
 			$query->closeCursor();

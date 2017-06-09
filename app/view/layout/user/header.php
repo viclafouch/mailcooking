@@ -28,6 +28,7 @@
 	  	<!-- Lib [JS]-->
 		<script defer src="lib/js/jquery/jquery-3.1.1.min.js"></script>
 		<script defer src="lib/js/croppie/croppie-2.4.1.min.js"></script>
+		<script defer src="lib/js/html2canvas/html2canvas.js" type="text/javascript"></script>
 		<script defer src="lib/js/jquery-ui/jquery-ui.min.js"></script>
 		<script defer src="lib/js/jquery-minicolors/jquery.minicolors.min.js"></script>
 

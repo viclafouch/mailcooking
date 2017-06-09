@@ -33,7 +33,7 @@
 		<div class="row_list_template">
 			<?php foreach ($template as $key => $temp) { ?>
 				<?php if ($temp['id_allow'] == $_SESSION["user"]["user_id"]): ?>
-					<div class="block template_block redirect_template" id="<?= $temp['id_template']; ?>">
+					<div class="block template_block see_template" id="<?= $temp['id_template']; ?>">
 						<p>Perso</p>
 					</div>
 					<?php endif ?>

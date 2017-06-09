@@ -693,7 +693,6 @@ document.addEventListener("turbolinks:load", function() {
 			visibility:"hidden",
 			opacity:"0",
 		});
-
 	});
 
 	// Not hidding ==> Look at template
@@ -733,7 +732,6 @@ document.addEventListener("turbolinks:load", function() {
 	$(document).on('click', '.confirm', function (){
 		const $footer = $(this).parent('footer');
 		let $id_commande = $footer.attr('id');
-		console.log($id_commande);
 		$footer.html('<div class="loader_popup"><span></span></div>');
 		$.post( "?module=admin&action=commandes", { id: $id_commande }, function() {})
 		.done(function() {
@@ -751,11 +749,59 @@ document.addEventListener("turbolinks:load", function() {
 	});
 
 	// Update confirmation post ==> Order finished
-	$(document).on('click', '#finish_order', function (){
+	$(document).on('click', '#finish_order', function () {
 		const $parent = $(this).parents('.commande');
-		console.log('clic finish order');
-		console.log($parent);
 		$parent.load("?module=admin&action=commandes&id_commande="+$(this).parent().attr("id"));
+	});
+
+	$(document).on('click', '.valideorder', function(e) {
+
+		e.preventDefault();
+		e.stopPropagation();
+		 
+        var $form = $('#finishOrder');
+        var formdata = (window.FormData) ? new FormData($form[0]) : null;
+        var data = (formdata !== null) ? formdata : $form.serialize();
+
+		var dom = $('#DOM').val();
+		const id = $('.valideorider').attr('id');
+		 
+        $.ajax({
+            url: "?module=admin&action=commandes",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            data: data,
+            complete: function (html) {
+                var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText);
+               	$('#storage_order').html(newDom);
+               	$('#storage_order').show();
+				$('#storage_order [data-section]').each(function(){
+					var id = Math.floor(Math.random() * 16777215).toString(16);
+				    $(this).attr('data-section', id);
+
+					var section = $('[data-section="'+id+'"]');
+					cheminImage = html.responseText;
+					cheminThumbs = cheminImage.replace('images', 'thumbnails');;
+					html2canvas(section, {
+						onrendered: function(canvas) {
+							console.log(canvas.toDataURL("image/png"));
+							$.ajax({
+			                    type: "POST",
+			                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
+			                    url : "?module=admin&action=commandes",
+			                    complete : function(html) {
+									console.log(html.responseText);
+			                    }
+			                });
+						}
+					});
+				});
+            }
+        });
+		
+		return false;
 	});
 
 /*=====  End of Commandes_page  ======*/

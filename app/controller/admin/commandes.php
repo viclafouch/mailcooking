@@ -1,11 +1,24 @@
 <?php 
-	if (isset($_POST["id"])) {
-	
-		if (isset($_POST["DOM"])) {
 
-			include_once('app/model/user/template/valide_order.php');
+	if (!empty($_POST)) {
+		if (isset($_POST['thumb'])) {
+			$chemin = $_POST['chemin'];
+			$name = $_POST['nameThumb'];
+
+			$savefile = @file_put_contents(	
+				$chemin.$name.'.png', 
+				base64_decode(explode(",", $_POST["thumb"])[1])
+			);
+		}
+		elseif (isset($_FILES)) {
+			$data['file'] = $_FILES;
+		    $data['text'] = $_POST;
+		    $dom = json_encode($_POST["DOM"]);
+		    $medias = json_encode($_POST["mco_template_mobile"]);
+
+		    include_once('app/model/user/template/valide_order.php');
 	
-			$commande = get_infos($_POST["id"]);
+			$commande = get_infos(intval($_POST["id"]));
 			
 			$id_user = $commande[0]["id_user"];
 			$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
@@ -15,33 +28,18 @@
 
 			@mkdir($chemin.'templates/'.$new_folder."", 0777, true);
 
-			$folder = $chemin.'templates/'.$new_folder.'/';
+			$chemin = $chemin.'templates/'.$new_folder.'/';
 
-			@mkdir($folder.'images');
-			@mkdir($folder.'thumbnails');
+			@mkdir($chemin.'images');
+			@mkdir($chemin.'thumbnails');
 
-			echo "<p>dossiers créés</p>";
-
-			// // Upload du fichier dans le dossier 
 			$NameImageFolder = utf8_encode(str_replace(' ', '_', $_FILES['file_image']['name']));
-			$NameThumbnailFolder = utf8_encode(str_replace(' ', '_', $_FILES['file_thumbnail']['name']));
 
-			move_uploaded_file($_FILES['file_thumbnail']['tmp_name'], $folder.'thumbnails/'.$NameThumbnailFolder);
-			move_uploaded_file($_FILES['file_image']['tmp_name'], $folder.'images/'.$NameImageFolder);
+			move_uploaded_file($_FILES['file_image']['tmp_name'], $chemin.'images/'.$NameImageFolder);
 
-			echo "<p>fichiers déplacés<p>";
+			unzip_file($chemin.'images/'.$NameImageFolder, $chemin.'images');
 
-			unzip_file($folder.'images/'.$NameImageFolder, $folder.'images');
-			unzip_file($folder.'thumbnails/'.$NameThumbnailFolder, $folder.'thumbnails');
-
-			echo "<p>archives extraites</p>";
-
-			$data = addTemplateMail($_POST["DOM"], $_POST["mco_template_mobile"], $id_user, $commande[0]["id_commande"]);
-
-			var_dump($data);
-
-			echo "<p>Redirection vers l'email builder avec demande de confirmation pour envoyer un email de notification au user en question.</p>";
-
+			echo $chemin.'images/';
 		}
 		else {
 			sleep(3);
@@ -56,6 +54,7 @@
 			}
 		}
 	}
+
 	else if (!isset($_GET["id"])) {
 
 		// Finish order
@@ -63,7 +62,7 @@
 		<header>
 			<h1>Mise en ligne du template</h1>
 		</header>
-		<form method="post" action="?module=admin&action=commandes" enctype="multipart/form-data">
+		<form method="post" action="?module=admin&action=commandes" id="finishOrder" enctype="multipart/form-data">
 			<div class="content_block popup-blocks">
 				<div>
 					<div class="field">
@@ -96,26 +95,17 @@
 							</p>
 						</div>
 					</div>
-					<div class="field">
-						<div class="oneside aside">
-							<label for="file_thumbnail">Thumbnail :*</label>
-						</div>
-						<div class="overside aside">
-							<p>
-								<input type="file" accept="application/zip" name="file_thumbnail" id="file_thumbnail" required="required">
-							</p>
-						</div>
-					</div>
 				</div>
 			</div>
 			<footer>
 				<div>
-					<button type="submit" id="<?= $_GET["id_commande"]; ?>" class="button_default">
+					<button id="<?= $_GET["id_commande"]; ?>" class="valideorder button_default">
 						<span class="buttoneffect"></span>
-						<span class="text-cta">Prévisualisation</span>
+						<span class="text-cta">Enregistrer</span>
 					</button>
 				</div>
 			</footer>
+			<div id="storage_order" style="display: none"></div>
 		</form>
 		<?php } else {
 
