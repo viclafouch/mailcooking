@@ -18,7 +18,6 @@
 			$query->execute();
 			$order = $query->fetchAll();
 			$query->closeCursor();
-
 			return $order;
 		}
 		

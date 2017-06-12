@@ -798,6 +798,24 @@ button.button_default.valide:hover .text-cta {
 .popup-container footer.confirmation.endTakingCharge p {
   margin-bottom: 16px;
 }
+.popup-container footer.test_template a {
+  color: #444;
+}
+.popup-container footer.test_template a:first-child {
+  color: #B71C1C;
+  margin: 10px 0;
+  font-size: 17px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.popup-container footer.test_template a:first-child:hover {
+  text-decoration: underline;
+}
+.popup-container footer.test_template a:last-child {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+  font-size: 15px;
+}
 
 /* Loader Update commande */
 .loader_popup {
@@ -1291,6 +1309,9 @@ span.label.statut1 {
   background-color: #f0ad4e;
 }
 span.label.statut2 {
+  background-color: #009688;
+}
+span.label.statut3 {
   background-color: #5cb85c;
 }
 

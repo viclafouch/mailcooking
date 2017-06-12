@@ -1,6 +1,16 @@
 <?php
 
 	protec(); 
+
+	// $options = array( 	
+	// 				"wherecolumn"	=>	"id_mail",
+	// 				"wherevalue"	=>	$_GET['id']);
+		
+	// $email = selecttable("mail_editor", $options);
+
+	// if (email[0]['statut'] == 0) {
+		
+	// };
 	
 	if (!empty($_POST)) {
 		if (isset($_POST["new_img"])) {

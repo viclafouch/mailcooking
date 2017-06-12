@@ -3,12 +3,11 @@
 	session_start();
 
 	if (isset($_SESSION['user'])) {
+
 		$id_user = $_SESSION['user']["user_id"];
 		$societe_user = mb_strtolower(substr($_SESSION['user']["societe"], 0, 3));
-
-		// Add folders
 		$chemin = "client/".$id_user."_".$societe_user."/";
-		// die($chemin);
+
 	}
 	
 	// Connexion à la base de données

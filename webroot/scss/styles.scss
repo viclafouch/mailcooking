@@ -563,6 +563,26 @@ button.button_default {
                 p { margin-bottom: 16px; }
             }
         }
+
+        &.test_template {
+            a {
+                color: #444;
+            }
+            a:first-child{
+                color: #B71C1C; 
+                margin: 10px 0;
+                font-size: 17px;
+                text-decoration: none;
+                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+            a:last-child {
+                @include opacity(0.8);
+                font-size: 15px
+            }
+        }
     }
 }
 
@@ -873,7 +893,8 @@ span.label {
     
     &.statut0 { background-color: #777; }
     &.statut1 { background-color: #f0ad4e; }
-    &.statut2 { background-color: #5cb85c; }
+    &.statut2 { background-color: #009688; }
+    &.statut3 { background-color: #5cb85c; }
 }
 
 /*=====  End of Commande & User Page  ======*/

@@ -18,20 +18,92 @@
 		    $user = $_POST['userId'];
 		    $medias = $_POST["mco_template_mobile"];
 		   
-		   	addTemplateMail($dom, $medias, $user, $order);
+		   	$newTemplate = addTemplateMail($dom, $medias, $user, $order);
 
 		   	include_once('app/model/admin/update_commande.php');
 
 			$update = update_commande($order, 2);
-			echo "test";
+		?>
+
+			<header>
+				<h1>Mise en ligne du template</h1>
+			</header>
+			<div class="content_block popup-blocks row row-verti-center row-hori-center" style="height: 110px;">
+				<button class="button_default" data-try="true">
+					<span class="buttoneffect"></span>
+					<span class="text-cta" data-order="<?= $order ?>">Tester le template</span>
+				</button>
+			</div>
+			<footer class="row row-hori-center nowrap test_template">
+				<a href="#" id="cancelUpload" title="">Annuler la mise en ligne</a>
+				<a href="#" id="testLaster" title="">Essayer plus tard</a>
+			</footer>
+		<?php
+			
+		}
+
+		elseif (isset($_POST['testEmail'])) {
+
+			$options = array( 	"wherecolumn"	=>	"id_template_commande",
+								"wherevalue"	=>	$_POST['testEmail']);
+	
+			$commande = selecttable("template_mail", $options);
+
+			include_once('app/model/user/email/insert_email.php');
+
+			$test_builder = new_email($commande[0]['id_template'], $_SESSION["user"]["user_id"], $commande[0]['DOM']);
+
+			echo $test_builder; 
+		}
+
+		elseif (isset($_POST['cancelUpload'])) {
+			$orderID = $_POST['cancelUpload'];
+			include_once('app/model/user/template/valide_order.php');
+	
+			$commande = get_infos(intval($orderID));
+
+			include_once('app/model/admin/update_commande.php');
+
+			$update = update_commande($orderID, 1);
+
+			$id_user = $commande[0]["id_user"];
+			$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
+			$chemin = "client/".$id_user."_".$societe_user."/";
+
+			$template = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
+
+			$path = $chemin.'templates/'.$template;
+
+			function removeFiles($path) {
+				foreach($path as $file) {
+					if(is_file($file)) {
+					    unlink($file);
+					}
+				}
+			}
+			if (file_exists($path.'/images')) {
+				removeFiles(glob($path.'/images/*'));
+				rmdir($path.'/images');
+			}
+			if (file_exists($path.'/thumbnails')) {
+				removeFiles(glob($path.'/thumbnails/*'));
+				rmdir($path.'/thumbnails');
+			}
+			if (file_exists($path)) {
+				removeFiles(glob($path));
+				rmdir($path);
+			}
+
+			include_once('app/model/user/template/delete_template.php');
+
+			delete_template($orderID);
+
 		}
 		elseif (isset($_POST['order'])) {
 			sleep(3);
 			include_once('app/model/admin/update_commande.php');
 
 			$update = update_commande($_POST["order"], 1);
-
-			echo 'good';
 		}
 		elseif (isset($_FILES)) {
 			sleep(3);
@@ -115,9 +187,26 @@
 					</button>
 				</div>
 			</footer>
-			<div id="storage_order" style="display: none"></div>
 		</form>
-		<?php } else {
+		<?php } 
+
+		elseif (isset($_GET['testTemplate'])) { ?>
+
+		<header>
+			<h1>Mise en ligne du template</h1>
+		</header>
+		<div class="content_block popup-blocks row row-verti-center row-hori-center" style="height: 110px;">
+			<button class="button_default" data-try="true">
+				<span class="buttoneffect"></span>
+				<span class="text-cta" data-order="<?= $_GET['testTemplate'] ?>">Tester le template</span>
+			</button>
+		</div>
+		<footer class="row row-hori-center nowrap test_template">
+			<a href="#" id="cancelUpload" title="">Annuler la mise en ligne</a>
+			<a href="#" id="testLaster" title="">Essayer plus tard</a>
+		</footer>
+		<?php }
+		else {
 
 			// Secu
 			// protec();
@@ -147,6 +236,8 @@
 			} elseif ($commande[0]["status"] == 1) {
 				$commande[0]["status"] = "Prise en charge";
 			} elseif ($commande[0]["status"] == 2) {
+				$commande[0]["status"] = "En attente de test";
+			} elseif ($commande[0]["status"] == 3) {
 				$commande[0]["status"] = "Terminé";
 			} ?>
 			<header>

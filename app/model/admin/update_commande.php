@@ -13,7 +13,6 @@
         $query->BindValue(":id_commande",    $id,    PDO::PARAM_INT);
         $query->BindValue(":status", $value, PDO::PARAM_INT);
 
-        // On exécute la requête
         $query->execute();
 
         return $query;
