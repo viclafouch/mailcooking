@@ -23,6 +23,7 @@
 		   	include_once('app/model/admin/update_commande.php');
 
 			$update = update_commande($order, 2);
+			echo "test";
 		}
 		elseif (isset($_POST['order'])) {
 			sleep(3);
@@ -33,6 +34,7 @@
 			echo 'good';
 		}
 		elseif (isset($_FILES)) {
+			sleep(3);
 			$data['file'] = $_FILES;
 		    $data['text'] = $_POST;
 
@@ -78,7 +80,7 @@
 							<label for="DOM">Code :*</label>
 						</div>
 						<div class="overside aside">
-							<p><input type="hidden" name="id" value="<?= $_GET['id_commande']; ?>" />
+							<p><input id="OrderID" type="hidden" name="id" value="<?= $_GET['id_commande']; ?>" />
 								<textarea name="DOM" id="DOM" required="required"></textarea>
 							</p>
 						</div>

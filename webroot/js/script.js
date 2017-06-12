@@ -760,13 +760,12 @@ document.addEventListener("turbolinks:load", function() {
         var $form = $('#finishOrder');
         var formdata = (window.FormData) ? new FormData($form[0]) : null;
         var data = (formdata !== null) ? formdata : $form.serialize();
-
+		var idOrder = $('#OrderID').val();
 		var dom = $('#DOM').val();
 		var medias = $('#mco_template_mobile').val();
 
-		$('.popup-container header').hide();
-		$('.valideorder .text-cta').html('Valider le template');
-		 
+		const $footer = $(this).parents('footer');
+		$footer.html('<div class="loader_popup"><span></span></div>');
         $.ajax({
             url: "?module=admin&action=commandes",
             type: "POST",
@@ -776,8 +775,12 @@ document.addEventListener("turbolinks:load", function() {
             data: data,
             complete: function (html) {
                 var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText);
+				$footer.html('<button id="'+idOrder+'" class="completeorder button_default">'+
+				'<span class="buttoneffect"></span>'+
+				'<span class="text-cta">Valider le template</span>'+
+				'</button>');
+				$('.popup-container header').hide();
                	$('.popup-container.commande .content_block ').html(newDom);
-               	$('.valideorder').removeClass('valideorder').addClass('completeorder');
                	$(document).on('click', '.completeorder', function(event) {
                		event.preventDefault();
                		event.stopPropagation();
@@ -794,12 +797,13 @@ document.addEventListener("turbolinks:load", function() {
 				                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
 				                    url : "?module=admin&action=commandes",
 				                    complete : function(html) {
+				                    	// console.log(html.responseText);
 				                    }
 				                });
 							}
 						});
-					}).promise().done(function () { 
-						const idOrder = $('.completeorder').attr('id');
+					})
+					.promise().done(function () { 
 						var idUser = cheminImage.split('/');
 						idUser = idUser[1].replace(/\D+/g, '');
 						dom = $('.popup-container.commande .content_block ').html();
