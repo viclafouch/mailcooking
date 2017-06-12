@@ -758,75 +758,77 @@ document.addEventListener("turbolinks:load", function() {
 	});
 
 	$(document).on('click', '.valideorder', function(e) {
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			e.preventDefault();
+			e.stopPropagation();
+			 
+	        var $form = $('#finishOrder');
+	        var formdata = (window.FormData) ? new FormData($form[0]) : null;
+	        var data = (formdata !== null) ? formdata : $form.serialize();
+			var idOrder = $('#OrderID').val();
+			var dom = $('#DOM').val();
+			var medias = $('#mco_template_mobile').val();
 
-		e.preventDefault();
-		e.stopPropagation();
-		 
-        var $form = $('#finishOrder');
-        var formdata = (window.FormData) ? new FormData($form[0]) : null;
-        var data = (formdata !== null) ? formdata : $form.serialize();
-		var idOrder = $('#OrderID').val();
-		var dom = $('#DOM').val();
-		var medias = $('#mco_template_mobile').val();
-
-		const $footer = $(this).parents('footer');
-		$footer.html('<div class="loader_popup"><span></span></div>');
-        $.ajax({
-            url: "?module=admin&action=commandes",
-            type: "POST",
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            data: data,
-            complete: function (html) {
-                var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText);
-				$footer.html('<button id="'+idOrder+'" class="completeorder button_default">'+
-				'<span class="buttoneffect"></span>'+
-				'<span class="text-cta">Valider le template</span>'+
-				'</button>');
-				$('.popup-container header').hide();
-               	$('.popup-container.commande .content_block ').html(newDom);
-               	$(document).on('click', '.completeorder', function(event) {
-               		event.preventDefault();
-               		event.stopPropagation();
-               		$('.content_block.popup-blocks [data-section]').each(function(){
-						var id = Math.floor(Math.random() * 16777215).toString(16);
-					    $(this).attr('data-section', id);
-						var section = $('[data-section="'+id+'"]');
-						cheminImage = html.responseText;
-						cheminThumbs = cheminImage.replace('images', 'thumbnails');
-						html2canvas(section, {
-							onrendered: function(canvas) {
-								$.ajax({
-				                    type: "POST",
-				                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
-				                    url : "?module=admin&action=commandes"
-				                });
-							}
+			const $footer = $(this).parents('footer');
+			$footer.html('<div class="loader_popup"><span></span></div>');
+	        $.ajax({
+	            url: "?module=admin&action=commandes",
+	            type: "POST",
+	            contentType: false,
+	            processData: false,
+	            dataType: 'json',
+	            data: data,
+	            complete: function (html) {
+	                var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText);
+					$footer.html('<button id="'+idOrder+'" class="completeorder button_default">'+
+					'<span class="buttoneffect"></span>'+
+					'<span class="text-cta">Valider le template</span>'+
+					'</button>');
+					$('.popup-container header').hide();
+	               	$('.popup-container.commande .content_block ').html(newDom);
+	               	$(document).on('click', '.completeorder', function(event) {
+	               		event.preventDefault();
+	               		event.stopPropagation();
+	               		$('.content_block.popup-blocks [data-section]').each(function(){
+							var id = Math.floor(Math.random() * 16777215).toString(16);
+						    $(this).attr('data-section', id);
+							var section = $('[data-section="'+id+'"]');
+							cheminImage = html.responseText;
+							cheminThumbs = cheminImage.replace('images', 'thumbnails');
+							html2canvas(section, {
+								onrendered: function(canvas) {
+									$.ajax({
+					                    type: "POST",
+					                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
+					                    url : "?module=admin&action=commandes"
+					                });
+								}
+							});
+						})
+						.promise().done(function () { 
+							var idUser = cheminImage.split('/');
+							idUser = idUser[1].replace(/\D+/g, '');
+							dom = $('.popup-container.commande .content_block ').html();
+						    $.ajax({
+			                    type: "POST",
+			                    data: {addToBdd: idOrder, DOM: dom, mco_template_mobile: medias, userId: idUser },
+			                    url : "?module=admin&action=commandes",
+								success: function(data) {
+									$('.td_'+idOrder).html(
+										'<span class="label statut2">En attente de test</span>'
+									);
+									$('.commande').html(data);
+								},
+			                });
 						});
-					})
-					.promise().done(function () { 
-						var idUser = cheminImage.split('/');
-						idUser = idUser[1].replace(/\D+/g, '');
-						dom = $('.popup-container.commande .content_block ').html();
-					    $.ajax({
-		                    type: "POST",
-		                    data: {addToBdd: idOrder, DOM: dom, mco_template_mobile: medias, userId: idUser },
-		                    url : "?module=admin&action=commandes",
-							success: function(data) {
-								$('.td_'+idOrder).html(
-									'<span class="label statut2">En attente de test</span>'
-								);
-								$('.commande').html(data);
-							},
-		                });
-					});
-					return false;
-               	});
-            }
-        });
-		
-		return false;
+						return false;
+	               	});
+	            }
+	        });
+			
+			return false;
+		}
 	});
 
 	$(document).on('click', '#testLaster', function(event) {
@@ -838,35 +840,41 @@ document.addEventListener("turbolinks:load", function() {
 	});
 
 	$(document).on('click', '#cancelUpload', function(event) {
-		event.preventDefault();
-		idOrder = $('[data-order]').attr('data-order');
-		$.ajax({
-            type: "POST",
-            data: {cancelUpload: idOrder},
-            url : "?module=admin&action=commandes",
-			complete(html) {
-				$('.td_'+idOrder).html(
-					'<span class="label statut1">Prise en charge</span>'
-				);
-			},
-        });
-        $(".popup-overlay, .popup-container").css({
-			visibility:"hidden",
-			opacity:"0",
-		});
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			event.preventDefault();
+			idOrder = $('[data-order]').attr('data-order');
+			$.ajax({
+	            type: "POST",
+	            data: {cancelUpload: idOrder},
+	            url : "?module=admin&action=commandes",
+				complete(html) {
+					$('.td_'+idOrder).html(
+						'<span class="label statut1">Prise en charge</span>'
+					);
+				},
+	        });
+	        $(".popup-overlay, .popup-container").css({
+				visibility:"hidden",
+				opacity:"0",
+			});
+		}
 	});
 
 	$(document).on('click', '[data-try]', function(){
-		idOrder = $('[data-order]').attr('data-order');
-		console.log(idOrder);
-		$.ajax({
-            type: "POST",
-            data: {testEmail: idOrder},
-            url : "?module=admin&action=commandes",
-			complete(html) {
-				window.location = "?module=user&action=email_builder&id="+html.responseText;
-			},
-        });
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			idOrder = $('[data-order]').attr('data-order');
+			console.log(idOrder);
+			$.ajax({
+	            type: "POST",
+	            data: {testEmail: idOrder},
+	            url : "?module=admin&action=commandes",
+				complete(html) {
+					window.location = "?module=user&action=email_builder&id="+html.responseText;
+				},
+	        });
+		}
 	});
 
 /*=====  End of Commandes_page  ======*/
