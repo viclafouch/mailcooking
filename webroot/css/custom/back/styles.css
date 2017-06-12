@@ -652,6 +652,7 @@ button.button_default.valide:hover .text-cta {
 }
 .popup-container.commande {
   max-width: 600px;
+  position: absolute;
 }
 .popup-container.creat_template {
   max-width: 750px;

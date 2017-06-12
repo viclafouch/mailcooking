@@ -445,7 +445,7 @@ button.button_default {
     background-color: transparent;
 
     // Order's page
-    &.commande { max-width: 600px; }
+    &.commande { max-width: 600px; position: absolute; }
     // Template's page [creat]
     &.creat_template { max-width: 750px; }
     // Template's page [see]

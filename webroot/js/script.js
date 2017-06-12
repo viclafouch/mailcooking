@@ -733,12 +733,10 @@ document.addEventListener("turbolinks:load", function() {
 		const $footer = $(this).parent('footer');
 		let $id_commande = $footer.attr('id');
 		$footer.html('<div class="loader_popup"><span></span></div>');
-		$.post( "?module=admin&action=commandes", { id: $id_commande }, function() {})
-		.done(function() {
+		$.post( "?module=admin&action=commandes", { order: $id_commande }, function(html) {
 			$footer.html(
 				'<p style="font-size:17px;">Prise en charge effectuée !</p>'
 			);
-
 			$('.td_'+$id_commande).html(
 				'<span class="label statut1">Prise en charge</span>'
 			);
@@ -764,7 +762,10 @@ document.addEventListener("turbolinks:load", function() {
         var data = (formdata !== null) ? formdata : $form.serialize();
 
 		var dom = $('#DOM').val();
-		const id = $('.valideorider').attr('id');
+		var medias = $('#mco_template_mobile').val();
+
+		$('.popup-container header').hide();
+		$('.valideorder .text-cta').html('Valider le template');
 		 
         $.ajax({
             url: "?module=admin&action=commandes",
@@ -775,29 +776,50 @@ document.addEventListener("turbolinks:load", function() {
             data: data,
             complete: function (html) {
                 var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText);
-               	$('#storage_order').html(newDom);
-               	$('#storage_order').show();
-				$('#storage_order [data-section]').each(function(){
-					var id = Math.floor(Math.random() * 16777215).toString(16);
-				    $(this).attr('data-section', id);
-
-					var section = $('[data-section="'+id+'"]');
-					cheminImage = html.responseText;
-					cheminThumbs = cheminImage.replace('images', 'thumbnails');;
-					html2canvas(section, {
-						onrendered: function(canvas) {
-							console.log(canvas.toDataURL("image/png"));
-							$.ajax({
-			                    type: "POST",
-			                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
-			                    url : "?module=admin&action=commandes",
-			                    complete : function(html) {
-									console.log(html.responseText);
-			                    }
-			                });
-						}
+               	$('.popup-container.commande .content_block ').html(newDom);
+               	$('.valideorder').removeClass('valideorder').addClass('completeorder');
+               	$(document).on('click', '.completeorder', function(event) {
+               		event.preventDefault();
+               		event.stopPropagation();
+               		$('.content_block.popup-blocks [data-section]').each(function(){
+						var id = Math.floor(Math.random() * 16777215).toString(16);
+					    $(this).attr('data-section', id);
+						var section = $('[data-section="'+id+'"]');
+						cheminImage = html.responseText;
+						cheminThumbs = cheminImage.replace('images', 'thumbnails');
+						html2canvas(section, {
+							onrendered: function(canvas) {
+								$.ajax({
+				                    type: "POST",
+				                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
+				                    url : "?module=admin&action=commandes",
+				                    complete : function(html) {
+				                    }
+				                });
+							}
+						});
+					}).promise().done(function () { 
+						const idOrder = $('.completeorder').attr('id');
+						var idUser = cheminImage.split('/');
+						idUser = idUser[1].replace(/\D+/g, '');
+						dom = $('.popup-container.commande .content_block ').html();
+					    $.ajax({
+		                    type: "POST",
+		                    data: {addToBdd: idOrder, DOM: dom, mco_template_mobile: medias, userId: idUser },
+		                    url : "?module=admin&action=commandes",
+							success: function(data) {
+								$('.td_'+idOrder).html(
+									'<span class="label statut2">Terminée</span>'
+								);
+								$(".popup-overlay, .popup-container").css({
+									visibility:"hidden",
+									opacity:"0",
+								});
+							},
+		                });
 					});
-				});
+					return false;
+               	});
             }
         });
 		

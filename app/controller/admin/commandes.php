@@ -10,11 +10,31 @@
 				base64_decode(explode(",", $_POST["thumb"])[1])
 			);
 		}
+		elseif (isset($_POST['addToBdd'])) {
+			include_once('app/model/user/template/valide_order.php');
+
+			$order = $_POST['addToBdd'];
+		    $dom = $_POST["DOM"];
+		    $user = $_POST['userId'];
+		    $medias = $_POST["mco_template_mobile"];
+		   
+		   	addTemplateMail($dom, $medias, $user, $order);
+
+		   	include_once('app/model/admin/update_commande.php');
+
+			$update = update_commande($order, 2);
+		}
+		elseif (isset($_POST['order'])) {
+			sleep(3);
+			include_once('app/model/admin/update_commande.php');
+
+			$update = update_commande($_POST["order"], 1);
+
+			echo 'good';
+		}
 		elseif (isset($_FILES)) {
 			$data['file'] = $_FILES;
 		    $data['text'] = $_POST;
-		    $dom = json_encode($_POST["DOM"]);
-		    $medias = json_encode($_POST["mco_template_mobile"]);
 
 		    include_once('app/model/user/template/valide_order.php');
 	
@@ -40,18 +60,6 @@
 			unzip_file($chemin.'images/'.$NameImageFolder, $chemin.'images');
 
 			echo $chemin.'images/';
-		}
-		else {
-			sleep(3);
-			include_once('app/model/admin/update_commande.php');
-
-			$update = update_commande($_POST["id"], 1);
-
-			if ($update) {
-				echo "ok";
-			} else {
-				echo "nok";
-			}
 		}
 	}
 
@@ -101,7 +109,7 @@
 				<div>
 					<button id="<?= $_GET["id_commande"]; ?>" class="valideorder button_default">
 						<span class="buttoneffect"></span>
-						<span class="text-cta">Enregistrer</span>
+						<span class="text-cta">Prévisualiser</span>
 					</button>
 				</div>
 			</footer>
