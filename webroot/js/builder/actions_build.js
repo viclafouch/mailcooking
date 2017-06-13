@@ -53,8 +53,9 @@ var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0"
     - V     :  Undo/Redo
     - VI    :  Réserve un ID pour l'undo/redo
     - VII   :  Nettoyage des attributs
-    - VIII  :  Exporter le document
-    - IX    :  Active la vue mobile
+    - VIII  :  Vérification des sources des images
+    - IX    :  Exporter le document
+    - X     :  Active la vue mobile
 
 **/
 
@@ -200,10 +201,11 @@ function cleanAttr(storage) {
     .removeClass('noactive');
 }
 
+// VIII : Vérification des sources des images
 var checkSrc = function () {
     $('#storage_email img').each(function(){
         src = $(this).attr('src');
-        if (src.indexOf('template_all') != -1) {
+        if (src.indexOf('template') != -1) {
             invalidExport = true;
         }
         else {
@@ -213,7 +215,7 @@ var checkSrc = function () {
     return invalidExport;
 }
 
-// VIII : Exporter le document
+// IX : Exporter le document
 function exportDocument(storageID) {
     src = [];
     family = [];
@@ -260,7 +262,7 @@ function exportDocument(storageID) {
     });
 }
 
-// IX : Active la vue mobile
+// X : Active la vue mobile
 function mobileView(btn) {
     $(btn).toggleClass('active');
     if (viewDesktop) {

@@ -53,6 +53,24 @@
 
 			$test_builder = new_email($commande[0]['id_template'], $_SESSION["user"]["user_id"], $commande[0]['DOM']);
 
+			if ($test_builder) {
+
+				$options = array( 	
+					"orderby"	=>	"id_mail",
+					"order"	=>	'DESC',
+					"limit" => 1);
+
+				$email = selecttable("mail_editor", $options);
+
+				$timestamp = new DateTime($email[0]['timestamp']);
+				$email_date = $timestamp->format('d-m-Y');
+				
+				$new_folder = ''.$test_builder.'_'.$email_date.'';
+
+				@mkdir($chemin.'emails/'.$new_folder."", 0777, true);
+
+			}
+
 			echo $test_builder; 
 		}
 
