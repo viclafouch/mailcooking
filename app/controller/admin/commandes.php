@@ -92,13 +92,6 @@
 
 			$path = $chemin.'templates/'.$template;
 
-			function removeFiles($path) {
-				foreach($path as $file) {
-					if(is_file($file)) {
-					    unlink($file);
-					}
-				}
-			}
 			if (file_exists($path.'/images')) {
 				removeFiles(glob($path.'/images/*'));
 				rmdir($path.'/images');
