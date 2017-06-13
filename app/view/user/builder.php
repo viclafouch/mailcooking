@@ -20,12 +20,12 @@
 	</div>
 	<div class="content_email">
 		<div class="header">
-			<input id="documentTitle" spellcheck="false" placeholder="Nom de l'email" autocomplete="off" value='<?= htmlspecialchars($user[0]['email_name']); ?>' type="text" required>
+			<input id="documentTitle" spellcheck="false" placeholder="Nom de l'email" autocomplete="off" value='<?= htmlspecialchars($mail[0]['email_name']); ?>' type="text" required>
 			<div id="loader_saving">
 				
 			</div>
 			<div class="tools_primary row wrap row-verti-center">
-				<input type="text" value="<?= $user[0]['email_background'];?>" id="background_email" class="choose_color_background" />
+				<input type="text" value="<?= $mail[0]['email_background'];?>" id="background_email" class="choose_color_background" />
 				<button class="clic icon-action" id="undo"><i class="material-icons">undo</i></button>
 				<button class="clic icon-action" id="redo"><i class="material-icons">redo</i></button>
 				<span class="icon-action clic text-gris" id="mobileView"><i class="material-icons">phone_iphone</i></span>
@@ -37,7 +37,7 @@
 		</div>
 		<div id="storage_template" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['DOM'])); ?></div>
 		<div id="storage_medias" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['medias'])); ?></div>
-		<div id="storage_email" style="background-color: <?= $user[0]['email_background'];?>"><?php echo htmlspecialchars_decode(html_entity_decode($user[0]['email_dom'])); ?></div>
+		<div id="storage_email" style="background-color: <?= $mail[0]['email_background'];?>"><?php echo htmlspecialchars_decode(html_entity_decode($mail[0]['email_dom'])); ?></div>
 		<div id="storage_email_to_export" style="display: none"></div>	
 	</div>
 	<div class="sidebar_tools">

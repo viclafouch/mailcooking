@@ -2,16 +2,6 @@
 
 	protec(); 
 
-	// $options = array( 	
-	// 				"wherecolumn"	=>	"id_mail",
-	// 				"wherevalue"	=>	$_GET['id']);
-		
-	// $email = selecttable("mail_editor", $options);
-
-	// if (email[0]['statut'] == 0) {
-		
-	// };
-	
 	if (!empty($_POST)) {
 		if (isset($_POST["new_img"])) {
 			// Enregistrement de l'image
@@ -71,6 +61,9 @@
 				echo ''.$chemin.''.$new_folder.'/thumbnails/';
 			}
 		}
+
+		/*----------  Exportation de l'email  ----------*/
+
 		elseif (isset($_POST['domExport'])) {
 			$dom = $_POST['domExport'];
 			$email_id = $_POST['ID'];
@@ -80,26 +73,23 @@
 			$fixGmailApp = $_POST['fixGmail'];
 			$chemin = $chemin.'exports';
 			$path = $chemin.'/images';
+			$link = "https://fonts.googleapis.com/css?family=";
 
-			$options = array( "wherecolumn"	=>	"id_mail",
-							"wherevalue"	=>	$email_id);
+			$options = array( 
+					"wherecolumn"	=>	"id_mail",
+					"wherevalue"	=>	$email_id
+			);
 		
 			$email = selecttable("mail_editor", $options);
 
-			$options = array( "wherecolumn"	=>	"id_template",
-							"wherevalue"	=>	$email[0]['template_id']);
+			$options = array( 
+					"wherecolumn"	=>	"id_template",
+					"wherevalue"	=>	$email[0]['template_id']
+			);
 		
 			$template_mail = selecttable("template_mail", $options);
 
 			$medias = $template_mail[0]['medias'];
-			
-			function removeFiles($path) {
-				foreach($path as $file) {
-					if(is_file($file)) {
-					    unlink($file);
-					}
-				}
-			}
 
 			if (count(glob($chemin."/*")) === 0 ) {
 				@mkdir($path, 0777, true);
@@ -110,12 +100,12 @@
 					removeFiles(glob($chemin.'/images/*'));
 				}
 			}
-			
-			$link = "https://fonts.googleapis.com/css?family=";
+
 			foreach ($fonts as $key => $font) {
 				$update_link = $link.$font.'|';
 				$link = $update_link;
 			}
+
 			$googleFontLink = substr($link, 0, -1);
 
 			foreach ($i as $key => $src) {
@@ -164,8 +154,6 @@
 			$styles = $document->createElement('style', 'body { text-size-adjust:none; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; padding:0; margin:0; background-color:'.$background.'!important; } .ReadMsgBody{ width:100%; } .ExternalClass{ width:100%; } .gmapp{ display:none; display:none!important;}');
 			$styles->setAttribute('type', 'text/css');
 			$head->appendChild($styles);
-			$stylesOutlook = $document->createElement('style', '<!--[if mso]>.fallback-font {font-family: Arial, sans-serif!important;}<![endif]-->');
-			$head->appendChild($stylesOutlook);
 
 			$query = $document->createElement('style', $medias);
 			$query->setAttribute('type', 'text/css');
@@ -210,10 +198,11 @@
 				echo $chemin.'/'.$_POST['titleExport'].'.zip';
 			}
 		}
+		/*----------  Sauvegarde de l'email & Création de la thumbnail  ----------*/
+		
+		elseif (isset($_POST['emailID'])) {
 
-		else {
-			// Save
-			include_once('app/model/user/builder/save.php');
+			include_once('app/model/user/builder/update_email.php');
 			
 			$options = array( 	
 					"wherecolumn"	=>	"id_mail",
@@ -234,54 +223,66 @@
 				$chemin.'/'.$thumbsName, 
 				base64_decode(explode(",", $_POST["thumbs"])[1]));
 
-			if ($_POST['emailbackground'] == '') {
-				$_POST['emailbackground'] = '#f0f0f0';
-			}
+			if ($_POST['emailbackground'] == '') { $_POST['emailbackground'] = '#f0f0f0'; }
 
 			$save = save($_POST['emailTitle'], $_POST['emailDom'],$_POST['emailbackground'], $_POST['emailID'], $_SESSION['user']['user_id']);
 		}
 	}
+
+	/*----------  Affichage de l'email  ----------*/
+	
+	/* Vérifie si le paramètre existe */
 	else if (isset($_GET['id'])) {
 
-		$options = array( 	"wherecolumn"	=>	"id_mail",
-							"wherevalue"	=>	$_GET['id']);
-		
-		$user = selecttable("mail_editor", $options);
+		/* Verifie si le paramètre est un nombre */
+		if (is_numeric($_GET['id'])) {
 
+			$options = array( 	"wherecolumn"	=>	"id_mail",
+								"wherevalue"	=>	$_GET['id']);
+			
+			$mail = selecttable("mail_editor", $options);
 
-		$options = array( 	"wherecolumn"	=>	"id_template",
-							"wherevalue"	=>	$user[0]['template_id']);
-		
-		$template = selecttable("template_mail", $options);
-		if (!$user) {
-			die('id non existant');
-		}
-		else {
-			if ($user[0]['id_user'] == $_SESSION['user']['user_id']) {
-				
-				metadatas('Email_builder', 'Description', 'none');
+			/* Vérifie si le mail existe bien*/
+			if (!empty($mail)) {
 
-				// Appel de la view
-				include_once("app/view/user/builder.php");
-			} 
-			else {
-				die('ce n\'est pas ton mail');
+				$options = array( 	
+						"wherecolumn"	=>	"id_template",
+						"wherevalue"	=>	$mail[0]['template_id']
+				);
+			
+				$template = selecttable("template_mail", $options);
+
+				/* Vérifie si c'est bien l'email de la SESSION user */
+				if ($mail[0]['id_user'] == $_SESSION['user']['user_id']) {
+					
+					metadatas('Email_builder', 'Description', 'none');
+
+					include_once("app/view/user/builder.php");
+				} 
+				else { die('ce n\'est pas ton mail'); }
 			}
+			else { die('mail introuvable'); }
 		}
+		else { die("erreur param"); }
 	}
+
+	/*----------  Création d'un email à partir des templates  ----------*/
+	
+	/* Vérifie si le paramètre existe */
 	else if (isset($_GET['template'])) {
 		$options = array( 	
 			"wherecolumn"	=>	"id_template",
 			"wherevalue"	=>	$_GET['template']);
-			// And need _SESSION_id = id_allow
 
 		$template = selecttable("template_mail", $options);
 
+		/* Vérifie si le template existe */
 		if ($template) {
 			include_once('app/model/user/email/insert_email.php');
 
 			$mail = new_email($_GET['template'], $_SESSION['user']['user_id'], $template[0]['DOM']);
-
+			
+			/* Vérifie si la création de l'email est un succès */
 			if ($mail) {
 
 				$options = array( 	
@@ -299,16 +300,10 @@
 				@mkdir($chemin.'emails/'.$new_folder."", 0777, true);
 
 				location('user', 'email_builder', 'id='.$mail.'');
-				}
-			else {
-				die();
 			}
+			else { die('la création à échoué'); }
 		}
-		else {
-			die('template inexistant');
-		}
+		else { die('template inexistant'); }
 	}
-	else {
-		die('Aucun ID renseigné');
-	}
+	else { die('Aucun ID renseigné'); }
 ?>

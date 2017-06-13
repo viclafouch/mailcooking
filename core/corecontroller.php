@@ -37,6 +37,14 @@
 		return mail($mail_to, $subject, $message,$headers);
 	}
 
+	function removeFiles($path) {
+		foreach($path as $file) {
+			if(is_file($file)) {
+			    unlink($file);
+			}
+		}
+	}
+
 
 	function unzip_file($file, $destination) {
 		// Créer l'objet (PHP 5 >= 5.2)
