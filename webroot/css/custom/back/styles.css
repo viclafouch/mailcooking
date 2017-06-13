@@ -2215,6 +2215,53 @@ div.header input#documentTitle:focus {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
+div.header span.btn_Test_template {
+  font-size: 15px;
+  color: #f0f0f0;
+  padding: 4px 8px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 10px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
+  opacity: 0.85;
+  -moz-transition: opacity 0.3s ease 0s;
+  -o-transition: opacity 0.3s ease 0s;
+  -webkit-transition: opacity 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: opacity 0.3s ease 0s;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+}
+div.header span.btn_Test_template:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+div.header span.btn_Test_template i {
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  font-size: 21px;
+}
+div.header span.btn_Test_template span {
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+}
+div.header span.btn_Test_template#valideTemplate {
+  background-color: #4CAF50;
+}
+div.header span.btn_Test_template#cancelTemplate {
+  background-color: #F44336;
+}
 div.header div#loader_saving {
   left: 50%;
   top: 45%;

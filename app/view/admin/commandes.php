@@ -29,7 +29,7 @@
 					$data["status"] = "Prise en charge";
 				} elseif ($data["status"] == 2) {
 					$data["status"] = "En attente de test";
-				} elseif ($data["status"] == 2) {
+				} elseif ($data["status"] == 3) {
 					$data["status"] = "Terminé";
 			} ?>
 				<tr class="row_data_commande" id="<?= $data["id_commande"]; ?>">

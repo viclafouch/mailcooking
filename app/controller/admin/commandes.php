@@ -92,13 +92,6 @@
 
 			$path = $chemin.'templates/'.$template;
 
-			function removeFiles($path) {
-				foreach($path as $file) {
-					if(is_file($file)) {
-					    unlink($file);
-					}
-				}
-			}
 			if (file_exists($path.'/images')) {
 				removeFiles(glob($path.'/images/*'));
 				rmdir($path.'/images');
@@ -112,10 +105,84 @@
 				rmdir($path);
 			}
 
+			$template = selecttable('template_mail', 
+				array(	'wherecolumn' 	=> 	'id_template_commande',
+						'wherevalue'	=>	$commande[0]["id_commande"]
+			));
+
+			$email = selecttable('mail_editor', 
+				array(	'wherecolumn' 	=> 	'template_id',
+						'wherevalue'	=>	$template[0]["id_template"]
+			));
+
+			include_once('app/model/user/email/delete_email.php');
+
+			foreach ($email as $key => $value) {
+				$path = $chemin.'emails/';
+				$timestamp = new DateTime($value['timestamp']);
+				$email_date = $timestamp->format('d-m-Y');
+				
+				$folder = ''.$value['id_mail'].'_'.$email_date.'';
+				$path = $path.$folder;
+
+				if (file_exists($path)) {
+					removeFiles(glob($path.'/*'));
+					rmdir($path);
+				}
+				delete_email($value['id_mail'], $_SESSION['user']['user_id']);
+			}
+
 			include_once('app/model/user/template/delete_template.php');
 
 			delete_template($orderID);
 
+			echo '?module=admin&action=commandes';
+		}
+		elseif (isset($_POST['valideTemplate'])) {
+			$orderID = $_POST['valideTemplate'];
+			include_once('app/model/user/template/valide_order.php');
+	
+			$commande = get_infos(intval($orderID));
+
+			include_once('app/model/admin/update_commande.php');
+
+			$update_order = update_commande($orderID, 3);
+
+			include_once('app/model/user/template/update_template.php');
+
+			$update_template = update_template($orderID, 1);
+
+			$template = selecttable('template_mail', 
+				array(	'wherecolumn' 	=> 	'id_template_commande',
+						'wherevalue'	=>	$commande[0]["id_commande"]
+			));
+
+			$email = selecttable('mail_editor', 
+				array(	'wherecolumn' 	=> 	'template_id',
+						'wherevalue'	=>	$template[0]["id_template"]
+			));
+
+			include_once('app/model/user/email/delete_email.php');
+
+			$id_user = $commande[0]["id_user"];
+			$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
+			$chemin = "client/".$id_user."_".$societe_user."/";
+
+			foreach ($email as $key => $value) {
+				$path = $chemin.'emails/';
+				$timestamp = new DateTime($value['timestamp']);
+				$email_date = $timestamp->format('d-m-Y');
+				
+				$folder = ''.$value['id_mail'].'_'.$email_date.'';
+				$path = $path.$folder;
+
+				if (file_exists($path)) {
+					removeFiles(glob($path.'/*'));
+					rmdir($path);
+				}
+				delete_email($value['id_mail'], $_SESSION['user']['user_id']);
+			}
+			echo '?module=admin&action=commandes';		
 		}
 		elseif (isset($_POST['order'])) {
 			sleep(3);

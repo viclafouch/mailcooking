@@ -865,7 +865,6 @@ document.addEventListener("turbolinks:load", function() {
 		if (!$(this).attr('data-appened')) {
 			$(this).attr('data-appened', 'true');
 			idOrder = $('[data-order]').attr('data-order');
-			console.log(idOrder);
 			$.ajax({
 	            type: "POST",
 	            data: {testEmail: idOrder},

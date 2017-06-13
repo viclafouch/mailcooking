@@ -29,9 +29,6 @@
 	}
 	else {
 
-		// Vérification du fichier
-		// $upload = upload('file_commande', 100000000, array('png', 'jpg', 'gif','zip','rar','psd','jpeg', 'gif', 'doc', 'xdoc'));
-
 		// Appel du modèle pour l'insertion de la commande
 		include_once("app/model/user/template/creat_order.php");
 

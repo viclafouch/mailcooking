@@ -249,17 +249,20 @@
 						"wherecolumn"	=>	"id_template",
 						"wherevalue"	=>	$mail[0]['template_id']
 				);
-			
+				
 				$template = selecttable("template_mail", $options);
 
-				/* Vérifie si c'est bien l'email de la SESSION user */
-				if ($mail[0]['id_user'] == $_SESSION['user']['user_id']) {
-					
-					metadatas('Email_builder', 'Description', 'none');
+				if (!empty($template)) {
+					/* Vérifie si c'est bien l'email de la SESSION user */
+					if ($mail[0]['id_user'] == $_SESSION['user']['user_id']) {
+						
+						metadatas('Email_builder', 'Description', 'none');
 
-					include_once("app/view/user/builder.php");
-				} 
-				else { die('ce n\'est pas ton mail'); }
+						include_once("app/view/user/builder.php");
+					} 
+					else { die('ce n\'est pas ton mail'); }
+				}
+				else { die('Le template lié n\'existe pas'); }
 			}
 			else { die('mail introuvable'); }
 		}

@@ -1528,6 +1528,24 @@ div.header {
         &:focus { color: #000; @include opacity(1.0); }
     }
 
+    span.btn_Test_template {
+        font-size: 15px;
+        color: #f0f0f0;
+        padding: 4px 8px;
+        @include border-radius(3px);
+        cursor: pointer;
+        margin-right: 10px;
+        @include opacity(0.85);
+        @include single-transition(opacity, 0.3s, ease, 0s);
+        &:hover { @include opacity(1); }
+        @include inline-block(middle);
+        i {@include inline-block(middle); font-size: 21px; }
+        span { @include inline-block(middle);}
+
+        &#valideTemplate { background-color: #4CAF50; }
+        &#cancelTemplate { background-color: #F44336; }
+    }
+
     div#loader_saving {
         left: 50%;
         top: 45%;

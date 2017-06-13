@@ -20,10 +20,16 @@
 	</div>
 	<div class="content_email">
 		<div class="header">
+			<?php if ($template[0]['statut'] == 0 && $_SESSION['user']['valide'] == 2) { ?>
+				<div class="row row-hori-center">
+					<span data-template="<?= $template[0]['id_template_commande']; ?>" class="btn_Test_template" id="valideTemplate"><i class="material-icons">done</i> <span>Valider</span></span>
+					<span data-template="<?= $template[0]['id_template_commande']; ?>" class="btn_Test_template" id="cancelTemplate"><i class="material-icons">clear</i> <span>Annuler</span></span>
+				</div>
+				<input id="documentTitle" style="display: none;" value='<?= htmlspecialchars($mail[0]['email_name']); ?>'/>
+			<?php } else { ?>
 			<input id="documentTitle" spellcheck="false" placeholder="Nom de l'email" autocomplete="off" value='<?= htmlspecialchars($mail[0]['email_name']); ?>' type="text" required>
-			<div id="loader_saving">
-				
-			</div>
+			<?php } ?>
+			<div id="loader_saving"></div>
 			<div class="tools_primary row wrap row-verti-center">
 				<input type="text" value="<?= $mail[0]['email_background'];?>" id="background_email" class="choose_color_background" />
 				<button class="clic icon-action" id="undo"><i class="material-icons">undo</i></button>
