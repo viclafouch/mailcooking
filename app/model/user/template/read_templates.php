@@ -9,7 +9,8 @@
 			// On voit la requête
 			$query = $connexion->prepare('SELECT * 
 											FROM template_mail
-												WHERE id_allow = "all" OR id_allow = :id');
+												WHERE id_allow = "all" OR id_allow = :id
+												AND statut = 1');
 
 			// On initialise le paramètre
 			$query->bindParam(':id', $id, PDO::PARAM_INT);

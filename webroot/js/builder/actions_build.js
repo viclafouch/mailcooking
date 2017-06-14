@@ -24,6 +24,7 @@
 var saving = false; // Sauvegarde en cours
 var id_mail; // ID du mail 
 var titleMail; // Titre du document
+var id_template = $('[data-template]').data('template'); // ID du template
 var backgroundMail; // Valeur du fond de couleur
 var DomMail; // Contenu du mail
 var btnSave; // Bouton de sauvegarde
@@ -56,6 +57,8 @@ var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0"
     - VIII  :  Vérification des sources des images
     - IX    :  Exporter le document
     - X     :  Active la vue mobile
+    - XI    :  Valider le template
+    - XII   :  Annuler/Invalider le template
 
 **/
 
@@ -278,6 +281,30 @@ function mobileView(btn) {
     }
 }
 
+// XI : Valider le template
+function valideTemplate(orderID) {
+    $.ajax({
+        type: "POST",
+        data: {valideTemplate: orderID},
+        url : "?module=admin&action=commandes",
+        success : function(html) {
+            window.location = html;
+        }
+    });
+}
+
+// XII : Annuler/Invalider le template
+function cancelTemplate(orderID) {
+    $.ajax({
+        type: "POST",
+        data: {cancelUpload: orderID},
+        url : "?module=admin&action=commandes",
+        success : function(html) {
+            window.location = html;
+        }
+    });
+}
+
 /*----------  Actions  ----------*/
 
 // Démarrage des modules d'actions du builder
@@ -327,6 +354,16 @@ $(document).ready(function() {
         }, 2000);
     });
 
+    /* */
+    $(document).on('click', '#valideTemplate', function(){
+        valideTemplate(id_template);
+    });
+
+    /* */
+    $(document).on('click', '#cancelTemplate', function(){
+        cancelTemplate(id_template);
+    });
+
     $(document).on('click', '.popup_overlay', function(){
         $('.popup_overlay, .popup_container').removeClass('active');
     });
@@ -336,6 +373,5 @@ $(document).ready(function() {
     });
 
 });
-
 
 /*=====  End of Actions du builder  ======*/

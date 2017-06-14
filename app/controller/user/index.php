@@ -29,6 +29,7 @@
 
 			$moving = move_to_archive(1, $_POST["email_id_tarchive"], $_SESSION["user"]["user_id"]);
 		}
+
 		// Secu
 		protec();
 

@@ -2,7 +2,7 @@ $(document).on('click', '#menu', function(){
 	$('#sidebar').toggleClass('active');
 	$('#sidebar a').toggleClass('noactive');
 	$('.others_links a').addClass('noactive');
-	$('.container').toggleClass('sidebar_opened');
+	$('.container, .navigation').toggleClass('sidebar_opened');
 	$(this).toggleClass('active');
 });
 
@@ -865,7 +865,6 @@ document.addEventListener("turbolinks:load", function() {
 		if (!$(this).attr('data-appened')) {
 			$(this).attr('data-appened', 'true');
 			idOrder = $('[data-order]').attr('data-order');
-			console.log(idOrder);
 			$.ajax({
 	            type: "POST",
 	            data: {testEmail: idOrder},

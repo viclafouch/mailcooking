@@ -81,12 +81,14 @@ h3 {
   font-size: 21px;
 }
 
+p {
+  margin: 0;
+}
+
 main.full_container {
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  max-width: 100%;
-  max-height: 100%;
 }
 
 .verhor-center {
@@ -489,6 +491,26 @@ nav.navigation form.focus {
   border-color: #919191;
 }
 
+nav.navigation {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: calc(100% - 80px) !important;
+  margin-left: 80px !important;
+  -moz-transition: none 0.3s ease 0s;
+  -o-transition: none 0.3s ease 0s;
+  -webkit-transition: none 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.3s ease 0s;
+  -moz-transition-property: width, margin-left;
+  -o-transition-property: width, margin-left;
+  -webkit-transition-property: width, margin-left;
+  transition-property: width, margin-left;
+}
+nav.navigation.sidebar_opened {
+  width: calc(100% - 150px) !important;
+  margin-left: 150px !important;
+}
 nav.navigation a {
   position: absolute;
   left: 10px;
@@ -500,12 +522,15 @@ nav.navigation a img {
   height: auto;
 }
 
+div.novisible {
+  height: 65px;
+  width: 100%;
+}
+
 .container {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   width: calc(100% - 80px) !important;
   margin-left: 80px !important;
+  min-height: calc(100vh - 65px);
   -moz-transition: none 0.3s ease 0s;
   -o-transition: none 0.3s ease 0s;
   -webkit-transition: none 0.3s ease;
@@ -522,15 +547,15 @@ nav.navigation a img {
 }
 
 div.container-fluid {
+  width: 100%;
+}
+
+section.section {
+  padding: 0px 10px;
+  min-height: inherit;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  height: 100%;
-}
-
-section {
-  padding: 0 15px;
-  padding-top: 65px;
 }
 
 /*----------  Button default  ----------*/
@@ -2022,8 +2047,8 @@ div.block_rows.add_section div.flipper span.cancel_flip i {
 div.container_builder {
   overflow-x: hidden;
   position: relative;
-  margin-left: -15px;
-  width: calc(100% + 30px);
+  margin-left: -10px;
+  width: calc(100% + 20px);
   height: calc(100vh - 65px);
   display: -webkit-flex;
   display: flex;
@@ -2214,6 +2239,53 @@ div.header input#documentTitle:focus {
   color: #000;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
+}
+div.header span.btn_Test_template {
+  font-size: 15px;
+  color: #f0f0f0;
+  padding: 4px 8px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 10px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
+  opacity: 0.85;
+  -moz-transition: opacity 0.3s ease 0s;
+  -o-transition: opacity 0.3s ease 0s;
+  -webkit-transition: opacity 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: opacity 0.3s ease 0s;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+}
+div.header span.btn_Test_template:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+div.header span.btn_Test_template i {
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  font-size: 21px;
+}
+div.header span.btn_Test_template span {
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+}
+div.header span.btn_Test_template#valideTemplate {
+  background-color: #4CAF50;
+}
+div.header span.btn_Test_template#cancelTemplate {
+  background-color: #F44336;
 }
 div.header div#loader_saving {
   left: 50%;
@@ -2955,7 +3027,6 @@ div.sidebar_tools > div.menu > div.task.todo p {
 
 .menu .items_builder_block > div.field_tools_item_block {
   width: 100%;
-  padding: 7px 9px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -3078,6 +3149,12 @@ div.field_tools_item_block p.ui-spinner-input {
   vertical-align: baseline;
 }
 
+.items_builder_block {
+  padding: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .items_builder_block > div.background-color div.minicolors::after, .items_builder_block > div.color div.minicolors::after {
   content: 'Selectionner une couleur';
   position: absolute;
@@ -3415,3 +3492,76 @@ div.field_tools_item_block p.ui-spinner-input {
 }
 
 /*=====  End of Email builder's page  ======*/
+/*=======================================
+=            Dashboard admin            =
+=======================================*/
+div.container-dashboard {
+  background-color: #f0f0f0;
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 10px;
+  width: calc(100% - 20px);
+}
+div.container-dashboard div.pannel {
+  width: 100%;
+}
+div.container-dashboard div.pannel-heading {
+  padding: 20px 15px;
+}
+div.container-dashboard div.pannel-body {
+  padding: 20px 15px;
+}
+
+div.title-dashboard h1 {
+  font-size: 22px;
+  color: #676a6d;
+}
+
+div.date-dashboard p {
+  font-size: 14px;
+  color: #8D99A8;
+}
+
+div.block_number {
+  width: 21%;
+  height: 100px;
+  margin: 0 4%;
+  padding: 0 15px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  align-items: center;
+}
+div.block_number div.ico {
+  width: 50px;
+  height: 50px;
+  background-color: #0676B2;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+div.block_number div.descr p {
+  font-size: 18px;
+  color: #444;
+}
+div.block_number div.descr p:first-child {
+  font-size: 22px;
+  font-family: Roboto Slab;
+}
+
+/*=====  End of Dashboard admin  ======*/
