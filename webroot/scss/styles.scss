@@ -69,12 +69,12 @@ h1 {
 
 h3 { font-size: 21px; }
 
+p { margin: 0; }
+
 main.full_container {
     width: 100%;
     min-height: 100vh;
     overflow: hidden;
-    max-width: 100%;
-    max-height: 100%;
 }
 
 .verhor-center { @include flex(row nowrap, center, center); }
@@ -324,22 +324,6 @@ nav.navigation {
 }
 
 nav.navigation {
-    a {
-        position: absolute;
-        left: 10px;
-        display: block;
-        // left: 50%;
-        // @include translateX(-50%);
-
-        img {       
-            width: 170px;
-            max-height: 55px;
-            height: auto;
-        }
-    }
-}
-
-.container {
     @include box-sizing(border-box);
     width: calc(100% - 80px)!important;
     margin-left: 80px!important;
@@ -350,14 +334,46 @@ nav.navigation {
         width: calc(100% - 150px)!important;
         margin-left: 150px!important;
     }
+    a {
+        position: absolute;
+        left: 10px;
+        display: block;
+
+        img {       
+            width: 170px;
+            max-height: 55px;
+            height: auto;
+        }
+    }
+}
+
+div.novisible {
+    height: $height-header;
+    width: 100%;
+}
+
+.container {
+    width: calc(100% - 80px)!important;
+    margin-left: 80px!important;
+    min-height: calc(100vh - 65px);
+    @include single-transition(none, 0.3s, ease, 0s);
+    @include transition-property(width, margin-left);
+
+    &.sidebar_opened {
+        width: calc(100% - 150px)!important;
+        margin-left: 150px!important;
+    }
 }
 
 div.container-fluid {
-    @include box-sizing(border-box);
-    height: 100%;
+    width: 100%;
 }
 
-section { padding: 0 15px; padding-top: $height-header; }
+section.section { 
+    padding: 0px 10px; 
+    min-height: inherit;
+    @include box-sizing(border-box);
+}
 
 /*----------  Button default  ----------*/
 
@@ -1402,8 +1418,8 @@ div.block_rows.add_section {
 div.container_builder {
     overflow-x: hidden;
     position: relative;
-    margin-left: -15px;
-    width: calc(100% + 30px);
+    margin-left: -10px;
+    width: calc(100% + 20px);
     height: calc(100vh - 65px);
     @include flex(row nowrap,flex-start, flex-start);
 
@@ -2019,10 +2035,9 @@ div.sidebar_tools > div.menu { background-color: #fff; min-height: 100%;
 }
 
 // Section des items
-.menu .items_builder_block {
+.menu .items_builder_block { 
     & > div.field_tools_item_block {
         width: 100%;
-        padding: 7px 9px;
         @include box-sizing(border-box);
         @include justify-content(flex-start);
 
@@ -2120,7 +2135,7 @@ div.field_tools_item_block p {
 }
 
 // Differents items modifiables
-.items_builder_block {
+.items_builder_block { padding: 10px; @include box-sizing(border-box);
     // Input 1 & 2
     & > div.background-color,
     & > div.color {
@@ -2343,3 +2358,59 @@ div.field_tools_item_block p {
 }
 
 /*=====  End of Email builder's page  ======*/
+
+/*=======================================
+=            Dashboard admin            =
+=======================================*/
+
+div.container-dashboard {
+    background-color: #f0f0f0;
+    @include box-shadow($shadow0);
+    @include box-sizing(border-box);
+    margin: 10px;
+    width: calc(100% - 20px);
+    div.pannel { width: 100%; }
+    div.pannel-heading { padding: 20px 15px; }
+    div.pannel-body { padding: 20px 15px; }
+}
+
+div.title-dashboard h1 {
+    font-size: 22px;
+    color: #676a6d;
+}
+
+div.date-dashboard p {
+    font-size: 14px;
+    color: #8D99A8;
+}
+
+div.block_number {
+    width: 21%;
+    height: 100px;
+    margin: 0 4%;
+    padding: 0 15px;
+    @include border-radius(2px);
+    border: 1px solid rgba(0,0,0,0.3);
+    @include box-sizing(border-box);
+    @include flex(row nowrap, space-between, center);
+
+    div.ico {
+        width: 50px;
+        height: 50px;
+        background-color: $primary-color;
+        @include border-radius(50%);
+    }
+
+    div.descr {
+        p {
+            font-size: 18px;
+            color: #444;
+            &:first-child { 
+                font-size: 22px;
+                font-family: Roboto Slab; 
+            }
+        }
+    }
+}
+
+/*=====  End of Dashboard admin  ======*/

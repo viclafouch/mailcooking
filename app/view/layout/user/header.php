@@ -87,7 +87,7 @@
 					</div>
 				</div>
 			</aside>
-			<nav class="nav_top navigation container">
+			<nav class="nav_top navigation">
 				<div class="test"></div>
 				<a href="index.php" title=''>
 					<img src="webroot/img/logo_mc.png" class="logo" title="" alt=""/>
@@ -97,5 +97,6 @@
 					<input id="search" onblur="search_blur();" type="text" name="search" placeholder="Rechercher..."/>
 				</form>
 			</nav>
-			<div class="container-fluid container">
-				<section class="section">      
+			<div class="novisible"></div>
+			<div class="container">
+				<section class="section full-width">      
