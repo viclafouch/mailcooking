@@ -19,8 +19,7 @@
 		<?php } ?>
 
 		<!-- Custom [CSS]-->
-		<link rel="stylesheet" href="webroot/css/custom/back/styles.css">
-		<link rel="stylesheet" href="webroot/css/custom/back/fonts.css">
+		<link rel="stylesheet" href="webroot/css/back/styles.css">
 
 		<!-- A DELETE !-->
 		<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
@@ -98,5 +97,5 @@
 				</form>
 			</nav>
 			<div class="novisible"></div>
-			<div class="container">
+			<div class="large_container">
 				<section class="section full-width">      

@@ -2,7 +2,7 @@ $(document).on('click', '#menu', function(){
 	$('#sidebar').toggleClass('active');
 	$('#sidebar a').toggleClass('noactive');
 	$('.others_links a').addClass('noactive');
-	$('.container, .navigation').toggleClass('sidebar_opened');
+	$('.large_container, .navigation').toggleClass('sidebar_opened');
 	$(this).toggleClass('active');
 });
 

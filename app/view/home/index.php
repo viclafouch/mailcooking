@@ -12,8 +12,8 @@
     <!-- <link rel="shortcut icon" href="images/favicon.png"> -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="webroot/css/custom/home/main.css">
-	<link rel="stylesheet" href="webroot/css/custom/home/fonts.css">
+	<link rel="stylesheet" href="webroot/css/home/main.css">
+	<link rel="stylesheet" href="webroot/css/home/fonts.css">
   </head>
   <body>
 <!-- 	<div class="containerloader">
