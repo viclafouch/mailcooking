@@ -9,7 +9,7 @@
 		<?php endif ?>
 <?php endif ?>
 
-<div class="container">
+<div class="container container_template">
 	<div class="block full_block">
 		<div class="pannel pannel_heading">
 			<div class="row nowrap row-hori-between row-verti-center">
@@ -24,22 +24,140 @@
 		<div class="pannel pannel_body">
 			<div class="col nowrap">
 				<div class="row row-verti-center nowrap line_custom_search_template">
-					<span>Templates</span>
+					<span class="text_additional">Templates</span>
 					<div class="select-wrapper">
 						<select class="select_default button_primary">
 							<option value="">Perso</option>
-							<option value="">otpion 2</option>
+							<option value="">Public</option>
 						</select>
 					</div>
-					<span>Trié par</span>
+					<span class="text_additional">Trié par</span>
 					<div class="select-wrapper">
 						<select class="select_default button_primary">
 							<option value="">Les plus récents</option>
-							<option value="">otpion 2</option>
+							<option value="">Les plus anciens</option>
 						</select>
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="block full_block">
+		<div class="pannel pannel_body list_tempate">
+			<ul class="col nowrap">
+				<li class="row nowrap row-hori-between">
+					<div class="row nowrap">
+						<div class="col nowrap col_template_thumbs">
+							<img src="http://via.placeholder.com/120x170" alt="">
+						</div>
+						<div class="col nowrap col_template_descr">
+							<p class="title_template">Mon super template</p>
+							<div class="info_template">
+								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
+								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
+								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
+							</div>
+						</div>
+					</div>
+					<div class="col nowrap">
+						<div class="row wrap row-verti-center row-hori-between row_actions_template">
+							<button class="button_default button_secondary">Créer un email</button>
+							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
+						</div>
+						<div class="popup_action_template">
+							<ul class="col nowrap">
+								<li>Prévisualiser</li>
+								<li>Demander une modification</li>
+								<li>Wala j'en sais rien</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+				<li class="row nowrap row-hori-between">
+					<div class="row nowrap">
+						<div class="col nowrap col_template_thumbs">
+							<img src="http://via.placeholder.com/120x170" alt="">
+						</div>
+						<div class="col nowrap col_template_descr">
+							<p class="title_template">Mon super template</p>
+							<div class="info_template">
+								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
+								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
+								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
+							</div>
+						</div>
+					</div>
+					<div class="col nowrap">
+						<div class="row wrap row-verti-center row-hori-between row_actions_template">
+							<button class="button_default button_secondary">Créer un email</button>
+							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
+						</div>
+						<div class="popup_action_template">
+							<ul class="col nowrap">
+								<li>Prévisualiser</li>
+								<li>Demander une modification</li>
+								<li>Wala j'en sais rien</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+								<li class="row nowrap row-hori-between">
+					<div class="row nowrap">
+						<div class="col nowrap col_template_thumbs">
+							<img src="http://via.placeholder.com/120x170" alt="">
+						</div>
+						<div class="col nowrap col_template_descr">
+							<p class="title_template">Mon super template</p>
+							<div class="info_template">
+								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
+								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
+								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
+							</div>
+						</div>
+					</div>
+					<div class="col nowrap">
+						<div class="row wrap row-verti-center row-hori-between row_actions_template">
+							<button class="button_default button_secondary">Créer un email</button>
+							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
+						</div>
+						<div class="popup_action_template">
+							<ul class="col nowrap">
+								<li>Prévisualiser</li>
+								<li>Demander une modification</li>
+								<li>Wala j'en sais rien</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+				<li class="row nowrap row-hori-between">
+					<div class="row nowrap">
+						<div class="col nowrap col_template_thumbs">
+							<img src="http://via.placeholder.com/120x170" alt="">
+						</div>
+						<div class="col nowrap col_template_descr">
+							<p class="title_template">Mon super template</p>
+							<div class="info_template">
+								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
+								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
+								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
+							</div>
+						</div>
+					</div>
+					<div class="col nowrap">
+						<div class="row wrap row-verti-center row-hori-between row_actions_template">
+							<button class="button_default button_secondary">Créer un email</button>
+							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
+						</div>
+						<div class="popup_action_template">
+							<ul class="col nowrap">
+								<li>Prévisualiser</li>
+								<li>Demander une modification</li>
+								<li>Wala j'en sais rien</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>

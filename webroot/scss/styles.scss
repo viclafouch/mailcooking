@@ -199,13 +199,14 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     @include box-shadow(0px 3px 6px rgbaExpress(black, 0.3));
     height: 40px;
     display: block;
-    min-width: 200px;
+    min-width: 180px;
+    padding: 0 10px;
     font-size: 16px;
     font-family: 'bariolregular', 'Helvetica';
     position: relative;
     cursor:pointer;
     text-align: center;
-    border: 0; padding: 0; margin: 0;
+    border: 0; margin: 0;
     outline:none;
     background-color: #000;
     @include opacity(0.9);
@@ -238,10 +239,11 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     @extend .button_default;
     padding: 10px;
     margin: 0;
-    &::-ms-expand {
-        display: none;
-    }
+    &::-ms-expand { display: none; }
+    option { background-color: #fff; color: $primaryColor; cursor: pointer; }
 }
+
+.text_additional { color: $primaryTextColor; }
 
 /*----------  Bases  ----------*/
 
@@ -261,6 +263,7 @@ margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align
 html { line-height: 1; }
 ol, ul { list-style: none; }
 q, blockquote { quotes: none; }
+strong { font-weight: bold; color: $primaryTextColor; }
 q:before, q:after, blockquote:before, blockquote:after { content: ""; content: none; }
 a img { border: none; }
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; }
@@ -550,6 +553,64 @@ div.container {
         width: 100%;
         @include box-sizing(border-box);
         padding: 15px 20px;
+    }
+}
+
+/*----------  Templates  ----------*/
+
+div.container_template { overflow: auto; height: calc(100vh - #{$navHeight}); }
+
+div.list_tempate {
+    padding: 0 20px!important;
+
+    & > ul { width: 100%;
+
+        & > li { height: 170px; padding: 15px 0; &:not(:last-child) { border-bottom: $primaryBorder; } }
+        li > div { height: 100%; }
+
+        li div.col_template_thumbs { margin-right: 15px; img { display: block; } }
+        li div.col_template_descr  { 
+            & > p.title_template {
+                font-size: 21px;
+                color: $secondaryColor;
+                font-family: 'bariolbold', 'Helvetica';
+            }
+
+            & > div.info_template {
+                padding: 15px 0;
+
+                p { line-height: 23px; }
+                i { @include inline-block(middle); color: $primaryTextColor; }
+            }
+        }
+
+        li div.row_actions_template {
+            button { height: 30px; font-size: 15px; min-width: auto; margin: 0 0 10px 0; }
+            button:last-child { min-width: 40px; margin-left:0; i { margin-top: 3px; font-size: 21px; } }
+        }
+
+        div.popup_action_template {
+            @include opacity(0.9);
+            width: 185px;
+            height: 0px;
+            @include single-transition(height, 0.3s, ease, 0s);
+            background-color: adjust-lightness($secondaryColor, 5);
+            @include border-radius(3px);
+            @include box-shadow($shadow0);
+
+            ul { height: 100%; @include visible(false); }
+
+            ul li {
+                cursor: pointer;
+                color: #fff;
+                width: 100%;
+                font-size: 15px;
+                padding: 10px 10px;
+                @include box-sizing(border-box);
+                &:not(:last-child) { border-bottom: $primaryBorder; border-color: #fff; }
+                &:hover { background-color: adjust-lightness($secondaryColor, 8); }
+            }
+        }
     }
 }
 
@@ -908,58 +969,6 @@ form.form_update_user {
 }
 
 /*=====  End of Update_profil page  ======*/
-
-/*=======================================
-=            Template's page            =
-=======================================*/
-
-div.templates {
-    div.each-container-templates {
-        width: 100%;
-        @include flex(column wrap, flex-start, flex-start);
-        
-        div.row_list_template {
-            @include flex(row wrap, flex-start, center);
-        }
-    }
-}
-
-div.block.template_block {
-    width: 200px;
-    margin: 5px;
-    height: 200px;
-    @include flex(row nowrap, center, center);
-    background-color: rgbaExpress(black, 0.4);
-    @include box-shadow($shadow0);
-    @include single-transition(box-shadow, 0.3s, ease, 0s);
-    cursor: pointer;
-
-    p { font-size: 25px; color: #fff; }
-    &:hover { @include box-shadow($shadow1); }
-}
-
-a.creat_email {
-    position: fixed;
-    right: 30px;
-    bottom: 20px;
-    @include opacity(0);
-    visibility: hidden;
-    @include border-radius(3px);
-    padding: 11px 29px;
-    z-index: 999;
-    font-family: 'Roboto';
-    font-size: 18px;
-    background-color: $primaryColor;
-    color: #f0f0f0;
-    margin:0;
-    border: 1px solid #fff;
-    @include box-shadow($shadow1);
-    cursor: pointer;
-    @include single-transition(none, 0.7s, ease-in, 0s);
-    @include transition-property(opacity, visibility);
-}
-
-/*=====  End of Template's page  ======*/
 
 /*============================================
 =            Commande & User Page            =

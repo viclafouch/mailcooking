@@ -145,14 +145,14 @@
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
   height: 40px;
   display: block;
-  min-width: 200px;
+  min-width: 180px;
+  padding: 0 10px;
   font-size: 16px;
   font-family: 'bariolregular', 'Helvetica';
   position: relative;
   cursor: pointer;
   text-align: center;
   border: 0;
-  padding: 0;
   margin: 0;
   outline: none;
   background-color: #000;
@@ -211,6 +211,15 @@
 .select_default::-ms-expand {
   display: none;
 }
+.select_default option {
+  background-color: #fff;
+  color: #0676B2;
+  cursor: pointer;
+}
+
+.text_additional {
+  color: #444;
+}
 
 /*----------  Bases  ----------*/
 html, body, div, span, applet, object, iframe,
@@ -243,6 +252,11 @@ ol, ul {
 
 q, blockquote {
   quotes: none;
+}
+
+strong {
+  font-weight: bold;
+  color: #444;
 }
 
 q:before, q:after, blockquote:before, blockquote:after {
@@ -757,6 +771,109 @@ div.container div.block > div.pannel {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   padding: 15px 20px;
+}
+
+/*----------  Templates  ----------*/
+div.container_template {
+  overflow: auto;
+  height: calc(100vh - 65px);
+}
+
+div.list_tempate {
+  padding: 0 20px !important;
+}
+div.list_tempate > ul {
+  width: 100%;
+}
+div.list_tempate > ul > li {
+  height: 170px;
+  padding: 15px 0;
+}
+div.list_tempate > ul > li:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+div.list_tempate > ul li > div {
+  height: 100%;
+}
+div.list_tempate > ul li div.col_template_thumbs {
+  margin-right: 15px;
+}
+div.list_tempate > ul li div.col_template_thumbs img {
+  display: block;
+}
+div.list_tempate > ul li div.col_template_descr > p.title_template {
+  font-size: 21px;
+  color: #FF3B49;
+  font-family: 'bariolbold', 'Helvetica';
+}
+div.list_tempate > ul li div.col_template_descr > div.info_template {
+  padding: 15px 0;
+}
+div.list_tempate > ul li div.col_template_descr > div.info_template p {
+  line-height: 23px;
+}
+div.list_tempate > ul li div.col_template_descr > div.info_template i {
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  color: #444;
+}
+div.list_tempate > ul li div.row_actions_template button {
+  height: 30px;
+  font-size: 15px;
+  min-width: auto;
+  margin: 0 0 10px 0;
+}
+div.list_tempate > ul li div.row_actions_template button:last-child {
+  min-width: 40px;
+  margin-left: 0;
+}
+div.list_tempate > ul li div.row_actions_template button:last-child i {
+  margin-top: 3px;
+  font-size: 21px;
+}
+div.list_tempate > ul div.popup_action_template {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+  opacity: 0.9;
+  width: 185px;
+  height: 0px;
+  -moz-transition: height 0.3s ease 0s;
+  -o-transition: height 0.3s ease 0s;
+  -webkit-transition: height 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: height 0.3s ease 0s;
+  background-color: #ff5561;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+div.list_tempate > ul div.popup_action_template ul {
+  height: 100%;
+  visibility: hidden;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
+div.list_tempate > ul div.popup_action_template ul li {
+  cursor: pointer;
+  color: #fff;
+  width: 100%;
+  font-size: 15px;
+  padding: 10px 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+div.list_tempate > ul div.popup_action_template ul li:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-color: #fff;
+}
+div.list_tempate > ul div.popup_action_template ul li:hover {
+  background-color: #ff646f;
 }
 
 /*----------  Popup Default  ----------*/
@@ -1288,98 +1405,6 @@ form.form_update_user fieldset > div.action__button > input:hover {
 }
 
 /*=====  End of Update_profil page  ======*/
-/*=======================================
-=            Template's page            =
-=======================================*/
-div.templates div.each-container-templates {
-  width: 100%;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: column wrap;
-  flex-flow: column wrap;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  -webkit-align-items: flex-start;
-  align-items: flex-start;
-}
-div.templates div.each-container-templates div.row_list_template {
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: row wrap;
-  flex-flow: row wrap;
-  -webkit-justify-content: flex-start;
-  justify-content: flex-start;
-  -webkit-align-items: center;
-  align-items: center;
-}
-
-div.block.template_block {
-  width: 200px;
-  margin: 5px;
-  height: 200px;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: row nowrap;
-  flex-flow: row nowrap;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -moz-transition: box-shadow 0.3s ease 0s;
-  -o-transition: box-shadow 0.3s ease 0s;
-  -webkit-transition: box-shadow 0.3s ease;
-  -webkit-transition-delay: 0s;
-  transition: box-shadow 0.3s ease 0s;
-  cursor: pointer;
-}
-div.block.template_block p {
-  font-size: 25px;
-  color: #fff;
-}
-div.block.template_block:hover {
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
-
-a.creat_email {
-  position: fixed;
-  right: 30px;
-  bottom: 20px;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  visibility: hidden;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  padding: 11px 29px;
-  z-index: 999;
-  font-family: 'Roboto';
-  font-size: 18px;
-  background-color: #0676B2;
-  color: #f0f0f0;
-  margin: 0;
-  border: 1px solid #fff;
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  cursor: pointer;
-  -moz-transition: none 0.7s ease-in 0s;
-  -o-transition: none 0.7s ease-in 0s;
-  -webkit-transition: none 0.7s ease-in;
-  -webkit-transition-delay: 0s;
-  transition: none 0.7s ease-in 0s;
-  -moz-transition-property: opacity, visibility;
-  -o-transition-property: opacity, visibility;
-  -webkit-transition-property: opacity, visibility;
-  transition-property: opacity, visibility;
-}
-
-/*=====  End of Template's page  ======*/
 /*============================================
 =            Commande & User Page            =
 ============================================*/

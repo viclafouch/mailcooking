@@ -16,6 +16,7 @@
 /*----------  Variables  ----------*/
 
 var actionUrl; // Paramètre 'action' de l'url
+var popupAction = false // Statue d'une popup d'action de template
 
 /*----------  Fonctions  ----------*/
 
@@ -55,6 +56,25 @@ var getUrlParameter = function getUrlParameter(sParam) {
 		}
 	}
 };
+
+function displayOfActionsTemplate(btn) {
+		$('[data-opened]').css('height', '0px')
+		$('[data-opened] ul').css({
+			opacity:'0',
+			visibility: 'hidden'
+		});
+		console.log('test');
+		$('[data-opened]').removeAttr('data-opened');
+		popupActionTemplate = $(btn).parent().next();
+		$(popupActionTemplate).attr('data-opened', 'true');
+		popupActionTemplate.css('height', '107px');
+		$(popupActionTemplate).children('ul').css({
+			opacity:'1',
+			visibility: 'visible'
+		});
+	
+	
+}
 /*----------  Actions  ----------*/
 
 // Démarrage des modules sans turbulinks
@@ -137,6 +157,25 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
+	/* Active la popup d'action des templates */
+	// $(document).on('click', '[data-action-template]', function(){
+
+	// });
+
+	$(document).on('click', 'body', function(e){
+		if (($(e.target).hasClass('data-action-template'))||($(e.target).is('[data-action-template]'))) {
+			btn = $(e.target).closest('[data-action-template]');
+			displayOfActionsTemplate(btn);
+		}
+		else{
+			$('[data-opened]').css('height', '0px');
+			$('[data-opened] ul').css({
+				opacity:'0',
+				visibility: 'hidden'
+			});
+			$('[data-opened]').removeAttr('data-opened');
+		}
+	});
 	/*===================================
 	=            Emails_page            =
 	===================================*/
