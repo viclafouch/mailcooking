@@ -40,7 +40,7 @@
 	</head>
 
 	<body>
-		<main class="full_container">
+		<main>
 			<aside data-turbolinks-permanent class="sidebar" id="sidebar">
 				<header>
 					<div id="menu">
@@ -49,7 +49,7 @@
 					<span class="mymail"><?= $_SESSION["user"]["user_email"]; ?></span>
 				</header>
  				<div class="link_container">
-	 				<div class="important_links">
+	 				<div class="important_links col col-hori-center nowrap">
 	 					<a href="?module=user&action=index" class="noactive" title="">
 	 						<p>Accueil</p>
 					    	<i class="material-icons">home</i>
@@ -73,7 +73,7 @@
 					    </a>
 					    <?php endif ?>
 	 				</div>
-	 				<div class="others_links">
+	 				<div class="others_links col col-hori-center nowrap">
 					    <a href="#" class="noactive">
 					    	<i class="fa fa-life-ring" aria-hidden="true"></i>
 					    </a>
@@ -86,14 +86,13 @@
 					</div>
 				</div>
 			</aside>
-			<nav class="nav_top navigation">
-				<div class="test"></div>
-				<a href="index.php" title=''>
-					<img src="webroot/img/logo_mc.png" class="logo" title="" alt=""/>
+			<nav class="navigation row row-verti-center nowrap">
+				<a href="index.php" class="logo" title="">
+					<img src="webroot/img/logo_mc.png" title="" alt=""/>
 				</a>
-				<form action="#" id="form-search-js" method="post">
-					<a href="#" title=""><i class="material-icons">search</i></a>
-					<input id="search" onblur="search_blur();" type="text" name="search" placeholder="Rechercher..."/>
+				<form action="#" id="searchForm" method="post">
+					<span><i class="material-icons">search</i></span>
+					<input spellcheck="false" autocomplete="off" type="text" name="search" placeholder="Rechercher..."/>
 				</form>
 			</nav>
 			<div class="novisible"></div>

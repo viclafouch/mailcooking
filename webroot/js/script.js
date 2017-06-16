@@ -1,11 +1,48 @@
-$(document).on('click', '#menu', function(){
+/*=============================================
+=            Script de Mailcooking            =
+=============================================*/
+
+/**
+    *
+    * Librairie : JQuery
+        - JS : lib/js/jquery
+        - CSS : null
+        - Github : https://github.com/jquery/jquery
+        - Documentation : http://api.jquery.com/
+    * 
+    *
+*/
+
+/*----------  Variables  ----------*/
+
+var actionUrl; // Paramètre 'action' de l'url
+
+/*----------  Fonctions  ----------*/
+
+/**
+    Séléctionnez le titre puis CTRL+D (Windows) ou CMD+D (Mac).
+    - I     :  Activation/Desactivation de la sidebar
+    - II    :  Récupération des paramètres d'URL
+    - III   :  Désactive Scroll (via I & II);
+    - IV    :  Active Scroll
+    - V     :  Récupère les paramètres d'URL
+    - VI    :  Création du Cropper
+    - VII   :  Insertion d'un nouveau fichier
+    - VIII  :  Sauvegarde des modifications
+    - IX    :  Annule des modifications
+    - X     :  Constructeur
+**/
+
+// I : Activation/Desactivation de la sidebar 
+function activateSidebar(btn) {
 	$('#sidebar').toggleClass('active');
 	$('#sidebar a').toggleClass('noactive');
 	$('.others_links a').addClass('noactive');
 	$('.large_container, .navigation').toggleClass('sidebar_opened');
-	$(this).toggleClass('active');
-});
+	$(btn).toggleClass('active');
+}
 
+// II : Récupération des paramètres d'URL
 var getUrlParameter = function getUrlParameter(sParam) {
 	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
 	sURLVariables = sPageURL.split('&'),sParameterName,i;
@@ -18,60 +55,92 @@ var getUrlParameter = function getUrlParameter(sParam) {
 		}
 	}
 };
+/*----------  Actions  ----------*/
 
-// Désactive turbolinks pour l'email builder (Genère sinon erreur de librairie)
+// Démarrage des modules sans turbulinks
 $(document).ready(function(){
+	/* Ces évènements ci-dessous n'ont pas besoin d'être
+	rechargé à chaque changement de page.
+	Exemple avec un console.log, celui ne s'affichera
+	qu'une fois sur votre site même en changeant de page.
+	*/
+
+	/* Activation/Desactivation de la sidebar */
+	$(document).on('click', '#menu', function(){
+		activateSidebar(this);
+	});
+
+	/* Empêche (pour le moment) l'envoi du formulaire de recherche */
+	$(document).on('submit', '#searchForm', function(event){
+		event.preventDefault();
+		return false;
+	});
+
+	/* Active le formulaire de recherche */
+	$(document).on('focus', '#searchForm input', function() {
+		$('#searchForm').addClass('focus');
+	});
+
+	/* Désactive le formulaire de recherche */
+	$(document).on('blur', '#searchForm input', function(){
+		$('#searchForm').removeClass('focus');
+		$(this).val('');
+	});
+	
+	/* Check l'url pour la désactivation turbolinks pour le builder */
 	if (getUrlParameter('action') == 'email_builder') {
 		$('body').attr('data-turbolinks', 'false');
 	}
-});
 
-$(document).ready(function(){
+	/* Check l'url pour l'activation du menu */
 	if (getUrlParameter('module') == 'user'){
-		var action = getUrlParameter('action');
-		$('[href="?module=user&action='+action+'"]').addClass('active');
+		actionUrl = getUrlParameter('action');
+		$('[href="?module=user&action='+actionUrl+'"]').addClass('active');
 	}
 });
 
-function search_blur(){
-	$('#form-search-js').removeClass('focus');
-	$('#search').val('');
-}
 
-document.addEventListener("turbolinks:load", function() {
+// Démarrage des modules avec turbolinks.
+document.addEventListener("turbolinks:load", function() { 
+	/* Les modules ci-dessous se rebindent à chaque changement de page.
+	Un console.log s'affichera à chaque changement de page.
 
+	Attention, le DOM réinjecté en ajax possède déjà des évènements 
+	(exemple un clic). Il est donc nécessaire 'idempotent' vos évènements
+	sinon ca va vous multiplier vos actions.
+
+	Exemple : 
+	$(document).on('event', 'selector', function(){
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			code...
+		}
+	});
+	*/
+	
+	/* Check l'etat de la sidebar */
 	if ($("#sidebar").hasClass("active")){
-		$('.container').addClass('sidebar_opened');
+		$('.large_container, .navigation').addClass('sidebar_opened');
 	}
 	else {
-		$('.container').removeClass('sidebar_opened');
+		$('.large_container, .navigation').removeClass('sidebar_opened');
 	}
 
-
-	$( "#search" ).focus(function(e) {
-		$('#form-search-js').addClass('focus');
-	});
-
-	$(document).on('click', '.link_container div a', function(){
+	/* Active le menu cliqué */
+	$(document).on('click', '.link_container a', function(){
 		$target = $(this);
 		if (!$target.attr('data-appened')) {
-			$('.link_container div a').removeAttr('data-appened');
+			$('.link_container a').removeAttr('data-appened');
 			$target.attr('data-appened', 'true');
-			$('.link_container div a').removeClass('active');
+			$('.link_container a').removeClass('active');
 			$target.addClass('active');
 		}
 	});
 
-
-	// Hide notif
-	$(document).ready(function(){
-	    $(".notif").delay(3000).hide("fast");
-	});
-
-/*===================================
-=            Emails_page            =
-===================================*/
-
+	/*===================================
+	=            Emails_page            =
+	===================================*/
+	
 	// Slider
   	$( ".arrow_slider" ).click(function() {
   		const width_block = $('.block').width();
@@ -732,6 +801,13 @@ document.addEventListener("turbolinks:load", function() {
 		);
 		$footer.addClass('confirmation');
 	});
+
+
+	// Hide notif
+	$(document).ready(function(){
+	    $(".notif").delay(3000).hide("fast");
+	});
+
 
 	// Update confirmation post ==> Order supported
 	$(document).on('click', '.confirm', function (){

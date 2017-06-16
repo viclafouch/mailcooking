@@ -3,7 +3,7 @@ require 'compass/import-once/activate'
 
 # Set this to the root of your project when deployed:
 http_path = "/"
-css_dir = "webroot/css/custom/back"
+css_dir = "webroot/css/back"
 sass_dir = "webroot/scss"
 images_dir = "webroot/img"
 javascripts_dir = "webroot/js"
