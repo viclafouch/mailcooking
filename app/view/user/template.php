@@ -26,16 +26,21 @@
 				<div class="row row-verti-center nowrap line_custom_search_template">
 					<span class="text_additional">Templates</span>
 					<div class="select-wrapper">
-						<select class="select_default button_primary">
-							<option value="">Perso</option>
-							<option value="">Public</option>
+						<select class="select_default button_primary" data-select-template id="selectDisplayAllow">
+							<?php if (!$public) { ?>
+								<option selected="selected" value="1">Perso</option>
+								<option value="0">Public</option>
+							<?php } else { ?>
+								<option selected="selected" value="0">Public</option>
+								<option value="1">Perso</option>
+							<?php } ?>
 						</select>
 					</div>
 					<span class="text_additional">Trié par</span>
 					<div class="select-wrapper">
-						<select class="select_default button_primary">
-							<option value="">Les plus récents</option>
-							<option value="">Les plus anciens</option>
+						<select class="select_default button_primary"  data-select-template id="selectDisplayDate">
+							<option selected="selected" value="1">Les plus récents</option>
+							<option value="0">Les plus anciens</option>
 						</select>
 					</div>
 				</div>
@@ -43,19 +48,32 @@
 		</div>
 	</div>
 	<div class="block full_block">
-		<div class="pannel pannel_body list_tempate">
+		<div class="pannel pannel_body list_template">
 			<ul class="col nowrap">
-				<li class="row nowrap row-hori-between">
+			<?php foreach ($template as $key => $temp) { ?>
+			<?php 
+				// Compter le nombre de mails utilisés par le template
+				$options = array ("wherecolumn" => "template_id", 
+									"wherevalue" => $temp['id_template']);
+				$countMailsEditor = counttable("mail_editor", $options);
+			?>
+				<li class="row nowrap row-hori-between li_template" data-allow="<?php if ($temp['id_allow'] == 'all') { ?>0<?php } else { ?>1<?php } ?>" data-template="<?= $temp['id_template']; ?>">
 					<div class="row nowrap">
 						<div class="col nowrap col_template_thumbs">
 							<img src="http://via.placeholder.com/120x170" alt="">
 						</div>
 						<div class="col nowrap col_template_descr">
-							<p class="title_template">Mon super template</p>
+							<p class="title_row"><span class="title_template" contenteditable="false" onpaste="return false;" spellcheck="false"><?= $temp['title_template']?></span>&nbsp;</p>
 							<div class="info_template">
-								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
+								<p>Template <?php if ($temp['id_allow'] == 'all') { ?>
+									public <i class="material-icons">public</i>
+								<?php } else { ?>
+									perso <i class="material-icons">perm_identity</i>
+								<?php } ?>
+								</p>
 								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
-								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
+								<p>Utilisé actuellement dans <strong><?= $countMailsEditor; ?></strong> email<?php if ($countMailsEditor > 1) { ?>s
+								<?php } ?></p>
 							</div>
 						</div>
 					</div>
@@ -66,99 +84,22 @@
 						</div>
 						<div class="popup_action_template">
 							<ul class="col nowrap">
-								<li>Prévisualiser</li>
+								<li data-preview>Prévisualiser</li>
+								<?php if ($temp['id_allow'] != 'all'): ?>
 								<li>Demander une modification</li>
-								<li>Wala j'en sais rien</li>
+								<li>Supprimer</li>	
+								<?php endif ?>
 							</ul>
 						</div>
 					</div>
 				</li>
-				<li class="row nowrap row-hori-between">
-					<div class="row nowrap">
-						<div class="col nowrap col_template_thumbs">
-							<img src="http://via.placeholder.com/120x170" alt="">
-						</div>
-						<div class="col nowrap col_template_descr">
-							<p class="title_template">Mon super template</p>
-							<div class="info_template">
-								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
-								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
-								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
-							</div>
-						</div>
-					</div>
-					<div class="col nowrap">
-						<div class="row wrap row-verti-center row-hori-between row_actions_template">
-							<button class="button_default button_secondary">Créer un email</button>
-							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
-						</div>
-						<div class="popup_action_template">
-							<ul class="col nowrap">
-								<li>Prévisualiser</li>
-								<li>Demander une modification</li>
-								<li>Wala j'en sais rien</li>
-							</ul>
-						</div>
-					</div>
-				</li>
-								<li class="row nowrap row-hori-between">
-					<div class="row nowrap">
-						<div class="col nowrap col_template_thumbs">
-							<img src="http://via.placeholder.com/120x170" alt="">
-						</div>
-						<div class="col nowrap col_template_descr">
-							<p class="title_template">Mon super template</p>
-							<div class="info_template">
-								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
-								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
-								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
-							</div>
-						</div>
-					</div>
-					<div class="col nowrap">
-						<div class="row wrap row-verti-center row-hori-between row_actions_template">
-							<button class="button_default button_secondary">Créer un email</button>
-							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
-						</div>
-						<div class="popup_action_template">
-							<ul class="col nowrap">
-								<li>Prévisualiser</li>
-								<li>Demander une modification</li>
-								<li>Wala j'en sais rien</li>
-							</ul>
-						</div>
-					</div>
-				</li>
-				<li class="row nowrap row-hori-between">
-					<div class="row nowrap">
-						<div class="col nowrap col_template_thumbs">
-							<img src="http://via.placeholder.com/120x170" alt="">
-						</div>
-						<div class="col nowrap col_template_descr">
-							<p class="title_template">Mon super template</p>
-							<div class="info_template">
-								<p>Template perso&nbsp; <i class="material-icons">perm_identity</i></p>
-								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
-								<p>Utilisé actuellement dans <strong>5</strong> emails</p>
-							</div>
-						</div>
-					</div>
-					<div class="col nowrap">
-						<div class="row wrap row-verti-center row-hori-between row_actions_template">
-							<button class="button_default button_secondary">Créer un email</button>
-							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
-						</div>
-						<div class="popup_action_template">
-							<ul class="col nowrap">
-								<li>Prévisualiser</li>
-								<li>Demander une modification</li>
-								<li>Wala j'en sais rien</li>
-							</ul>
-						</div>
-					</div>
-				</li>
+			<?php } ?>
 			</ul>
 		</div>
+	</div>
+	<div class="popup_mc" id="templatePreview">
+		<div class="popup_background"></div>
+		<div class="popup_container"></div>
 	</div>
 </div>
 
@@ -243,11 +184,6 @@
 	</footer>
 </form>
 </div>
-
-<a href='' class="creat_email" data-turbolinks="false" title="">Créer un email</a>
-<div class="popup-container template_email">
-<div class="see_email_template_block"></div>
-</div> -->
 
 <?php 
 	// Appel du layout footer

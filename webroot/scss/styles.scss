@@ -123,6 +123,7 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     background-repeat: $repeat;
 }
 
+// Visibilité
 @mixin visible($boolean) {
     @if $boolean == false {
         visibility: hidden;
@@ -134,9 +135,15 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     }
 }
 
+// Animation de la visibilité
 @mixin animateVisibility($time) {
     @include single-transition(none, $time, ease, 0s);
     @include transition-property(visibility, opacity);
+}
+
+// Désactivation de la séléction
+@mixin noselect(){
+    -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
 }
 
 /*----------  Fonctions  ----------*/
@@ -530,6 +537,7 @@ div.novisible { height: $navHeight; width: 100%; @include visible(false); }
         min-height: inherit;
 
         div.container {
+            position: relative;
             background-color: $primaryBackgroundColor;
             width: 100%;
             @include box-sizing(border-box);
@@ -560,7 +568,7 @@ div.container {
 
 div.container_template { overflow: auto; height: calc(100vh - #{$navHeight}); }
 
-div.list_tempate {
+div.list_template {
     padding: 0 20px!important;
 
     & > ul { width: 100%;
@@ -569,11 +577,22 @@ div.list_tempate {
         li > div { height: 100%; }
 
         li div.col_template_thumbs { margin-right: 15px; img { display: block; } }
-        li div.col_template_descr  { 
-            & > p.title_template {
-                font-size: 21px;
-                color: $secondaryColor;
-                font-family: 'bariolbold', 'Helvetica';
+        li div.col_template_descr  {
+            & > p.title_row {
+                span {
+                    font-size: 21px;
+                    color: $secondaryColor;
+                    font-family: 'bariolbold', 'Helvetica';
+                    @include inline-block(middle);
+                }
+
+                i {
+                    @include noselect();
+                    @include inline-block(middle);
+                    font-size: 20px;
+                    color: $primaryTextColor;
+                    cursor: pointer; 
+                }
             }
 
             & > div.info_template {
@@ -611,6 +630,41 @@ div.list_tempate {
                 &:hover { background-color: adjust-lightness($secondaryColor, 8); }
             }
         }
+    }
+
+    div.popup {
+
+    }
+}
+
+.popup_mc {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - #{$navHeight});
+    top: 0; right: 0; bottom: 0; left: 0;
+    overflow-y: auto;
+    background-color: rgbaExpress(black, 0.75);
+    @include visible(false);
+    @include animateVisibility(0.5s);
+
+    &.active { @include visible(true); }
+
+    & > .popup_background {
+        height: 100%;
+        width: 100%;
+        z-index: 0;
+    }
+
+    & > .popup_container {
+        background: #f0f0f0;
+        position: absolute;
+        @include translate(-50%, -50%);
+        width: 80%;
+        max-width: 650px;
+        top: 50%; left: 50%;
+        height: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }
 

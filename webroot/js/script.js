@@ -17,6 +17,10 @@
 
 var actionUrl; // Paramètre 'action' de l'url
 var popupAction = false // Statue d'une popup d'action de template
+var pen = '<i class="material-icons" data-editable-title>create</i>'; // Crayon d'edition de titre
+var clicOnPen = false; // Statut du clic sur un crayon d'edition
+var title; // Titre d'edition de template
+var contentTitle; // Valeur du titre
 
 /*----------  Fonctions  ----------*/
 
@@ -58,22 +62,23 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 function displayOfActionsTemplate(btn) {
-		$('[data-opened]').css('height', '0px')
-		$('[data-opened] ul').css({
-			opacity:'0',
-			visibility: 'hidden'
-		});
-		console.log('test');
-		$('[data-opened]').removeAttr('data-opened');
-		popupActionTemplate = $(btn).parent().next();
-		$(popupActionTemplate).attr('data-opened', 'true');
-		popupActionTemplate.css('height', '107px');
-		$(popupActionTemplate).children('ul').css({
-			opacity:'1',
-			visibility: 'visible'
-		});
-	
-	
+	$('[data-opened]').css('height', '0px')
+	$('[data-opened] ul').css({
+		opacity:'0',
+		visibility: 'hidden'
+	});
+	$('[data-opened]').removeAttr('data-opened');
+	popupActionTemplate = $(btn).parent().next();
+	$(popupActionTemplate).attr('data-opened', 'true');
+	popupActionTemplate.css('height', 'auto');
+	$(popupActionTemplate).children('ul').css({
+		opacity:'1',
+		visibility: 'visible'
+	});
+}
+
+function changeTemplateAllow(allow, orderby) {
+
 }
 /*----------  Actions  ----------*/
 
@@ -117,6 +122,30 @@ $(document).ready(function(){
 		actionUrl = getUrlParameter('action');
 		$('[href="?module=user&action='+actionUrl+'"]').addClass('active');
 	}
+
+	/* Active la preview des templates */
+	$(document).on('click', '[data-preview]', function(){
+		let parent =  $(this).parents('.li_template');
+		let idTemplate = parent.data('template');
+		let userAllow = parent.data('allow');
+		let popup = $('#templatePreview');
+		if (userAllow == 0) {
+			$("#templatePreview .popup_container").load("?module=user&action=template&id="+idTemplate+"&allow=0");	
+		} else {
+			$("#templatePreview .popup_container").load("?module=user&action=template&id="+idTemplate+"&allow="+userAllow);	
+		}			
+
+		popup.addClass('active');
+
+		$(document).on('click', '.popup_background', function(){
+			popup.removeClass('active');
+		});
+
+	// // Not hidding ==> Look at template
+	// $('.see_email_template_block').click(function () {
+	// 	event.stopPropagation();	
+	// });
+	});
 });
 
 
@@ -146,7 +175,9 @@ document.addEventListener("turbolinks:load", function() {
 		$('.large_container, .navigation').removeClass('sidebar_opened');
 	}
 
-	/* Active le menu cliqué */
+	/*----------  Templates  ----------*/
+
+	/* Active/montre le menu cliqué */
 	$(document).on('click', '.link_container a', function(){
 		$target = $(this);
 		if (!$target.attr('data-appened')) {
@@ -157,11 +188,7 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
-	/* Active la popup d'action des templates */
-	// $(document).on('click', '[data-action-template]', function(){
-
-	// });
-
+	/* Désactive/cache le menu cliqué */
 	$(document).on('click', 'body', function(e){
 		if (($(e.target).hasClass('data-action-template'))||($(e.target).is('[data-action-template]'))) {
 			btn = $(e.target).closest('[data-action-template]');
@@ -176,6 +203,151 @@ document.addEventListener("turbolinks:load", function() {
 			$('[data-opened]').removeAttr('data-opened');
 		}
 	});
+
+	/* Affiche le petit crayon d'edition */
+	$(document).on('mouseenter', '.li_template', function(){
+		if ($(this).data('allow') != '0') {
+			if (!$(this).attr('data-appened-hover')) {
+				$('[data-appened-hover]').removeAttr('data-appened-hover');
+				$(this).attr('data-appened-hover', 'true');
+				if (!clicOnPen) {
+					let title = $(this).find('.title_row');
+					title.append(pen);
+				}
+			}
+		}
+	});
+
+	/* Cache le petit crayon d'edition */
+	$(document).on('mouseleave', '.li_template', function(){
+		if (!clicOnPen) {
+			$(this)
+			.removeAttr('data-appened-hover')
+			.find('[data-editable-title]')
+			.remove();
+		}
+	});
+
+	/* Active l'édition d'un titre */
+	$(document).on('click', '[data-editable-title]', function(e){
+		if (!$(this).attr('data-appened')) {
+			e.preventDefault();
+			e.stopPropagation();
+			$(this).attr('data-appened', 'true');
+			$(this).parents('.li_template').attr('data-appened-clic', 'true');
+			title = $(this).prev('span');
+			title
+			.attr('contenteditable', 'true')
+			.css('font-style', 'italic')
+			.focus();
+			contentTitle = $(title).text();
+			$(this).replaceWith('<i class="material-icons" data-editable-title-done>done</i>');
+			clicOnPen = true;
+		}
+	});
+
+	/* Vérifie le nombre de caractère de l'édition en cours */
+	$(document).on('keydown', '.title_template', function(e){
+		if (e.keyCode == 13) {
+			e.preventDefault();
+			$('body').trigger("click");
+		}
+		if (title.text().length > 50 && e.keyCode != 8) {
+			e.stopPropagation();
+			e.preventDefault();
+			return false;
+		}
+	});
+
+	function updateTemplateTitle(title) {
+		title
+		.attr('contenteditable', 'false')
+		.css('font-style', 'normal');
+
+		if (title.text().length == 0 || title.text() == "") {
+			title.text(contentTitle);
+		}
+		
+		title = title.text();
+		templateId = $('[data-appened-clic]').data('template');
+
+		$.ajax({
+			type: "POST",
+			data: { template_title: title, idTemplate: templateId},
+			url : "?module=user&action=template", 
+			success : function(data) {
+				console.log(data);
+			}
+		});
+		
+		clicOnPen = false;
+	}
+
+	/* Sauvegarde l'edition de titre en cliquant sur le done */
+	$(document).on('click', '[data-editable-title-done]', function(){
+		if (clicOnPen) {
+			if (!$(this).attr('data-appened')) {
+				$(this).attr('data-appened', 'true');
+				updateTemplateTitle(title);
+				$('[data-appened-clic]').removeAttr('data-appened-clic');
+				$(this).replaceWith(pen);	
+			}
+		}
+	});
+
+	/* Sauvegarde l'edition de titre en cliquant sur le body */
+	$(document).on('click', 'body', function(e){
+		if (clicOnPen) {
+			if (!$(e.target).hasClass('title_template') && $(e.target).attr('contenteditable') != true) {
+				updateTemplateTitle(title);
+				if ($(e.target).is('.li_template')) {
+					if ($(e.target).attr('data-appened-clic')) {
+						$('[data-editable-title-done]').replaceWith(pen);
+					}
+					else {
+						$('[data-editable-title-done]').remove();
+						$(e.target).find('.title_row').append(pen);
+					}
+				}
+				else if ($(e.target).parents('.li_template').length == 1) {
+					if ($(e.target).parents('.li_template').attr('data-appened-clic')) {
+						$('[data-editable-title-done]').replaceWith(pen);
+					}
+					else {
+						$('[data-editable-title-done]').remove();
+						$(e.target).parents('.li_template').find('.title_row').append(pen);
+					}
+				}
+				else {
+					$('[data-appened-hover]').removeAttr('data-appened-hover');
+					$('[data-editable-title-done]').remove();
+				}
+				$('[data-appened-clic]').removeAttr('data-appened-clic');
+			}
+		}
+	});
+
+	/* Changement des selects */
+	$(document).on('change', '[data-select-template]', function(e) {
+		if ($(this).attr('id') == 'selectDisplayAllow') {
+			var allowSelected = $(this).val();
+			var dateSelected = $("#selectDisplayDate").val();
+		}
+		else {
+			var dateSelected = $(this).val();
+			var allowSelected = $("#selectDisplayAllow").val();
+		}
+
+		$.ajax({
+			type: "POST",
+			data: { templates: allowSelected, orderby: dateSelected },
+			url : "?module=user&action=template", 
+			success : function(data) {
+				$('.list_template ul').html(data);
+			}
+		});
+	});
+
 	/*===================================
 	=            Emails_page            =
 	===================================*/
@@ -783,29 +955,6 @@ document.addEventListener("turbolinks:load", function() {
 			visibility:"hidden",
 			opacity:"0",
 		});
-	});
-
-	// Show popup ==> Loot at template
-	$( ".see_template" ).click(function() {
-		$(".see_email_template_block").load("?module=user&action=template&id="+$(this).attr("id"));				
-		$(".template_email, .creat_email").css({
-			visibility:"visible",
-			opacity:"1",
-		});
-		$('.creat_email').attr('href', '?module=user&action=email_builder&template='+$(this).attr("id")+'');
-	});
-
-	// Hide popup ==> Look at template
-	$(".template_email").click(function() {
-		$('.template_email, .creat_email').css({
-			visibility:"hidden",
-			opacity:"0",
-		});
-	});
-
-	// Not hidding ==> Look at template
-	$('.see_email_template_block').click(function () {
-		event.stopPropagation();	
 	});
 
 /*=====  End of Templates_page  ======*/
