@@ -180,6 +180,15 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 .row-hori-between { @include justify-content(space-between); }
 .col-hori-between { @include align-items(space-between); }
 
+.row-verti-between { @include align-items(space-between); }
+.col-verti-between { @include justify-content(space-between); }
+
+.row-hori-around { @include justify-content(space-around); }
+.col-hori-around { @include align-items(space-around); }
+
+.row-verti-around { @include align-items(space-around); }
+.col-verti-around { @include justify-content(space-around); }
+
 .verhor-center { @include flex(row nowrap, center, center); }
 
 .full-width { width: 100%; }
@@ -275,11 +284,11 @@ q:before, q:after, blockquote:before, blockquote:after { content: ""; content: n
 a img { border: none; }
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; }
 
-html, body, input, button, p { font-family: 'bariolregular', 'Helvetica'; }
+html, body, input, textarea, button, p, * { font-family: 'bariolregular', 'Helvetica'; }
 
 h1, h2, h3, h4, h5 { color: $primaryColor; }
 
-h1 { font-size: 32px; color: $primaryColor; line-height: 42px; font-family: 'bariolbold', 'Helvetica'; }
+h1 { font-size: 32px; margin: 10px 0; color: $primaryColor; line-height: 42px; font-family: 'bariolbold', 'Helvetica'; }
 
 h2 { font-size: 26px; color: $primaryColor; line-height: 36px; font-family: 'bariolregular', 'Helvetica'; }
 
@@ -540,11 +549,11 @@ div.novisible { height: $navHeight; width: 100%; @include visible(false); }
             position: relative;
             background-color: $primaryBackgroundColor;
             width: 100%;
-            @include box-sizing(border-box);
+            overflow: auto; 
+            height: calc(100vh - #{$navHeight});
         }
     }
 }
-
 
 div.container {
     div.block {
@@ -564,9 +573,130 @@ div.container {
     }
 }
 
+/*----------  Popup  ----------*/
+
+.popup_mc {
+    position: absolute;
+    width: 100%;
+    z-index: 99999999999;
+    height: calc(100vh - #{$navHeight});
+    top: 0; right: 0; bottom: 0; left: 0;
+    overflow-y: auto;
+    background-color: rgbaExpress(black, 0.75);
+    @include visible(false);
+    @include animateVisibility(0.5s);
+
+    &.active { @include visible(true); }
+
+    & > .popup_background {
+        height: 100%;
+        width: 100%;
+        z-index: 0;
+    }
+
+    & > .popup_container {
+        background: #f0f0f0;
+        position: absolute;
+        @include translate(-50%, -50%);
+        width: 80%;
+        max-width: 650px;
+        top: 50%; left: 50%;
+        height: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+/*----------  Alerte  ----------*/
+
+div.alert {
+    position: fixed;
+    min-width: 150px;
+    height: 50px;
+    background: $primaryColor;
+    color: #fff;
+    z-index: 99999999;
+    border: 1px solid #fff;
+    right: 50px; bottom: -50px;
+    @include box-shadow($shadow0);
+    @include border-radius(3px);
+
+    p { text-align: center; line-height: 50px; padding: 0 20px;}
+}
+
 /*----------  Templates  ----------*/
 
-div.container_template { overflow: auto; height: calc(100vh - #{$navHeight}); }
+div.popup_mc#templatePreview > div.popup_container { width: auto; }
+
+div.popup_mc#templateOrder > div.popup_container {
+    & > header,
+    & > form { width: 100%; }
+
+    & > header { 
+        background: $primaryColor;
+        height: 130px; 
+
+        h1 {
+            color: #fff;
+            margin: 0; padding: 0;
+            text-align: center;
+            line-height: 130px;
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+    }
+
+    & > form { background-color: #fff;
+
+        div.field {
+            @include flex(row nowrap, flex-start, center);
+            width: 100%;
+            padding: 24px 20px;
+            border-bottom: $primaryBorder;
+            @include box-sizing(border-box);
+
+            .aside {
+                width: 50%;
+                height: 100%;
+                @include flex(row wrap, center, center);
+                text-align: left;
+
+                label, p { width: 100%; }
+
+                &.oneside p, &.oneside label { margin:0; }
+            }
+        }
+
+        p, label, input, textarea {
+            color: $primaryTextColor;
+            font-size: 16px;
+            margin: 0; border: 0;
+            @include box-sizing(border-box);
+            position: relative;
+            &:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px #fff inset; }
+        }
+
+        input, textarea {
+            outline: 0;
+            width: 100%;
+            border-bottom: 1px solid #999999;
+            padding: 12px 0px;
+            font-size: 16px;
+            resize: none;
+            background-color: transparent;
+
+            &:focus, &:valid { color: #444; }
+        }
+
+        textarea {
+            &::-webkit-scrollbar { width: 9px; }
+            &::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); @include border-radius(50px); }
+            &::-webkit-scrollbar-thumb { border-radius: 50px; background: adjust-lightness(#444, 40); }
+        }
+
+        & > footer { @extend .verhor-center; }
+    }
+}
 
 div.list_template {
     padding: 0 20px!important;
@@ -631,40 +761,114 @@ div.list_template {
             }
         }
     }
-
-    div.popup {
-
-    }
 }
 
-.popup_mc {
-    position: absolute;
-    width: 100%;
-    height: calc(100vh - #{$navHeight});
-    top: 0; right: 0; bottom: 0; left: 0;
-    overflow-y: auto;
-    background-color: rgbaExpress(black, 0.75);
-    @include visible(false);
-    @include animateVisibility(0.5s);
+/*----------  Profil  ----------*/
 
-    &.active { @include visible(true); }
+div.container_profil {
 
-    & > .popup_background {
-        height: 100%;
-        width: 100%;
-        z-index: 0;
+    div.settings_menu {
+        position: relative;
+        padding-top: 0!important;
+        padding-bottom: 0!important;
+
+        div.link_block {
+            width: 33%;
+            text-align: center;
+            height: 72px;
+            position: relative;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                max-width: 300px;
+                width: 70%;
+                background-color: transparent;
+                height: 2px;
+                @include transform(translateX(-50%) scaleX(0));
+                @include single-transition(none, 0.3s, ease, 0s);
+                @include transition-property(transform, background-color);
+            }
+
+            &.active { 
+                &::after { background-color: $secondaryColor; @include transform(translateX(-50%) scaleX(1)); }
+                & > a { color: $secondaryColor; }
+            }
+        }
+
+        a {
+            font-size: 20px;
+            color: $primaryTextColor;
+            text-align: center;
+            text-decoration: none;
+            padding: 10px;
+            @include single-transition(color, 0.3s, ease, 0s);
+            font-weight: 600;
+            height: 100%;
+            line-height: 72px;
+        }
     }
 
-    & > .popup_container {
-        background: #f0f0f0;
-        position: absolute;
-        @include translate(-50%, -50%);
-        width: 80%;
-        max-width: 650px;
-        top: 50%; left: 50%;
-        height: auto;
-        margin-top: 10px;
-        margin-bottom: 10px;
+    h2 { color: $primaryTextColor; text-align: center; }
+
+    form { width: 100%;
+
+        fieldset button { margin: 0; }
+        fieldset div.field {
+            padding: 10px 15px;
+            width: 100%;
+            @include box-sizing(border-box);
+            position: relative;
+            min-height: 100px;
+            border-top: 1px solid rgbaExpress(black, 0.1);
+
+            & > div:first-child {
+                & > span { font-weight: 600; color: #000; font-size: 19px; }
+                & > p { color: $primaryTextColor; }
+            }
+
+            & > div:last-child {
+                @include align-items(flex-end);
+                & > button { 
+                    height: 30px!important; 
+                    min-width: auto!important;
+                    font-size: 15px!important;
+                }
+            }
+        }
+
+        fieldset div.info_accordeon {
+            height: 0px;
+            overflow: hidden;
+            @include visible(false);
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 0;
+            padding-bottom: 0;
+            border:0;
+            @include single-transition(none, 0.3s, ease-out, 0s);
+            @include transition-property(padding-top, padding-bottom, height, visibility, opacity);
+            @include box-sizing(border-box);
+
+            &.active {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                @include visible(true);
+            }
+
+            div.sm_field { margin-bottom: 10px; }
+
+            ul.sm_field { width: 70%; }
+            ul.sm_field > li {
+                padding: 10px 0;
+                border-top: $primaryBorder;
+                & > p { padding: 0 5px; }
+                & > p > strong > a { text-decoration: none; } 
+                a { color: $primaryColor; font-size: 17px; }
+            }
+        }
     }
 }
 
@@ -774,7 +978,7 @@ div.list_template {
             padding: 12px 0px;
             font-size: 14px;
             resize: none;
-
+            &:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px #fff inset; }
             &:focus, &:valid { color: #444; }
         }
 
@@ -925,102 +1129,11 @@ $loader-size_bis: 24px;
     }
 }
 
-/* Notif send order */
-
-.notif {
-    padding: 18px 15px;
-    position: fixed;
-    top: 50%; left: 50%;
-    @include translate(-50%, -50%);
-    z-index: 999;
-    @include flex(row wrap, center, center);
-    color: white;
-    font-family: Roboto;
-    background-color: transparent;
-    font-size: 1.2em;
-    @include single-transition(display, 0.5s, ease, 0s);
-    text-transform: uppercase;
-
-    img { @include animation(appear 0.15s linear 0s 1);}
-
-    @include keyframes(appear) {
-        0% { @include scale(0); }
-        100% { @include scale(); }
-    }
-}
-
 /*==========================================
 =            Update_profil page            =
 ==========================================*/
 
-div.user_update {
-    div.block_update {
-        width: 70%;
-        position: relative;
-    }
-}
 
-form.form_update_user {
-    max-width: 400px;
-    margin-bottom: 15px;
-    margin-left: 30px;
-
-    fieldset > legend { font-size: 24px; margin-bottom: 35px; }
-    fieldset > div.field {
-        width: 100%;
-        min-width: 600px;
-        max-width: 800px;
-        margin-bottom: 35px;
-        position: relative;
-        @include flex(row nowrap, space-between, center);
-        
-        & > label {
-            font-weight: normal;
-            text-align: left;
-            color: #292929;
-            font-size: 14px;
-        }
-        input,
-        textarea,
-        select,
-        option {
-            border: 1px solid #d8d8d8;
-            background: #fff;
-            resize: none;
-            font-family: roboto;
-            outline: none;
-            color: #666;
-            @include border-radius(0);
-            height: 30px;
-            padding: 0 10px;
-            display: block;
-            font-size: 14px;
-            width: 170px;
-            position: relative;
-            &:focus { border-color: #1e88e5; }
-            &:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px white inset; }
-        }
-    }
-    fieldset > div.action__button {
-        & > input {
-            background: #0676B2;
-            color: #fff;
-            font-weight: 600;
-            padding: 0px 16px;
-            text-transform: uppercase;
-            font-size: 12px;
-            @include border-radius(2px);
-            @include single-transition(background, 0.3s, ease, 0s);
-            margin: 0;
-            -webkit-appearance: none;
-            text-align: center;
-            height: 35px;
-            border: 0;
-            outline: none;
-            &:hover { background: #014AB6; cursor: pointer; }
-        }
-    }
-}
 
 /*=====  End of Update_profil page  ======*/
 
@@ -1305,7 +1418,6 @@ div.title {
         }
     }
 }
-
 
 // Row email list
 div.row_list_email {

@@ -43,7 +43,7 @@
 				<li class="row nowrap row-hori-between li_template" data-allow="<?php if ($temp['id_allow'] == 'all') { ?>0<?php } else { ?>1<?php } ?>" data-template="<?= $temp['id_template']; ?>">
 					<div class="row nowrap">
 						<div class="col nowrap col_template_thumbs">
-							<img src="http://via.placeholder.com/120x170" alt="">
+							<img data-popup-preview src="http://via.placeholder.com/120x170" alt="">
 						</div>
 						<div class="col nowrap col_template_descr">
 							<p class="title_row"><span class="title_template" contenteditable="false" onpaste="return false;" spellcheck="false"><?= $temp['title_template']?></span>&nbsp;</p>
@@ -67,7 +67,7 @@
 						</div>
 						<div class="popup_action_template">
 							<ul class="col nowrap">
-								<li data-preview>Prévisualiser</li>
+								<li data-popup-preview>Prévisualiser</li>
 								<?php if ($temp['id_allow'] != 'all'): ?>
 								<li>Demander une modification</li>
 								<li>Supprimer</li>	

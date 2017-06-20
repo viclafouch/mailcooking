@@ -104,7 +104,37 @@
   align-items: space-between;
 }
 
-.verhor-center, div.block_number div.ico {
+.row-verti-between {
+  -webkit-align-items: space-between;
+  align-items: space-between;
+}
+
+.col-verti-between {
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.row-hori-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+.col-hori-around {
+  -webkit-align-items: space-around;
+  align-items: space-around;
+}
+
+.row-verti-around {
+  -webkit-align-items: space-around;
+  align-items: space-around;
+}
+
+.col-verti-around {
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+}
+
+.verhor-center, div.popup_mc#templateOrder > div.popup_container > form > footer, div.block_number div.ico {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-flow: row nowrap;
@@ -272,7 +302,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block;
 }
 
-html, body, input, button, p {
+html, body, input, textarea, button, p, * {
   font-family: 'bariolregular', 'Helvetica';
 }
 
@@ -282,6 +312,7 @@ h1, h2, h3, h4, h5 {
 
 h1 {
   font-size: 32px;
+  margin: 10px 0;
   color: #0676B2;
   line-height: 42px;
   font-family: 'bariolbold', 'Helvetica';
@@ -746,9 +777,8 @@ div.novisible {
   position: relative;
   background-color: #FFFFFF;
   width: 100%;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+  overflow: auto;
+  height: calc(100vh - 65px);
 }
 
 div.container div.block {
@@ -774,10 +804,177 @@ div.container div.block > div.pannel {
   padding: 15px 20px;
 }
 
-/*----------  Templates  ----------*/
-div.container_template {
-  overflow: auto;
+/*----------  Popup  ----------*/
+.popup_mc {
+  position: absolute;
+  width: 100%;
+  z-index: 99999999999;
   height: calc(100vh - 65px);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.75);
+  visibility: hidden;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-transition: none 0.5s ease 0s;
+  -o-transition: none 0.5s ease 0s;
+  -webkit-transition: none 0.5s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.5s ease 0s;
+  -moz-transition-property: visibility, opacity;
+  -o-transition-property: visibility, opacity;
+  -webkit-transition-property: visibility, opacity;
+  transition-property: visibility, opacity;
+}
+.popup_mc.active {
+  visibility: visible;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+.popup_mc > .popup_background {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+.popup_mc > .popup_container {
+  background: #f0f0f0;
+  position: absolute;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 650px;
+  top: 50%;
+  left: 50%;
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*----------  Alerte  ----------*/
+div.alert {
+  position: fixed;
+  min-width: 150px;
+  height: 50px;
+  background: #0676B2;
+  color: #fff;
+  z-index: 99999999;
+  border: 1px solid #fff;
+  right: 50px;
+  bottom: -50px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+div.alert p {
+  text-align: center;
+  line-height: 50px;
+  padding: 0 20px;
+}
+
+/*----------  Templates  ----------*/
+div.popup_mc#templatePreview > div.popup_container {
+  width: auto;
+}
+
+div.popup_mc#templateOrder > div.popup_container > header, div.popup_mc#templateOrder > div.popup_container > form {
+  width: 100%;
+}
+div.popup_mc#templateOrder > div.popup_container > header {
+  background: #0676B2;
+  height: 130px;
+}
+div.popup_mc#templateOrder > div.popup_container > header h1 {
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  line-height: 130px;
+  font-size: 28px;
+  text-transform: uppercase;
+}
+div.popup_mc#templateOrder > div.popup_container > form {
+  background-color: #fff;
+}
+div.popup_mc#templateOrder > div.popup_container > form div.field {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-items: center;
+  align-items: center;
+  width: 100%;
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+div.popup_mc#templateOrder > div.popup_container > form div.field .aside {
+  width: 50%;
+  height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+  text-align: left;
+}
+div.popup_mc#templateOrder > div.popup_container > form div.field .aside label, div.popup_mc#templateOrder > div.popup_container > form div.field .aside p {
+  width: 100%;
+}
+div.popup_mc#templateOrder > div.popup_container > form div.field .aside.oneside p, div.popup_mc#templateOrder > div.popup_container > form div.field .aside.oneside label {
+  margin: 0;
+}
+div.popup_mc#templateOrder > div.popup_container > form p, div.popup_mc#templateOrder > div.popup_container > form label, div.popup_mc#templateOrder > div.popup_container > form input, div.popup_mc#templateOrder > div.popup_container > form textarea {
+  color: #444;
+  font-size: 16px;
+  margin: 0;
+  border: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+}
+div.popup_mc#templateOrder > div.popup_container > form p:-webkit-autofill, div.popup_mc#templateOrder > div.popup_container > form label:-webkit-autofill, div.popup_mc#templateOrder > div.popup_container > form input:-webkit-autofill, div.popup_mc#templateOrder > div.popup_container > form textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
+}
+div.popup_mc#templateOrder > div.popup_container > form input, div.popup_mc#templateOrder > div.popup_container > form textarea {
+  outline: 0;
+  width: 100%;
+  border-bottom: 1px solid #999999;
+  padding: 12px 0px;
+  font-size: 16px;
+  resize: none;
+  background-color: transparent;
+}
+div.popup_mc#templateOrder > div.popup_container > form input:focus, div.popup_mc#templateOrder > div.popup_container > form input:valid, div.popup_mc#templateOrder > div.popup_container > form textarea:focus, div.popup_mc#templateOrder > div.popup_container > form textarea:valid {
+  color: #444;
+}
+div.popup_mc#templateOrder > div.popup_container > form textarea::-webkit-scrollbar {
+  width: 9px;
+}
+div.popup_mc#templateOrder > div.popup_container > form textarea::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+}
+div.popup_mc#templateOrder > div.popup_container > form textarea::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: #aaaaaa;
 }
 
 div.list_template {
@@ -897,53 +1094,153 @@ div.list_template > ul div.popup_action_template ul li:hover {
   background-color: #ff646f;
 }
 
-.popup_mc {
+/*----------  Profil  ----------*/
+div.container_profil div.settings_menu {
+  position: relative;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+div.container_profil div.settings_menu div.link_block {
+  width: 33%;
+  text-align: center;
+  height: 72px;
+  position: relative;
+}
+div.container_profil div.settings_menu div.link_block::after {
+  content: '';
   position: absolute;
-  width: 100%;
-  height: calc(100vh - 65px);
-  top: 0;
-  right: 0;
   bottom: 0;
-  left: 0;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.75);
+  left: 50%;
+  max-width: 300px;
+  width: 70%;
+  background-color: transparent;
+  height: 2px;
+  -moz-transform: translateX(-50%) scaleX(0);
+  -ms-transform: translateX(-50%) scaleX(0);
+  -webkit-transform: translateX(-50%) scaleX(0);
+  transform: translateX(-50%) scaleX(0);
+  -moz-transition: none 0.3s ease 0s;
+  -o-transition: none 0.3s ease 0s;
+  -webkit-transition: none 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.3s ease 0s;
+  -moz-transition-property: -moz-transform, background-color;
+  -o-transition-property: -o-transform, background-color;
+  -webkit-transition-property: -webkit-transform, background-color;
+  transition-property: transform, background-color;
+}
+div.container_profil div.settings_menu div.link_block.active::after {
+  background-color: #FF3B49;
+  -moz-transform: translateX(-50%) scaleX(1);
+  -ms-transform: translateX(-50%) scaleX(1);
+  -webkit-transform: translateX(-50%) scaleX(1);
+  transform: translateX(-50%) scaleX(1);
+}
+div.container_profil div.settings_menu div.link_block.active > a {
+  color: #FF3B49;
+}
+div.container_profil div.settings_menu a {
+  font-size: 20px;
+  color: #444;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  -moz-transition: color 0.3s ease 0s;
+  -o-transition: color 0.3s ease 0s;
+  -webkit-transition: color 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: color 0.3s ease 0s;
+  font-weight: 600;
+  height: 100%;
+  line-height: 72px;
+}
+div.container_profil h2 {
+  color: #444;
+  text-align: center;
+}
+div.container_profil form {
+  width: 100%;
+}
+div.container_profil form fieldset button {
+  margin: 0;
+}
+div.container_profil form fieldset div.field {
+  padding: 10px 15px;
+  width: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 100px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+div.container_profil form fieldset div.field > div:first-child > span {
+  font-weight: 600;
+  color: #000;
+  font-size: 19px;
+}
+div.container_profil form fieldset div.field > div:first-child > p {
+  color: #444;
+}
+div.container_profil form fieldset div.field > div:last-child {
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+div.container_profil form fieldset div.field > div:last-child > button {
+  height: 30px !important;
+  min-width: auto !important;
+  font-size: 15px !important;
+}
+div.container_profil form fieldset div.info_accordeon {
+  height: 0px;
+  overflow: hidden;
   visibility: hidden;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
-  -moz-transition: none 0.5s ease 0s;
-  -o-transition: none 0.5s ease 0s;
-  -webkit-transition: none 0.5s ease;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 0;
+  -moz-transition: none 0.3s ease-out 0s;
+  -o-transition: none 0.3s ease-out 0s;
+  -webkit-transition: none 0.3s ease-out;
   -webkit-transition-delay: 0s;
-  transition: none 0.5s ease 0s;
-  -moz-transition-property: visibility, opacity;
-  -o-transition-property: visibility, opacity;
-  -webkit-transition-property: visibility, opacity;
-  transition-property: visibility, opacity;
+  transition: none 0.3s ease-out 0s;
+  -moz-transition-property: padding-top, padding-bottom, height, visibility, opacity;
+  -o-transition-property: padding-top, padding-bottom, height, visibility, opacity;
+  -webkit-transition-property: padding-top, padding-bottom, height, visibility, opacity;
+  transition-property: padding-top, padding-bottom, height, visibility, opacity;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
-.popup_mc.active {
+div.container_profil form fieldset div.info_accordeon.active {
+  padding-top: 10px;
+  padding-bottom: 10px;
   visibility: visible;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
-.popup_mc > .popup_background {
-  height: 100%;
-  width: 100%;
-  z-index: 0;
-}
-.popup_mc > .popup_container {
-  background: #f0f0f0;
-  position: absolute;
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  width: 80%;
-  max-width: 650px;
-  top: 50%;
-  left: 50%;
-  height: auto;
-  margin-top: 10px;
+div.container_profil form fieldset div.info_accordeon div.sm_field {
   margin-bottom: 10px;
+}
+div.container_profil form fieldset div.info_accordeon ul.sm_field {
+  width: 70%;
+}
+div.container_profil form fieldset div.info_accordeon ul.sm_field > li {
+  padding: 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+div.container_profil form fieldset div.info_accordeon ul.sm_field > li > p {
+  padding: 0 5px;
+}
+div.container_profil form fieldset div.info_accordeon ul.sm_field > li > p > strong > a {
+  text-decoration: none;
+}
+div.container_profil form fieldset div.info_accordeon ul.sm_field > li a {
+  color: #0676B2;
+  font-size: 17px;
 }
 
 /*----------  Popup Default  ----------*/
@@ -1061,6 +1358,9 @@ div.list_template > ul div.popup_action_template ul li:hover {
   padding: 12px 0px;
   font-size: 14px;
   resize: none;
+}
+.popup-container > form input:-webkit-autofill, .popup-container > form textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
 }
 .popup-container > form input:focus, .popup-container > form input:valid, .popup-container > form textarea:focus, .popup-container > form textarea:valid {
   color: #444;
@@ -1308,172 +1608,9 @@ div.list_template > ul div.popup_action_template ul li:hover {
     transform: rotate(360deg);
   }
 }
-/* Notif send order */
-.notif {
-  padding: 18px 15px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: row wrap;
-  flex-flow: row wrap;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
-  color: white;
-  font-family: Roboto;
-  background-color: transparent;
-  font-size: 1.2em;
-  -moz-transition: display 0.5s ease 0s;
-  -o-transition: display 0.5s ease 0s;
-  -webkit-transition: display 0.5s ease;
-  -webkit-transition-delay: 0s;
-  transition: display 0.5s ease 0s;
-  text-transform: uppercase;
-}
-.notif img {
-  -moz-animation: appear 0.15s linear 0s 1;
-  -webkit-animation: appear 0.15s linear 0s 1;
-  animation: appear 0.15s linear 0s 1;
-}
-@-moz-keyframes appear {
-  0% {
-    -moz-transform: scale(0, 0);
-    transform: scale(0, 0);
-  }
-  100% {
-    -moz-transform: scale(1.25, 1.25);
-    transform: scale(1.25, 1.25);
-  }
-}
-@-webkit-keyframes appear {
-  0% {
-    -webkit-transform: scale(0, 0);
-    transform: scale(0, 0);
-  }
-  100% {
-    -webkit-transform: scale(1.25, 1.25);
-    transform: scale(1.25, 1.25);
-  }
-}
-@keyframes appear {
-  0% {
-    -moz-transform: scale(0, 0);
-    -ms-transform: scale(0, 0);
-    -webkit-transform: scale(0, 0);
-    transform: scale(0, 0);
-  }
-  100% {
-    -moz-transform: scale(1.25, 1.25);
-    -ms-transform: scale(1.25, 1.25);
-    -webkit-transform: scale(1.25, 1.25);
-    transform: scale(1.25, 1.25);
-  }
-}
 /*==========================================
 =            Update_profil page            =
 ==========================================*/
-div.user_update div.block_update {
-  width: 70%;
-  position: relative;
-}
-
-form.form_update_user {
-  max-width: 400px;
-  margin-bottom: 15px;
-  margin-left: 30px;
-}
-form.form_update_user fieldset > legend {
-  font-size: 24px;
-  margin-bottom: 35px;
-}
-form.form_update_user fieldset > div.field {
-  width: 100%;
-  min-width: 600px;
-  max-width: 800px;
-  margin-bottom: 35px;
-  position: relative;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: row nowrap;
-  flex-flow: row nowrap;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  align-items: center;
-}
-form.form_update_user fieldset > div.field > label {
-  font-weight: normal;
-  text-align: left;
-  color: #292929;
-  font-size: 14px;
-}
-form.form_update_user fieldset > div.field input,
-form.form_update_user fieldset > div.field textarea,
-form.form_update_user fieldset > div.field select,
-form.form_update_user fieldset > div.field option {
-  border: 1px solid #d8d8d8;
-  background: #fff;
-  resize: none;
-  font-family: roboto;
-  outline: none;
-  color: #666;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-  border-radius: 0;
-  height: 30px;
-  padding: 0 10px;
-  display: block;
-  font-size: 14px;
-  width: 170px;
-  position: relative;
-}
-form.form_update_user fieldset > div.field input:focus,
-form.form_update_user fieldset > div.field textarea:focus,
-form.form_update_user fieldset > div.field select:focus,
-form.form_update_user fieldset > div.field option:focus {
-  border-color: #1e88e5;
-}
-form.form_update_user fieldset > div.field input:-webkit-autofill,
-form.form_update_user fieldset > div.field textarea:-webkit-autofill,
-form.form_update_user fieldset > div.field select:-webkit-autofill,
-form.form_update_user fieldset > div.field option:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px white inset;
-}
-form.form_update_user fieldset > div.action__button > input {
-  background: #0676B2;
-  color: #fff;
-  font-weight: 600;
-  padding: 0px 16px;
-  text-transform: uppercase;
-  font-size: 12px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-transition: background 0.3s ease 0s;
-  -o-transition: background 0.3s ease 0s;
-  -webkit-transition: background 0.3s ease;
-  -webkit-transition-delay: 0s;
-  transition: background 0.3s ease 0s;
-  margin: 0;
-  -webkit-appearance: none;
-  text-align: center;
-  height: 35px;
-  border: 0;
-  outline: none;
-}
-form.form_update_user fieldset > div.action__button > input:hover {
-  background: #014AB6;
-  cursor: pointer;
-}
-
 /*=====  End of Update_profil page  ======*/
 /*============================================
 =            Commande & User Page            =

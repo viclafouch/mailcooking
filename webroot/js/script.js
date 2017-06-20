@@ -77,9 +77,12 @@ function displayOfActionsTemplate(btn) {
 	});
 }
 
-function changeTemplateAllow(allow, orderby) {
-
+function hidePopup(popup) {
+	$(document).on('click', '.popup_background', function(){
+		popup.removeClass('active');		
+	});
 }
+
 /*----------  Actions  ----------*/
 
 // Démarrage des modules sans turbulinks
@@ -95,6 +98,22 @@ $(document).ready(function(){
 		activateSidebar(this);
 	});
 
+	/* Affiche l'alerte */
+	$('.alert').animate({
+		bottom: '25px',
+		top: 'auto'
+	}, 1000);
+
+	/* Cache l'alerte */
+	setTimeout(
+		function() {
+			$('.alert').animate({
+				top: '100%',
+			}, 1000);
+		},
+		5000
+	);
+	
 	/* Empêche (pour le moment) l'envoi du formulaire de recherche */
 	$(document).on('submit', '#searchForm', function(event){
 		event.preventDefault();
@@ -124,7 +143,7 @@ $(document).ready(function(){
 	}
 
 	/* Active la preview des templates */
-	$(document).on('click', '[data-preview]', function(){
+	$(document).on('click', '[data-popup-preview]', function(){
 		let parent =  $(this).parents('.li_template');
 		let idTemplate = parent.data('template');
 		let userAllow = parent.data('allow');
@@ -137,14 +156,42 @@ $(document).ready(function(){
 
 		popup.addClass('active');
 
-		$(document).on('click', '.popup_background', function(){
-			popup.removeClass('active');
+		$(document).on('click', '#templatePreview a', function(e) {
+			e.preventDefault();
 		});
 
-	// // Not hidding ==> Look at template
-	// $('.see_email_template_block').click(function () {
-	// 	event.stopPropagation();	
-	// });
+		hidePopup(popup);
+	});
+
+	/* Active le formulaire de création de commande */
+	$(document).on('click', '[data-popup-order]', function(){
+		let popup = $('#templateOrder');
+
+		popup.addClass('active');
+
+		hidePopup(popup);
+	});
+
+	/* Navigation dans le menu du profil */
+	$(document).on('click', '[data-link-profil]', function(e){
+		e.preventDefault();
+		$('.link_block').removeClass('active');
+		$(this).parent().addClass('active');
+	});
+
+	/* Clic sur les paramètres de compte */
+	$(document).on('click', "[data-info]", function(){
+		let id = $(this).attr('data-info');
+
+		if ($('#'+id).hasClass('active')) {
+			$('#'+id).css('height', '0px');
+			$('#'+id).removeClass('active');
+		}
+		else {
+			var h = $('#'+id+" > div").height();
+			$('#'+id).css('height', h + 20+'px');
+			$('#'+id).addClass('active');
+		}		
 	});
 });
 
@@ -259,6 +306,7 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
+	/* Modification du titre d'un template */
 	function updateTemplateTitle(title) {
 		title
 		.attr('contenteditable', 'false')
@@ -935,29 +983,6 @@ document.addEventListener("turbolinks:load", function() {
 	});
 
 /*=====  End of Archives page  ======*/
-
-
-/*======================================
-=            Templates_page            =
-======================================*/
-
-	// Show popup ==> Request template
-	$( ".action_creat_temp" ).click(function() {		
-		$(".creat_template").css({
-			visibility:"visible",
-			opacity:"1",
-		});
-	});
-
-	// Hide popup ==> Request template
-	$( ".popup-overlay" ).click(function() {		
-		$(".popup-overlay, .popup-container").css({
-			visibility:"hidden",
-			opacity:"0",
-		});
-	});
-
-/*=====  End of Templates_page  ======*/
 
 /*======================================
 =            Commandes_page            =
