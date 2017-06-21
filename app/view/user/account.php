@@ -30,7 +30,7 @@
 		</div>
 	</div>
 	<div class="block full_block">
-		<div class="pannel pannel_body">
+		<div class="pannel pannel_body pannel_title">
 			<h2>Informations de compte</h2>
 		</div>
 		<div class="pannel pannel_body">
@@ -42,7 +42,7 @@
 					</div>
 					<div class="col nowrap col-verti-around">
 						<button data-info="societe" class="button_default button_primary">Modifier</button>
-						<p>1 société sauvegardée</p>
+						<p><span data-count="societe">1</span> société sauvegardée</p>
 					</div>
 				</div>
 				<div id="societe" class="info_accordeon">
@@ -54,17 +54,17 @@
 							<li class="row row-hori-between nowrap">
 								<p>Google</p>
 								<p>	
-									<a href="#" title="">Supprimer</a>
+									<a href="#" data-delete='societe' title="">Supprimer</a>
 								</p>
 							</li>
 							<li class="row row-hori-between nowrap">
 								<p>Uber</p>
 								<p>	
-									<a href="#" title="">Supprimer</a>
+									<a href="#" data-delete='societe' title="">Supprimer</a>
 								</p>
 							</li>
 							<li class="row row-hori-between nowrap">
-								<p><strong><a href="#" title="">Ajouter une société</a></strong></p>
+								<p><strong><a href="#" data-add="societe" title="">Ajouter une société</a></strong></p>
 							</li>
 						</ul>
 					</div>
@@ -117,7 +117,7 @@
 							<li class="row row-hori-between nowrap">
 								<p>FR +33 626922635</p>
 								<p>	
-									<a href="#" title="">Supprimer</a>
+									<a href="#" data-delete='phone' title="">Supprimer</a>
 								</p>
 							</li>
 							<li class="row row-hori-between nowrap">
@@ -130,7 +130,7 @@
 		</div>
 	</div>
 	<div class="block full_block">
-		<div class="pannel pannel_body">
+		<div class="pannel pannel_body pannel_title">
 			<h2>Informations de connexion</h2>
 		</div>
 		<div class="pannel pannel_body">

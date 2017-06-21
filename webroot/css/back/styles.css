@@ -807,7 +807,15 @@ div.container div.block > div.pannel {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 15px 20px;
+  padding: 15px 50px;
+}
+div.container div.block > div.pannel.pannel_body {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+div.container div.block > div.pannel.pannel_heading {
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 /*----------  Popup  ----------*/
@@ -984,7 +992,8 @@ div.popup_mc#templateOrder > div.popup_container > form textarea::-webkit-scroll
 }
 
 div.list_template {
-  padding: 0 20px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 div.list_template > ul {
   width: 100%;
@@ -1163,6 +1172,10 @@ div.container_profil div.settings_menu a {
   height: 100%;
   line-height: 72px;
 }
+div.container_profil div.block > .pannel_title + div.pannel_body {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 div.container_profil h2 {
   color: #444;
   text-align: center;
@@ -1179,14 +1192,26 @@ div.container_profil div.field {
   position: relative;
   min-height: 100px;
 }
-div.container_profil div.field::after {
+div.container_profil div.field::after, div.container_profil div.field::before {
   position: absolute;
   width: 100%;
-  height: 1px;
+  height: 2px;
   content: '';
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.1);
+  -moz-transition: width 0.3s ease 0s;
+  -o-transition: width 0.3s ease 0s;
+  -webkit-transition: width 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: width 0.3s ease 0s;
+}
+div.container_profil div.field::before {
+  width: 0%;
+  background-color: #0676B2;
+}
+div.container_profil div.field.active::before {
+  width: 100%;
 }
 div.container_profil div.field > div:first-child > span {
   font-weight: 600;
@@ -1245,14 +1270,45 @@ div.container_profil div.info_accordeon .sm_field a {
   font-size: 17px;
 }
 div.container_profil div.info_accordeon ul.sm_field > li {
-  padding: 10px 0;
+  -moz-transition: height 0.5s ease 0.3s;
+  -o-transition: height 0.5s ease 0.3s;
+  -webkit-transition: height 0.5s ease;
+  -webkit-transition-delay: 0.3s;
+  transition: height 0.5s ease 0.3s;
+  height: 50px;
+  overflow: hidden;
+  line-height: 50px;
   border-top: 1px solid rgba(0, 0, 0, 0.085);
 }
 div.container_profil div.info_accordeon ul.sm_field > li > p {
   padding: 0 5px;
 }
+div.container_profil div.info_accordeon ul.sm_field > li > p > input {
+  border: 0;
+}
 div.container_profil div.info_accordeon ul.sm_field > li > p > strong > a {
   text-decoration: none;
+  -moz-transition: none 0.3s ease 0s;
+  -o-transition: none 0.3s ease 0s;
+  -webkit-transition: none 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.3s ease 0s;
+  -moz-transition-property: visibility, opacity;
+  -o-transition-property: visibility, opacity;
+  -webkit-transition-property: visibility, opacity;
+  transition-property: visibility, opacity;
+  -moz-transition-delay: 0.5;
+  -o-transition-delay: 0.5;
+  -webkit-transition-delay: 0.5;
+  transition-delay: 0.5;
+  visibility: visible;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+div.container_profil div.info_accordeon ul.sm_field > li > p > strong > a.desactivate {
+  visibility: hidden;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
 }
 
 /*----------  Popup Default  ----------*/

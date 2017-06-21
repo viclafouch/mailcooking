@@ -576,7 +576,10 @@ div.container {
     div.block > div.pannel {
         width: 100%;
         @include box-sizing(border-box);
-        padding: 15px 20px;
+        padding: 15px 50px;
+
+        &.pannel_body { padding-top: 30px; padding-bottom: 30px; }
+        &.pannel_heading { padding-top: 40px; padding-bottom: 40px; }
     }
 }
 
@@ -706,7 +709,8 @@ div.popup_mc#templateOrder > div.popup_container {
 }
 
 div.list_template {
-    padding: 0 20px!important;
+    padding-top: 0!important;
+    padding-bottom: 0!important;
 
     & > ul { width: 100%;
 
@@ -817,6 +821,8 @@ div.container_profil { overflow-y: scroll!important;
             line-height: 72px;
         }
     }
+    
+    div.block > .pannel_title + div.pannel_body { padding-top: 0!important; padding-bottom: 0!important; }
 
     h2 { color: $primaryTextColor; text-align: center; }
 
@@ -829,14 +835,19 @@ div.container_profil { overflow-y: scroll!important;
         position: relative;
         min-height: 100px;
 
-        &::after {
+        &::after, &::before {
             position: absolute;
             width: 100%;
-            height: 1px;
+            height: 2px;
             content: '';
             top: 0; left: 0;
             background-color: rgbaExpress(black, 0.1);
+            @include single-transition(width, 0.3s, ease, 0s);
         }
+
+        &::before { width: 0%; background-color: $primaryColor; }
+
+        &.active { &::before { width: 100%; } }
 
         & > div:first-child {
             & > span { font-weight: 600; color: #000; font-size: 19px; }
@@ -877,10 +888,23 @@ div.container_profil { overflow-y: scroll!important;
         .sm_field a { color: $primaryColor; font-size: 17px; }
 
         ul.sm_field > li {
-            padding: 10px 0;
+            @include single-transition(height, 0.5s, ease, 0.3s);
+            height: 50px;
+            overflow: hidden;
+            line-height: 50px;
             border-top: 1px solid rgbaExpress(black, 0.085);
             & > p { padding: 0 5px; }
-            & > p > strong > a { text-decoration: none; } 
+            & > p > input {
+                border: 0;
+
+            }
+            & > p > strong > a { 
+                text-decoration: none;
+                @include animateVisibility(0.3s);
+                @include transition-delay(0.2s);
+                @include visible(true);
+                &.desactivate { @include visible(false); }
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ var pen = '<i class="material-icons" data-editable-title>create</i>'; // Crayon 
 var clicOnPen = false; // Statut du clic sur un crayon d'edition
 var title; // Titre d'edition de template
 var contentTitle; // Valeur du titre
+var flagAdd = true // Etat du bouton ajout d'informations
 
 /*----------  Fonctions  ----------*/
 
@@ -183,18 +184,90 @@ $(document).ready(function(){
 	$(document).on('click', "[data-info]", function(e){
 		e.preventDefault();
 		let id = $(this).attr('data-info');
+		let accordeon = $('#'+id);
 
-		if ($('#'+id).hasClass('active')) {
-			$('#'+id).css('height', '0px');
-			$('#'+id).removeClass('active');
+		if (accordeon.hasClass('active')) {
+			$(this).parents('.field').removeClass('active');	
+			accordeon.css('height', '0px');
+			accordeon.removeClass('active');
+
+			if (!flagAdd) {
+				console.log('en cours');
+				$('[data-save="'+id+'"]').parents('li').remove();
+				$('a.desactivate').removeClass('desactivate');
+				flagAdd = true;
+			}
 		}
 
 		else {
+			$('.field').removeClass('active');	
+			$(this).parents('.field').addClass('active');
 			$('.info_accordeon').removeClass('active').css('height', '0px');
 			var h = $('#'+id+" > div").height();
-			$('#'+id).css('height', h+'px');
-			$('#'+id).addClass('active');
+			accordeon.css('height', h+'px');
+			accordeon.addClass('active');
 		}		
+	});
+
+	/* Supprime une ligne d'un field */
+	$(document).on('click', '[data-delete]', function(e){
+		e.preventDefault();
+		let data = $(this).data('delete');
+		let accordeon = $('#'+data);
+		let h = parseFloat(accordeon.css('height'));
+		let list = '#'+data+'_list';
+		let length = $(list+' li').length - 1;
+		var row = $(this).parents('li');
+		if (length > 1) {
+			row.css('height', '0px');
+			accordeon.css('height',  h - 51+'px');
+			$('[data-count="'+data+'"]').html(length - 1);
+			setTimeout(function(){
+				row.remove();
+			}, 800);
+		} else {
+			console.log('mettre au moins 1 société');
+		}
+	});
+
+	$(document).on('click', '[data-add]', function(e){
+		e.preventDefault();
+		if (flagAdd) {
+			flagAdd = false;
+			$(this).addClass('desactivate');
+			let data = $(this).data('add');
+			let list = '#'+data+'_list';
+			let accordeon = $('#'+data);
+			let h = parseFloat(accordeon.css('height'));
+			accordeon.css('height',  h + 51+'px');
+			var row = $(list+' li:first-child');
+			let $clone = row.clone(true);
+			let inputHTML = '<input placeholder="'+data+'" spellcheck="false" autocomplete"off" type="text" data-input="'+data+'" />'
+			let saveHTML = '<a href="#" data-save="'+data+'" title="">Sauvegarder</a>';
+			$($clone).find('p:first-child').html(inputHTML);
+			$($clone).find('p:last-child').html(saveHTML);
+			console.log($($clone));
+			$($clone).insertBefore($(this).parents('li'));
+		}
+	});
+
+	/* Sauvegarde d'un element de profil */
+	$(document).on('click', '[data-save]', function(e){
+		e.preventDefault();
+		let id = $(this).data('save');
+		let input = $('[data-input="'+id+'"]');
+		let list = '#'+id+'_list';
+		let length = $(list+' li').length - 1;
+		let val = input.val();
+		let deleteHTML = '<a href="#" data-delete="'+id+'" title="">Supprimer</a>';
+
+		if (val != '') {
+			$(this).parent().html(deleteHTML);
+			$('a.desactivate').removeClass('desactivate');
+			$('[data-count="'+id+'"]').html(length);
+			flagAdd = true;
+		}
+		// Requete AJAX
 	});
 });
 
@@ -398,6 +471,14 @@ document.addEventListener("turbolinks:load", function() {
 			}
 		});
 	});
+
+	/*===================================
+	=            Profil page            =
+	===================================*/
+	
+	
+	/*=====  End of Profil page  ======*/
+	
 
 	/*===================================
 	=            Emails_page            =
