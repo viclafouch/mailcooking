@@ -180,16 +180,19 @@ $(document).ready(function(){
 	});
 
 	/* Clic sur les paramètres de compte */
-	$(document).on('click', "[data-info]", function(){
+	$(document).on('click', "[data-info]", function(e){
+		e.preventDefault();
 		let id = $(this).attr('data-info');
 
 		if ($('#'+id).hasClass('active')) {
 			$('#'+id).css('height', '0px');
 			$('#'+id).removeClass('active');
 		}
+
 		else {
+			$('.info_accordeon').removeClass('active').css('height', '0px');
 			var h = $('#'+id+" > div").height();
-			$('#'+id).css('height', h + 20+'px');
+			$('#'+id).css('height', h+'px');
 			$('#'+id).addClass('active');
 		}		
 	});

@@ -300,6 +300,13 @@ i { font-size: 24px; }
 
 p, input, span, a { font-size: 16px; outline: none; }
 
+/*----------  Progress bar  ----------*/
+
+.turbolinks-progress-bar {
+  height: 5px;
+  background-color: $primaryColor;
+}
+
 /*----------  Sidebar  ----------*/
 
 aside.sidebar {
@@ -765,7 +772,7 @@ div.list_template {
 
 /*----------  Profil  ----------*/
 
-div.container_profil {
+div.container_profil { overflow-y: scroll!important;
 
     div.settings_menu {
         position: relative;
@@ -813,61 +820,67 @@ div.container_profil {
 
     h2 { color: $primaryTextColor; text-align: center; }
 
-    form { width: 100%;
+    button { margin: 0; }
 
-        fieldset button { margin: 0; }
-        fieldset div.field {
-            padding: 10px 15px;
+    div.field {
+        padding: 10px 15px;
+        width: 100%;
+        @include box-sizing(border-box);
+        position: relative;
+        min-height: 100px;
+
+        &::after {
+            position: absolute;
             width: 100%;
-            @include box-sizing(border-box);
-            position: relative;
-            min-height: 100px;
-            border-top: 1px solid rgbaExpress(black, 0.1);
-
-            & > div:first-child {
-                & > span { font-weight: 600; color: #000; font-size: 19px; }
-                & > p { color: $primaryTextColor; }
-            }
-
-            & > div:last-child {
-                @include align-items(flex-end);
-                & > button { 
-                    height: 30px!important; 
-                    min-width: auto!important;
-                    font-size: 15px!important;
-                }
-            }
+            height: 1px;
+            content: '';
+            top: 0; left: 0;
+            background-color: rgbaExpress(black, 0.1);
         }
 
-        fieldset div.info_accordeon {
-            height: 0px;
-            overflow: hidden;
-            @include visible(false);
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-top: 0;
-            padding-bottom: 0;
-            border:0;
-            @include single-transition(none, 0.3s, ease-out, 0s);
-            @include transition-property(padding-top, padding-bottom, height, visibility, opacity);
-            @include box-sizing(border-box);
+        & > div:first-child {
+            & > span { font-weight: 600; color: #000; font-size: 19px; }
+            & > p { color: $primaryTextColor; }
+        }
 
-            &.active {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                @include visible(true);
+        & > div:last-child {
+            @include align-items(flex-end);
+            & > button { 
+                height: 30px!important; 
+                min-width: auto!important;
+                font-size: 15px!important;
             }
+        }
+    }
 
-            div.sm_field { margin-bottom: 10px; }
+    div.info_accordeon {
+        height: 0px;
+        overflow: hidden;
+        @include visible(false);
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 0;
+        padding-bottom: 0;
+        border:0;
+        @include single-transition(none, 0.3s, ease-out, 0s);
+        @include transition-property(padding-top, padding-bottom, height, visibility, opacity);
+        @include box-sizing(border-box);
 
-            ul.sm_field { width: 70%; }
-            ul.sm_field > li {
-                padding: 10px 0;
-                border-top: $primaryBorder;
-                & > p { padding: 0 5px; }
-                & > p > strong > a { text-decoration: none; } 
-                a { color: $primaryColor; font-size: 17px; }
-            }
+        &.active {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            @include visible(true);
+        }
+
+        .sm_field { width: 70%; margin-bottom: 10px; }
+
+        .sm_field a { color: $primaryColor; font-size: 17px; }
+
+        ul.sm_field > li {
+            padding: 10px 0;
+            border-top: 1px solid rgbaExpress(black, 0.085);
+            & > p { padding: 0 5px; }
+            & > p > strong > a { text-decoration: none; } 
         }
     }
 }
