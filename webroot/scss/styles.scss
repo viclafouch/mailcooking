@@ -768,6 +768,12 @@ div.popup_mc > div.popup_container {
     }
 }
 
+/*----------  Dashboard  ----------*/
+
+div.container_template {
+    
+}
+
 /*----------  Templates  ----------*/
 
 div.list_template {
@@ -1098,7 +1104,6 @@ div.container_profil { overflow-y: scroll!important;
       @include translate(5px, -13px);
       background-color: $primaryColor;
     }
-
 }
 
 /*----------  Popup Default  ----------*/
@@ -1320,56 +1325,6 @@ $spacing: 30px;
     }
 }
 
-/* Loader Update user*/
-
-$loader-size_bis: 24px;
-
-.loader_post {
-   height: $loader-size_bis;
-   width: $loader-size_bis;
-   background: transparent;
-   @include border-radius(50%);
-   @include inline-block(middle);
-   position: relative;
-   margin-left: 10px;
-   visibility: hidden;
-   @include opacity(0);
-   
-   &::before {
-      content: "";
-      height: $loader-size_bis;
-      width: $loader-size_bis;
-      @include border-radius(50%);
-      position: absolute;
-      left: 50%; top: 50%;
-      margin-left: -17px;
-      margin-top: -17px;
-      border: 5px solid transparent;
-   }
-   
-   &::before {
-      border-top-color: $primaryColor;
-      @include animation(rotation 0.7s linear 0s infinite);
-   }
-
-   @include keyframes(rotation) {
-       0% { @include rotate(0deg); }
-       100% { @include rotate(360deg); }
-    }
-}
-
-/*==========================================
-=            Update_profil page            =
-==========================================*/
-
-
-
-/*=====  End of Update_profil page  ======*/
-
-/*============================================
-=            Commande & User Page            =
-============================================*/
-
 span.label {
     display: inline;
     padding: .2em .6em .3em;
@@ -1388,8 +1343,6 @@ span.label {
     &.statut2 { background-color: #009688; }
     &.statut3 { background-color: #5cb85c; }
 }
-
-/*=====  End of Commande & User Page  ======*/
 
 /*====================================
 =            Email's page            =

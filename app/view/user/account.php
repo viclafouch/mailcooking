@@ -259,7 +259,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="block full_block" data-task="fac">
+	<div class="block full_block" data-task="fac" style="display: none;">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Vos factures (3)</h2>
 			<p class="legend"><button class="button_legend">Mes informations de paiement</button></p>

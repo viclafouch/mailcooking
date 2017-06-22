@@ -1060,6 +1060,7 @@ div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-thumb {
   background: #aaaaaa;
 }
 
+/*----------  Dashboard  ----------*/
 /*----------  Templates  ----------*/
 div.list_template {
   padding-top: 0 !important;
@@ -1862,86 +1863,6 @@ div.container_profil .checkbonito:checked ~ label::before {
     transform: translateY(-80%);
   }
 }
-/* Loader Update user*/
-.loader_post {
-  height: 24px;
-  width: 24px;
-  background: transparent;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  display: inline-block;
-  vertical-align: middle;
-  *vertical-align: auto;
-  *zoom: 1;
-  *display: inline;
-  position: relative;
-  margin-left: 10px;
-  visibility: hidden;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-}
-.loader_post::before {
-  content: "";
-  height: 24px;
-  width: 24px;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-left: -17px;
-  margin-top: -17px;
-  border: 5px solid transparent;
-}
-.loader_post::before {
-  border-top-color: #0676B2;
-  -moz-animation: rotation 0.7s linear 0s infinite;
-  -webkit-animation: rotation 0.7s linear 0s infinite;
-  animation: rotation 0.7s linear 0s infinite;
-}
-@-moz-keyframes rotation {
-  0% {
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes rotation {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes rotation {
-  0% {
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-/*==========================================
-=            Update_profil page            =
-==========================================*/
-/*=====  End of Update_profil page  ======*/
-/*============================================
-=            Commande & User Page            =
-============================================*/
 span.label {
   display: inline;
   padding: .2em .6em .3em;
@@ -1968,7 +1889,6 @@ span.label.statut3 {
   background-color: #5cb85c;
 }
 
-/*=====  End of Commande & User Page  ======*/
 /*====================================
 =            Email's page            =
 ====================================*/
