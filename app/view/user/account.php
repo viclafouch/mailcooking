@@ -29,13 +29,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="block full_block" data-task="inf"  style="display: none;">
+	<div class="block full_block" data-task="inf">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Informations de compte</h2>
 		</div>
 		<div class="pannel pannel_body">
 			<div class="col nowrap">
-				<div class="field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
 						<span>Société</span>
 						<p>Indiquez la société dans laquelle vous travaillez</p>
@@ -71,7 +71,7 @@
 				</div>
 			</div>
 			<div class="col nowrap">
-				<div class="field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
 						<span>Nom</span>
 						<p>Indiquez votre nom / prénom en cas de contact de Mailcooking</p>
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 			<div class="col nowrap">
-				<div class="field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
 						<span>Numéro de téléphone</span>
 						<p>Ajoutez un numéro de téléphone au cas où vous auriez des problèmes d’identification</p>
@@ -129,13 +129,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="block full_block" data-task="inf"  style="display: none;">
+	<div class="block full_block" data-task="inf">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Informations de connexion</h2>
 		</div>
 		<div class="pannel pannel_body">
 			<div class="col nowrap">
-				<div class="field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
 						<span>Adresse e-mail</span>
 						<p>Ajouter ou supprimez des adresses e-mail sur votre compte</p>
@@ -169,7 +169,7 @@
 				</div>
 			</div>
 			<div class="col nowrap">
-				<div class="field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
 						<span>Mot de passe</span>
 						<p>Choisissez un mot de passe unique pour protéger votre compte</p>
@@ -200,7 +200,7 @@
 	<div class="block full_block" data-task="sub" style="display: none;">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Votre abonnement actuel : </h2>
-			<p id="mySub"><span>Abonnement tip</span></p>
+			<p class="legend"><button data-popup="profilRenewal" class="button_legend">Date de renouvellement</button></p>
 		</div>
 		<div class="pannel pannel_body pannel_legend">
 			<p>Nos tarifs sont clairs et fixes. Vous aurez la possibilité de mettre votre compte en pause en fonction de votre activité et de le relancer quand vous le souhaiterez, sans perte de données.</p>
@@ -262,6 +262,7 @@
 	<div class="block full_block" data-task="fac">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Vos factures (3)</h2>
+			<p class="legend"><button class="button_legend">Mes informations de paiement</button></p>
 		</div>
 		<div class="pannel pannel_body container_to_table">
 			<table class="table_fac">
@@ -291,6 +292,42 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+	</div>
+	<div class="popup_mc" id="profilRenewal">
+		<div class="popup_background"></div>
+		<div class="popup_container">
+			<header>
+				<h1>REVENOUVELLEMENT</h1>
+			</header>
+			<form method="post" action="">
+				<div class="content_block popup-blocks">
+					<div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Date du prochain prévèlement :</label>
+							</div>
+							<div class="overside aside">
+								<p>15/08/2017</p>
+							</div>
+						</div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Renouvellement automatique :*</label>
+							</div>
+							<div class="overside aside">
+								<p>
+									<input type="checkbox" id="check1" class="checkbonito"/>
+   									<label for="check1"></label>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<footer>
+					<button class="button_default button_secondary">Sauvegarder</button>
+				</footer>
+			</form>
 		</div>
 	</div>
 </div>

@@ -176,6 +176,8 @@ $(document).ready(function(){
 	/* Navigation dans le menu du profil */
 	$(document).on('click', '[data-link-profil]', function(e){
 		e.preventDefault();
+		$('.bg_field').removeClass('active');	
+		$('.info_accordeon').removeClass('active').css('height', '0px');
 		$('.link_block').removeClass('active');
 		$(this).parent().addClass('active');
 		let menu = $(this).data('link-profil');
@@ -190,14 +192,14 @@ $(document).ready(function(){
 		let accordeon = $('#'+id);
 
 		if (accordeon.hasClass('active')) {
-			$(this).parents('.field').removeClass('active');	
+			$(this).parents('.bg_field').removeClass('active');	
 			accordeon.css('height', '0px');
 			accordeon.removeClass('active');
 		}
 
 		else {
-			$('.field').removeClass('active');	
-			$(this).parents('.field').addClass('active');
+			$('.bg_field').removeClass('active');	
+			$(this).parents('.bg_field').addClass('active');
 			$('.info_accordeon').removeClass('active').css('height', '0px');
 			var h = $('#'+id+" > div").height();
 			accordeon.css('height', h+'px');
@@ -338,6 +340,17 @@ $(document).ready(function(){
 				}
 			});
 		}
+	});
+
+	/* Active la popup de renouvellement */
+	$(document).on('click', '[data-popup]', function(e){
+		e.preventDefault();
+		let data = $(this).data('popup');
+		let popup = $('#'+data);		
+
+		popup.addClass('active');
+
+		hidePopup(popup);
 	});
 });
 

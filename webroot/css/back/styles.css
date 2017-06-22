@@ -134,7 +134,7 @@
   justify-content: space-around;
 }
 
-.verhor-center, div.popup_mc#templateOrder > div.popup_container > form > footer, div.container_profil div.card_block > footer.card_footer, div.block_number div.ico {
+.verhor-center, div.popup_mc > div.popup_container > form > footer, div.container_profil div.card_block > footer.card_footer, div.block_number div.ico {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-flow: row nowrap;
@@ -959,19 +959,19 @@ div.alert p {
   opacity: 1;
 }
 
-/*----------  Templates  ----------*/
-div.popup_mc#templatePreview > div.popup_container {
-  width: auto;
+/*----------  Popup  ----------*/
+div.popup_mc#templateOrder > div.popup_container {
+  width: 80%;
 }
 
-div.popup_mc#templateOrder > div.popup_container > header, div.popup_mc#templateOrder > div.popup_container > form {
+div.popup_mc > div.popup_container > header, div.popup_mc > div.popup_container > form {
   width: 100%;
 }
-div.popup_mc#templateOrder > div.popup_container > header {
+div.popup_mc > div.popup_container > header {
   background: #0676B2;
   height: 130px;
 }
-div.popup_mc#templateOrder > div.popup_container > header h1 {
+div.popup_mc > div.popup_container > header h1 {
   color: #fff;
   margin: 0;
   padding: 0;
@@ -980,10 +980,10 @@ div.popup_mc#templateOrder > div.popup_container > header h1 {
   font-size: 28px;
   text-transform: uppercase;
 }
-div.popup_mc#templateOrder > div.popup_container > form {
+div.popup_mc > div.popup_container > form {
   background-color: #fff;
 }
-div.popup_mc#templateOrder > div.popup_container > form div.field {
+div.popup_mc > div.popup_container > form div.field {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-flow: row nowrap;
@@ -999,7 +999,7 @@ div.popup_mc#templateOrder > div.popup_container > form div.field {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-div.popup_mc#templateOrder > div.popup_container > form div.field .aside {
+div.popup_mc > div.popup_container > form div.field .aside {
   width: 50%;
   height: 100%;
   display: -webkit-flex;
@@ -1012,13 +1012,16 @@ div.popup_mc#templateOrder > div.popup_container > form div.field .aside {
   align-items: center;
   text-align: left;
 }
-div.popup_mc#templateOrder > div.popup_container > form div.field .aside label, div.popup_mc#templateOrder > div.popup_container > form div.field .aside p {
+div.popup_mc > div.popup_container > form div.field .aside label, div.popup_mc > div.popup_container > form div.field .aside p {
   width: 100%;
 }
-div.popup_mc#templateOrder > div.popup_container > form div.field .aside.oneside p, div.popup_mc#templateOrder > div.popup_container > form div.field .aside.oneside label {
+div.popup_mc > div.popup_container > form div.field .aside.overside p {
+  text-align: center;
+}
+div.popup_mc > div.popup_container > form div.field .aside.oneside p, div.popup_mc > div.popup_container > form div.field .aside.oneside label {
   margin: 0;
 }
-div.popup_mc#templateOrder > div.popup_container > form p, div.popup_mc#templateOrder > div.popup_container > form label, div.popup_mc#templateOrder > div.popup_container > form input, div.popup_mc#templateOrder > div.popup_container > form textarea {
+div.popup_mc > div.popup_container > form p, div.popup_mc > div.popup_container > form label, div.popup_mc > div.popup_container > form input, div.popup_mc > div.popup_container > form textarea {
   color: #444;
   font-size: 16px;
   margin: 0;
@@ -1028,10 +1031,10 @@ div.popup_mc#templateOrder > div.popup_container > form p, div.popup_mc#template
   box-sizing: border-box;
   position: relative;
 }
-div.popup_mc#templateOrder > div.popup_container > form p:-webkit-autofill, div.popup_mc#templateOrder > div.popup_container > form label:-webkit-autofill, div.popup_mc#templateOrder > div.popup_container > form input:-webkit-autofill, div.popup_mc#templateOrder > div.popup_container > form textarea:-webkit-autofill {
+div.popup_mc > div.popup_container > form p:-webkit-autofill, div.popup_mc > div.popup_container > form label:-webkit-autofill, div.popup_mc > div.popup_container > form input:-webkit-autofill, div.popup_mc > div.popup_container > form textarea:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #fff inset;
 }
-div.popup_mc#templateOrder > div.popup_container > form input, div.popup_mc#templateOrder > div.popup_container > form textarea {
+div.popup_mc > div.popup_container > form input, div.popup_mc > div.popup_container > form textarea {
   outline: 0;
   width: 100%;
   border-bottom: 1px solid #999999;
@@ -1040,23 +1043,24 @@ div.popup_mc#templateOrder > div.popup_container > form input, div.popup_mc#temp
   resize: none;
   background-color: transparent;
 }
-div.popup_mc#templateOrder > div.popup_container > form input:focus, div.popup_mc#templateOrder > div.popup_container > form input:valid, div.popup_mc#templateOrder > div.popup_container > form textarea:focus, div.popup_mc#templateOrder > div.popup_container > form textarea:valid {
+div.popup_mc > div.popup_container > form input:focus, div.popup_mc > div.popup_container > form input:valid, div.popup_mc > div.popup_container > form textarea:focus, div.popup_mc > div.popup_container > form textarea:valid {
   color: #444;
 }
-div.popup_mc#templateOrder > div.popup_container > form textarea::-webkit-scrollbar {
+div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar {
   width: 9px;
 }
-div.popup_mc#templateOrder > div.popup_container > form textarea::-webkit-scrollbar-track {
+div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   -moz-border-radius: 50px;
   -webkit-border-radius: 50px;
   border-radius: 50px;
 }
-div.popup_mc#templateOrder > div.popup_container > form textarea::-webkit-scrollbar-thumb {
+div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-thumb {
   border-radius: 50px;
   background: #aaaaaa;
 }
 
+/*----------  Templates  ----------*/
 div.list_template {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -1179,6 +1183,9 @@ div.list_template > ul div.popup_action_template ul li:hover {
 div.container_profil {
   overflow-y: scroll !important;
 }
+div.container_profil div.popup_mc#profilRenewal footer {
+  height: 120px;
+}
 div.container_profil div.settings_menu {
   position: relative;
   padding-top: 0 !important;
@@ -1246,27 +1253,38 @@ div.container_profil h2 {
   color: #444;
   text-align: center;
 }
-div.container_profil p#mySub {
+div.container_profil p.legend {
   text-align: center;
   width: 100%;
 }
-div.container_profil p#mySub > span {
+div.container_profil p.legend > button {
   padding: 8px 13px;
   border: 2px solid #0676B2;
   background-color: #fff;
   color: #0676B2;
   font-weight: 700;
   margin: 15px auto;
-  max-width: 200px;
+  font-size: 16px;
   display: block;
+  cursor: pointer;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
+  -moz-transition: none 0.3s ease 0s;
+  -o-transition: none 0.3s ease 0s;
+  -webkit-transition: none 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.3s ease 0s;
+  -moz-transition-property: color, background-color;
+  -o-transition-property: color, background-color;
+  -webkit-transition-property: color, background-color;
+  transition-property: color, background-color;
 }
-div.container_profil button {
-  margin: 0;
+div.container_profil p.legend > button:hover {
+  background-color: #0676B2;
+  color: #fff;
 }
-div.container_profil div.field {
+div.container_profil div.bg_field {
   padding: 10px 15px;
   width: 100%;
   -moz-box-sizing: border-box;
@@ -1275,7 +1293,7 @@ div.container_profil div.field {
   position: relative;
   min-height: 100px;
 }
-div.container_profil div.field::after, div.container_profil div.field::before {
+div.container_profil div.bg_field::after, div.container_profil div.bg_field::before {
   position: absolute;
   width: 100%;
   height: 2px;
@@ -1289,26 +1307,26 @@ div.container_profil div.field::after, div.container_profil div.field::before {
   -webkit-transition-delay: 0s;
   transition: width 0.3s ease 0s;
 }
-div.container_profil div.field::before {
+div.container_profil div.bg_field::before {
   width: 0%;
   background-color: #0676B2;
 }
-div.container_profil div.field.active::before {
+div.container_profil div.bg_field.active::before {
   width: 100%;
 }
-div.container_profil div.field > div:first-child > span {
+div.container_profil div.bg_field > div:first-child > span {
   font-weight: 600;
   color: #000;
   font-size: 19px;
 }
-div.container_profil div.field > div:first-child > p {
+div.container_profil div.bg_field > div:first-child > p {
   color: #444;
 }
-div.container_profil div.field > div:last-child {
+div.container_profil div.bg_field > div:last-child {
   -webkit-align-items: flex-end;
   align-items: flex-end;
 }
-div.container_profil div.field > div:last-child > button {
+div.container_profil div.bg_field > div:last-child > button {
   height: 30px !important;
   min-width: auto !important;
   font-size: 15px !important;
@@ -1422,7 +1440,7 @@ div.container_profil div.card_block > span.subactual {
   background-color: #8BC34A;
   border-bottom: 2px solid #fff;
   border-right: 2px solid #fff;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.85);
   font-size: 13px;
   font-weight: 600;
 }
@@ -1493,6 +1511,63 @@ div.container_profil table.table_fac i {
   -ms-user-select: none;
   user-select: none;
   color: #BE0804;
+}
+div.container_profil .checkbonito {
+  display: none;
+}
+div.container_profil .checkbonito ~ label {
+  display: inline-block;
+  max-width: 30px;
+  background-color: #f0f0f0;
+  padding: 10px 25px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  -moz-transition: all 200ms ease-in-out 0s;
+  -o-transition: all 200ms ease-in-out 0s;
+  -webkit-transition: all 200ms ease-in-out;
+  -webkit-transition-delay: 0s;
+  transition: all 200ms ease-in-out 0s;
+  margin: 5px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+div.container_profil .checkbonito:checked ~ label {
+  background-color: #089ded;
+}
+div.container_profil .checkbonito ~ label::before {
+  content: "";
+  background-color: white;
+  padding: 13px;
+  position: absolute;
+  cursor: pointer;
+  display: block;
+  -moz-transform: translate(-30px, -13px);
+  -ms-transform: translate(-30px, -13px);
+  -webkit-transform: translate(-30px, -13px);
+  transform: translate(-30px, -13px);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  -moz-transition: all 200ms ease-in-out 0s;
+  -o-transition: all 200ms ease-in-out 0s;
+  -webkit-transition: all 200ms ease-in-out;
+  -webkit-transition-delay: 0s;
+  transition: all 200ms ease-in-out 0s;
+  -moz-box-shadow: 1px 1px 5px 0.5px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 1px 1px 5px 0.5px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 1px 5px 0.5px rgba(0, 0, 0, 0.5);
+}
+div.container_profil .checkbonito:checked ~ label::before {
+  -moz-transform: translate(5px, -13px);
+  -ms-transform: translate(5px, -13px);
+  -webkit-transform: translate(5px, -13px);
+  transform: translate(5px, -13px);
+  background-color: #0676B2;
 }
 
 /*----------  Popup Default  ----------*/

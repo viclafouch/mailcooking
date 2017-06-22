@@ -62,10 +62,6 @@
 					    	<p>Template</p>
 					    	<i class="material-icons" role="presentation">dashboard</i>
 					    </a>
-					    <a href="?module=user&action=subs" class="noactive" title="">
-					    	<p>Abonnements</p>
-					    	<i class="material-icons">stars</i>
-					    </a>
 					    <?php if ($_SESSION['user']['valide'] == 2): ?>
 					    <a href="?module=admin&action=index" class="noactive admin" title="">
 					    	<p>Administration</p>
