@@ -58,6 +58,10 @@
 					   		<p>Compte</p>
 					     	<i class="material-icons">account_circle</i>
 					    </a>
+					    <a href="?module=user&action=emails" class="noactive" title="">
+					    	<p>Emails</p>
+					    	<i class="material-icons">email</i>
+					    </a>
 					    <a href="?module=user&action=template" class="noactive" title="">
 					    	<p>Template</p>
 					    	<i class="material-icons" role="presentation">dashboard</i>
