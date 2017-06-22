@@ -178,6 +178,9 @@ $(document).ready(function(){
 		e.preventDefault();
 		$('.link_block').removeClass('active');
 		$(this).parent().addClass('active');
+		let menu = $(this).data('link-profil');
+		$('[data-task]').hide();
+		$('[data-task="'+menu+'"]').show();
 	});
 
 	/* Clic sur les paramètres de compte */
@@ -190,13 +193,6 @@ $(document).ready(function(){
 			$(this).parents('.field').removeClass('active');	
 			accordeon.css('height', '0px');
 			accordeon.removeClass('active');
-
-			if (!flagAdd) {
-				console.log('en cours');
-				$('[data-save="'+id+'"]').parents('li').remove();
-				$('a.desactivate').removeClass('desactivate');
-				flagAdd = true;
-			}
 		}
 
 		else {
@@ -209,6 +205,12 @@ $(document).ready(function(){
 		}		
 	});
 
+	function incrementeNumber(id) {
+		let list = '#'+id+'_list';
+		let length = $(list+' li').length - 1;
+		$('[data-count="'+id+'"]').html(length);
+	}
+
 	/* Supprime une ligne d'un field */
 	$(document).on('click', '[data-delete]', function(e){
 		e.preventDefault();
@@ -218,15 +220,17 @@ $(document).ready(function(){
 		let list = '#'+data+'_list';
 		let length = $(list+' li').length - 1;
 		var row = $(this).parents('li');
-		if (length > 1) {
-			row.css('height', '0px');
-			accordeon.css('height',  h - 51+'px');
-			$('[data-count="'+data+'"]').html(length - 1);
-			setTimeout(function(){
-				row.remove();
-			}, 800);
-		} else {
-			console.log('mettre au moins 1 société');
+		if (flagAdd) {
+			if (length > 1) {
+				row.css('height', '0px');
+				accordeon.css('height',  h - 51+'px');
+				$('[data-count="'+data+'"]').html(length - 1);
+				setTimeout(function(){
+					row.remove();
+				}, 800);
+			} else {
+				console.log('mettre au moins 1 société');
+			}
 		}
 	});
 
@@ -235,39 +239,105 @@ $(document).ready(function(){
 		if (flagAdd) {
 			flagAdd = false;
 			$(this).addClass('desactivate');
-			let data = $(this).data('add');
-			let list = '#'+data+'_list';
-			let accordeon = $('#'+data);
+			let id = $(this).data('add');
+			let list = '#'+id+'_list';
+			let accordeon = $('#'+id);
 			let h = parseFloat(accordeon.css('height'));
 			accordeon.css('height',  h + 51+'px');
 			var row = $(list+' li:first-child');
 			let $clone = row.clone(true);
-			let inputHTML = '<input placeholder="'+data+'" spellcheck="false" autocomplete"off" type="text" data-input="'+data+'" />'
-			let saveHTML = '<a href="#" data-save="'+data+'" title="">Sauvegarder</a>';
+			let inputHTML = '<input placeholder="'+id+'" spellcheck="false" autocomplete"off" type="text" data-input="'+id+'" />'
+			let saveHTML = '<a href="#" data-save="'+id+'" title="">Sauvegarder</a>';
 			$($clone).find('p:first-child').html(inputHTML);
 			$($clone).find('p:last-child').html(saveHTML);
-			console.log($($clone));
 			$($clone).insertBefore($(this).parents('li'));
+
+			$(document).on('click', '[data-save]', function(e){
+				e.preventDefault();
+				if (id == 'societe') {
+					let input = $('[data-input="'+id+'"]');
+					let val = input.val();
+					let deleteHTML = '<a href="#" data-delete="'+id+'" title="">Supprimer</a>';
+					let modifHTML = '<a href="#" data-modif="'+id+'" title="">Modifier</a>';
+					if (val != '') {
+						incrementeNumber(id);
+						input.parent().html(val);
+						$(this).parent().html(deleteHTML);
+						$('.desactivate').removeClass('desactivate');
+						flagAdd = true;
+					}
+				}
+			});
+
+			$(document).on('click', "[data-info]", function(e) {
+				e.preventDefault();
+				console.log('tests');
+				if (!flagAdd) {
+					if (id == 'societe') {
+						var row = $('[data-input]').parents('li');
+						row.css('height', '0px');
+						setTimeout(function(){
+							row.remove();
+						}, 800);
+						$('.desactivate').removeClass('desactivate');
+					}
+					flagAdd = true;
+				}
+			});
 		}
 	});
 
-	/* Sauvegarde d'un element de profil */
-	$(document).on('click', '[data-save]', function(e){
-		e.preventDefault();
-		let id = $(this).data('save');
-		let input = $('[data-input="'+id+'"]');
-		let list = '#'+id+'_list';
-		let length = $(list+' li').length - 1;
-		let val = input.val();
-		let deleteHTML = '<a href="#" data-delete="'+id+'" title="">Supprimer</a>';
+	/* Modification d'un élément de profil */
+	$(document).on('click', '[data-modif]', function(e) {
+		if (flagAdd) {
+			flagAdd = false;
+			e.preventDefault();
+			var id = $(this).data('modif');
+			let saveHTML = '<a href="#" data-save="'+id+'" title="">Sauvegarder</a>';
 
-		if (val != '') {
-			$(this).parent().html(deleteHTML);
-			$('a.desactivate').removeClass('desactivate');
-			$('[data-count="'+id+'"]').html(length);
-			flagAdd = true;
+			if (id == 'prenom') {
+				var lastNameText = $('#lastName').text();
+				var firstNameText = $('#firstName').text();
+				var inputHTML = '<input type="text" data-input="'+id+'" data-value="lastName" value="'+lastNameText+'"/>'+
+				'<input type="text" data-input="'+id+'" data-value="firstName" value="'+firstNameText+'"/>';
+			}
+
+			$(this).parents('li').find('p:first-child').html(inputHTML).focus();
+			$(this).parent().html(saveHTML);
+
+			$(document).on('click', '[data-save]', function(e){
+				e.preventDefault();
+				if (id == 'prenom') {
+					var lastName = $('[data-value="lastName"]').val();
+					var firstName = $('[data-value="firstName"]').val();
+					
+					if (firstName != '' && lastName != '') {
+						var modifHTML = '<a href="#" data-modif="'+id+'" title="">Modifier</a>';
+						$(this).parents('li').find('p:first-child').html('<span id="lastName">'+lastName+'</span>'+ 
+						' <span id="firstName">'+firstName+'</span>');
+						$(this).parent().html(modifHTML);	
+						flagAdd = true;
+					}
+				}
+			});
+
+			$(document).on('click', "[data-info]", function(e) {
+				e.preventDefault();
+				if (!flagAdd) {
+					if (id == 'prenom') {
+						var lastName = $('[data-value="lastName"]').val();
+						var firstName = $('[data-value="firstName"]').val();
+						if (firstName != '' && lastName != '') {
+							$('[data-value]').parent().html('<span id="lastName">'+lastNameText+'</span>'+ 
+							' <span id="firstName">'+firstNameText+'</span>');
+							let modifHTML = '<a href="#" data-modif="'+id+'" title="">Modifier</a>';
+							$('[data-save]').parent().html(modifHTML);
+						}
+					}
+					flagAdd = true;
+				}
+			});
 		}
-		// Requete AJAX
 	});
 });
 
