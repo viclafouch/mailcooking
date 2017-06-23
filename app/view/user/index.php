@@ -18,7 +18,53 @@
 	</div>
 	<div class="block full_block">
 		<div class="pannel pannel_body">
-			
+			<div class="row row-hori-center nowrap">
+				<div class="sm_square col nowrap">
+					<div class="square_body row row-hori-between nowrap">
+						<div class="square_ico col col-verti-center">
+							<i class="material-icons">add_shopping_cart</i>
+						</div>
+						<div class="col nowrap square_name col-verti-center">
+							<span class="square_count">25</span>
+							<p class="square_subject">Commandes en cours</p>
+						</div>
+					</div>
+					<footer class="square_footer row row-hori-between row-verti-center">
+						<p>Voir les détails</p>
+						<i class="material-icons">arrow_forward</i>
+					</footer>
+				</div>
+				<div class="sm_square col nowrap">
+					<div class="square_body row row-hori-between nowrap">
+						<div class="square_ico col col-verti-center">
+							<i class="material-icons">stars</i>
+						</div>
+						<div class="col nowrap square_name col-verti-center">
+							<span class="square_count">1</span>
+							<p class="square_subject">Abonnement tip</p>
+						</div>
+					</div>
+					<footer class="square_footer row row-hori-between row-verti-center">
+						<p>Voir les détails</p>
+						<i class="material-icons">arrow_forward</i>
+					</footer>
+				</div>
+				<div class="sm_square col nowrap">
+					<div class="square_body row row-hori-between nowrap">
+						<div class="square_ico col col-verti-center">
+							<i class="material-icons">email</i>
+						</div>
+						<div class="col nowrap square_name col-verti-center">
+							<span class="square_count">42</span>
+							<p class="square_subject">Emails</p>
+						</div>
+					</div>
+					<footer class="square_footer row row-hori-between row-verti-center">
+						<p>Voir les détails</p>
+						<i class="material-icons">arrow_forward</i>
+					</footer>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

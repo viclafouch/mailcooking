@@ -771,7 +771,86 @@ div.popup_mc > div.popup_container {
 /*----------  Dashboard  ----------*/
 
 div.container_template {
-    
+    .sm_square {
+        border: $primaryBorder;
+        width: 300px;
+        height: 120px;
+        margin: 0 auto;
+        position: relative;
+        @include border-radius(3px);
+        @include box-shadow($shadow1);
+
+        div.square_body {
+            height: 80px;
+            width: 100%;
+            padding: 15px;
+            @include box-sizing(border-box);
+            background-color: $primaryColor;
+
+            & > div.square_ico {
+                width: 50%;
+                height: 100%;
+                
+                i { font-size: 40px; color: #fff; }
+            }
+
+            & > div.square_name {
+                @include align-items(flex-end);
+                color: #fff;
+
+                span {
+                    display: block;
+                    font-size: 26px;
+                    font-weight: 600;
+                    color: inherit;
+                    text-transform: uppercase;
+                }
+
+                p { text-align: right; font-size: 15px; color: inherit; }
+            }
+        }
+
+        footer.square_footer {
+            height: 40px;
+            padding: 15px;
+            @include box-sizing(border-box);
+            background-color: #fff;
+            color: $primaryColor;
+            cursor: pointer; 
+            & > p { font-weight: 500; }
+        
+            &:hover {
+                & > i { @include animation(movingOnLine 1s ease-in-out 0s infinite); 
+                    @include keyframes(movingOnLine) {
+                        0%, 100% {
+                            @include translateX(0px);
+                            color: inherit;
+                        }
+
+                        50% {
+                            @include translateX(5px);
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+
+        &:first-child {
+            div.square_body {  background-color: $primaryColor; }
+            footer.square_footer { color: $primaryColor; }
+        }
+
+        &:nth-child(2) {
+            div.square_body {  background-color: $secondaryColor; }
+            footer.square_footer { color: $secondaryColor; }
+        }
+
+        &:nth-child(3) {
+            div.square_body {  background-color: $additionalColor; }
+            footer.square_footer { color: $additionalColor; }
+        }
+    }
 }
 
 /*----------  Templates  ----------*/
