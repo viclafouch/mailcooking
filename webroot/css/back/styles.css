@@ -174,9 +174,9 @@
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  -moz-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   height: 40px;
   display: block;
   min-width: 180px;
@@ -1065,11 +1065,20 @@ div.container_template .sm_square {
   border: 1px solid rgba(0, 0, 0, 0.2);
   width: 300px;
   height: 120px;
-  margin: 0 auto;
   position: relative;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
+  -moz-transition: box-shadow 0.3s ease 0s;
+  -o-transition: box-shadow 0.3s ease 0s;
+  -webkit-transition: box-shadow 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: box-shadow 0.3s ease 0s;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+div.container_template .sm_square:hover {
   -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -1183,6 +1192,50 @@ div.container_template .sm_square:nth-child(3) div.square_body {
 }
 div.container_template .sm_square:nth-child(3) footer.square_footer {
   color: #FF9E22;
+}
+div.container_template div.emails_list h2 {
+  text-align: left;
+  color: #444;
+}
+div.container_template div.email_block {
+  width: 184px;
+  margin: 0 20px 0 0;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  height: 184px;
+  cursor: pointer;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: box-shadow 0.3s ease 0s;
+  -o-transition: box-shadow 0.3s ease 0s;
+  -webkit-transition: box-shadow 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: box-shadow 0.3s ease 0s;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+div.container_template div.email_block:hover {
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+div.container_template div.email_block img {
+  height: 100%;
+  width: 100%;
+}
+div.container_template div.email_block:last-child {
+  width: 364px;
+  height: 92px;
+  border: 0;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+div.container_template div.email_block:last-child p {
+  font-size: 25px;
+  font-weight: 600;
+  color: #0676B2;
 }
 
 /*----------  Templates  ----------*/
@@ -1693,6 +1746,152 @@ div.container_profil .checkbonito:checked ~ label::before {
   -webkit-transform: translate(5px, -13px);
   transform: translate(5px, -13px);
   background-color: #0676B2;
+}
+
+/*----------  Emails  ----------*/
+.container_emails h2 {
+  color: #444;
+}
+.container_emails .emails_list {
+  padding: 15px 0;
+  overflow-x: hidden;
+  height: 150px;
+}
+.container_emails .email {
+  width: 150px;
+  min-width: 150px;
+  height: 150px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-transition: box-shadow 0.3s ease 0s;
+  -o-transition: box-shadow 0.3s ease 0s;
+  -webkit-transition: box-shadow 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: box-shadow 0.3s ease 0s;
+  margin-right: 15px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.container_emails .email:hover {
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.container_emails div.add_section {
+  background-color: #FF3B49;
+  height: 100px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+.container_emails div.add_section .flipper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -moz-transition: -moz-transform 0.3s ease 0s;
+  -o-transition: -o-transform 0.3s ease 0s;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: transform 0.3s ease 0s;
+}
+.container_emails div.add_section .flipper.active {
+  -moz-transform: rotateX(-180deg);
+  -webkit-transform: rotateX(-180deg);
+  transform: rotateX(-180deg);
+}
+.container_emails div.add_section .flipper_front, .container_emails div.add_section .flipper_back {
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.container_emails div.add_section .flipper_front {
+  cursor: pointer;
+  width: 100%;
+  height: inherit;
+}
+.container_emails div.add_section .flipper_front > p {
+  font-size: 25px;
+  font-weight: 600;
+  color: #fff;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.container_emails div.add_section .flipper_back {
+  -moz-transform: perspective(0) rotateX(180deg);
+  -webkit-transform: perspective(0) rotateX(180deg);
+  transform: perspective(0) rotateX(180deg);
+}
+.container_emails div.add_section .flipper_back > span {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.container_emails div.add_section .flipper_back > form > input {
+  background-color: transparent;
+  border: 0;
+  text-align: center;
+  color: #fff;
+}
+.container_emails div.add_section .flipper_back > form > input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.75);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+.container_emails div.add_section .flipper_back > form > input:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.75);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+.container_emails div.add_section .flipper_back > form > input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.75);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+.container_emails div.add_section .flipper_back > form > input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.75);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+.container_emails div.add_section .flipper_back > form > input::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.75);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+.container_emails div.add_section .flipper_back > form > button {
+  height: 32px;
+  background-color: #fff;
+  color: #FF3B49;
+  min-width: 80px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0;
+  font-size: 15px;
+  letter-spacing: 1px;
 }
 
 /*----------  Popup Default  ----------*/

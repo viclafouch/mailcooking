@@ -214,7 +214,7 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 .button_default {
     color: #f0f0f0;
     @include border-radius(3px);
-    @include box-shadow(0px 3px 6px rgbaExpress(black, 0.3));
+    @include box-shadow($shadow0);
     height: 40px;
     display: block;
     min-width: 180px;
@@ -775,10 +775,11 @@ div.container_template {
         border: $primaryBorder;
         width: 300px;
         height: 120px;
-        margin: 0 auto;
         position: relative;
         @include border-radius(3px);
-        @include box-shadow($shadow1);
+        @include single-transition(box-shadow, 0.3s, ease, 0s);
+        @include box-shadow($shadow0);
+        &:hover {  @include box-shadow($shadow1); }
 
         div.square_body {
             height: 80px;
@@ -849,6 +850,32 @@ div.container_template {
         &:nth-child(3) {
             div.square_body {  background-color: $additionalColor; }
             footer.square_footer { color: $additionalColor; }
+        }
+    }
+
+    div.emails_list {
+        h2 { text-align: left; color: $primaryTextColor; }
+    }
+
+    div.email_block {
+        width: 184px;
+        margin: 0 20px 0 0;
+        border: $primaryBorder;
+        height: 184px;
+        cursor: pointer;
+        @include box-sizing(border-box);
+        @include single-transition(box-shadow, 0.3s, ease, 0s);
+        @include box-shadow($shadow0);
+        &:hover {  @include box-shadow($shadow1); }
+
+        img { height: 100%; width: 100%; }
+
+        &:last-child {
+            width: 364px;
+            height: 92px;
+            border: 0;
+            @include box-shadow(none);
+            p { font-size: 25px; font-weight: 600; color: $primaryColor; }
         }
     }
 }
@@ -1182,6 +1209,116 @@ div.container_profil { overflow-y: scroll!important;
     .checkbonito:checked ~ label::before{
       @include translate(5px, -13px);
       background-color: $primaryColor;
+    }
+}
+
+/*----------  Emails  ----------*/
+
+.container_emails {
+
+    h2 { color: $primaryTextColor; }
+
+    .emails_list { padding: 15px 0; overflow-x: hidden; height: 150px; }
+    .email {
+        width: 150px;
+        min-width: 150px;
+        height: 150px;
+        @include box-shadow($shadow0);
+        @include single-transition(box-shadow, 0.3s, ease, 0s);
+        margin-right: 15px;
+        @include box-sizing(border-box);
+        border: $primaryBorder;
+        cursor: pointer;
+        &:hover { @include box-shadow($shadow1); }
+
+    }
+
+    div.add_section {
+        background-color: $secondaryColor;
+        height: 100px;
+        @include box-shadow($shadow0);
+        @include border-radius(3px);
+
+        .flipper { 
+            width: 100%; 
+            height: 100%; 
+            position: relative;
+            @include transform-style(preserve-3d);
+            @include single-transition(transform, 0.3s, ease, 0s);
+
+            &.active { @include rotateX(-180deg); }
+        }
+
+        .flipper_front, .flipper_back {
+            @include backface-visibility(hidden);
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 0; right: 0;
+        }
+
+        .flipper_front {
+            cursor: pointer;
+            width: 100%; 
+            height: inherit;
+            & > p { 
+                font-size: 25px;
+                font-weight: 600;
+                color: #fff;
+                @include noselect();
+            }
+        }
+
+        .flipper_back {
+            @include rotateX(180deg, 0);
+
+            & > span {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                color: #fff;
+                @include noselect();
+                cursor: pointer;
+            }
+
+            & > form {
+
+                & > input {
+                    background-color: transparent;
+                    border:0;
+                    text-align: center;
+                    color: #fff;
+
+                    &::-webkit-input-placeholder {
+                        color:  rgbaExpress(white, 0.75);
+                        @include opacity(0.8);
+                    } &:-moz-placeholder {
+                        color:  rgbaExpress(white, 0.75);
+                        @include opacity(0.8);
+                    } &::-moz-placeholder {
+                        color:  rgbaExpress(white, 0.75);
+                        @include opacity(0.8);
+                    } &:-ms-input-placeholder {
+                        color:  rgbaExpress(white, 0.75);
+                        @include opacity(0.8);
+                    } &::-ms-input-placeholder   {
+                        color:  rgbaExpress(white, 0.75);
+                        @include opacity(0.8);
+                    }
+                }
+
+                & > button {
+                    height: 32px;
+                    background-color: #fff;
+                    color: $secondaryColor;
+                    min-width: 80px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    margin-bottom: 0;
+                    font-size: 15px;
+                    letter-spacing: 1px;
+                }
+            }
+        }
     }
 }
 

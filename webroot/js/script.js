@@ -555,13 +555,39 @@ document.addEventListener("turbolinks:load", function() {
 		});
 	});
 
-	/*===================================
-	=            Profil page            =
-	===================================*/
+	/*----------  Emails  ----------*/
 	
-	
-	/*=====  End of Profil page  ======*/
-	
+	$(document).on('click', '#newCatFlipper', function() {	
+		$('.flipper').addClass('active');
+	});
+
+	$(document).on('click', '#closedFlipper', function() {	
+		$('.flipper').removeClass('active');
+		$('#inputCatFlipper').val('');
+	});
+
+	$(document).on('click', '#saveCatFlipper', function(e) {	
+		e.preventDefault();
+		let catName = $('#inputCatFlipper').val();
+		if (catName != '') {
+			let cloneList = $('[data-list-emails]').last().clone();
+
+			cloneList.find('h2').html(catName)
+			cloneList.find('li').remove();
+
+			cloneList.insertBefore('#pannelAddSection');
+			$('#closedFlipper').trigger('click');
+		}
+		return false;
+	});
+
+
+	// // Cancel form => Create a categorie
+	// $(".cancel_flip").click(function() {		
+	// 	$('.flipper').css({
+	// 		transform:"rotateX(0deg)"
+	// 	});
+	// });
 
 	/*===================================
 	=            Emails_page            =
@@ -624,20 +650,6 @@ document.addEventListener("turbolinks:load", function() {
 			}
 		}
   	});
-
-	// Open form => Create a categorie
-	$(document).on('click', '.span_add', function() {		
-		$('.flipper').css({
-			transform:"rotateX(-180deg)"
-		});
-	});
-
-	// Cancel form => Create a categorie
-	$(".cancel_flip").click(function() {		
-		$('.flipper').css({
-			transform:"rotateX(0deg)"
-		});
-	});
 
 	var flag = true;
 

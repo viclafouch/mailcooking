@@ -18,7 +18,7 @@
 	</div>
 	<div class="block full_block">
 		<div class="pannel pannel_body">
-			<div class="row row-hori-center nowrap">
+			<div class="row row-hori-between nowrap">
 				<div class="sm_square col nowrap">
 					<div class="square_body row row-hori-between nowrap">
 						<div class="square_ico col col-verti-center">
@@ -63,6 +63,24 @@
 						<p>Voir les détails</p>
 						<i class="material-icons">arrow_forward</i>
 					</footer>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="block full_block emails_list">
+		<div class="pannel pannel_body">
+			<div class="row row-verti-center nowrap">
+				<div class="email_block">
+					<img src="http://via.placeholder.com/180x180" alt="">
+				</div>
+				<div class="email_block">
+					<img src="http://via.placeholder.com/180x180" alt="">
+				</div>
+				<div class="email_block">
+					<img src="http://via.placeholder.com/180x180" alt="">
+				</div>
+				<div class="email_block col col-hori-center col-verti-center nowrap">
+					<p>Voir tous mes emails</p>
 				</div>
 			</div>
 		</div>

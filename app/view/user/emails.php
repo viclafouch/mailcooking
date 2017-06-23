@@ -3,10 +3,79 @@
 	include("app/view/layout/user/header.php"); 
 ?>
 
-<div class="emails">
-	<div class="nwrap">
-		<h1>Vos emails</h1>
+<div class="container container_emails">
+	<div class="block full_block">
+		<div class="pannel pannel_heading">
+			<div class="row nowrap row-hori-between row-verti-center">
+				<div>
+					<h1>Mes emails</h1>
+				</div>
+				<div class="row row-verti-center nowrap">
+					<button class="button_default button_primary">Créer un email</button>
+				</div>
+			</div>
+		</div>
 	</div>
+	<div class="block full_block">
+		<div class="pannel pannel_body" data-list-emails>
+			<div class="col nowrap">
+				<div class="pannel_title">
+					<h2>Tous mes emails</h2>
+				</div>
+				<div class="pannel_body">
+					<ul class="row row-verti-center nowrap emails_list">
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="pannel pannel_body" data-list-emails>
+			<div class="col nowrap">
+				<div class="pannel_title">
+					<h2>Catégorie 1</h2>
+				</div>
+				<div class="pannel_body">
+					<ul class="row row-verti-center nowrap emails_list">
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+						<li class="email">ss</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="pannel pannel_body" id="pannelAddSection">
+			<div class="col nowrap">
+				<div class="col col-verti-center col-hori-center nowrap add_section">
+					<div class="flipper">
+						<div id="newCatFlipper" class="flipper_front row row-hori-center row-verti-center">
+							<p>Ajouter une section</p>
+						</div>
+						<div class="flipper_back row row-hori-center row-verti-center">
+							<span id="closedFlipper"><i class="material-icons">close</i></span>
+							<form method="post" action="" class="col col-verti-center">
+								<input type="text" spellcheck="false" autocomplete="off" id="inputCatFlipper" placeholder="Nom de la section" />
+								<button type="submit" id="saveCatFlipper" class="button_default">Ajouter</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- <div class="emails">
 	<div class="block_rows">
 		<div class="column_title_block">
 			<div class="title">
@@ -88,7 +157,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 <?php 
 	// Appel du layout footer
 	include("app/view/layout/user/footer.php"); 
