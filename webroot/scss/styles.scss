@@ -1214,24 +1214,50 @@ div.container_profil { overflow-y: scroll!important;
 
 /*----------  Emails  ----------*/
 
-.container_emails {
+.container_emails { overflow-x: hidden!important;
 
     h2 { color: $primaryTextColor; }
 
     .emails_list { padding: 15px 0; overflow-x: hidden; height: 150px; }
-    .email {
+
+    .email { @include back(url("http://via.placeholder.com/150x150"), scroll, 100%, center, no-repeat); }
+    .email, .sortable_placeholder_email_list  {
         width: 150px;
         min-width: 150px;
         height: 150px;
+        position: relative;
         @include box-shadow($shadow0);
-        @include single-transition(box-shadow, 0.3s, ease, 0s);
         margin-right: 15px;
         @include box-sizing(border-box);
         border: $primaryBorder;
         cursor: pointer;
         &:hover { @include box-shadow($shadow1); }
 
+        &.ui-sortable-helper { @include noselect(); }
+
+        div.toolbox_email {
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            background-color: rgbaExpress(black, 0.2);
+            height: 100%;
+            width: 100%;
+            i { 
+                text-align: center;
+                font-size: 20px;
+                display: block;
+                margin: 0 10px;
+                height: 30px;
+                line-height: 30px;
+                @include box-sizing(border-box);
+                color: $primaryColor;
+                @include opacity(1);
+                @include single-transition(opacity, 0.3s, ease, 0s);
+                &:hover { @include opacity(0.8); }
+            }
+        }
     }
+
+    .sortable_placeholder_email_list { background-color: #f0f0f0; }
 
     div.add_section {
         background-color: $secondaryColor;

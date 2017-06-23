@@ -24,31 +24,29 @@
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="pannel pannel_body" data-list-emails>
+		<div class="pannel pannel_body" data-list-emails data-list_section>
 			<div class="col nowrap">
 				<div class="pannel_title">
 					<h2>Catégorie 1</h2>
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
-						<li class="email">ss</li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
+						<li class="email"></li>
 					</ul>
 				</div>
 			</div>
