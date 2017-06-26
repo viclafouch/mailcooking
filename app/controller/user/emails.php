@@ -1,75 +1,51 @@
 <?php 
 	
-	if (!isset($_POST["cat_name"])) {
+	/*==================================
+	=            Page Email            =
+	==================================*/
 
-		// Delete categorie
-		if (isset($_POST['cat_id'])) {
-			include_once('app/model/user/categorie/delete_cat.php');
+	if (empty($_POST)) {
 
-			$delete = delete_cat($_POST["cat_id"], $_SESSION["user"]["user_id"]);
-		}
-
-		// Update email's categorie
-		if (isset($_POST['email_id_tupdate'])) {
-			include_once('app/model/user/email/update_cat_email.php');
-
-			$update = update_cat_email($_POST['id_cat'], $_POST["email_id_tupdate"], $_SESSION["user"]["user_id"]);
-		}
-
-		// Delete email
-		if (isset($_POST['email_id_tdelete'])) {
-			include_once('app/model/user/email/delete_email.php');
-
-			$delete = delete_email($_POST["email_id_tdelete"], $_SESSION["user"]["user_id"]);
-		}
-
-		// Moving to archive
-		if (isset($_POST['email_id_tarchive'])) {
-			include_once('app/model/user/email/move_to_archive.php');
-
-			$moving = move_to_archive(1, $_POST["email_id_tarchive"], $_SESSION["user"]["user_id"]);
-		}
-
-		// Secu
-		protec();
-
-		// Read all emails
 		include_once('app/model/user/email/read_my_all_mails.php');
-
+		/* Lecture des emails non archivés */
 		$emails = read_my_all_mails($_SESSION["user"]["user_id"], 0);
 
-		// Read users's cat
-		$cat_user = selecttable('email_cat', 
-				array(	'wherecolumn' 	=> 	'user_id',
-						'wherevalue'	=>	$_SESSION["user"]["user_id"],
-						'orderby' => 'cat_id',
-						'order' => 'ASC',
-					));
+		/* Lecture des catégories du user SESSION */
+		$option = array( 
+			'wherecolumn' 	=> 	'user_id',
+			'wherevalue'	=>	$_SESSION["user"]["user_id"],
+			'orderby'		=> 'cat_id',
+			'order' 		=> 'ASC',
+		);
+		$userCat = selecttable('email_cat', $option);
 
-		// Verif if $emails is empty
-		if (!empty($emails)) {
-			$email = selecttable('mail_editor', 
-				array(	'wherecolumn' 	=> 	'cat_id',
-						'wherevalue'	=>	$emails[0]["cat_id"]
-			));
-		}
-
+		/* Insertion des métadonnés */
 		metadatas('Mes emails', 'Description', 'none');
-		// Appel de la view
+
+		/* Affichage de la vue */
 		include_once("app/view/user/emails.php");
 	}
-
-	// Update categorie
-	else if (isset($_GET['cat_id'])) {
-		include_once('app/model/user/categorie/update_cat.php');
-
-		$update = update_cat($_GET['cat_id'], $_POST["cat_name"], $_SESSION["user"]["user_id"]);
-	}
-
-	// Create categorie
 	else {
-		include_once('app/model/user/categorie/new_cat.php');
+		if (isset($_POST['idCategorie'])) {
 
-		$post = new_cat($_POST['cat_name'], $_SESSION["user"]["user_id"]);
-		echo $post;
+			/* Modification d'une catégorie d'un email */
+			if (isset($_POST['idEmail'])) {
+
+				if ($_POST['idCategorie'] == 'NULL') { $_POST['idCategorie'] = NULL; }
+
+				include_once('app/model/user/email/update_cat_email.php');
+
+				/* Update de la catégorie de l'email */
+				update_cat_email($_POST['idCategorie'], $_POST['idEmail'], $sessionID);
+			}
+
+			/* Modification du titre d'une catégorie */
+			elseif (isset($_POST['titleCategorie'])) {
+
+				include_once('app/model/user/categorie/update_cat.php');
+
+				update_cat($_POST['idCategorie'], $_POST['titleCategorie'], $sessionID);
+			}
+		}
 	}
+	/*=====  End of Page Email  ======*/

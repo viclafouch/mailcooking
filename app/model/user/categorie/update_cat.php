@@ -1,6 +1,6 @@
 <?php	
 
-	function update_cat($id, $post, $user)
+	function update_cat($cat_id, $cat_name, $user_id)
 	{
 		global $connexion;
 
@@ -14,9 +14,9 @@
 			$query = $connexion->prepare($req);
 
 			// On initialise les valeurs
-			$query->bindValue(':cat_name', $post, PDO::PARAM_STR);
-			$query->bindValue(':user_id', $user, PDO::PARAM_INT);
-			$query->bindValue(':cat_id', $id, PDO::PARAM_INT);
+			$query->bindValue(':cat_name', $cat_name, PDO::PARAM_STR);
+			$query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+			$query->bindValue(':cat_id', $cat_id, PDO::PARAM_INT);
 
 			$query->execute();
 			

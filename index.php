@@ -3,6 +3,8 @@
 	session_start();
 
 	if (isset($_SESSION['user'])) {
+		
+		$sessionID = $_SESSION['user']['user_id'];
 
 		$id_user = $_SESSION['user']["user_id"];
 		$societe_user = mb_strtolower(substr($_SESSION['user']["societe"], 0, 3));

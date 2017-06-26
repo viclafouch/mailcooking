@@ -20,45 +20,39 @@
 		<div class="pannel pannel_body" data-list-emails data-allow="0">
 			<div class="col nowrap">
 				<div class="pannel_title">
-					<h2>Tous mes emails</h2>
+					<h2>Emails non classés</h2>
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
-						<?php foreach ($emails as $data): ?>
-						<li class="email">
-							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
-						</li>
+						<?php foreach ($emails as $email): ?>
+							<?php if ($email["email_cat_id"] == NULL): ?>
+								<li class="email" data-email="<?= $email["id_mail"]; ?>">
+									<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+								</li>
+							<?php endif ?>
 						<?php endforeach ?>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<?php foreach ($cat_user as $key => $cat): ?>
-		<div class="pannel pannel_body" data-list-emails data-section="5" data-allow="1">
+		<?php foreach ($userCat as $key => $cat): ?>
+		<div class="pannel pannel_body" data-list-emails data-section="<?= $cat['cat_id'] ;?>" data-allow="1">
 			<div class="col nowrap">
 				<div class="pannel_title row row-verti-center">
 					<p>
-						<span spellcheck="false" onpaste="return false" class="title_row">Catégorie 1</span>
+						<span spellcheck="false" onpaste="return false" class="title_row"><?= $cat['cat_name']; ?></span>
 						&nbsp;
 					</p>
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
-						<li class="email">
-							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
-						</li>
-						<li class="email">
-							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
-						</li>
-						<li class="email">
-							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
-						</li>
-						<li class="email">
-							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
-						</li>
-						<li class="email">
-							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
-						</li>
+						<?php foreach ($emails as $email): ?>
+							<?php if ($cat['cat_id'] == $email['email_cat_id']): ?>
+								<li class="email" data-email="<?= $email["id_mail"]; ?>">
+									<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+								</li>
+							<?php endif ?>
+						<?php endforeach ?>
 					</ul>
 				</div>
 			</div>

@@ -477,7 +477,21 @@ document.addEventListener("turbolinks:load", function() {
         	}
         },
         /* Event recoit des éléments d'un autre container */
-        receive: function(event, ui){},
+        receive: function(event, ui){
+        	let parent = $(event.target).parents('[data-list-emails]');
+        	let idEmail = $(ui.item).data('email');
+
+        	if (parent.attr('data-section')) {
+        		var idCategorie = parent.data('section');
+        	} else {
+				var idCategorie = 'NULL';
+        	}
+        	$.ajax({
+				type: "POST",
+				data: { idCategorie: idCategorie, idEmail: idEmail},
+				url : "?module=user&action=emails", 
+			});
+        },
         /* Event lorqu'un item est déplacé dans un autre container */
         remove: function(event, ui) {},
         /* Event durant le mouvement */
@@ -496,7 +510,9 @@ document.addEventListener("turbolinks:load", function() {
         	}
         },
         /* Event au changement de l'ordre des éléments */
-        update: function(event, ui){},
+        update: function(event, ui){
+        	// console.log(ui);
+        },
     });
 };
 
@@ -644,18 +660,19 @@ document.addEventListener("turbolinks:load", function() {
 		title = title.text();
 		
 		if (templatePage) {
-			objectID = $('[data-appened-clic]').data('template');
+			idTemplate = $('[data-appened-clic]').data('template');
 			$.ajax({
 				type: "POST",
-				data: { template_title: title, idTemplate: objectID},
+				data: { template_title: title, idTemplate: idTemplate},
 				url : "?module=user&action=template", 
-				success : function(data) {
-					console.log(data);
-				}
 			});
 		} else if (emailPage) {
-			objectID = $('[data-appened-clic]').data('section');
-			console.log('Ajax modification title section');
+			idCategorie = $('[data-appened-clic]').data('section');
+			$.ajax({
+				type: "POST",
+				data: { titleCategorie: title, idCategorie: idCategorie},
+				url : "?module=user&action=emails",
+			});
 		}
 		
 		clicOnPen = false;
@@ -698,7 +715,7 @@ document.addEventListener("turbolinks:load", function() {
 					}
 					else {
 						$('[data-editable-title-done]').remove();
-						container.find('.title_row').append(pen);
+						container.find('.pannel_title p').append(pen);
 					}
 				}
 				else {
