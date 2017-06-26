@@ -17,40 +17,53 @@
 		</div>
 	</div>
 	<div class="block full_block">
-		<div class="pannel pannel_body" data-list-emails>
+		<div class="pannel pannel_body" data-list-emails data-allow="0">
 			<div class="col nowrap">
 				<div class="pannel_title">
 					<h2>Tous mes emails</h2>
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
+						<?php foreach ($emails as $data): ?>
+						<li class="email">
+							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+						</li>
+						<?php endforeach ?>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<div class="pannel pannel_body" data-list-emails data-list_section>
+		<?php foreach ($cat_user as $key => $cat): ?>
+		<div class="pannel pannel_body" data-list-emails data-section="5" data-allow="1">
 			<div class="col nowrap">
-				<div class="pannel_title">
-					<h2>Catégorie 1</h2>
+				<div class="pannel_title row row-verti-center">
+					<p>
+						<span spellcheck="false" onpaste="return false" class="title_row">Catégorie 1</span>
+						&nbsp;
+					</p>
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
-						<li class="email"></li>
+						<li class="email">
+							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+						</li>
+						<li class="email">
+							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+						</li>
+						<li class="email">
+							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+						</li>
+						<li class="email">
+							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+						</li>
+						<li class="email">
+							<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
+		<?php endforeach ?>
 		<div class="pannel pannel_body" id="pannelAddSection">
 			<div class="col nowrap">
 				<div class="col col-verti-center col-hori-center nowrap add_section">
@@ -74,34 +87,6 @@
 
 
 <!-- <div class="emails">
-	<div class="block_rows">
-		<div class="column_title_block">
-			<div class="title">
-				<h2>Mes emails</h2>
-				<a href="?module=user&action=archives" class="link_archive">Archives</a>
-			</div>
-			<div class="row_list_email active">
-				<span class="arrow"><i class="arrow_slider arrow_left fa fa-arrow-circle-left" aria-hidden="true"></i></span>
-				<div class="list">
-					<div class="overflow sortable">
-						<?php foreach ($emails as $data): ?>
-							<?php if ($data["cat_id"] == NULL): ?>
-								<div class="block email_block notarchive" id="<?php echo $data["id_mail"] ?>">
-									<div class="overlay"></div>
-									<img src="http://placehold.it/175x175" alt="" title="">
-									<div class="tools_block">
-
-									</div>
-									<p class="title_mail"><?php echo $data["email_name"] ?></p>
-								</div>	
-							<?php endif ?>
-						<?php endforeach ?>
-					</div>
-				</div>
-				<span class="arrow"><i class="arrow_slider arrow_right fa fa-arrow-circle-right" aria-hidden="true"></i></span>
-			</div>
-		</div>
-	</div>
 	<?php foreach ($cat_user as $key => $cat) { ?>
 	<div class="block_rows cat" id="<?= $cat["cat_id"]; ?>">
 		<div class="column_title_block">

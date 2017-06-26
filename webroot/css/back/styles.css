@@ -1262,7 +1262,10 @@ div.list_template > ul li div.col_template_thumbs {
 div.list_template > ul li div.col_template_thumbs img {
   display: block;
 }
-div.list_template > ul li div.col_template_descr > p.title_row span {
+div.list_template > ul li div.col_template_descr > p span {
+  word-break: keep-all !important;
+  height: 22px;
+  overflow: hidden;
   font-size: 21px;
   color: #FF3B49;
   font-family: 'bariolbold', 'Helvetica';
@@ -1272,7 +1275,7 @@ div.list_template > ul li div.col_template_descr > p.title_row span {
   *zoom: 1;
   *display: inline;
 }
-div.list_template > ul li div.col_template_descr > p.title_row i {
+div.list_template > ul li div.col_template_descr > p i {
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
@@ -1752,8 +1755,33 @@ div.container_profil .checkbonito:checked ~ label::before {
 .container_emails {
   overflow-x: hidden !important;
 }
-.container_emails h2 {
+.container_emails .pannel_title span {
+  word-break: keep-all !important;
+  height: 22px;
+  overflow: hidden;
+  font-size: 21px;
+  color: #FF3B49;
+  font-family: 'bariolbold', 'Helvetica';
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+}
+.container_emails .pannel_title i {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  font-size: 20px;
   color: #444;
+  cursor: pointer;
 }
 .container_emails .emails_list {
   padding: 15px 0;
@@ -1781,6 +1809,11 @@ div.container_profil .checkbonito:checked ~ label::before {
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   cursor: pointer;
+  -moz-transition: box-shadow 0.3s ease 0s;
+  -o-transition: box-shadow 0.3s ease 0s;
+  -webkit-transition: box-shadow 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: box-shadow 0.3s ease 0s;
 }
 .container_emails .email:hover, .container_emails .sortable_placeholder_email_list:hover {
   -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -1800,9 +1833,12 @@ div.container_profil .checkbonito:checked ~ label::before {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: transparent;
   height: 100%;
   width: 100%;
+}
+.container_emails .email div.toolbox_email.active, .container_emails .sortable_placeholder_email_list div.toolbox_email.active {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .container_emails .email div.toolbox_email i, .container_emails .sortable_placeholder_email_list div.toolbox_email i {
   text-align: center;
@@ -1832,7 +1868,7 @@ div.container_profil .checkbonito:checked ~ label::before {
 }
 .container_emails div.add_section {
   background-color: #FF3B49;
-  height: 100px;
+  height: 70px;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -1847,11 +1883,11 @@ div.container_profil .checkbonito:checked ~ label::before {
   -moz-transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
-  -moz-transition: -moz-transform 0.3s ease 0s;
-  -o-transition: -o-transform 0.3s ease 0s;
-  -webkit-transition: -webkit-transform 0.3s ease;
+  -moz-transition: -moz-transform 0.5s ease 0s;
+  -o-transition: -o-transform 0.5s ease 0s;
+  -webkit-transition: -webkit-transform 0.5s ease;
   -webkit-transition-delay: 0s;
-  transition: transform 0.3s ease 0s;
+  transition: transform 0.5s ease 0s;
 }
 .container_emails div.add_section .flipper.active {
   -moz-transform: rotateX(-180deg);
@@ -1874,7 +1910,7 @@ div.container_profil .checkbonito:checked ~ label::before {
   height: inherit;
 }
 .container_emails div.add_section .flipper_front > p {
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 600;
   color: #fff;
   -webkit-user-select: none;
@@ -1932,15 +1968,14 @@ div.container_profil .checkbonito:checked ~ label::before {
   opacity: 0.8;
 }
 .container_emails div.add_section .flipper_back > form > button {
-  height: 32px;
+  height: 22px;
   background-color: #fff;
   color: #FF3B49;
   min-width: 80px;
   font-weight: 600;
   text-transform: uppercase;
   margin-bottom: 0;
-  font-size: 15px;
-  letter-spacing: 1px;
+  font-size: 14px;
 }
 
 /*----------  Popup Default  ----------*/

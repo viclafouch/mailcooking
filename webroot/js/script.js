@@ -84,51 +84,6 @@ function hidePopup(popup) {
 	});
 }
 
-function sortableEmailsList() {
-    $('.emails_list').sortable({
-    	connectWith: $('.emails_list'),
-        /* Curseur style quand mouvement en fonctionnement */
-        cursor: 'move',
-        /* Elements pouvant être déplacé */
-        items: "> *",
-        /* Opacité pendant le drag */
-        opacity: 0.90,
-        /* Classe du placeholder */
-        placeholder: "sortable_placeholder_email_list",
-        /* Anime le retour de l'élément au drop */
-        revert: true,
-        /* Z-index de l'élément dragger */
-        zIndex: 9999,
-        tolerance: 'pointer',
-        /* Event drag de n'importe quoi (container même ou autre) */
-        activate: function(event, ui){},
-        /* Event au lachage mais placeholder encore en activité */
-        beforeStop: function(event, ui){},
-        /* Event au changement de l'ordre des éléments (durant le drag) */
-        change: function(event, ui){},
-        /* Event à la création du module (onready) */
-        create: function(event, ui){},
-        /* Event à la fin du sortable */
-        deactivate: function(event, ui){},
-        /* Event lorsqu'un item en mouvement sort du container */
-        out: function(event, ui){},
-        /* Event lorsqu'un item en mouvement entre dans le container */
-        over: function(event, ui){},
-        /* Event recoit des éléments d'un autre container */
-        receive: function(event, ui){},
-        /* Event lorqu'un item est déplacé dans un autre container */
-        remove: function(event, ui) {},
-        /* Event durant le mouvement */
-        sort: function(event, ui) {},
-        /* Event à la création du sort */
-        start: function(event, ui){},
-        /* Event une fois que le sort est terminé */
-        stop: function(event, ui){},
-        /* Event au changement de l'ordre des éléments */
-        update: function(event, ui){},
-    });
-};
-
 /*----------  Actions  ----------*/
 
 // Démarrage des modules sans turbulinks
@@ -401,7 +356,8 @@ $(document).ready(function(){
 
 
 // Démarrage des modules avec turbolinks.
-document.addEventListener("turbolinks:load", function() { 
+document.addEventListener("turbolinks:load", function() {
+	clicOnPen = false;
 	/* Les modules ci-dessous se rebindent à chaque changement de page.
 	Un console.log s'affichera à chaque changement de page.
 
@@ -455,130 +411,6 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
-	/* Affiche le petit crayon d'edition */
-	$(document).on('mouseenter', '.li_template', function(){
-		if ($(this).data('allow') != '0') {
-			if (!$(this).attr('data-appened-hover')) {
-				$('[data-appened-hover]').removeAttr('data-appened-hover');
-				$(this).attr('data-appened-hover', 'true');
-				if (!clicOnPen) {
-					let title = $(this).find('.title_row');
-					title.append(pen);
-				}
-			}
-		}
-	});
-
-	/* Cache le petit crayon d'edition */
-	$(document).on('mouseleave', '.li_template', function(){
-		if (!clicOnPen) {
-			$(this)
-			.removeAttr('data-appened-hover')
-			.find('[data-editable-title]')
-			.remove();
-		}
-	});
-
-	/* Active l'édition d'un titre */
-	$(document).on('click', '[data-editable-title]', function(e){
-		if (!$(this).attr('data-appened')) {
-			e.preventDefault();
-			e.stopPropagation();
-			$(this).attr('data-appened', 'true');
-			$(this).parents('.li_template').attr('data-appened-clic', 'true');
-			title = $(this).prev('span');
-			title
-			.attr('contenteditable', 'true')
-			.css('font-style', 'italic')
-			.focus();
-			contentTitle = $(title).text();
-			$(this).replaceWith('<i class="material-icons" data-editable-title-done>done</i>');
-			clicOnPen = true;
-		}
-	});
-
-	/* Vérifie le nombre de caractère de l'édition en cours */
-	$(document).on('keydown', '.title_template', function(e){
-		if (e.keyCode == 13) {
-			e.preventDefault();
-			$('body').trigger("click");
-		}
-		if (title.text().length > 50 && e.keyCode != 8) {
-			e.stopPropagation();
-			e.preventDefault();
-			return false;
-		}
-	});
-
-	/* Modification du titre d'un template */
-	function updateTemplateTitle(title) {
-		title
-		.attr('contenteditable', 'false')
-		.css('font-style', 'normal');
-
-		if (title.text().length == 0 || title.text() == "") {
-			title.text(contentTitle);
-		}
-		
-		title = title.text();
-		templateId = $('[data-appened-clic]').data('template');
-
-		$.ajax({
-			type: "POST",
-			data: { template_title: title, idTemplate: templateId},
-			url : "?module=user&action=template", 
-			success : function(data) {
-				console.log(data);
-			}
-		});
-		
-		clicOnPen = false;
-	}
-
-	/* Sauvegarde l'edition de titre en cliquant sur le done */
-	$(document).on('click', '[data-editable-title-done]', function(){
-		if (clicOnPen) {
-			if (!$(this).attr('data-appened')) {
-				$(this).attr('data-appened', 'true');
-				updateTemplateTitle(title);
-				$('[data-appened-clic]').removeAttr('data-appened-clic');
-				$(this).replaceWith(pen);	
-			}
-		}
-	});
-
-	/* Sauvegarde l'edition de titre en cliquant sur le body */
-	$(document).on('click', 'body', function(e){
-		if (clicOnPen) {
-			if (!$(e.target).hasClass('title_template') && $(e.target).attr('contenteditable') != true) {
-				updateTemplateTitle(title);
-				if ($(e.target).is('.li_template')) {
-					if ($(e.target).attr('data-appened-clic')) {
-						$('[data-editable-title-done]').replaceWith(pen);
-					}
-					else {
-						$('[data-editable-title-done]').remove();
-						$(e.target).find('.title_row').append(pen);
-					}
-				}
-				else if ($(e.target).parents('.li_template').length == 1) {
-					if ($(e.target).parents('.li_template').attr('data-appened-clic')) {
-						$('[data-editable-title-done]').replaceWith(pen);
-					}
-					else {
-						$('[data-editable-title-done]').remove();
-						$(e.target).parents('.li_template').find('.title_row').append(pen);
-					}
-				}
-				else {
-					$('[data-appened-hover]').removeAttr('data-appened-hover');
-					$('[data-editable-title-done]').remove();
-				}
-				$('[data-appened-clic]').removeAttr('data-appened-clic');
-			}
-		}
-	});
-
 	/* Changement des selects */
 	$(document).on('change', '[data-select-template]', function(e) {
 		if ($(this).attr('id') == 'selectDisplayAllow') {
@@ -601,7 +433,73 @@ document.addEventListener("turbolinks:load", function() {
 	});
 
 	/*----------  Emails  ----------*/
-	
+	function sortableEmailsList() {
+    $('.emails_list').sortable({
+    	connectWith: $('.emails_list'),
+        /* Curseur style quand mouvement en fonctionnement */
+        cursor: 'move',
+        /* Elements pouvant être déplacé */
+        items: "> *",
+        /* Opacité pendant le drag */
+        opacity: 0.90,
+        /* Classe du placeholder */
+        placeholder: "sortable_placeholder_email_list",
+        /* Anime le retour de l'élément au drop */
+        revert: true,
+        /* Z-index de l'élément dragger */
+        zIndex: 9999,
+        tolerance: 'pointer',
+        /* Event drag de n'importe quoi (container même ou autre) */
+        activate: function(event, ui){},
+        /* Event au lachage mais placeholder encore en activité */
+        beforeStop: function(event, ui){
+        },
+        /* Event au changement de l'ordre des éléments (durant le drag) */
+        change: function(event, ui){
+        },
+        /* Event à la création du module (onready) */
+        create: function(event, ui){},
+        /* Event à la fin du sortable */
+        deactivate: function(event, ui){},
+        /* Event lorsqu'un item en mouvement sort du container */
+        out: function(event, ui){
+       		$('[data-appened-hover]').removeAttr('data-appened-hover');
+       		$('[data-editable-title]').remove();
+       	},
+
+        over: function(event, ui){
+        	let parent = $(this).parents('[data-section]');
+        	if (parent.length == 1) {
+        		if (!parent.attr('data-appened-hover')) {
+	        		parent.attr('data-appened-hover', 'true');
+	        		parent.find('.pannel_title p').append(pen);
+        		}
+        	}
+        },
+        /* Event recoit des éléments d'un autre container */
+        receive: function(event, ui){},
+        /* Event lorqu'un item est déplacé dans un autre container */
+        remove: function(event, ui) {},
+        /* Event durant le mouvement */
+        sort: function(event, ui) {
+        },
+        /* Event à la création du sort */
+        start: function(event, ui){},
+        /* Event une fois que le sort est terminé */
+        stop: function(event, ui){
+        	let parent = $(ui.item).parents('[data-section]');
+        	if (parent.length == 1) {
+        		if (!parent.attr('data-appened-hover')) {
+	        		parent.attr('data-appened-hover', 'true');
+	        		parent.find('.pannel_title p').append(pen);
+        		}
+        	}
+        },
+        /* Event au changement de l'ordre des éléments */
+        update: function(event, ui){},
+    });
+};
+
 	/* Active le formulaire */
 	$(document).on('click', '#newCatFlipper', function() {	
 		$('.flipper').addClass('active');
@@ -619,37 +517,197 @@ document.addEventListener("turbolinks:load", function() {
 	/* Sauvegarde le formulaire */
 	$(document).on('click', '#saveCatFlipper', function(e) {	
 		e.preventDefault();
-		let catName = $('#inputCatFlipper').val();
-		if (catName != '') {
-			let cloneList = $('[data-list-emails]').last().clone();
 
-			cloneList.find('h2').html(catName)
-			cloneList.find('li').remove();
-			let h = $('[data-list-emails]').last().css('height');
-			cloneList.css('height', '0px');
-
-			cloneList.insertBefore('#pannelAddSection');
-			$('[data-list-emails]').last().animate({
-				height: h,
-			},1000);
-			sortableEmailsList();
-			$('#closedFlipper').trigger('click');
+		if ($('#inputCatFlipper').val() != '') {
+			var catName = $('#inputCatFlipper').val();
+		} else {
+			var catLength = $('[data-section]').length + 1;
+			var catName = 'Catégorie '+catLength;
 		}
+
+		let cloneList = $('[data-list-emails]').last().clone();
+		cloneList.find('.title_row').html(catName)
+		cloneList.find('li').remove();
+		let h = $('[data-list-emails]').last().css('height');
+		cloneList.css('height', '0px');
+
+		cloneList.insertBefore('#pannelAddSection');
+		$('.container_emails').animate({
+       		scrollTop: $('#newCatFlipper').offset().top
+    	}, 1000);
+    	$('[data-list-emails]').last().animate({
+			height: h,
+		},1000);
+		sortableEmailsList();
+		$('#closedFlipper').trigger('click');
 		return false;
 	});
 
-	/* Active le toolbox */
-	$(document).on('mouseenter', '.email', function(){
-		$(this).append('<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email">'+
-		'<i class="material-icons">delete_forever</i>'+
-		'<i class="material-icons">create</i>'+
-		'<i class="material-icons">content_copy</i>'+
-		'</div>');
+	/* Affiche le toolbox */
+	$(document).on('mouseenter', '.email', function(e){
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			e.preventDefault();
+			$(this).children('[data-toolbox]').html('<i class="action_toolbox material-icons">delete_forever</i>'+
+			'<i class="action_toolbox material-icons">create</i>'+
+			'<i class="action_toolbox material-icons">content_copy</i>').addClass('active');
+		}
 	});
 
-	/* Désactive la Toolbar */
-	$(document).on('mouseleave', '.email', function(){
-		$('.toolbox_email').remove();
+	/* Cache le toolbox */
+	$(document).on('mouseleave', '.email', function(e){
+		if ($(this).attr('data-appened')) {
+			$(this).removeAttr('data-appened');
+			$(this).children('[data-toolbox]').removeClass('active').html('');
+		}
+	});
+
+	/*----------  Emails & Template modifications de titre  ----------*/
+	
+	/* Affiche le petit crayon d'edition */
+	$(document).on('mouseenter', '[data-list-emails], [data-list-templates]', function() {
+		if (!$(this).attr('data-appened-hover')) {
+			if ($(this).data('allow') != '0') {
+				$('[data-appened-hover]').removeAttr('data-appened-hover');
+				$(this).attr('data-appened-hover', 'true');
+				if (!clicOnPen) {
+					let title = $(this).find('.title_row');
+					title.parent('p').append(pen);
+				}
+			}
+		}
+	});
+
+	/* Cache le petit crayon d'edition */
+	$(document).on('mouseleave', '[data-list-emails], [data-list-templates]', function(){
+		if (!clicOnPen) {
+			$(this)
+			.removeAttr('data-appened-hover')
+			.find('[data-editable-title]')
+			.remove();
+		}
+	});
+
+	/* Active l'édition d'un titre */
+	$(document).on('click', '[data-editable-title]', function(e) {
+		if (!clicOnPen) {
+			if (!$(this).attr('data-appened')) {
+				e.preventDefault();
+				e.stopPropagation();
+				if ($(this).parents('[data-list-emails]').length == 1) {
+					emailPage = true;
+					templatePage = false;
+				} else if ($(this).parents('[data-list-templates]').length == 1) {
+					emailPage = false;
+					templatePage = true;
+				}
+
+				$(this).attr('data-appened', 'true');
+				$(this).parents('[data-list-emails], [data-list-templates]').attr('data-appened-clic', 'true');
+				title = $(this).prev('span');
+				title
+				.attr('contenteditable', 'true')
+				.css('font-style', 'italic')
+				.focus();
+
+				contentTitle = $(title).text();
+				$(this).replaceWith('<i class="material-icons" data-editable-title-done>done</i>');
+				clicOnPen = true;
+			}
+		}
+	});
+
+	/* Vérifie le nombre de caractère de l'édition en cours */
+	$(document).on('keydown', '.title_row', function(event) {
+		if (event.keyCode == 13) {
+			event.preventDefault();
+			$('body').trigger("click");
+		}
+		if (title.text().length > 50 && event.keyCode != 8) {
+			return false;
+		}
+	});
+
+	/* Sauvegarde d'un titre */
+	function updateTitle(title) {
+		title
+		.attr('contenteditable', 'false')
+		.css('font-style', 'normal');
+
+		if (title.text().length == 0 || title.text() == "") {
+			title.html(contentTitle);
+		} else {
+			titleText = title.text();
+			title.html(titleText);
+		} 
+		
+		title = title.text();
+		
+		if (templatePage) {
+			objectID = $('[data-appened-clic]').data('template');
+			$.ajax({
+				type: "POST",
+				data: { template_title: title, idTemplate: objectID},
+				url : "?module=user&action=template", 
+				success : function(data) {
+					console.log(data);
+				}
+			});
+		} else if (emailPage) {
+			objectID = $('[data-appened-clic]').data('section');
+			console.log('Ajax modification title section');
+		}
+		
+		clicOnPen = false;
+	}
+
+	/* Sauvegarde l'edition de titre en cliquant sur le done */
+	$(document).on('click', '[data-editable-title-done]', function(){
+		if (clicOnPen) {
+			if (!$(this).attr('data-appened')) {
+				$(this).attr('data-appened', 'true');
+				updateTitle(title);
+				$('[data-appened-clic]').removeAttr('data-appened-clic');
+				$(this).replaceWith(pen);
+			}
+		}
+	});
+
+	/* Sauvegarde l'edition de titre en cliquant sur le body */
+	$(document).on('mousedown', 'body', function(e){
+		if (clicOnPen) {
+			if (emailPage) {
+				var container = $(e.target).parents('[data-section]');
+			} else if (templatePage) {
+				var container = $(e.target).parents('[data-template]');
+			}
+			if (!$(e.target).hasClass('title_row')) {
+				updateTitle(title);
+				if ($(e.target).attr('data-section') || $(e.target).attr('data-template')) {
+					if ($(e.target).attr('data-appened-clic')) {
+						$('[data-editable-title-done]').replaceWith(pen);
+					}
+					else {
+						$('[data-editable-title-done]').remove();
+					}
+				}
+
+				else if (container.length == 1) {
+					if (container.attr('data-appened-clic')) {
+						$('[data-editable-title-done]').replaceWith(pen);
+					}
+					else {
+						$('[data-editable-title-done]').remove();
+						container.find('.title_row').append(pen);
+					}
+				}
+				else {
+					$('[data-appened-hover]').removeAttr('data-appened-hover');
+					$('[data-editable-title-done]').remove();
+				}
+				$('[data-appened-clic]').removeAttr('data-appened-clic');
+			}
+		}
 	});
 
 /*====================================
