@@ -1,6 +1,6 @@
 <?php	
 
-	function new_cat($post, $user)
+	function new_cat($cat_name, $user_id)
 	{
 		global $connexion;
 
@@ -13,12 +13,11 @@
 
 			$query = $connexion->prepare($req);
 
-			// On initialise les valeurs
-			$query->bindValue(':user_id', $user, PDO::PARAM_INT);
-			$query->bindValue(':cat_name', $post, PDO::PARAM_STR);
+			$query->bindValue(':cat_name', $cat_name, PDO::PARAM_STR);
+			$query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 
 			$query->execute();
-			
+
 			return $connexion->LastInsertId();
 		}
 

@@ -44,7 +44,21 @@
 				include_once('app/model/user/categorie/update_cat.php');
 
 				update_cat($_POST['idCategorie'], $_POST['titleCategorie'], $sessionID);
+			} 
+			
+			/* Suppression d'une catégorie */
+			else {
+				echo "test";
 			}
+		}
+
+		elseif ($_POST['catName']) {
+
+			include_once('app/model/user/categorie/new_cat.php');
+
+			$catID = new_cat($_POST['catName'], $sessionID);
+
+			echo $catID;
 		}
 
 		/* Duplication d'un email */
