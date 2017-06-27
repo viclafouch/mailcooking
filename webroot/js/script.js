@@ -62,6 +62,11 @@ var getUrlParameter = function getUrlParameter(sParam) {
 	}
 };
 
+var idEmail = function getEmailInfo(element) {
+	var idEmail = $(element).parents('li').data('email');
+	return idEmail;
+}
+
 function displayOfActionsTemplate(btn) {
 	$('[data-opened]').css('height', '0px')
 	$('[data-opened] ul').css({
@@ -357,7 +362,6 @@ $(document).ready(function(){
 
 // Démarrage des modules avec turbolinks.
 document.addEventListener("turbolinks:load", function() {
-	clicOnPen = false;
 	/* Les modules ci-dessous se rebindent à chaque changement de page.
 	Un console.log s'affichera à chaque changement de page.
 
@@ -433,88 +437,91 @@ document.addEventListener("turbolinks:load", function() {
 	});
 
 	/*----------  Emails  ----------*/
+
+	clicOnPen = false;
+
 	function sortableEmailsList() {
-    $('.emails_list').sortable({
-    	connectWith: $('.emails_list'),
-        /* Curseur style quand mouvement en fonctionnement */
-        cursor: 'move',
-        /* Elements pouvant être déplacé */
-        items: "> *",
-        /* Opacité pendant le drag */
-        opacity: 0.90,
-        /* Classe du placeholder */
-        placeholder: "sortable_placeholder_email_list",
-        /* Anime le retour de l'élément au drop */
-        revert: true,
-        /* Z-index de l'élément dragger */
-        zIndex: 9999,
-        tolerance: 'pointer',
-        /* Event drag de n'importe quoi (container même ou autre) */
-        activate: function(event, ui){},
-        /* Event au lachage mais placeholder encore en activité */
-        beforeStop: function(event, ui){
-        },
-        /* Event au changement de l'ordre des éléments (durant le drag) */
-        change: function(event, ui){
-        },
-        /* Event à la création du module (onready) */
-        create: function(event, ui){},
-        /* Event à la fin du sortable */
-        deactivate: function(event, ui){},
-        /* Event lorsqu'un item en mouvement sort du container */
-        out: function(event, ui){
-       		$('[data-appened-hover]').removeAttr('data-appened-hover');
-       		$('[data-editable-title]').remove();
-       	},
+	    $('.emails_list').sortable({
+	    	connectWith: $('.emails_list'),
+	        /* Curseur style quand mouvement en fonctionnement */
+	        cursor: 'move',
+	        /* Elements pouvant être déplacé */
+	        items: "> *",
+	        /* Opacité pendant le drag */
+	        opacity: 0.90,
+	        /* Classe du placeholder */
+	        placeholder: "sortable_placeholder_email_list",
+	        /* Anime le retour de l'élément au drop */
+	        revert: true,
+	        /* Z-index de l'élément dragger */
+	        zIndex: 9999,
+	        tolerance: 'pointer',
+	        /* Event drag de n'importe quoi (container même ou autre) */
+	        activate: function(event, ui){},
+	        /* Event au lachage mais placeholder encore en activité */
+	        beforeStop: function(event, ui){
+	        },
+	        /* Event au changement de l'ordre des éléments (durant le drag) */
+	        change: function(event, ui){
+	        },
+	        /* Event à la création du module (onready) */
+	        create: function(event, ui){},
+	        /* Event à la fin du sortable */
+	        deactivate: function(event, ui){},
+	        /* Event lorsqu'un item en mouvement sort du container */
+	        out: function(event, ui){
+	       		$('[data-appened-hover]').removeAttr('data-appened-hover');
+	       		$('[data-editable-title]').remove();
+	       	},
 
-        over: function(event, ui){
-        	let parent = $(this).parents('[data-section]');
-        	if (parent.length == 1) {
-        		if (!parent.attr('data-appened-hover')) {
-	        		parent.attr('data-appened-hover', 'true');
-	        		parent.find('.pannel_title p').append(pen);
-        		}
-        	}
-        },
-        /* Event recoit des éléments d'un autre container */
-        receive: function(event, ui){
-        	let parent = $(event.target).parents('[data-list-emails]');
-        	let idEmail = $(ui.item).data('email');
+	        over: function(event, ui){
+	        	let parent = $(this).parents('[data-section]');
+	        	if (parent.length == 1) {
+	        		if (!parent.attr('data-appened-hover')) {
+		        		parent.attr('data-appened-hover', 'true');
+		        		parent.find('.pannel_title p').append(pen);
+	        		}
+	        	}
+	        },
+	        /* Event recoit des éléments d'un autre container */
+	        receive: function(event, ui){
+	        	let parent = $(event.target).parents('[data-list-emails]');
+	        	let idEmail = $(ui.item).data('email');
 
-        	if (parent.attr('data-section')) {
-        		var idCategorie = parent.data('section');
-        	} else {
-				var idCategorie = 'NULL';
-        	}
-        	$.ajax({
-				type: "POST",
-				data: { idCategorie: idCategorie, idEmail: idEmail},
-				url : "?module=user&action=emails", 
-			});
-        },
-        /* Event lorqu'un item est déplacé dans un autre container */
-        remove: function(event, ui) {},
-        /* Event durant le mouvement */
-        sort: function(event, ui) {
-        },
-        /* Event à la création du sort */
-        start: function(event, ui){},
-        /* Event une fois que le sort est terminé */
-        stop: function(event, ui){
-        	let parent = $(ui.item).parents('[data-section]');
-        	if (parent.length == 1) {
-        		if (!parent.attr('data-appened-hover')) {
-	        		parent.attr('data-appened-hover', 'true');
-	        		parent.find('.pannel_title p').append(pen);
-        		}
-        	}
-        },
-        /* Event au changement de l'ordre des éléments */
-        update: function(event, ui){
-        	// console.log(ui);
-        },
-    });
-};
+	        	if (parent.attr('data-section')) {
+	        		var idCategorie = parent.data('section');
+	        	} else {
+					var idCategorie = 'NULL';
+	        	}
+	        	$.ajax({
+					type: "POST",
+					data: { idCategorie: idCategorie, idEmail: idEmail},
+					url : "?module=user&action=emails", 
+				});
+	        },
+	        /* Event lorqu'un item est déplacé dans un autre container */
+	        remove: function(event, ui) {},
+	        /* Event durant le mouvement */
+	        sort: function(event, ui) {
+	        },
+	        /* Event à la création du sort */
+	        start: function(event, ui){},
+	        /* Event une fois que le sort est terminé */
+	        stop: function(event, ui){
+	        	let parent = $(ui.item).parents('[data-section]');
+	        	if (parent.length == 1) {
+	        		if (!parent.attr('data-appened-hover')) {
+		        		parent.attr('data-appened-hover', 'true');
+		        		parent.find('.pannel_title p').append(pen);
+	        		}
+	        	}
+	        },
+	        /* Event au changement de l'ordre des éléments */
+	        update: function(event, ui){
+	        	// console.log(ui);
+	        },
+	    });
+	}
 
 	/* Active le formulaire */
 	$(document).on('click', '#newCatFlipper', function() {	
@@ -565,7 +572,7 @@ document.addEventListener("turbolinks:load", function() {
 			$(this).attr('data-appened', 'true');
 			e.preventDefault();
 			$(this).children('[data-toolbox]').html('<i class="action_toolbox material-icons">delete_forever</i>'+
-			'<i class="action_toolbox material-icons">create</i>'+
+			'<i id="redirectBuilder" class="action_toolbox material-icons">create</i>'+
 			'<i class="action_toolbox material-icons">content_copy</i>').addClass('active');
 		}
 	});
@@ -577,6 +584,22 @@ document.addEventListener("turbolinks:load", function() {
 			$(this).children('[data-toolbox]').removeClass('active').html('');
 		}
 	});
+
+	function getEmailInfo(element) {
+		var idEmail = $(element).parents('li').data('email');
+		return idEmail;
+	}
+
+	/* Redirection vers l'email builder */
+	$(document).on('click', '#redirectBuilder', function(){
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			window.location.href = '?module=user&action=email_builder&id='+idEmail(this)+'';
+		}
+	});
+
+	// /* Duplication d'un email */
+	// $(document).on('click', '')
 
 	/*----------  Emails & Template modifications de titre  ----------*/
 	

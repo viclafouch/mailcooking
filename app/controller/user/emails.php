@@ -35,7 +35,6 @@
 
 				include_once('app/model/user/email/update_cat_email.php');
 
-				/* Update de la catégorie de l'email */
 				update_cat_email($_POST['idCategorie'], $_POST['idEmail'], $sessionID);
 			}
 
