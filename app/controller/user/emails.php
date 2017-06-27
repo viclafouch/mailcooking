@@ -46,5 +46,50 @@
 				update_cat($_POST['idCategorie'], $_POST['titleCategorie'], $sessionID);
 			}
 		}
+
+		/* Duplication d'un email */
+		elseif (isset($_POST['idEmail'])) {
+			
+			include_once('app/model/user/email/duplicate.php');
+
+			$emailDuplicated = getEmailInfo($_POST['idEmail'], $sessionID);
+			
+			if ($emailDuplicated) {
+
+				$newID = new_email($emailDuplicated['id_user'], $emailDuplicated['email_name'], $emailDuplicated['email_dom'], $emailDuplicated['email_background'], $emailDuplicated['template_id'], $emailDuplicated['email_cat_id'], $emailDuplicated['archive']);
+
+
+				$timestamp = new DateTime($emailDuplicated['timestamp']);
+				$emailDate = $timestamp->format('d-m-Y');
+
+				$newTimestamp = new DateTime();
+				$newEmailDate = $newTimestamp->format('d-m-Y');
+
+				$folder = ''.$emailDuplicated['id_mail'].'_'.$emailDate.'';
+				$newFolder = ''.$newID.'_'.$newEmailDate.'';
+
+				$src = $chemin.'emails/'.$folder;
+				$newSrc = $chemin.'emails/'.$newFolder;
+
+				$newDom = str_replace($src, $newSrc, $emailDuplicated['email_dom']);
+
+				update_src_dom($newDom, $newID, $sessionID);
+
+				@mkdir($chemin.'emails/'.$newFolder."", 0777, true);
+
+				$chemin = $chemin.'emails';
+
+				$src = $chemin.'/'.$folder;
+				$dest =  $chemin.'/'.$newFolder;
+				$files = glob($chemin.'/'.$folder.'/*.*');
+
+				foreach($files as $file){
+					$file_to_go = str_replace($src,$dest,$file);
+					copy($file, $file_to_go);
+				}
+
+				echo $newFolder;
+			}
+		}
 	}
 	/*=====  End of Page Email  ======*/

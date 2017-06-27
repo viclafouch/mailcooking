@@ -1789,11 +1789,10 @@ div.container_profil .checkbonito:checked ~ label::before {
   height: 150px;
 }
 .container_emails .email {
-  background: url("http://via.placeholder.com/150x150");
-  background-attachment: scroll;
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-attachment: scroll !important;
+  background-size: 100% auto !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 .container_emails .email, .container_emails .sortable_placeholder_email_list {
   width: 150px;

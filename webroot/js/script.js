@@ -573,7 +573,7 @@ document.addEventListener("turbolinks:load", function() {
 			e.preventDefault();
 			$(this).children('[data-toolbox]').html('<i class="action_toolbox material-icons">delete_forever</i>'+
 			'<i id="redirectBuilder" class="action_toolbox material-icons">create</i>'+
-			'<i class="action_toolbox material-icons">content_copy</i>').addClass('active');
+			'<i id="duplicateBuilder" class="action_toolbox material-icons">content_copy</i>').addClass('active');
 		}
 	});
 
@@ -598,8 +598,37 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
-	// /* Duplication d'un email */
-	// $(document).on('click', '')
+	/* Duplication d'un email */
+	$(document).on('click', '#duplicateBuilder', function(){
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			var idEmail = $(this).parents('li').data('email');
+			var block = $(this).parents('li');
+			var rowEmail = block.parents('ul');
+			$.ajax({
+				type: "POST",
+				data: { idEmail: idEmail },
+				url : "?module=user&action=emails", 
+				success : function(data) {
+
+					let folder = data;
+					let idEmail = data.split('_')[0];
+					let cloneEmail = block.clone();
+					cloneEmail.removeAttr('data-appened');
+					cloneEmail.find('[data-toolbox]').html('').removeClass('active');
+					cloneEmail.attr('data-email', idEmail);
+
+
+					src = cloneEmail.css('background').split('/');
+
+					let newSrc = src[0]+'/'+src[1]+'/'+src[2]+'/'+folder+'/'+src[4];
+					console.log(newSrc);
+					cloneEmail.css('background', newSrc);
+					rowEmail.append(cloneEmail);
+				}
+			});
+		}
+	});
 
 	/*----------  Emails & Template modifications de titre  ----------*/
 	

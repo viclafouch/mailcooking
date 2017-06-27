@@ -25,11 +25,19 @@
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
 						<?php foreach ($emails as $email): ?>
-							<?php if ($email["email_cat_id"] == NULL): ?>
-								<li class="email" data-email="<?= $email["id_mail"]; ?>">
+							<?php if ($email["email_cat_id"] == NULL) {
+
+								$timestamp = new DateTime($email['timestamp']);
+								$emailDate = $timestamp->format('d-m-Y');
+
+								$folder = ''.$email['id_mail'].'_'.$emailDate.'/';
+								$src = $chemin.'emails/'.$folder;
+							?>
+
+								<li style="background: url('<?= $src; ?>thumbs.png');" class="email" data-email="<?= $email["id_mail"]; ?>">
 									<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
 								</li>
-							<?php endif ?>
+							<?php } ?>
 						<?php endforeach ?>
 					</ul>
 				</div>
@@ -47,11 +55,18 @@
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
 						<?php foreach ($emails as $email): ?>
-							<?php if ($cat['cat_id'] == $email['email_cat_id']): ?>
-								<li class="email" data-email="<?= $email["id_mail"]; ?>">
+							<?php if ($cat['cat_id'] == $email['email_cat_id']) {
+
+								$timestamp = new DateTime($email['timestamp']);
+								$emailDate = $timestamp->format('d-m-Y');
+
+								$folder = ''.$email['id_mail'].'_'.$emailDate.'/';
+								$src = $chemin.'emails/'.$folder;
+							?>
+								<li style="background: url('<?= $src; ?>thumbs.png');" class="email" data-email="<?= $email["id_mail"]; ?>">
 									<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
 								</li>
-							<?php endif ?>
+							<?php } ?>
 						<?php endforeach ?>
 					</ul>
 				</div>

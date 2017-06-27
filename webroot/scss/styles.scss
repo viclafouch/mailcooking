@@ -1241,9 +1241,13 @@ div.container_profil { overflow-y: scroll!important;
 
     .emails_list { padding: 15px 0; overflow-x: hidden; height: 150px; }
 
+    .email {
+        background-attachment: scroll!important;
+        background-size: 100% auto!important;
+        background-position: center!important;
+        background-repeat: no-repeat!important;
+    }
 
-
-    .email { @include back(url("http://via.placeholder.com/150x150"), scroll, 100%, center, no-repeat); }
     .email, .sortable_placeholder_email_list  {
         width: 150px;
         min-width: 150px;
