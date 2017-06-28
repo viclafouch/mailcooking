@@ -6,6 +6,9 @@
 /*----------  Variable  ----------*/
 /*----------  Mixins  ----------*/
 /*----------  Fonctions  ----------*/
+div.container_builder {
+  overflow: hidden !important;
+}
 div.container_builder div.container_left {
   width: 70%;
   height: calc(100vh - 65px - 1px);
@@ -109,6 +112,8 @@ header.header_builder span.icon-action, header.header_builder button {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  padding: 0;
+  text-align: right;
   padding-left: 15px;
   outline: none;
   border: 0;
@@ -133,7 +138,6 @@ header.header_builder span.icon-action.active, header.header_builder button.acti
 header.header_builder div.minicolors {
   width: 17px;
   height: 17px;
-  padding-left: 15px;
   top: -1px;
   -moz-transition: width 0.4s ease 0s;
   -o-transition: width 0.4s ease 0s;
@@ -150,7 +154,7 @@ header.header_builder div.minicolors input {
   outline: none;
   text-transform: uppercase;
   position: absolute;
-  width: 85px;
+  width: 70px;
   -moz-transition: opacity 0.3s ease 0.4s;
   -o-transition: opacity 0.3s ease 0.4s;
   -webkit-transition: opacity 0.3s ease;
@@ -167,9 +171,12 @@ header.header_builder div.minicolors .minicolors-swatch {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   left: 0;
+  height: 100%;
+  width: 17px;
 }
 header.header_builder div.minicolors .minicolors-panel {
   top: 17px;
+  visibility: hidden;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
   -moz-transition: none 0.3s ease 0s;
@@ -177,10 +184,10 @@ header.header_builder div.minicolors .minicolors-panel {
   -webkit-transition: none 0.3s ease;
   -webkit-transition-delay: 0s;
   transition: none 0.3s ease 0s;
-  -moz-transition-property: opacity;
-  -o-transition-property: opacity;
-  -webkit-transition-property: opacity;
-  transition-property: opacity;
+  -moz-transition-property: visibility, opacity;
+  -o-transition-property: visibility, opacity;
+  -webkit-transition-property: visibility, opacity;
+  transition-property: visibility, opacity;
 }
 header.header_builder div.minicolors:hover {
   width: 95px;
@@ -191,6 +198,7 @@ header.header_builder div.minicolors:hover input {
   opacity: 1;
 }
 header.header_builder div.minicolors:hover .minicolors-panel {
+  visibility: visible;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
   display: block;
@@ -199,6 +207,8 @@ header.header_builder div.minicolors:hover .minicolors-panel {
 div.content_email {
   height: calc(100% - 60px);
   width: 100%;
+  position: relative;
+  margin: 0 auto;
 }
 div.content_email > div#storage_email {
   height: 100%;
@@ -207,162 +217,51 @@ div.content_email > div#storage_email {
   box-sizing: border-box;
   padding: 10px 0;
   width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
-
-div.popup_overlay,
-div.popup_container#popupExport {
-  visibility: hidden;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  -moz-transition: opacity 0.3s ease 0s;
-  -o-transition: opacity 0.3s ease 0s;
-  -webkit-transition: opacity 0.3s ease;
-  -webkit-transition-delay: 0s;
-  transition: opacity 0.3s ease 0s;
-}
-div.popup_overlay.active,
-div.popup_container#popupExport.active {
-  visibility: visible;
-  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-  opacity: 1;
-}
-
-div.popup_overlay {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
-  position: absolute;
-  z-index: 999;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
-}
-
-div.popup_container#popupExport {
-  z-index: 9999;
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  right: 0;
-  left: 50%;
-  top: 50%;
-  bottom: 0;
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  width: 70%;
-  max-width: 700px;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  height: 300px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.75);
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-flow: column nowrap;
-  flex-flow: column nowrap;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
-}
-div.popup_container#popupExport #downloading {
-  stroke: #0676B2;
-  fill: #0676B2;
-}
-div.popup_container#popupExport .outer_circle {
-  fill: transparent;
-  stroke-width: 2;
-  stroke-dasharray: 500;
-}
-div.popup_container#popupExport #downloading .outer_circle {
-  stroke-dashoffset: 0;
-  stroke: transparent;
-}
-div.popup_container#popupExport #downloading .outer_circle.active {
-  stroke: #0676B2;
-  -moz-animation: show 2s linear 0s infinite;
-  -webkit-animation: show 2s linear 0s infinite;
-  animation: show 2s linear 0s infinite;
-}
-@-moz-keyframes show {
-  from {
-    stroke-dashoffset: 500;
-  }
-  to {
-    stroke-dashoffset: 400;
-  }
-}
-@-webkit-keyframes show {
-  from {
-    stroke-dashoffset: 500;
-  }
-  to {
-    stroke-dashoffset: 400;
-  }
-}
-@keyframes show {
-  from {
-    stroke-dashoffset: 500;
-  }
-  to {
-    stroke-dashoffset: 400;
-  }
-}
-/*----------  Container email  ----------*/
-div#storage_email .sortable-placeholder {
+div.content_email > div#storage_email > .sortable-placeholder {
   border: 1px dotted #444;
   border-right: 0;
+  background-color: red;
   border-left: 0;
-  background-color: #f3f3f3;
 }
-div#storage_email table[data-content] {
-  position: relative;
-}
-div#storage_email table[data-section], div#storage_email table[data-section] * {
+div.content_email > div#storage_email > table[data-section], div.content_email > div#storage_email table[data-section] * {
   -moz-transition: width 0.5s ease 0s;
   -o-transition: width 0.5s ease 0s;
   -webkit-transition: width 0.5s ease;
   -webkit-transition-delay: 0s;
   transition: width 0.5s ease 0s;
 }
-div#storage_email table[data-section] a, div#storage_email table[data-section] * a {
+div.content_email > div#storage_email > table[data-section] a, div.content_email > div#storage_email table[data-section] * a {
   cursor: default;
 }
-div#storage_email table[data-section] .active, div#storage_email table[data-section] * .active {
+div.content_email > div#storage_email > table[data-section] .active, div.content_email > div#storage_email table[data-section] * .active {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
-div#storage_email table[data-section] .noactive, div#storage_email table[data-section] * .noactive {
+div.content_email > div#storage_email > table[data-section] .noactive, div.content_email > div#storage_email table[data-section] * .noactive {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
   opacity: 0.75;
 }
-div#storage_email table[data-mobile] {
+div.content_email > div#storage_email table[data-content] {
+  position: relative;
+}
+div.content_email > div#storage_email > table[data-mobile] {
   width: 500px !important;
 }
-div#storage_email td[data-text], div#storage_email img[data-img], div#storage_email td[data-spacer], div#storage_email a[data-cta] {
+div.content_email > div#storage_email td[data-text], div.content_email > div#storage_email img[data-img], div.content_email > div#storage_email td[data-spacer], div.content_email > div#storage_email a[data-cta] {
   -moz-transition: opacity 0.2s ease 0s;
   -o-transition: opacity 0.2s ease 0s;
   -webkit-transition: opacity 0.2s ease;
   -webkit-transition-delay: 0s;
   transition: opacity 0.2s ease 0s;
 }
-div#storage_email a[data-cta] {
+div.content_email > div#storage_email a[data-cta] {
   cursor: text !important;
 }
-div#storage_email a[data-cta] p {
-  margin: 0;
-  outline: none;
-}
-div#storage_email table, div#storage_email td {
+div.content_email > div#storage_email table, div.content_email > div#storage_email td {
   outline: none;
   word-break: break-all;
 }
@@ -380,22 +279,21 @@ div.medium-editor-toolbar.medium-toolbar-arrow-under::after {
   bottom: -3px;
 }
 div.medium-editor-toolbar ul.medium-editor-toolbar-actions {
-  border: 1px solid #919191;
-  font-family: 'Roboto';
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 div.medium-editor-toolbar ul.medium-editor-toolbar-actions li {
   border: 0;
+  padding: 0px;
   background-color: #fff;
   color: #444;
-  padding: 0px;
 }
-div.medium-editor-toolbar ul.medium-editor-toolbar-actions li button.medium-editor-action {
+div.medium-editor-toolbar ul.medium-editor-toolbar-actions li > button.medium-editor-action {
   border: 0;
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
   width: 37px;
   height: 37px;
   padding: 0;
   margin: 0;
+  background-color: #fff;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
   opacity: 0.7;
   -moz-transition: background-color 0.3s ease 0s;
@@ -403,20 +301,19 @@ div.medium-editor-toolbar ul.medium-editor-toolbar-actions li button.medium-edit
   -webkit-transition: background-color 0.3s ease;
   -webkit-transition-delay: 0s;
   transition: background-color 0.3s ease 0s;
-  background-color: transparent;
 }
-div.medium-editor-toolbar ul.medium-editor-toolbar-actions li button.medium-editor-action i {
+div.medium-editor-toolbar ul.medium-editor-toolbar-actions li > button.medium-editor-action i {
   vertical-align: middle;
   font-size: 19px;
 }
-div.medium-editor-toolbar ul.medium-editor-toolbar-actions li button.medium-editor-action.medium-editor-button-first {
-  border: 0;
+div.medium-editor-toolbar ul.medium-editor-toolbar-actions li > button.medium-editor-action:not(.medium-editor-button-first) {
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
 }
-div.medium-editor-toolbar ul.medium-editor-toolbar-actions li button.medium-editor-action:hover {
+div.medium-editor-toolbar ul.medium-editor-toolbar-actions li > button.medium-editor-action:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
-div.medium-editor-toolbar ul.medium-editor-toolbar-actions li button.medium-editor-button-active {
+div.medium-editor-toolbar ul.medium-editor-toolbar-actions li > button.medium-editor-action.medium-editor-button-active {
   background-color: #0786cb;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
@@ -424,7 +321,7 @@ div.medium-editor-toolbar ul.medium-editor-toolbar-actions li button.medium-edit
 }
 div.medium-editor-toolbar div.medium-editor-toolbar-form {
   background-color: #fff;
-  border: 1px solid #919191;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 div.medium-editor-toolbar div.medium-editor-toolbar-form.medium-editor-toolbar-form-active {
   display: -webkit-flex;
@@ -460,6 +357,7 @@ div.medium-editor-anchor-preview {
   max-width: 300px;
   overflow: hidden;
   white-space: nowrap;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   background-color: #fff;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -468,29 +366,14 @@ div.medium-editor-anchor-preview {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-div.medium-editor-anchor-preview::before {
-  margin-left: auto;
-  display: none;
-}
 div.medium-editor-anchor-preview a {
-  color: blue;
+  color: #0676B2;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
   text-decoration: underline;
-  margin: 0;
   font-size: 12px;
+  margin: 0;
   padding: 2px 12px;
-}
-div.medium-editor-anchor-preview a::after {
-  content: '...';
-  position: absolute;
-  width: 20px;
-  height: 100%;
-  line-height: 24px;
-  text-decoration: underline;
-  color: blue;
-  background-color: #fff;
-  right: 0;
-  top: 0;
 }
 
 div.tools_section {
@@ -1284,3 +1167,110 @@ div.field_tools_item_block p.ui-spinner-input {
 }
 
 /*=====  End of Email builder's page  ======*/
+div.popup_overlay,
+div.popup_container#popupExport {
+  visibility: hidden;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-transition: opacity 0.3s ease 0s;
+  -o-transition: opacity 0.3s ease 0s;
+  -webkit-transition: opacity 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: opacity 0.3s ease 0s;
+}
+div.popup_overlay.active,
+div.popup_container#popupExport.active {
+  visibility: visible;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+
+div.popup_overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  z-index: 999;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+div.popup_container#popupExport {
+  z-index: 9999;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  right: 0;
+  left: 50%;
+  top: 50%;
+  bottom: 0;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 700px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  height: 300px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+div.popup_container#popupExport #downloading {
+  stroke: #0676B2;
+  fill: #0676B2;
+}
+div.popup_container#popupExport .outer_circle {
+  fill: transparent;
+  stroke-width: 2;
+  stroke-dasharray: 500;
+}
+div.popup_container#popupExport #downloading .outer_circle {
+  stroke-dashoffset: 0;
+  stroke: transparent;
+}
+div.popup_container#popupExport #downloading .outer_circle.active {
+  stroke: #0676B2;
+  -moz-animation: show 2s linear 0s infinite;
+  -webkit-animation: show 2s linear 0s infinite;
+  animation: show 2s linear 0s infinite;
+}
+@-moz-keyframes show {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 400;
+  }
+}
+@-webkit-keyframes show {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 400;
+  }
+}
+@keyframes show {
+  from {
+    stroke-dashoffset: 500;
+  }
+  to {
+    stroke-dashoffset: 400;
+  }
+}

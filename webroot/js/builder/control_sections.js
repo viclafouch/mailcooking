@@ -282,21 +282,12 @@ function creatSortable(container) {
             $('[data-original-title]').removeAttr('data-original-title');
 
             creatMediumEditor();     
-                    sectionHeight = newSection.height();
-                    $('#storage_email').height($('#storage_email').height()+sectionHeight+"px");
-            },
+        },
         /* Event lorqu'un item est déplacé dans un autre container */
         remove: function(event, ui) {},
         /* Event durant le mouvement */
         sort: function(event, ui) {
             sort = true;
-            var offset = $("#storage_email").height();
-            if($('.content_email').scrollTop() > offset){
-               $( "#storage_email" ).sortable( "option", "scroll", false );
-            }
-            else {
-                $( "#storage_email" ).sortable( "option", "scroll", true );
-            }
         },
         /* Event à la création du sort */
         start: function(event, ui){},
@@ -304,7 +295,6 @@ function creatSortable(container) {
         stop: function(event, ui){
             sort = false;
             $('.tools_section').remove();
-            $('.content_email').css('position', 'relative');
         },
         /* Event au changement de l'ordre des éléments */
         update: function(event, ui){
@@ -378,10 +368,10 @@ $(document).ready(function() {
     });
 
     /* Apparition des outils de contrôle */
-    $(document).on('mouseenter', '#storage_email [data-content]', function() {
+    $(document).on('mouseenter', '[data-content]', function() {
         if (viewDesktop) {
             if (!sort) {
-            $(this).prepend(tools_section);
+                $(this).prepend(tools_section);
             }
         }
     });

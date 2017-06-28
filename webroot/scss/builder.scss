@@ -96,7 +96,7 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 
 
 
-div.container_builder {
+div.container_builder { overflow: hidden!important;
     div.container_left {
         width: 70%;
         height: calc(100vh - #{$navHeight} - 1px); // 1px car bordure du block
@@ -161,6 +161,8 @@ header.header_builder {
 
     span.icon-action, button {
         -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        padding: 0;
+        text-align: right;
         padding-left: 15px;
         outline: none; border: 0; 
         background-color: transparent;
@@ -174,32 +176,37 @@ header.header_builder {
 
     div.minicolors {
         width: 17px; height: 17px;
-        padding-left: 15px;
         top: -1px;
         @include single-transition(width, 0.4s, ease, 0s);
+
         input {
             border: 0; margin:0; padding:0;
             top: -1px; right: 0;
             outline: none;
             text-transform: uppercase;
             position: absolute;
-            width: 85px;
+            width: 70px;
             @include single-transition(opacity, 0.3s, ease, 0.4s);
             @include visible(false);
         }
-        .minicolors-swatch { top: 50%; @include translateY(-50%); left: 0; }
+        .minicolors-swatch { 
+            top: 50%; 
+            @include translateY(-50%); 
+            left: 0;
+            height: 100%;
+            width: 17px;
+        }
 
         .minicolors-panel {
             top: 17px;
-            @include opacity(0);
-            @include single-transition(none, 0.3s, ease, 0s);
-            @include transition-property(opacity);
+            @include visible(false);
+            @include animateVisibility(0.3s);
         }
 
         &:hover {
             width: 95px;
             input { @include visible(true); }
-            .minicolors-panel { @include opacity(1); display: block; }
+            .minicolors-panel { @include visible(true); display: block; }
         }
     }
 }
@@ -208,164 +215,82 @@ header.header_builder {
 div.content_email {
     height: calc(100% - #{$navBuilderHeight});
     width: 100%;
+    position: relative;
+    margin: 0 auto;
 
     & > div#storage_email {
         height: 100%;
         @include box-sizing(border-box);
         padding: 10px 0;
         width: 100%;
+        margin: 0 auto;
+        overflow-x: hidden;
         overflow-y: scroll;
-    }
-}
 
-
-
-
-
-
-// end header
-
-div.popup_overlay,
-div.popup_container#popupExport {
-    visibility: hidden;
-    @include opacity(0);
-    @include single-transition(opacity, 0.3s, ease, 0s);
-    &.active {
-        visibility: visible;
-        @include opacity(1.0);
-    }
-}
-
-div.popup_overlay {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255,255,255,0.5);
-    position: absolute;
-    z-index: 999;
-    margin: 0; padding:0; border:0;
-    right: 0; left: 0; top: 0; bottom: 0;
-   
-}
-
-div.popup_container#popupExport {
-    z-index: 9999;
-    position: absolute;
-    margin: 0; padding:0; border:0;
-    right: 0; left: 50%; top: 50%; bottom: 0;
-    @include translate(-50%, -50%);
-    width: 70%;
-    max-width: 700px;
-    @include box-shadow($shadow0);
-    height: 300px;
-    background-color: rgba(255,255,255,0.90);
-    border: 1px solid rgba(0,0,0,0.75);
-    @include flex(column nowrap, center, center);
-
-    #downloading {
-        stroke:$primaryColor;
-        fill: $primaryColor;
-    }
-
-    .outer_circle {
-        fill: transparent;
-        stroke-width: 2;
-        stroke-dasharray: 500;
-    }
-
-    #downloading .outer_circle {
-        stroke-dashoffset: 0;
-        stroke: transparent;
-        &.active {
-            stroke: $primaryColor;
-            @include animation(show 2s linear 0s infinite);
+        & > .sortable-placeholder {
+            border: 1px dotted #444;
+            border-right: 0;
+            background-color: red;
+            border-left: 0;
+            // background-color: adjust-lightness(#f0f0f0, 1);
         }
-    }
 
-    @include keyframes(show) {
-        from { stroke-dashoffset: 500; }
-        to { stroke-dashoffset: 400; }
-    }
-}
+        & > table[data-section], table[data-section] * {
+             @include single-transition(width, 0.5s, ease, 0s);
 
-/*----------  Container email  ----------*/
-
-
-// Container direct      
-div#storage_email {
-
-    .sortable-placeholder {
-        border: 1px dotted #444;
-        border-right: 0;
-        border-left: 0;
-        background-color: adjust-lightness(#f0f0f0, 1);
-    }
-
-    table[data-content] { position: relative; }
-
-    table[data-section], table[data-section] * {
-         @include single-transition(width, 0.5s, ease, 0s);
-
-         a { cursor: default; }
-         .active { @include opacity(1.0); }
-         .noactive { @include opacity(0.75); }
-    }
-
-    table[data-mobile] {
-        width: 500px!important;  
-    }
-
-    td[data-text], img[data-img], td[data-spacer], a[data-cta] {
-        @include single-transition(opacity, 0.2s, ease, 0s);
-    }
-
-    a[data-cta] {
-        cursor: text!important;
-        p {
-            margin: 0;
-            outline: none;
+             a { cursor: default; }
+             .active { @include opacity(1.0); }
+             .noactive { @include opacity(0.75); }
         }
-    }
 
-    table, td { outline: none; word-break: break-all; }
+        table[data-content] { position: relative; }
+
+        & > table[data-mobile] { width: 500px!important; }
+
+        td[data-text], img[data-img], td[data-spacer], a[data-cta] {
+            @include single-transition(opacity, 0.2s, ease, 0s);
+        }
+
+        a[data-cta] { cursor: text!important; }
+
+        table, td { outline: none; word-break: break-all; }
+    }
 }
 
-// Medium editor 
 div.medium-editor-toolbar {
     animation-duration: 500ms!important;
     @include box-shadow($shadow0);
     &.medium-toolbar-arrow-under::after { border-color: $primaryColor; border-width: 4px 10px 0px; margin-left: -10px; bottom: -3px;}
     ul.medium-editor-toolbar-actions {
-        border: 1px solid adjust-lightness(#444, 30);
-        font-family: 'Roboto';
-        li { border:0;
-        background-color: #fff;
-        color: #444;
-        padding: 0px; }
+        border: $primaryBorder;
+        li { 
+            border:0; padding: 0px;
+            background-color: #fff;
+            color: $primaryTextColor;
 
-        li button.medium-editor-action {
-            border: 0;
-            border-left: 1px solid rgba(255,255,255,0.3);
-            width: 37px;
-            height: 37px;
-            padding: 0;
-            margin: 0;
-            @include opacity(0.7);
-            @include single-transition(background-color, 0.3s, ease, 0s);
-            background-color: transparent;
-            i { vertical-align: middle; font-size: 19px; }
-            &.medium-editor-button-first { border: 0;}
-            &:hover { @include opacity(1); }
+            & > button.medium-editor-action {
+                border: 0;
+                width: 37px; height: 37px;
+                padding: 0; margin: 0;
+                background-color: #fff;
+                @include opacity(0.7);
+                @include single-transition(background-color, 0.3s, ease, 0s);
+                i { vertical-align: middle; font-size: 19px; }
+                &:not(.medium-editor-button-first) { border-left: 1px solid rgbaExpress(white, 0.3); }
+                &:hover { @include opacity(1); }
+
+                &.medium-editor-button-active {
+                    background-color: adjust-lightness($primaryColor, 5);
+                    @include opacity(1);
+                    color: rgbaExpress(white, 0.85);
+                }
+            }
         }
-
-        li button.medium-editor-button-active {
-        background-color: adjust-lightness($primaryColor, 5);
-        @include opacity(1);
-        color: rgba(255,255,255,0.85); }
     }
 
     div.medium-editor-toolbar-form {
         background-color: #fff;
-        border: 1px solid adjust-lightness(#444, 30);
+        border: $primaryBorder;
         &.medium-editor-toolbar-form-active { @include flex(row nowrap, flex-start, center);}
 
         input { background-color: transparent; width: 200px; }
@@ -378,37 +303,23 @@ div.medium-editor-toolbar {
     }
 }
 
-// Medium editor 
 div.medium-editor-anchor-preview {
     margin-top: -10px;
     max-width: 300px;
     overflow: hidden;
     white-space: nowrap;
-    // border: 1px solid adjust-lightness(#444, 30);
+    border: $primaryBorder;
     background-color: #fff;
     @include border-radius(2px);
     @include box-shadow($shadow0);
-    &::before { margin-left: auto; display: none;}
     a {
-    color: blue;
-    &::after {
-        content: '...';
-        position: absolute;
-        width: 20px;
-        height: 100%;
-        line-height: 24px;
-        text-decoration: underline;
-        color: blue;
-        background-color: #fff;
-        right: 0;
-        top: 0;
+        color: $primaryColor;
+        @include opacity(0.8);
+        text-decoration: underline; 
+        font-size: 12px;
+        margin: 0;
+        padding: 2px 12px;
     }
-    opacity: 0.8;
-    // word-wrap: keep-all!important;
-    text-decoration: underline; 
-    margin: 0;
-    font-size: 12px;
-    padding: 2px 12px;}
 }
 
 // Tools des sections au hover
@@ -976,3 +887,68 @@ div.field_tools_item_block p {
 }
 
 /*=====  End of Email builder's page  ======*/
+
+
+// end header
+
+div.popup_overlay,
+div.popup_container#popupExport {
+    visibility: hidden;
+    @include opacity(0);
+    @include single-transition(opacity, 0.3s, ease, 0s);
+    &.active {
+        visibility: visible;
+        @include opacity(1.0);
+    }
+}
+
+div.popup_overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.5);
+    position: absolute;
+    z-index: 999;
+    margin: 0; padding:0; border:0;
+    right: 0; left: 0; top: 0; bottom: 0;
+   
+}
+
+div.popup_container#popupExport {
+    z-index: 9999;
+    position: absolute;
+    margin: 0; padding:0; border:0;
+    right: 0; left: 50%; top: 50%; bottom: 0;
+    @include translate(-50%, -50%);
+    width: 70%;
+    max-width: 700px;
+    @include box-shadow($shadow0);
+    height: 300px;
+    background-color: rgba(255,255,255,0.90);
+    border: 1px solid rgba(0,0,0,0.75);
+    @include flex(column nowrap, center, center);
+
+    #downloading {
+        stroke:$primaryColor;
+        fill: $primaryColor;
+    }
+
+    .outer_circle {
+        fill: transparent;
+        stroke-width: 2;
+        stroke-dasharray: 500;
+    }
+
+    #downloading .outer_circle {
+        stroke-dashoffset: 0;
+        stroke: transparent;
+        &.active {
+            stroke: $primaryColor;
+            @include animation(show 2s linear 0s infinite);
+        }
+    }
+
+    @include keyframes(show) {
+        from { stroke-dashoffset: 500; }
+        to { stroke-dashoffset: 400; }
+    }
+}
