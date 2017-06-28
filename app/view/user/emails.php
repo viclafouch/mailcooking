@@ -49,7 +49,6 @@
 				<div class="pannel_title row row-verti-center">
 					<p>
 						<span spellcheck="false" onpaste="return false" class="title_row"><?= $cat['cat_name']; ?></span>
-						&nbsp;
 					</p>
 				</div>
 				<div class="pannel_body">
@@ -104,6 +103,21 @@
 			<footer class="col col-hori-center col-verti-center nowrap">
 				<button data-close-popup class="button_default button_secondary">Supprimer</button>
 				<span data-close-popup>Annuler</span>
+			</footer>
+		</div>
+	</div>
+	<div class="popup_mc" id="deleteEmailConfirmation">
+		<div class="popup_background"></div>
+		<div class="popup_container">
+			<header>
+				<h1>SUPPRIMER L'EMAIL ?</h1>
+			</header>
+			<div class="content_block popup-blocks col col-hori-center col-verti-center nowrap">
+				<p>Vous avez le choix entre <u>supprimer définitivement</u> l'email, ou le <u>placer en archive</u>.</p>
+			</div>
+			<footer class="row row-hori-center row-verti-center nowrap">
+				<button data-close-popup data-delete-forever class="button_default button_secondary">Supprimer</button>
+				<button data-close-popup data-delete-archive class="button_default button_secondary">Archiver</button>
 			</footer>
 		</div>
 	</div>

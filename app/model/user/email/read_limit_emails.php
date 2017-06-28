@@ -1,20 +1,19 @@
 <?php 
 
-	function read_my_all_mails($id, $archive)		
-	{
+	function read_limit_email($id_user, $archive) {
 		global $connexion;
 
 		try 
 		{
-			// On voit la requête
 			$query = $connexion->prepare('SELECT * 
 											FROM mail_editor
-												WHERE id_user=:id
-												AND archive=:boul
-												ORDER BY timestamp DESC');
+												WHERE id_user=:id_user
+												AND archive=:archive
+												ORDER BY timestamp DESC
+												LIMIT 3');
 
-			$query->bindParam(':id', $id, PDO::PARAM_INT);
-			$query->bindParam(':boul', $archive, PDO::PARAM_INT);
+			$query->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+			$query->bindParam(':archive', $archive, PDO::PARAM_INT);
 
 			$query->execute();
 			$email = $query->fetchAll();

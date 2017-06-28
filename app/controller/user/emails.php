@@ -48,11 +48,36 @@
 			
 			/* Suppression d'une catégorie */
 			else {
-				echo "test";
+				include_once('app/model/user/categorie/delete_cat.php');
+
+				$emails = read_emails($_POST['idCategorie'], 0, $sessionID);
+
+				$chemin = $chemin.'emails/';
+
+				foreach ($emails as $email) {
+					$timestamp = new DateTime($email['timestamp']);
+					$emailDate = $timestamp->format('d-m-Y');
+					$folder = ''.$email['id_mail'].'_'.$emailDate.'';
+
+					if (count(glob($chemin.$folder."/*")) >= 1 ) {
+						removeFiles(glob($chemin.$folder.'/*'));
+					}
+
+					if (file_exists($chemin.$folder)) {
+						rmdir($chemin.$folder);
+					}
+
+					delete_email($email['id_mail'], 0, $sessionID);
+
+					echo $chemin.$folder;
+				}
+
+				delete_cat($_POST['idCategorie'], $sessionID);
 			}
 		}
-
-		elseif ($_POST['catName']) {
+		
+		/* Création d'une catégorie */
+		elseif (isset($_POST['catName'])) {
 
 			include_once('app/model/user/categorie/new_cat.php');
 
@@ -105,5 +130,37 @@
 				echo $newFolder;
 			}
 		}
+		/* Insertion en archive d'un email */
+		elseif (isset($_POST['archive'])) {
+
+			include_once('app/model/user/archive/update_archive.php');
+
+			update_archive($_POST["archive"], 1, $sessionID);
+		}
+
+		/* Suppression d'un email */
+		elseif (isset($_POST['trash'])) {
+
+			include_once('app/model/user/email/delete_email.php');
+
+			$emailDeleted = getEmailInfo($_POST['trash'], $sessionID);
+
+			$chemin = $chemin.'emails/';
+
+			$timestamp = new DateTime($emailDeleted['timestamp']);
+			$emailDate = $timestamp->format('d-m-Y');
+			$folder = ''.$emailDeleted['id_mail'].'_'.$emailDate.'';
+
+			if (count(glob($chemin.$folder."/*")) >= 1 ) {
+				removeFiles(glob($chemin.$folder.'/*'));
+			}
+
+			if (file_exists($chemin.$folder)) {
+				rmdir($chemin.$folder);
+			}
+
+			delete_email($_POST['trash'], $sessionID);
+		}
+
 	}
 	/*=====  End of Page Email  ======*/

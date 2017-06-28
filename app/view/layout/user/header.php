@@ -20,6 +20,10 @@
 
 		<!-- Custom [CSS]-->
 		<link rel="stylesheet" href="webroot/css/back/styles.css">
+		<?php 
+			if ($_GET['action'] == 'email_builder') { ?>
+		<link rel="stylesheet" href="webroot/css/back/builder.css">
+		<?php } ?>
 
 		<!-- A DELETE !-->
 		<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

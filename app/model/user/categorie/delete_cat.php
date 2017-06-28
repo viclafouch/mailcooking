@@ -1,7 +1,7 @@
 <?php	
 
-	function delete_cat($post, $user)
-	{
+	function delete_cat($cat_id, $user_id) {
+
 		global $connexion;
 
 		try 
@@ -12,9 +12,8 @@
 
 			$query = $connexion->prepare($req);
 
-			// On initialise les valeurs
-			$query->bindValue(':cat_id', $post, PDO::PARAM_INT);
-			$query->bindValue(':user_id', $user, PDO::PARAM_INT);
+			$query->bindValue(':cat_id', $cat_id, PDO::PARAM_INT);
+			$query->bindValue(':user_id', $user_id, PDO::PARAM_INT);
 
 			$query->execute();
 			
@@ -23,42 +22,54 @@
 		catch (Exception $e) {
 			die("Erreur SQL : " . $e->getMessage());		
 		}
+	}
 
-		try {
-			$req = 'DELETE FROM mail_editor
-						WHERE cat_id = :cat_id
+	function read_emails($email_cat_id, $archive, $id_user) {
+
+		global $connexion;
+
+		try 
+		{
+			$req = 'SELECT * FROM mail_editor
+						WHERE email_cat_id = :email_cat_id
 						AND archive = :archive
 						AND id_user = :id_user';
 
 			$query = $connexion->prepare($req);
 
-			$query->bindValue(':cat_id', $post, PDO::PARAM_INT);
-			$query->bindValue(':archive', 0, PDO::PARAM_INT);
-			$query->bindValue(':id_user', $user, PDO::PARAM_INT);
+			$query->bindValue(':email_cat_id', $email_cat_id, PDO::PARAM_INT);
+			$query->bindValue(':archive', $archive, PDO::PARAM_INT);
+			$query->bindValue(':id_user', $id_user, PDO::PARAM_INT);
 
 			$query->execute();
+			$emails = $query->fetchAll();
+			$query->closeCursor();
+
+			return $emails;
 		}
 		catch (Exception $e) {
 			die("Erreur SQL : " . $e->getMessage());		
 		}
+	}
 
-		try {
-			$req = 'UPDATE mail_editor
-						SET cat_id = :cat_id
-							WHERE cat_id = :id
-							AND archive = :archive
-							AND id_user = :id_user';
+	function delete_email($id_mail, $archive, $id_user) {
+
+		global $connexion;
+
+		try 
+		{
+			$req = 'DELETE FROM mail_editor
+						WHERE id_mail = :id_mail
+						AND archive = :archive
+						AND id_user = :id_user';
 
 			$query = $connexion->prepare($req);
 
-			$query->bindValue(':id', $post, PDO::PARAM_INT);
-			$query->bindValue(':cat_id', NULL, PDO::PARAM_INT);
-			$query->bindValue(':archive', 1, PDO::PARAM_INT);
-			$query->bindValue(':id_user', $user, PDO::PARAM_INT);
+			$query->bindValue(':id_mail', $id_mail, PDO::PARAM_INT);
+			$query->bindValue(':archive', $archive, PDO::PARAM_INT);
+			$query->bindValue(':id_user', $id_user, PDO::PARAM_INT);
 
 			$query->execute();
-
-			return $query;
 		}
 		catch (Exception $e) {
 			die("Erreur SQL : " . $e->getMessage());		
