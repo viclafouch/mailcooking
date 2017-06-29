@@ -585,6 +585,11 @@ div.field_item_sidebar#background-color div.minicolors::after, div.field_item_si
   right: 0;
   height: 100%;
 }
+div.field_item_sidebar#background-color div.minicolors_before.active::after, div.field_item_sidebar#color div.minicolors_before.active::after {
+  visibility: hidden;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+}
 div.field_item_sidebar#background-color input.minicolors-input, div.field_item_sidebar#color input.minicolors-input {
   width: calc(100% - 33px);
   text-transform: uppercase;
@@ -611,7 +616,7 @@ div.field_item_sidebar#background-color span.minicolors-swatch, div.field_item_s
   transform: translateY(-50%);
 }
 div.field_item_sidebar#background-color div.minicolors-panel, div.field_item_sidebar#color div.minicolors-panel {
-  top: 23px;
+  top: 100%;
   left: 5px;
 }
 div.field_item_sidebar#height span.ui-spinner, div.field_item_sidebar#font-size span.ui-spinner, div.field_item_sidebar#line-height span.ui-spinner {
@@ -685,6 +690,11 @@ div.field_item_sidebar#padding div.map > span.widget_flipper, div.field_item_sid
   -webkit-transition: background-color 0.3s ease;
   -webkit-transition-delay: 0s;
   transition: background-color 0.3s ease 0s;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 div.field_item_sidebar#padding div.map > span.widget_flipper i, div.field_item_sidebar#border div.map > span.widget_flipper i {
   font-size: 10px;
@@ -751,8 +761,6 @@ div.field_item_sidebar#padding div.map > div.map_block.map_block_center p, div.f
 div.field_item_sidebar#padding div.map > div.map_block > div.flipper, div.field_item_sidebar#border div.map > div.map_block > div.flipper {
   width: 100%;
   height: 100%;
-  z-index: 0;
-  width: 100%;
   position: relative;
   -moz-transition: -moz-transform 0.3s ease 0s;
   -o-transition: -o-transform 0.3s ease 0s;
@@ -762,6 +770,11 @@ div.field_item_sidebar#padding div.map > div.map_block > div.flipper, div.field_
   -moz-transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
+}
+div.field_item_sidebar#padding div.map > div.map_block > div.flipper.active, div.field_item_sidebar#border div.map > div.map_block > div.flipper.active {
+  -moz-transform: rotateX(-180deg);
+  -webkit-transform: rotateX(-180deg);
+  transform: rotateX(-180deg);
 }
 div.field_item_sidebar#padding div.map > div.map_block > div.flipper > div.flipper_front, div.field_item_sidebar#padding div.map > div.map_block > div.flipper > div.flipper_back, div.field_item_sidebar#border div.map > div.map_block > div.flipper > div.flipper_front, div.field_item_sidebar#border div.map > div.map_block > div.flipper > div.flipper_back {
   -moz-transition: -moz-transform 0.3s ease 0s;

@@ -746,17 +746,6 @@ function disappearItem(e) {
 // Démarrage des modules d'édition de texte
 $(document).ready(function() {
 
-    $('.choose_color').minicolors();
-
-    $('.change_number').spinner({
-        icons: { down: "custom-down-icon", up: "custom-up-icon" }
-    });
-
-    $('.custom-down-icon').html('<i class="signe material-icons">remove</i>');
-    $('.custom-up-icon').html('<i class="signe material-icons">add</i>');
-
-    // $('.field_tools_item_block').hide();
-
     /* Création de Medium Editor */
     creatMediumEditor();
 

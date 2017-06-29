@@ -25,45 +25,55 @@
 
 $(document).ready( function() {
 
-	$('.choose_color_background').minicolors({
-		change: function(value) {
-    		$('#storage_email, .content_email').css('background-color', value);
+	var minicolor;
 
-  		},
+	$('#background_email').minicolors({
+		change: function(value) { 
+			$('#storage_email').css('background-color', value); 
+		},
 	});
 
-	$('.choose_color').parent().addClass('btn_tools');
+	$('.choose_color').minicolors({
+		show: function(){ minicolor = true },
+		hide: function(){ $('.map_block').css('z-index', '0'); minicolor = false; }
+	});
 
-	$(document).on('click', '.btn_tools', function(){
+    $('.change_number').spinner({ icons: { down: "custom-down-icon", up: "custom-up-icon" } });
+
+    $('.custom-down-icon').html('<i class="signe material-icons">remove</i>');
+    $('.custom-up-icon').html('<i class="signe material-icons">add</i>');
+
+    // $('.field_tools_item_block').hide();
+
+	$('.choose_color').parent().addClass('minicolors_before');
+
+	$(document).on('click', '.minicolors_before', function(){
 		$(this).addClass('active');
 		$(this).children('input').focus();
-		return false;
 	});
 
-	$(document).on('click', '.full_container', function(event){
-		$('.btn_tools').removeClass('active');
+	$(document).on('mouseenter', '.map_block .minicolors', function() {
+		$(this).parents('.map_block').css('z-index', '1');
 	});
 
-	$(document).on('click', '.btn_change_action_border', function(){
-		$('.btn_change_action_border').removeClass('active');
+	$(document).on('click', 'body', function() {
+		if (minicolor) {
+			$('.map_block').css('z-index', '0');
+			minicolor = false;
+		}
+	});
+
+	$(document).on('click', '[data-flipper]', function(e){
+		$('[data-flipper]').removeClass('active');
 		$(this).addClass('active');
-	});
 
-	$(document).on('click', '.flipper', function(){
-		$('.flipper').css('z-index', '0');
-		$(this).css('z-index', '1');
-	});
-	
-	$(document).on('click', '#change_color_border', function() {		
-		$('.flipper').css({
-			transform:"rotateX(-180deg)"
-		});
-	});
+		let id = $(this).data('item');
 
-	$(document).on('click', '#change_size_border', function() {		
-		$('.flipper').css({
-			transform:"rotateX(0deg)"
-		});
+		if ($(this).data('flipper') == 'front') {
+			$('#'+id+' .flipper').removeClass('active');
+		} else {
+			$('#'+id+' .flipper').addClass('active');
+		}
 	});
 
 	$(document).on('click', '.btn_menu_builder', function() {

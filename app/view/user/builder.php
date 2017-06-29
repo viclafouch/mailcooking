@@ -21,7 +21,7 @@
 				<input id="documentTitle" spellcheck="false" placeholder="Nom de l'email" autocomplete="off" value='<?= htmlspecialchars($mail[0]['email_name']); ?>' type="text" onpaste="return false;" required>
 				<?php } ?>
 				<div class="tools_primary row wrap row-verti-center">
-					<input type="text" spellcheck="false" autocomplete="off" onpaste="return false;" value="<?= $mail[0]['email_background'];?>" id="background_email" class="choose_color_background" />
+					<input type="text" spellcheck="false" autocomplete="off" onpaste="return false;" value="<?= $mail[0]['email_background'];?>" id="background_email" class="choose_color" />
 					<button class="icon-action" id="undo"><i class="material-icons">undo</i></button>
 					<button class="icon-action" id="redo"><i class="material-icons">redo</i></button>
 					<span class="icon-action" id="mobileView"><i class="material-icons">phone_iphone</i></span>
@@ -159,20 +159,20 @@
 							<div class="col nowrap">
 								<label>Bordure <span class="unity">(en px)</span></label>
 								<div class="item map row wrap">
-									<span class="widget_flipper active">
+									<span class="widget_flipper active" data-flipper="front" data-item="border">
 										<i class="material-icons">title</i>
 									</span>
-									<span class="widget_flipper">
+									<span class="widget_flipper" data-flipper="back" data-item="border">
 										<i class="material-icons">border_color</i>
 									</span>
 									<div class="map_block notvisible"></div>
 									<div class="map_block center">
 										<div class="flipper">
-											<div class="map_block_color flipper_front">
-												<input type="text" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
-											</div>
-											<div class="map_block_number flipper_back">
+											<div class="map_block_number flipper_front">
 												<input type="text" id="border-top-width" value="" class="change_number" data-change='border-top-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+											</div>
+											<div class="map_block_color flipper_back">
+												<input type="text" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
 											</div>
 										</div>
 									</div>
@@ -188,8 +188,8 @@
 											<div class="map_block_number flipper_front">
 												<input type="text" id="border-bottom-width" value="" class="change_number" data-change='border-bottom-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
-											<div class="flipper_back">
-												
+											<div class="map_block_color flipper_back">
+												<input type="text" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
 											</div>
 										</div>
 									</div>
