@@ -747,7 +747,6 @@ function disappearItem(e) {
 $(document).ready(function() {
 
     $('.choose_color').minicolors();
-    $('.choose_color_border').minicolors();
 
     $('.change_number').spinner({
         icons: { down: "custom-down-icon", up: "custom-up-icon" }

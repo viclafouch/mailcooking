@@ -42,7 +42,7 @@
 			<div class="content_sidebar">
 				<div class="task_sidebar" data-task="items_sidebar">
 					<div class="col nowrap">
-						<div id="background-color" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-spacer data-display-text data-display-cta>
+						<div id="background-color" class="field_item_sidebar" data-display-spacer data-display-text data-display-cta>
 							<div class="col nowrap">
 								<label>Couleur de fond</label>
 								<div class="item">
@@ -50,7 +50,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="color" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text data-display-cta>
+						<div id="color" class="field_item_sidebar" data-display-text data-display-cta>
 							<div class="col nowrap">
 								<label>Couleur de police</label>
 								<div class="item">
@@ -58,7 +58,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="font-family" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text data-display-cta>
+						<div id="font-family" class="field_item_sidebar" data-display-text data-display-cta>
 							<div class="col nowrap">
 								<label>Police</label>
 								<select>
@@ -72,13 +72,13 @@
 								</select>
 							</div>
 						</div>
-						<div id="link" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-img data-display-cta>
+						<div id="link" class="field_item_sidebar" data-display-img data-display-cta>
 							<div class="col nowrap">
 								<label>Lien de redirection</label>
 								<input type="url" spellcheck="false" autocomplete="off" type="url" class="input" placeholder="http://">
 							</div>
 						</div>
-						<div id="height" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-spacer>
+						<div id="height" class="field_item_sidebar" data-display-spacer>
 							<div class="col nowrap">
 								<label>Hauteur <span class="unity">(en px)</span></label>
 								<div class="item">
@@ -86,7 +86,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="font-size" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text data-display-cta>
+						<div id="font-size" class="field_item_sidebar" data-display-text data-display-cta>
 							<div class="col nowrap">
 								<label>Taille de police <span class="unity">(en px)</span></label>
 								<div class="item">
@@ -94,7 +94,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="line-height" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text>
+						<div id="line-height" class="field_item_sidebar" data-display-text>
 							<div class="col nowrap">
 								<label>Interlignage <span class="unity">(en px)</span></label>
 								<div class="item">
@@ -102,7 +102,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="text-align" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text>
+						<div id="text-align" class="field_item_sidebar" data-display-text>
 							<div class="col nowrap">
 								<label>Alignement <span class="unity">(en px)</span></label>
 								<p class="item row nowrap">
@@ -111,6 +111,90 @@
 									<span id="right" class="format_align"><i class="material-icons">format_align_right</i></span>
 									<span id="justify" class="format_align"><i class="material-icons">format_align_justify</i></span>
 								</p>	
+							</div>
+						</div>
+						<div id="padding" class="field_item_sidebar" data-display-text>
+							<div class="col nowrap">
+								<label>Padding <span class="unity">(en px)</span></label>
+								<div class="item map row wrap">
+									<div class="map_block notvisible"></div>
+									<div class="map_block center">
+										<div class="flipper">
+											<div class="map_block_number flipper_front">
+												<input type="text" id="padding-top" value="" class="change_number" data-change='padding-top' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+											</div>
+										</div>
+									</div>
+									<div class="map_block notvisible"></div>
+									<div class="map_block">
+										<div class="flipper">
+											<div class="map_block_number flipper_front">
+												<input type="text" id="padding-left" value="" class="change_number" data-change='padding-left' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+											</div>
+										</div>
+									</div>
+									<div class="map_block map_block_center center">
+										<p>Section</p>
+									</div>
+									<div class="map_block">
+										<div class="flipper">
+											<div class="map_block_number flipper_front">
+												<input type="text" id="padding-right" value="" class="change_number" data-change='padding-right' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+											</div>
+										</div>
+									</div>
+									<div class="map_block notvisible"></div>
+									<div class="map_block center">
+										<div class="flipper">
+											<div class="map_block_number flipper_front">
+												<input type="text" id="padding-bottom" value="" class="change_number" data-change='padding-bottom' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+											</div>
+										</div>
+									</div>
+									<div class="map_block notvisible"></div>
+								</div>
+							</div>
+						</div>
+						<div id="border" class="field_item_sidebar" data-display-text>
+							<div class="col nowrap">
+								<label>Bordure <span class="unity">(en px)</span></label>
+								<div class="item map row wrap">
+									<span class="widget_flipper active">
+										<i class="material-icons">title</i>
+									</span>
+									<span class="widget_flipper">
+										<i class="material-icons">border_color</i>
+									</span>
+									<div class="map_block notvisible"></div>
+									<div class="map_block center">
+										<div class="flipper">
+											<div class="map_block_color flipper_front">
+												<input type="text" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
+											</div>
+											<div class="map_block_number flipper_back">
+												<input type="text" id="border-top-width" value="" class="change_number" data-change='border-top-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+											</div>
+										</div>
+									</div>
+									<div class="map_block notvisible"></div>
+									<div class="map_block notvisible"></div>
+									<div class="map_block map_block_center center">
+										<p>Section</p>
+									</div>
+									<div class="map_block notvisible"></div>
+									<div class="map_block notvisible"></div>
+									<div class="map_block center">
+										<div class="flipper">
+											<div class="map_block_number flipper_front">
+												<input type="text" id="border-bottom-width" value="" class="change_number" data-change='border-bottom-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+											</div>
+											<div class="flipper_back">
+												
+											</div>
+										</div>
+									</div>
+									<div class="map_block notvisible"></div>
+								</div>
 							</div>
 						</div>
 					</div>
