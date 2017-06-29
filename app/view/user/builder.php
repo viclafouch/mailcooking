@@ -4,13 +4,13 @@
 ?>
 
 <div class="container container_builder">
-	<div class="block full_block">
+	<div class="block full_block row nowrap">
 		<div class="container_left col nowrap">
 			<div id="storage_template" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['DOM'])); ?></div>
 			<div id="storage_medias" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['medias'])); ?></div>
 			<div id="storage_email_to_export" style="display: none"></div>
 
-			<header class="header_builder row row-verti-center row-hori-between nowrap">
+			<header class="header_builder header_builder_left row row-verti-center row-hori-between nowrap">
 				<?php if ($template[0]['statut'] == 0 && $_SESSION['user']['valide'] == 2) { ?>
 					<div class="row row-hori-center">
 						<span data-template="<?= $template[0]['id_template_commande']; ?>" class="btn_Test_template" id="valideTemplate"><i class="material-icons">done</i> <span>Valider</span></span>
@@ -33,6 +33,91 @@
 				<div id="storage_email" style="background-color: <?= $mail[0]['email_background'];?>"><?php echo htmlspecialchars_decode(html_entity_decode($mail[0]['email_dom'])); ?></div>
 			</div>
 			<div class="edit_img croppie_sleep" id="imgToCroppie"></div>			
+		</div>
+		<div class="container_right col nowrap">
+			<header class="header_builder header_builder_right row nowrap">
+				<span id="items_sidebar" data-menu class="active">Items</span>
+				<span id="thumbnails_sidebar" data-menu >Sections</span>
+			</header>
+			<div class="content_sidebar">
+				<div class="task_sidebar" data-task="items_sidebar">
+					<div class="col nowrap">
+						<div id="background-color" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-spacer data-display-text data-display-cta>
+							<div class="col nowrap">
+								<label>Couleur de fond</label>
+								<div class="item">
+									<input type="text" value="#ffffff" class="choose_color" />
+								</div>
+							</div>
+						</div>
+						<div id="color" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text data-display-cta>
+							<div class="col nowrap">
+								<label>Couleur de police</label>
+								<div class="item">
+									<input type="text" value="#ffffff" class="choose_color" />
+								</div>
+							</div>
+						</div>
+						<div id="font-family" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text data-display-cta>
+							<div class="col nowrap">
+								<label>Police</label>
+								<select>
+									<option value="Arial" id="Arial">Arial</option>
+									<option value="Open Sans" id="Open+Sans">Open Sans</option>
+									<option value="Roboto" id="Roboto">Roboto</option>
+									<option value="Lato" id="Lato">Lato</option>
+									<option value='Montserrat' id="Montserrat">Montserrat</option>
+									<option value="Lobster" id="Lobster">Lobster</option>
+									<option value="Kaushan Script" id="Kaushan+Script">Kaushan Script</option>
+								</select>
+							</div>
+						</div>
+						<div id="link" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-img data-display-cta>
+							<div class="col nowrap">
+								<label>Lien de redirection</label>
+								<input type="url" spellcheck="false" autocomplete="off" type="url" class="input" placeholder="http://">
+							</div>
+						</div>
+						<div id="height" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-spacer>
+							<div class="col nowrap">
+								<label>Hauteur <span class="unity">(en px)</span></label>
+								<div class="item">
+									<input type="text" id="height" value="" class="change_number" data-change='height' data-max="150" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="20" />	
+								</div>
+							</div>
+						</div>
+						<div id="font-size" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text data-display-cta>
+							<div class="col nowrap">
+								<label>Taille de police <span class="unity">(en px)</span></label>
+								<div class="item">
+									<input type="text" id="font-size" value="" class="change_number" data-change='font-size' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="6" />	
+								</div>
+							</div>
+						</div>
+						<div id="line-height" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text>
+							<div class="col nowrap">
+								<label>Interlignage <span class="unity">(en px)</span></label>
+								<div class="item">
+									<input type="text" id="line-height" value="" class="change_number" data-change='line-height' data-max="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="" />	
+								</div>
+							</div>
+						</div>
+						<div id="text-align" class="field_item_sidebar row row-verti-center row-hori-center nowrap" data-display-text>
+							<div class="col nowrap">
+								<label>Alignement <span class="unity">(en px)</span></label>
+								<p class="item row nowrap">
+									<span id="left" class="format_align"><i class="material-icons">format_align_left</i></span>
+									<span id="center" class="format_align"><i class="material-icons">format_align_center</i></span>
+									<span id="right" class="format_align"><i class="material-icons">format_align_right</i></span>
+									<span id="justify" class="format_align"><i class="material-icons">format_align_justify</i></span>
+								</p>	
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="task_sidebar" data-task="thumbnails_sidebar">
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

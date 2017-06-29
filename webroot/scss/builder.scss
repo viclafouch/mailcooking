@@ -97,37 +97,28 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 
 
 div.container_builder { overflow: hidden!important;
-    div.container_left {
-        width: 70%;
-        height: calc(100vh - #{$navHeight} - 1px); // 1px car bordure du block
-    }
+    
+    div.container_left, div.container_right { height: calc(100vh - #{$navHeight} - 1px); }
 
-    div.sidebar_tools {
-        width: 30%;
+    div.container_left { width: 70%; }
+
+    div.container_right { width: 30%; }
+
+    header.header_builder {
+        height: $navBuilderHeight;
+        @include box-shadow($shadow0);
         @include box-sizing(border-box);
-        border-left: 2px solid #f0f0f0;
-        min-width: 350px;
-        height: 100%;
-        overflow-y: scroll;
-        background-color: #f0f0f0;
-
-        & > .menu {
-            width: 100%;
-            height: auto;
-        }
+        background-color: #fff;
+        width: 100%;
+        z-index: 1;
+        border-bottom: $primaryBorder;
     }
 }
 
 /*----------  Partie Gauche du builder  ----------*/
 
-header.header_builder {
-    background-color: #fff;
-    width: 100%;
-    @include box-sizing(border-box);
+header.header_builder_left {
     padding: 15px 30px;
-    height: $navBuilderHeight;
-    @include box-shadow($shadow0);
-    border-bottom: 1px solid rgba(0,0,0,0.3);
 
     input#documentTitle {
         margin : 0; padding: 0; outline: none; border: 0;
@@ -222,17 +213,18 @@ div.content_email {
         height: 100%;
         @include box-sizing(border-box);
         padding: 10px 0;
-        width: 100%;
+        width: auto;
         margin: 0 auto;
         overflow-x: hidden;
         overflow-y: scroll;
+        max-width: 100%;
 
         & > .sortable-placeholder {
             border: 1px dotted #444;
             border-right: 0;
-            background-color: red;
             border-left: 0;
-            // background-color: adjust-lightness(#f0f0f0, 1);
+            width: 100%!important;
+            background-color: adjust-lightness(#f0f0f0, 1);
         }
 
         & > table[data-section], table[data-section] * {
@@ -322,30 +314,28 @@ div.medium-editor-anchor-preview {
     }
 }
 
-// Tools des sections au hover
 div.tools_section {
     width: 35px;
     height: 100px;
     @include translateX(-100%);
-    left: 0;
-    top: 0;
+    left: 0; top: 0;
     background-color: #fff;
-    border: 1px solid adjust-lightness(#444, 50); 
+    border: $primaryBorder;
     position: absolute;
     @include opacity(1);
 
     span {
         position: relative;
-        flex-grow: 1;
-        border-bottom: 1px solid adjust-lightness(#444, 30); 
+        @include flex-grow(1);
+        border-bottom: $primaryBorder;
         width: 100%;
-        color: #444;
+        color: $primaryTextColor;
         font-size: 18px;
-        @include opacity(0.8);
+        @include opacity(0.7);
         cursor: pointer;
         @include single-transition(none, 0.1s, ease, 0s);
         @include transition-property(opacity, color);
-        &:hover { @include opacity(1); color: #222; }
+        &:hover { @include opacity(1); }
 
         i {
             position: absolute;
@@ -357,6 +347,202 @@ div.tools_section {
         &:last-child { border: 0; }
     }
 }
+
+/*----------  Partie Droite du builder  ----------*/
+
+header.header_builder_right {
+    span {
+        width: calc(100% / 2);
+        display: block;
+        background-color: $secondaryColor;
+        color: #fff;
+        text-align: center;
+        height: calc(#{$navBuilderHeight} - 1px);
+        line-height: $navBuilderHeight;
+        text-transform: uppercase;
+        cursor: pointer;
+        @include single-transition(none, 0.3s, ease, 0s);
+        @include transition-property(color, background-color);
+
+        &.active { background-color: #fff; color: $primaryTextColor; }
+    }
+}
+
+div.content_sidebar {
+    height: calc(100% - #{$navBuilderHeight});
+    width: 100%;
+    background-color: #fff;
+
+    div.task_sidebar {
+        width: 100%;
+        overflow-y: scroll;
+        height: 100%;
+    }
+}
+
+/*----------  Items  ----------*/
+
+div.field_item_sidebar {
+    width: 100%;
+    padding: 10px 30px;
+    @include box-sizing(border-box);
+    @include justify-content(flex-start);
+
+    & > div { width: 100%; @include align-items(flex-start); }
+
+    label {
+        margin: 8px 0;
+        width: 100%;
+        font-weight: 600;
+        color: adjust-lightness(#000,20);
+
+        & > span.unity {
+            color: adjust-lightness(#000,38);
+            font-style: italic;
+            font-size: 12px;
+        }
+    }
+
+    div.minicolors::after, select, input, option {
+        font-size: 14px!important;
+        padding: 5px;
+    }
+
+    .item, select, input:not(.change_number), {
+        height: 29px;
+        border: 1px solid rgba(0,0,0,0.3);
+        @include border-radius(3px);
+        @include box-sizing(border-box);
+        outline: none;
+        position: relative;
+        &:not(p) { width: 100%; }
+
+        &::-webkit-input-placeholder {
+        color:  $primaryTextColor;
+        font-size: 14px!important;
+        @include opacity(0.8);
+        } &:-moz-placeholder {
+            color:  $primaryTextColor;
+            font-size: 14px!important;
+            @include opacity(0.8);
+        } &::-moz-placeholder {
+            color:  $primaryTextColor;
+            font-size: 14px!important;
+            @include opacity(0.8);
+        } &:-ms-input-placeholder {
+            color:  $primaryTextColor;
+            font-size: 14px!important;
+            @include opacity(0.8);
+        } &::-ms-input-placeholder   {
+            color:  $primaryTextColor;
+            font-size: 14px!important;
+            @include opacity(0.8);
+        }
+    }
+
+    &#background-color, &#color {
+
+        div.minicolors { padding: 5px; height: 100%; width: 100%; @include box-sizing(border-box); }
+
+        div.minicolors::after {
+            content: 'Selectionner une couleur';
+            position: absolute;
+            padding: 0!important;
+            top: 0; bottom: 0;
+            line-height: 29px;
+            width: calc(100% - 33px);
+            background-color: #fff;
+            right: 0;
+            height: 100%;
+        }
+
+        input.minicolors-input {
+            width: calc(100% - 33px);
+            text-transform: uppercase;
+            border: 0; padding: 0; margin: 0;
+            outline: none; 
+            height: 100%; 
+            top: 0;
+            z-index: 0;
+            background-color: transparent; 
+            position: absolute;
+            right: 0;
+        }
+
+        span.minicolors-swatch {
+            top: 50%; left: 5px; 
+            width: 18px;
+            z-index: 999;
+            height: 18px;
+            @include translateY(-50%);
+        }
+
+        div.minicolors-panel { top: 23px; left: 5px; }
+    }
+
+    &#height, &#font-size, &#line-height {
+
+        span.ui-spinner { width: 100%; height: 100%!important; display: block; }
+
+        input.ui-spinner-input { 
+            margin: 0; 
+            padding: 5px; 
+            @include box-sizing(border-box);
+            height: 100%; 
+            vertical-align: baseline; 
+        }
+
+        a.ui-button {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            top: 0; right: 0; bottom: 0;
+            border-left: $primaryBorder;
+            &:last-child { right: 30px; }
+
+            & > span.ui-button-icon {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                top: 0; left: 0; right: 0; bottom: 0;
+                display: block;
+                margin: 0; text-indent: 0;
+
+                i {
+                    position: absolute;
+                    color: $primaryTextColor;
+                    top: 50%; left: 50%;
+                    @include translate(-50%, -50%);
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    &#text-align {
+        span.format_align {
+            height: 100%;
+            width: 30px;
+            position: relative;
+            cursor: pointer;
+            display: block;
+            &:not(:first-child) { border-left: $primaryBorder; }
+
+            i {
+                position: absolute;
+                color: $primaryTextColor;
+                font-size: 16px;
+                top: 50%; left: 50%;
+                @include translate(-50%, -50%);
+            }
+        }
+    }
+}
+
+
+
+
+
 
 // Container Croppie
 div.edit_img#imgToCroppie {
@@ -500,36 +686,7 @@ div.edit_img#imgToCroppie {
 
 // Container direct
 div.sidebar_tools > div.menu { background-color: #fff; min-height: 100%;
-    & > header.tools_menu_email_block {
-        width: 100%;
-        background-color: #fff;
-
-        span {
-            width: calc(100% / 2);
-            background-color: adjust-lightness($primaryColor, 5);
-            color: #fff;
-            text-align: center;
-            @include box-sizing(border-box);
-            padding: 13px 0;
-            border: 2px solid transparent;
-            border-top-color: $primaryColor;
-            border-bottom-color: $primaryColor;
-            @include box-shadow($shadow0);
-            text-transform: uppercase;
-            font-family: roboto;
-            font-size: 15px;
-            cursor: pointer;
-            @include single-transition(all, 0.3s, ease, 0s);
-
-            &.active { 
-                background-color: #fff;
-                color: #444;
-                border-bottom-color: transparent;
-                border-top-color: #f0f0f0;
-                @include box-shadow(none);
-            }
-        }
-    }
+    
     & > div.task {
         width: 100%;
         display: none;
@@ -610,25 +767,6 @@ div.sidebar_tools > div.menu { background-color: #fff; min-height: 100%;
             }
         }
     }
-}
-
-.ui-button-icon.ui-icon {
-    width: 100%;
-    height: 100%;
-    margin:0;
-    position: absolute;
-    left: 0; top: 0; right: 0; bottom: 0;
-    text-indent: 0;
-
-    i {
-        position: absolute;
-        top: 50%; left: 50%;
-        @include translate(-50%, -50%);
-        font-size: 14px;
-        color: #444;
-    }
-
-    &:active { i { margin-top: 3px; } }
 }
 
 // Style par default des boutons items

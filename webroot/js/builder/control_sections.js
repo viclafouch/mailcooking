@@ -235,7 +235,7 @@ function creatSortable(container) {
         /* Classe du placeholder */
         placeholder: "sortable-placeholder",
         /* Anime le retour de l'élément au drop */
-        revert: false,
+        revert: 500,
         /* Autorise le scroll en fin de page */
         scroll: true,
         /* A partir de combien (px) avant la fin de page pour scroller */
