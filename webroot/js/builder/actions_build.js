@@ -208,6 +208,20 @@ var checkSrc = function () {
 
 // IX : Exporter le document
 function exportDocument(storageID) {
+
+    let popup = $('#popupExport');
+    $('#popupExport .popup_container').html('<div class="cssload-thecube">'+
+        '<div class="cssload-cube cssload-c1"></div>'+
+        '<div class="cssload-cube cssload-c2"></div>'+
+        '<div class="cssload-cube cssload-c4"></div>'+
+        '<div class="cssload-cube cssload-c3"></div>'+
+        '</div>'+
+        '<p>Merci de patienter...</p>');
+
+    popup.addClass('active');
+
+    hidePopup(popup);
+
     src = [];
     family = [];
     getContent();
@@ -247,8 +261,12 @@ function exportDocument(storageID) {
         data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, fonts: family, ID:id_mail, fixGmail: fixGmailApp},
         url : "?module=user&action=email_builder",
         success : function(html) {
-            $('.popup_overlay, #popupExport').addClass('active');
-            $('#downloading').wrap('<a href="'+html+'" target="_blank"></a>');
+            setTimeout(function() {
+            $('#popupExport .popup_container').html(
+                '<button download onclick="location.href=&#39;'+encodeURI(html)+'&#39;" class="button_default button_secondary">Démarrer le téléchargement</button>'+
+                '<p>Cliquez sur le bouton <u>ci-dessus</u> pour démarrer l\'exportation.</p>'
+            );
+            }, 4000); 
         }
     });
 }

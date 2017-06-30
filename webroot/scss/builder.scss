@@ -840,276 +840,207 @@ div#popupCroppie {
     }
 }
 
+div#popupExport {
+    div.popup_container {
+        height: 200px;
+        text-align: center;
+
+        button {
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            @include translate(-50%, -50%);
+        }
+
+        & > p {
+            width: 100%;
+            position: absolute;
+            bottom: 10%;
+            text-align: center;
+            color: $primaryTextColor;
+        }
+    }
+}
+
+
+.cssload-thecube {
+    width: 73px;
+    height: 73px;
+    margin: 0 auto;
+    margin-top: 49px;
+    position: relative;
+    transform: rotateZ(45deg);
+        -o-transform: rotateZ(45deg);
+        -ms-transform: rotateZ(45deg);
+        -webkit-transform: rotateZ(45deg);
+        -moz-transform: rotateZ(45deg);
+}
+.cssload-thecube .cssload-cube {
+    position: relative;
+    transform: rotateZ(45deg);
+        -o-transform: rotateZ(45deg);
+        -ms-transform: rotateZ(45deg);
+        -webkit-transform: rotateZ(45deg);
+        -moz-transform: rotateZ(45deg);
+}
+.cssload-thecube .cssload-cube {
+    float: left;
+    width: 50%;
+    height: 50%;
+    position: relative;
+    transform: scale(1.1);
+        -o-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+}
+.cssload-thecube .cssload-cube:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(43,160,199);
+    animation: cssload-fold-thecube 2.76s infinite linear both;
+        -o-animation: cssload-fold-thecube 2.76s infinite linear both;
+        -ms-animation: cssload-fold-thecube 2.76s infinite linear both;
+        -webkit-animation: cssload-fold-thecube 2.76s infinite linear both;
+        -moz-animation: cssload-fold-thecube 2.76s infinite linear both;
+    transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+}
+.cssload-thecube .cssload-c2 {
+    transform: scale(1.1) rotateZ(90deg);
+        -o-transform: scale(1.1) rotateZ(90deg);
+        -ms-transform: scale(1.1) rotateZ(90deg);
+        -webkit-transform: scale(1.1) rotateZ(90deg);
+        -moz-transform: scale(1.1) rotateZ(90deg);
+}
+.cssload-thecube .cssload-c3 {
+    transform: scale(1.1) rotateZ(180deg);
+        -o-transform: scale(1.1) rotateZ(180deg);
+        -ms-transform: scale(1.1) rotateZ(180deg);
+        -webkit-transform: scale(1.1) rotateZ(180deg);
+        -moz-transform: scale(1.1) rotateZ(180deg);
+}
+.cssload-thecube .cssload-c4 {
+    transform: scale(1.1) rotateZ(270deg);
+        -o-transform: scale(1.1) rotateZ(270deg);
+        -ms-transform: scale(1.1) rotateZ(270deg);
+        -webkit-transform: scale(1.1) rotateZ(270deg);
+        -moz-transform: scale(1.1) rotateZ(270deg);
+}
+.cssload-thecube .cssload-c2:before {
+    animation-delay: 0.35s;
+        -o-animation-delay: 0.35s;
+        -ms-animation-delay: 0.35s;
+        -webkit-animation-delay: 0.35s;
+        -moz-animation-delay: 0.35s;
+}
+.cssload-thecube .cssload-c3:before {
+    animation-delay: 0.69s;
+        -o-animation-delay: 0.69s;
+        -ms-animation-delay: 0.69s;
+        -webkit-animation-delay: 0.69s;
+        -moz-animation-delay: 0.69s;
+}
+.cssload-thecube .cssload-c4:before {
+    animation-delay: 1.04s;
+        -o-animation-delay: 1.04s;
+        -ms-animation-delay: 1.04s;
+        -webkit-animation-delay: 1.04s;
+        -moz-animation-delay: 1.04s;
+}
 
 
 
+@keyframes cssload-fold-thecube {
+    0%, 10% {
+        transform: perspective(136px) rotateX(-180deg);
+        opacity: 0;
+    }
+    25%,
+                75% {
+        transform: perspective(136px) rotateX(0deg);
+        opacity: 1;
+    }
+    90%,
+                100% {
+        transform: perspective(136px) rotateY(180deg);
+        opacity: 0;
+    }
+}
 
+@-o-keyframes cssload-fold-thecube {
+    0%, 10% {
+        -o-transform: perspective(136px) rotateX(-180deg);
+        opacity: 0;
+    }
+    25%,
+                75% {
+        -o-transform: perspective(136px) rotateX(0deg);
+        opacity: 1;
+    }
+    90%,
+                100% {
+        -o-transform: perspective(136px) rotateY(180deg);
+        opacity: 0;
+    }
+}
 
+@-ms-keyframes cssload-fold-thecube {
+    0%, 10% {
+        -ms-transform: perspective(136px) rotateX(-180deg);
+        opacity: 0;
+    }
+    25%,
+                75% {
+        -ms-transform: perspective(136px) rotateX(0deg);
+        opacity: 1;
+    }
+    90%,
+                100% {
+        -ms-transform: perspective(136px) rotateY(180deg);
+        opacity: 0;
+    }
+}
 
+@-webkit-keyframes cssload-fold-thecube {
+    0%, 10% {
+        -webkit-transform: perspective(136px) rotateX(-180deg);
+        opacity: 0;
+    }
+    25%,
+                75% {
+        -webkit-transform: perspective(136px) rotateX(0deg);
+        opacity: 1;
+    }
+    90%,
+                100% {
+        -webkit-transform: perspective(136px) rotateY(180deg);
+        opacity: 0;
+    }
+}
 
-
-
-
-// Container Croppie
-// div.edit_img#imgToCroppie {
-//     position: absolute;
-//     z-index: 99;
-//     height: calc(100% - 50px);
-//     width: 100%;
-//     background-color: rgba(255,255,255,0.80);
-//     top: 50px;
-//     bottom: 0; right: 0; left: 0;
-//     visibility: hidden;
-//     @include opacity(0);
-//     @include single-transition(none, 0.2s, ease, 0s);
-//     @include transition-property(opacity, visibility);
-//     &.active { visibility: visible; @include opacity(1); }
-
-//     & > span {
-//         position: absolute;
-//         top: 10px;
-//         right: 10px;
-//         width: 28px;
-//         height: 28px;
-//         background-color: transparent;
-//         cursor: pointer;
-//         &::after, &::before {
-//             content: '';
-//             position: absolute;
-//             height: 4px;
-//             top: 50%;
-//             margin-top: -2px;
-//             width: 100%;
-//             background-color: #f0f0f0;
-//             @include single-transition(transform, 0.3s, ease, 0s);
-//         }
-//         &::after { @include rotate(45deg); }
-//         &::before { @include rotate(-45deg); }
-
-//         &:hover {
-//             &::after { @include rotate(20deg); }
-//             &::before { @include rotate(-20deg); }
-//         }
-//     }
-
-//     & > div {
-//         width: 100%;
-//         padding: 22px 10px;
-//         background-color: rgba(0,0,0,0.80);
-//         padding-top: 60px;
-//         height: 100%;
-
-//         div#cropperimg {
-//             width: 100%;
-//             margin: 5px auto;
-//             height: auto;
-//             min-height: 358px;
-
-//             input[type=range]::-webkit-slider-thumb {
-//                 color: red;
-//                 background-color: $primaryColor;
-//                 @include box-shadow($shadow0);
-//                 height: 16px;
-//                 width: 16px;
-//                 @include border-radius(50%);
-//                 -webkit-appearance: none;
-//                 cursor: auto;
-//             }
-//             input[type=range]::-webkit-slider-runnable-track {
-//                 background-color: #fff;
-//                 width: 400px;
-//                 height: 6px;
-//                 @include border-radius(0%);
-//             }
-//         }
-
-//         div.action_img {
-//             margin: 10px;
-//             width: 100%;
-//             input {
-//                 outline: none;
-//                 border: 0;
-//                 -webkit-appearance: none;
-//                 font-size: 12px;
-//                 padding: 0 5px;
-//                 position: relative;
-//                 @include box-sizing(border-box);
-//                 height: 25px;
-//                 color: #444;
-//                 font-family: 'Roboto';
-//                 font-weight: bold;
-//                 @include border-radius(3px);
-//                 border: 1px solid rgba(0,0,0,0.3);
-//                 width: 200px;
-//                 min-width: 200px;
-//                 background-color: adjust-lightness(#444, 70);
-//                 margin: 0 10px;
-//                 text-align: left;
-
-//                 &[type="file"] {
-//                     overflow: hidden;
-//                     &::after {
-//                         content: 'Choisir un fichier';
-//                         @include flex(row wrap, center, center);
-//                         position: absolute;
-//                         width: 100%;
-//                         height: 100%;
-//                         top: 0; left: 0; right: 0; bottom: 0;
-//                         border:0!important;
-//                     }
-//                 }
-//             }
-//             &.btns_action {
-
-//                 input { height: 35px; }
-//                 input, input::after {
-//                     text-align: center;
-//                     background-color: $primaryColor;
-//                     color: #fafafa;
-//                     cursor: pointer;
-//                     border: 1px solid rgba(255,255,255,0.5);
-//                     @include single-transition(background-color, 0.3s, ease, 0s);
-//                 }
-
-//                 input[type="file"], input[type="submit"] { 
-//                     &:hover { 
-//                          background-color: #1565C0; 
-//                         &:after { background-color: #1565C0; }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-
-//     .croppie_custom .cr-viewport {
-//         border: 0;
-//         @include box-shadow(0 0 2000px 2000px rgba(0, 0, 0, 0.7));
-//     }
-// }
-
-
-/*----------  Sidebar  ----------*/
-
-// Container direct
-// div.sidebar_tools > div.menu { background-color: #fff; min-height: 100%;
-    
-//     & > div.task {
-//         width: 100%;
-//         display: none;
-
-//         &.menuactive { display: block; }
-
-//         &.todo {
-//             width: 100%;
-//             position: relative;
-//             flex-grow: 1;
-
-//             & > div {
-//                 position: absolute;
-//                 width: 100%;
-//                 top: calc(50% - 48px);
-//                 @include translateY(-50%);
-//             }
-//             svg {
-//                 height: 120px;
-//                 width: 120px;
-//                 @include opacity(0.8);
-//             }
-
-//             p { 
-//                 text-align: center; 
-//                 font-family: 'Roboto';
-//                 font-size: 17px;
-//                 font-style: italic;
-//             }
-//         }
-//     }
-// }
-
-// // Section des thumbs
-// .menu .sections_builder_block {
-//     & > div.thumbnail {
-//         width: 100%;
-//         // max-width: 350px;
-//         overflow-x: hidden;
-//         z-index: 5000;
-//         margin: 10px 0;
-//         border-top: 1px solid rgba(0,0,0,0.1);
-//         border-bottom: 1px solid rgba(0,0,0,0.1);
-//         @include opacity(0.8);
-//         padding: 2px 5px;
-//         @include box-sizing(border-box);
-//         @include single-transition(opacity, 0.15s, ease, 0s);
-
-//         * { width: 100%; display: block; cursor: move; }
-
-//         &:hover { @include opacity(1); }
-//     }
-// }
-
-/*=====  End of Email builder's page  ======*/
-
-
-// end header
-
-// div.popup_overlay,
-// div.popup_container#popupExport {
-//     visibility: hidden;
-//     @include opacity(0);
-//     @include single-transition(opacity, 0.3s, ease, 0s);
-//     &.active {
-//         visibility: visible;
-//         @include opacity(1.0);
-//     }
-// }
-
-// div.popup_overlay {
-//     width: 100%;
-//     height: 100%;
-//     background-color: rgba(255,255,255,0.5);
-//     position: absolute;
-//     z-index: 999;
-//     margin: 0; padding:0; border:0;
-//     right: 0; left: 0; top: 0; bottom: 0;
-   
-// }
-
-// div.popup_container#popupExport {
-//     z-index: 9999;
-//     position: absolute;
-//     margin: 0; padding:0; border:0;
-//     right: 0; left: 50%; top: 50%; bottom: 0;
-//     @include translate(-50%, -50%);
-//     width: 70%;
-//     max-width: 700px;
-//     @include box-shadow($shadow0);
-//     height: 300px;
-//     background-color: rgba(255,255,255,0.90);
-//     border: 1px solid rgba(0,0,0,0.75);
-//     @include flex(column nowrap, center, center);
-
-//     #downloading {
-//         stroke:$primaryColor;
-//         fill: $primaryColor;
-//     }
-
-//     .outer_circle {
-//         fill: transparent;
-//         stroke-width: 2;
-//         stroke-dasharray: 500;
-//     }
-
-//     #downloading .outer_circle {
-//         stroke-dashoffset: 0;
-//         stroke: transparent;
-//         &.active {
-//             stroke: $primaryColor;
-//             @include animation(show 2s linear 0s infinite);
-//         }
-//     }
-
-//     @include keyframes(show) {
-//         from { stroke-dashoffset: 500; }
-//         to { stroke-dashoffset: 400; }
-//     }
-// }
+@-moz-keyframes cssload-fold-thecube {
+    0%, 10% {
+        -moz-transform: perspective(136px) rotateX(-180deg);
+        opacity: 0;
+    }
+    25%,
+                75% {
+        -moz-transform: perspective(136px) rotateX(0deg);
+        opacity: 1;
+    }
+    90%,
+                100% {
+        -moz-transform: perspective(136px) rotateY(180deg);
+        opacity: 0;
+    }
+}
