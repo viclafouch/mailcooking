@@ -434,8 +434,8 @@ div.tools_section span:last-child {
 header.header_builder_right span {
   width: calc(100% / 2);
   display: block;
-  background-color: #FF3B49;
-  color: #fff;
+  background-color: #fff;
+  color: #444;
   text-align: center;
   height: calc(60px - 1px);
   line-height: 60px;
@@ -452,8 +452,8 @@ header.header_builder_right span {
   transition-property: color, background-color;
 }
 header.header_builder_right span.active {
-  background-color: #fff;
-  color: #444;
+  background-color: #FF3B49;
+  color: #fff;
 }
 
 div.content_sidebar {
@@ -465,12 +465,31 @@ div.content_sidebar div.task_sidebar {
   width: 100%;
   overflow-y: scroll;
   height: 100%;
+  visibility: hidden;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -moz-transition: none 0.3s ease 0s;
+  -o-transition: none 0.3s ease 0s;
+  -webkit-transition: none 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.3s ease 0s;
+  -moz-transition-property: visibility, opacity;
+  -o-transition-property: visibility, opacity;
+  -webkit-transition-property: visibility, opacity;
+  transition-property: visibility, opacity;
+  display: none;
+}
+div.content_sidebar div.task_sidebar.active {
+  visibility: visible;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  display: block;
 }
 
 /*----------  Items  ----------*/
 div.field_item_sidebar {
   width: 100%;
-  padding: 10px 30px;
+  padding: 10px 15px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -651,9 +670,36 @@ div.field_item_sidebar#text-align span.format_align {
   position: relative;
   cursor: pointer;
   display: block;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  opacity: 0.7;
+  -moz-transition: none 0.3s ease 0s;
+  -o-transition: none 0.3s ease 0s;
+  -webkit-transition: none 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.3s ease 0s;
+  -moz-transition-property: background-color, opacity;
+  -o-transition-property: background-color, opacity;
+  -webkit-transition-property: background-color, opacity;
+  transition-property: background-color, opacity;
 }
-div.field_item_sidebar#text-align span.format_align:not(:first-child) {
+div.field_item_sidebar#text-align span.format_align:nth-child(2), div.field_item_sidebar#text-align span.format_align:nth-child(3) {
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
   border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+div.field_item_sidebar#text-align span.format_align:nth-child(3) {
+  border-left: 0;
+}
+div.field_item_sidebar#text-align span.format_align:hover, div.field_item_sidebar#text-align span.format_align.active {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+div.field_item_sidebar#text-align span.format_align.active {
+  background-color: #eaeaea;
 }
 div.field_item_sidebar#text-align span.format_align i {
   position: absolute;
@@ -867,6 +913,38 @@ div.field_item_sidebar#padding div.map > div.map_block div.map_block_color > div
 }
 div.field_item_sidebar#padding div.map > div.map_block div.map_block_color > div.minicolors > div.minicolors-panel, div.field_item_sidebar#border div.map > div.map_block div.map_block_color > div.minicolors > div.minicolors-panel {
   top: 100%;
+}
+
+div.thumbnail {
+  width: 100%;
+  margin: 10px 0;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+  padding: 2px 5px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: opacity 0.2s ease 0s;
+  -o-transition: opacity 0.2s ease 0s;
+  -webkit-transition: opacity 0.2s ease;
+  -webkit-transition-delay: 0s;
+  transition: opacity 0.2s ease 0s;
+  -moz-transition-property: opacity, border-color;
+  -o-transition-property: opacity, border-color;
+  -webkit-transition-property: opacity, border-color;
+  transition-property: opacity, border-color;
+}
+div.thumbnail * {
+  width: 100%;
+  display: block;
+  cursor: move;
+}
+div.thumbnail:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+  border-color: #D7CCC8;
 }
 
 /*----------  Sidebar  ----------*/

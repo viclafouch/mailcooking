@@ -33,34 +33,25 @@ $(document).ready( function() {
 		},
 	});
 
-	$('.choose_color').minicolors({
-		show: function(){ minicolor = true },
-		hide: function(){ $('.map_block').css('z-index', '0'); minicolor = false; }
-	});
+	$('.choose_color').minicolors();
 
     $('.change_number').spinner({ icons: { down: "custom-down-icon", up: "custom-up-icon" } });
 
     $('.custom-down-icon').html('<i class="signe material-icons">remove</i>');
     $('.custom-up-icon').html('<i class="signe material-icons">add</i>');
 
-    // $('.field_tools_item_block').hide();
-
 	$('.choose_color').parent().addClass('minicolors_before');
+
+	$('.field_item_sidebar').hide();
 
 	$(document).on('click', '.minicolors_before', function(){
 		$(this).addClass('active');
 		$(this).children('input').focus();
 	});
 
-	$(document).on('mouseenter', '.map_block .minicolors', function() {
+	$(document).on('click', '.map_block .minicolors', function() {
+		$('.map_block').css('z-index', '0');
 		$(this).parents('.map_block').css('z-index', '1');
-	});
-
-	$(document).on('click', 'body', function() {
-		if (minicolor) {
-			$('.map_block').css('z-index', '0');
-			minicolor = false;
-		}
 	});
 
 	$(document).on('click', '[data-flipper]', function(e){
@@ -68,7 +59,6 @@ $(document).ready( function() {
 		$(this).addClass('active');
 
 		let id = $(this).data('item');
-
 		if ($(this).data('flipper') == 'front') {
 			$('#'+id+' .flipper').removeClass('active');
 		} else {
@@ -76,19 +66,14 @@ $(document).ready( function() {
 		}
 	});
 
-	$(document).on('click', '.btn_menu_builder', function() {
-		$('.btn_menu_builder').removeClass('active');
+	$(document).on('click', '[data-menu]', function() {
+		$('[data-menu]').removeClass('active');
 		$(this).addClass('active');
 
-		var $id = $(this).attr('id').replace('_builder', '');
+		let id = $(this).attr('id');
 
-		$('.task').removeClass('menuactive');
-		if ($('.'+$id+'_builder_block').height() == 0) {
-			$('.todo').addClass('menuactive');
-		}
-		else {
-			$('.'+$id+'_builder_block').addClass('menuactive');
-		}
+		$('[data-task]').removeClass('active');
+		$('[data-task="'+id+'"]').addClass('active');
 	});
 });
 

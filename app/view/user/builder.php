@@ -36,8 +36,8 @@
 		</div>
 		<div class="container_right col nowrap">
 			<header class="header_builder header_builder_right row nowrap">
-				<span id="items_sidebar" data-menu class="active">Items</span>
-				<span id="thumbnails_sidebar" data-menu >Sections</span>
+				<span id="items_sidebar" data-menu>Items</span>
+				<span id="thumbnails_sidebar" data-menu>Sections</span>
 			</header>
 			<div class="content_sidebar">
 				<div class="task_sidebar" data-task="items_sidebar">
@@ -46,7 +46,7 @@
 							<div class="col nowrap">
 								<label>Couleur de fond</label>
 								<div class="item">
-									<input type="text" value="#ffffff" class="choose_color" />
+									<input type="text" data-change="background-color" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
 								</div>
 							</div>
 						</div>
@@ -54,14 +54,14 @@
 							<div class="col nowrap">
 								<label>Couleur de police</label>
 								<div class="item">
-									<input type="text" value="#ffffff" class="choose_color" />
+									<input type="text" data-change="color" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
 								</div>
 							</div>
 						</div>
 						<div id="font-family" class="field_item_sidebar" data-display-text data-display-cta>
 							<div class="col nowrap">
 								<label>Police</label>
-								<select>
+								<select data-change="font-family">
 									<option value="Arial" id="Arial">Arial</option>
 									<option value="Open Sans" id="Open+Sans">Open Sans</option>
 									<option value="Roboto" id="Roboto">Roboto</option>
@@ -75,14 +75,14 @@
 						<div id="link" class="field_item_sidebar" data-display-img data-display-cta>
 							<div class="col nowrap">
 								<label>Lien de redirection</label>
-								<input type="url" spellcheck="false" autocomplete="off" type="url" class="input" placeholder="http://">
+								<input type="url" spellcheck="false" autocomplete="off" type="url" class="input" data-change="link" placeholder="http://">
 							</div>
 						</div>
 						<div id="height" class="field_item_sidebar" data-display-spacer>
 							<div class="col nowrap">
 								<label>Hauteur <span class="unity">(en px)</span></label>
 								<div class="item">
-									<input type="text" id="height" value="" class="change_number" data-change='height' data-max="150" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="20" />	
+									<input type="text" value="" class="change_number" data-change='height' data-max="150" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="20" />	
 								</div>
 							</div>
 						</div>
@@ -90,7 +90,7 @@
 							<div class="col nowrap">
 								<label>Taille de police <span class="unity">(en px)</span></label>
 								<div class="item">
-									<input type="text" id="font-size" value="" class="change_number" data-change='font-size' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="6" />	
+									<input type="text" value="" class="change_number" data-change='font-size' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="6" />	
 								</div>
 							</div>
 						</div>
@@ -98,7 +98,7 @@
 							<div class="col nowrap">
 								<label>Interlignage <span class="unity">(en px)</span></label>
 								<div class="item">
-									<input type="text" id="line-height" value="" class="change_number" data-change='line-height' data-max="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="" />	
+									<input type="text" value="" class="change_number" data-change="line-height" data-max="" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="" />	
 								</div>
 							</div>
 						</div>
@@ -121,7 +121,7 @@
 									<div class="map_block center">
 										<div class="flipper">
 											<div class="map_block_number flipper_front">
-												<input type="text" id="padding-top" value="" class="change_number" data-change='padding-top' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+												<input type="text" value="" class="change_number" data-change='padding-top' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
 									</div>
@@ -129,7 +129,7 @@
 									<div class="map_block">
 										<div class="flipper">
 											<div class="map_block_number flipper_front">
-												<input type="text" id="padding-left" value="" class="change_number" data-change='padding-left' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+												<input type="text" value="" class="change_number" data-change='padding-left' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
 									</div>
@@ -139,7 +139,7 @@
 									<div class="map_block">
 										<div class="flipper">
 											<div class="map_block_number flipper_front">
-												<input type="text" id="padding-right" value="" class="change_number" data-change='padding-right' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+												<input type="text" value="" class="change_number" data-change='padding-right' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
 									</div>
@@ -147,7 +147,7 @@
 									<div class="map_block center">
 										<div class="flipper">
 											<div class="map_block_number flipper_front">
-												<input type="text" id="padding-bottom" value="" class="change_number" data-change='padding-bottom' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+												<input type="text" value="" class="change_number" data-change='padding-bottom' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
 									</div>
@@ -155,7 +155,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="border" class="field_item_sidebar" data-display-text>
+						<div id="border" class="field_item_sidebar" data-display-spacer data-display-text data-display-img data-display-cta>
 							<div class="col nowrap">
 								<label>Bordure <span class="unity">(en px)</span></label>
 								<div class="item map row wrap">
@@ -169,10 +169,10 @@
 									<div class="map_block center">
 										<div class="flipper">
 											<div class="map_block_number flipper_front">
-												<input type="text" id="border-top-width" value="" class="change_number" data-change='border-top-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+												<input type="text" value="" class="change_number" data-change='border-top-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 											<div class="map_block_color flipper_back">
-												<input type="text" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
+												<input type="text" spellcheck="false" autocomplete="off" value="#ffffff" data-change='border-top-color' class="choose_color" />
 											</div>
 										</div>
 									</div>
@@ -186,10 +186,10 @@
 									<div class="map_block center">
 										<div class="flipper">
 											<div class="map_block_number flipper_front">
-												<input type="text" id="border-bottom-width" value="" class="change_number" data-change='border-bottom-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
+												<input type="text" value="" class="change_number" data-change='border-bottom-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 											<div class="map_block_color flipper_back">
-												<input type="text" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
+												<input type="text" spellcheck="false" data-change='border-bottom-color' autocomplete="off" value="#ffffff" class="choose_color" />
 											</div>
 										</div>
 									</div>

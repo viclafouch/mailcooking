@@ -108,7 +108,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
                 '<img src="'+thumb+'" alt="" title=""/>'+
                 '</a>'+
                 '</div>'
-                $( "#thumbs" ).append(block);
+                $('[data-task="thumbnails_sidebar"]').append(block);
             }
         }
     });
@@ -187,9 +187,7 @@ function creatDraggable(items) {
         /* Event durant le drag */
         drag: function(event, ui) {},
         /* Event à la fin du drag */
-        stop: function(event, ui) {
-            $('.content_email').css('position', 'relative');
-        }
+        stop: function(event, ui) {}
     });
 }
 
@@ -235,7 +233,7 @@ function creatSortable(container) {
         /* Classe du placeholder */
         placeholder: "sortable-placeholder",
         /* Anime le retour de l'élément au drop */
-        revert: 500,
+        revert: false,
         /* Autorise le scroll en fin de page */
         scroll: true,
         /* A partir de combien (px) avant la fin de page pour scroller */
@@ -306,8 +304,6 @@ function creatSortable(container) {
 // IX : Suppression d'une section
 function removeSection(targetClic) {
     sectionSelected = $(targetClic).closest('table[data-section]');
-    sectionHeight = sectionSelected.height();
-    $('#storage_email').height($('#storage_email').height()-sectionHeight+"px");
     sectionSelected.fadeOut( "slow", function() {
         sectionSelected.remove();
     });

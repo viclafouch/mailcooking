@@ -413,13 +413,8 @@ function clicToSpacer(element) {
 // IX : Affichage des items selon le clic
 function editSidebar(element) {
     element = '[data-target]';
-    $('#sections_builder').removeClass('active');
-    $('#items_builder').addClass('active');
-
-    $('.sections_builder_block').removeClass('menuactive');
-    $('.items_builder_block').addClass('menuactive');
-
-    $('.field_tools_item_block').hide()
+    $('.field_item_sidebar').hide();
+    $("[data-menu]#items_sidebar").trigger( "click" );
 
     if ($(element).attr('data-text')) { clicToText(element) }
     else if ($(element).attr('data-img')) { clicToImg(element) }
@@ -428,9 +423,9 @@ function editSidebar(element) {
 }
 
 // X : Spinner +/- des items
-function changeSpinner(element, idInput) {
-    let input = $('#'+idInput);
-    let style = input.attr('data-change');
+function changeSpinner(element, change) {
+    let input = $('[data-change="'+change+'"]');
+    let style = change;
     let max = parseFloat(input.attr('data-max'));
     let min = parseFloat(input.attr('data-min'));
 
@@ -442,8 +437,8 @@ function changeSpinner(element, idInput) {
             spin: function(event, ui) {
                 $(element).css(style, ui.value+'px');
                 if ($(element).attr('data-text')) {
-                    if ($(event.target).attr('id') == 'fontSize') {
-                        $('#lineHeight')
+                    if ($(event.target).attr('data-change') == 'font-size') {
+                        $('[data-change="line-height"]')
                         .val(Math.round(ui.value * 1.5))
                         .attr('value', Math.round(ui.value * 1.5))
                         .attr('aria-valuenow', Math.round(ui.value * 1.5))
@@ -451,10 +446,10 @@ function changeSpinner(element, idInput) {
                         .attr('aria-valuemin', ui.value)
                         .attr('data-max', ui.value * 3)
                         .attr('aria-valuemax', ui.value * 3);
-                        $(element).css('line-height', $('#lineHeight').val()+'px');
+                        $(element).css('line-height', $('[data-change="line-height"]').val()+'px');
 
-                        $('#lineHeight').spinner( "option", "max", ui.value * 3);
-                        $('#lineHeight').spinner( "option", "min", ui.value );
+                        $('[data-change="line-height"]').spinner( "option", "max", ui.value * 3);
+                        $('[data-change="line-height"]').spinner( "option", "min", ui.value );
                     }
                 }
             },
@@ -484,8 +479,8 @@ function changeSpinner(element, idInput) {
                     input.attr('value', val);
                 }
                 if ($(element).attr('data-text')) {
-                    if ($(event.target).attr('id') == 'fontSize') {
-                        $('#lineHeight')
+                    if ($(event.target).attr('data-change') == 'font-size') {
+                        $('[data-change="line-height"]')
                         .val(Math.round(val * 1.5))
                         .attr('value', Math.round(val * 1.5))
                         .attr('aria-valuenow', Math.round(val * 1.5))
@@ -493,7 +488,7 @@ function changeSpinner(element, idInput) {
                         .attr('aria-valuemin', val)
                         .attr('data-max', val * 3)
                         .attr('aria-valuemax', val * 3);
-                        $(element).css('line-height', $('#lineHeight').val()+'px');
+                        $(element).css('line-height', $('[data-change="line-height"]').val()+'px');
                     }
                 }
             }  
@@ -521,19 +516,19 @@ function alignmentText(element) {
 function sizeText(element) {
     
     sizeSection = parseFloat($(element).css('font-size'));
-    $('#fontSize').val(sizeSection).attr('value', sizeSection);
+    $('[data-change="font-size"]').val(sizeSection).attr('value', sizeSection);
 
-    changeSpinner(element, 'fontSize');
+    changeSpinner(element, 'font-size');
 }
 
 // XIII : Récupération/Modification de la couleur de texte
 function colorText(element) {
-    let input = $('.color').find('input.choose_color');
+    let input = $('[data-change="color"]');
     colorSection = rgb2hex($(element).css('color'));
     input.attr('value', colorSection).val(colorSection).minicolors('value',colorSection);
 
     (function change(){
-        $(document).on('change', '.color .choose_color', function(){
+        $(document).on('change', '[data-change="color"]', function(){
             colorSection = $(this).val();
             $(element).css('color', colorSection);
         });
@@ -542,16 +537,16 @@ function colorText(element) {
 
 // XIV : Récupération/Modification de la couleur de fond
 function backgroundText(element) {
-    let input = $('.background-color').find('input.choose_color');
+    let input = $('[data-change="background-color"]');
     backgroundSection = rgb2hex($(element).css('background-color'));
     input.attr('value', backgroundSection).val(backgroundSection).minicolors('value',backgroundSection);
 
     (function change(){
-        $(document).on('change', '.background-color .choose_color', function(){
+        $(document).on('change', '[data-change="background-color"]', function(){
             backgroundSection = $(this).val();
             $(element).css('background-color', backgroundSection);
         });
-        $(document).on('blur', '.background-color .choose_color', function(){
+        $(document).on('blur', '[data-change="background-color"]', function(){
             if ($(this).val() == '') {
                 input.attr('value', backgroundSection).val(backgroundSection).minicolors('value',backgroundSection);
             }
@@ -561,7 +556,7 @@ function backgroundText(element) {
 
 // XV : Récupération/Modification de la police de texte
 function familyText(element) {
-    let input = $('.font-family').find('select');
+    let input = $('[data-change="font-family"]');
     familySection = $(element).css('font-family').split(', ');
     newFamilySection = familySection[0].replace('"', '').replace('"', '');
     input.find('option').removeAttr('selected');
@@ -569,7 +564,7 @@ function familyText(element) {
     input.val(newFamilySection);
 
     (function change() {
-        $(document).on('change', '.font-family select', function() {
+        $(document).on('change', '[data-change="font-family"]', function() {
             input = $(this);
             val = input.val();
             if (webSaveFonts.includes(val)) {
@@ -584,36 +579,37 @@ function familyText(element) {
 
 // XVI : Récupération/Modification de l'interlignage
 function lineText(element) {
-
+   
+    let input = $('[data-change="line-height"]');
     lineSection = parseFloat($(element).css('line-height'));
     sizeSection = parseFloat($(element).css('font-size'));
 
     if (!lineSection) {
-        $('#lineHeight').val(sizeSection * 1.5).attr('value', sizeSection * 1.5);
+        input.val(sizeSection * 1.5).attr('value', sizeSection * 1.5);
     }
     else {
-        $('#lineHeight').val(lineSection).attr('value', lineSection);
+        input.val(lineSection).attr('value', lineSection);
     }
 
-    $('#lineHeight').attr('data-min', sizeSection);
-    $('#lineHeight').attr('data-max', sizeSection * 3);
-    $('#lineHeight').attr('aria-valuemin', sizeSection);
-    $('#lineHeight').attr('aria-valuemax', sizeSection * 3);
+    input.attr('data-min', sizeSection);
+    input.attr('data-max', sizeSection * 3);
+    input.attr('aria-valuemin', sizeSection);
+    input.attr('aria-valuemax', sizeSection * 3);
 
-    changeSpinner(element, 'lineHeight');
+    changeSpinner(element, 'line-height');
 }
 
 // XVII : Récupération/Modification de la hauteur
 function heightObjet (element) {
     height = parseFloat($(element).attr('height'));
-    $('#height').val(height).attr('value', height);
+    $('[data-change="height"]').val(height).attr('value', height);
 
     changeSpinner(element, 'height');
 }
 
 // XVIII : Récupération/Modification du lien de redirection
 function linkObjet(element){
-    let input = $('.link').find('input');
+    let input = $('[data-change="link"]');
 
     if ($(element).attr('data-cta')) {
         linkSection = $(element).attr('href');
@@ -632,7 +628,7 @@ function linkObjet(element){
     }
 
     (function change(){
-        $(document).on('change', '.link input', function(){
+        $(document).on('change', '[data-change="link"]', function(){
             linkSection = $(this).val();
             if ($(element).attr('data-cta')) {
                 if (linkSection == '') {
@@ -640,7 +636,7 @@ function linkObjet(element){
                 } 
                 else if (linkSection.indexOf('http') == -1 ) {
                     $(element).attr('href', 'http://'+linkSection);
-                    $('.link input').val('http://'+linkSection);
+                    $('[data-change="link"]').val('http://'+linkSection);
                 }
                 else {
                     $(element).attr('href', linkSection);
@@ -652,7 +648,7 @@ function linkObjet(element){
                 }
                 else if (linkSection.indexOf('http') == -1 ) {
                     $('[data-href]').attr('href', 'http://'+linkSection);
-                    $('.link input').val('http://'+linkSection);
+                    $('[data-change="link"]').val('http://'+linkSection);
                 }
                 else {
                     $('[data-href]').attr('href', linkSection);
@@ -668,35 +664,35 @@ function paddingObjet(element) {
     paddingRightSection = parseFloat($(element).css('padding-right'));
     paddingBottomSection = parseFloat($(element).css('padding-bottom'));
     paddingLeftSection = parseFloat($(element).css('padding-left'));
-    $('.padding').find('#padding-top input').val(paddingTopSection).attr('value', paddingTopSection);
-    $('.padding').find('#padding-right input').val(paddingRightSection).attr('value', paddingRightSection);
-    $('.padding').find('#padding-bottom input').val(paddingBottomSection).attr('value', paddingBottomSection);
-    $('.padding').find('#padding-left input').val(paddingLeftSection).attr('value', paddingLeftSection); 
+    $('[data-change="padding-top"]').val(paddingTopSection).attr('value', paddingTopSection);
+    $('[data-change="padding-right"]').val(paddingRightSection).attr('value', paddingRightSection);
+    $('[data-change="padding-bottom"]').val(paddingBottomSection).attr('value', paddingBottomSection);
+    $('[data-change="padding-left"]').val(paddingLeftSection).attr('value', paddingLeftSection); 
 
-    changeSpinner(element, 'paddingTop');
-    changeSpinner(element, 'paddingBottom');
-    changeSpinner(element, 'paddingLeft');
-    changeSpinner(element, 'paddingRight');
+    changeSpinner(element, 'padding-top');
+    changeSpinner(element, 'padding-bottom');
+    changeSpinner(element, 'padding-left');
+    changeSpinner(element, 'padding-right');
 }
 
 // XX : Récupération/Modification de la taille des bordures
 function borderSizeObjet(element) {
-    borderSizeTopSection = parseFloat($(element).css('border-top-width'));
-    borderSizeRightSection = parseFloat($(element).css('border-right-width'));
-    borderSizeBottomSection = parseFloat($(element).css('border-bottom-width'));
-    borderSizeLeftSection = parseFloat($(element).css('border-left-width'));
-    $('.border').find('#border-top input.change_value').val(borderSizeTopSection).attr('value', borderSizeTopSection);
-    $('.border').find('#border-right input.change_value').val(borderSizeRightSection).attr('value', borderSizeRightSection);
-    $('.border').find('#border-bottom input.change_value').val(borderSizeBottomSection).attr('value', borderSizeBottomSection);
-    $('.border').find('#border-left input.change_value').val(borderSizeLeftSection).attr('value', borderSizeLeftSection);
+    borderWidthTopSection = parseFloat($(element).css('border-top-width'));
+    borderWidthRightSection = parseFloat($(element).css('border-right-width'));
+    borderWidthBottomSection = parseFloat($(element).css('border-bottom-width'));
+    borderWidthLeftSection = parseFloat($(element).css('border-left-width'));
+    $('[data-change="border-top-width"]').val(borderWidthTopSection).attr('value', borderWidthTopSection);
+    $('[data-change="border-right-width"]').val(borderWidthRightSection).attr('value', borderWidthRightSection);
+    $('[data-change="border-bottom-width"]').val(borderWidthBottomSection).attr('value', borderWidthBottomSection);
+    $('[data-change="border-left-width"]').val(borderWidthLeftSection).attr('value', borderWidthLeftSection);
 
     if ($(element).css('border-style') !== 'solid') {
         $(element).css('border-style', 'solid');
         $(element).css('border-width', '0px');
         $(element).css('border-color', '#000');
     }
-    changeSpinner(element, 'borderTop');
-    changeSpinner(element, 'borderBottom');
+    changeSpinner(element, 'border-top-width');
+    changeSpinner(element, 'border-bottom-width');
 }
 
 // XXI : Récupération/Modification de la couleur des bordures
@@ -705,18 +701,18 @@ function borderColorObjet(element) {
     borderColorRightSection = rgb2hex($(element).css('border-right-color'));
     borderColorBottomSection = rgb2hex($(element).css('border-bottom-color'));
     borderColorLeftSection = rgb2hex($(element).css('border-left-color'));
-    $('.border').find('#border-top input.minicolors-input').attr('value', borderColorTopSection).minicolors('value', borderColorTopSection);
-    $('.border').find('#border-right input.minicolors-input').attr('value', borderColorRightSection).minicolors('value', borderColorRightSection);
-    $('.border').find('#border-bottom input.minicolors-input').attr('value', borderColorBottomSection).minicolors('value', borderColorBottomSection);
-    $('.border').find('#border-left input.minicolors-input').attr('value', borderColorLeftSection).minicolors('value', borderColorLeftSection);
+    $('[data-change="border-top-color"]').attr('value', borderColorTopSection).minicolors('value', borderColorTopSection);
+    $('[data-change="border-top-right"]').attr('value', borderColorRightSection).minicolors('value', borderColorRightSection);
+    $('[data-change="border-top-bottom"]').attr('value', borderColorBottomSection).minicolors('value', borderColorBottomSection);
+    $('[data-change="border-top-left"]').attr('value', borderColorLeftSection).minicolors('value', borderColorLeftSection);
 
     (function change(){
-        $(document).on('change', '.border input.minicolors-input', function() {
+        $(document).on('change', '#border input.minicolors-input', function() {
             input = $(this);
             val = input.val();
-            $(element).css(input.parents('.block').attr('id')+'-color', val);
+            $(element).css(input.attr('data-change'), val);
         });
-        $(document).on('blur', '.border input.minicolors-input', function(){
+        $(document).on('blur', '#border input.minicolors-input', function(){
             if (input.val() == '') {
                 input.attr('value', val).val(val).minicolors('value',val);
             }
@@ -728,16 +724,12 @@ function borderColorObjet(element) {
 function disappearItem(e) {
     var click =  $(e.target).children();
     if (click.is("[data-content]")){
-       $('.field_tools_item_block').hide();
+        $('.field_item_sidebar').hide();
         $('#storage_email [data-content]').removeClass('activeover');
         $('[data-text], [data-img], [data-cta], [data-spacer]')
         .removeAttr('data-target')
         .removeClass('active noactive');
-
-        if ($('#items_builder').hasClass('active')) {
-            $('.items_builder_block').removeClass('menuactive');
-            $('.todo').addClass('menuactive');
-        }
+        $('[data-menu], [data-task]').removeClass('active');
     }
 }
 
@@ -752,7 +744,6 @@ $(document).ready(function() {
     /* Démarre le clic sur les data-txt */
     $(document).on("click", '[data-text], [data-img], [data-cta], [data-spacer]', function(e) {
         stopRedirection(e);
-        $('.todo').removeClass('menuactive');
         editSidebar(targetTheTarget(this));
 
         /* Active / Désactive le hover opacity */

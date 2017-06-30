@@ -354,8 +354,8 @@ header.header_builder_right {
     span {
         width: calc(100% / 2);
         display: block;
-        background-color: $secondaryColor;
-        color: #fff;
+        background-color: #fff;
+        color: $primaryTextColor;
         text-align: center;
         height: calc(#{$navBuilderHeight} - 1px);
         line-height: $navBuilderHeight;
@@ -364,7 +364,7 @@ header.header_builder_right {
         @include single-transition(none, 0.3s, ease, 0s);
         @include transition-property(color, background-color);
 
-        &.active { background-color: #fff; color: $primaryTextColor; }
+        &.active { background-color: $secondaryColor; color: #fff; }
     }
 }
 
@@ -377,6 +377,10 @@ div.content_sidebar {
         width: 100%;
         overflow-y: scroll;
         height: 100%;
+        @include visible(false);
+        @include animateVisibility(0.3s);
+        display: none;
+        &.active { @include visible(true); display: block; }
     }
 }
 
@@ -384,7 +388,7 @@ div.content_sidebar {
 
 div.field_item_sidebar {
     width: 100%;
-    padding: 10px 30px;
+    padding: 10px 15px;
     @include box-sizing(border-box);
     @include justify-content(flex-start);
 
@@ -528,7 +532,14 @@ div.field_item_sidebar {
             position: relative;
             cursor: pointer;
             display: block;
-            &:not(:first-child) { border-left: $primaryBorder; }
+            &:nth-child(2), &:nth-child(3), { border-right: $primaryBorder; border-left: $primaryBorder; }
+            &:nth-child(3) { border-left: 0; }
+            @include noselect();
+            @include opacity(0.7);
+            @include single-transition(none, 0.3s, ease, 0s);
+            @include transition-property(background-color, opacity);
+            &:hover, &.active { @include opacity(1); }
+            &.active { background-color: adjust-lightness($primaryTextColor, 65); }
 
             i {
                 position: absolute;
@@ -676,6 +687,21 @@ div.field_item_sidebar {
     }
 }
 
+div.thumbnail {
+    width: 100%;
+    margin: 10px 0;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    @include opacity(0.8);
+    padding: 2px 5px;
+    @include box-sizing(border-box);
+    @include single-transition(opacity, 0.2s, ease, 0s);
+    @include transition-property(opacity, border-color);
+
+    * { width: 100%; display: block; cursor: move; }
+
+    &:hover { @include opacity(1); border-color: #D7CCC8; }
+}
 
 
 
