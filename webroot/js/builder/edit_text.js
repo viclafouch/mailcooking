@@ -730,6 +730,8 @@ function disappearItem(e) {
         .removeAttr('data-target')
         .removeClass('active noactive');
         $('[data-menu], [data-task]').removeClass('active');
+        $('[data-task="notask"]').addClass('active');
+        inEdit = false;
     }
 }
 
@@ -743,6 +745,7 @@ $(document).ready(function() {
 
     /* Démarre le clic sur les data-txt */
     $(document).on("click", '[data-text], [data-img], [data-cta], [data-spacer]', function(e) {
+        inEdit = true;
         stopRedirection(e);
         editSidebar(targetTheTarget(this));
 

@@ -20,6 +20,9 @@
 */
 
 /*----------  Variables  ----------*/
+
+inEdit = false; // Statut des items du builder
+
 /*----------  Functions  ----------*/
 /*----------  Actions  ----------*/
 
@@ -74,6 +77,15 @@ $(document).ready( function() {
 
 		$('[data-task]').removeClass('active');
 		$('[data-task="'+id+'"]').addClass('active');
+
+		if (id == 'items_sidebar' && inEdit == false) {
+			if (!inEdit) {
+				$('[data-task]').removeClass('active');
+				$('[data-task="notask"]').addClass('active');
+			} else {
+				$('[data-task="'+id+'"]').addClass('active');
+			}
+		}
 	});
 });
 

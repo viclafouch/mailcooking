@@ -102,7 +102,7 @@ div.container_builder { overflow: hidden!important;
 
     div.container_left { width: 70%; }
 
-    div.container_right { width: 30%; }
+    div.container_right { width: calc(30% - 1px); border-left: $primaryBorder; }
 
     header.header_builder {
         height: $navBuilderHeight;
@@ -351,11 +351,14 @@ div.tools_section {
 /*----------  Partie Droite du builder  ----------*/
 
 header.header_builder_right {
+    border-bottom: none!important; @include box-shadow(none !important);
     span {
         width: calc(100% / 2);
         display: block;
-        background-color: #fff;
-        color: $primaryTextColor;
+        background-color: $primaryColor; 
+        color: #fff;
+        border-bottom: $primaryBorder;
+        @include box-shadow($shadow0);
         text-align: center;
         height: calc(#{$navBuilderHeight} - 1px);
         line-height: $navBuilderHeight;
@@ -364,7 +367,12 @@ header.header_builder_right {
         @include single-transition(none, 0.3s, ease, 0s);
         @include transition-property(color, background-color);
 
-        &.active { background-color: $secondaryColor; color: #fff; }
+        &.active { 
+            background-color: #fff; 
+            color: $primaryTextColor;
+            border-bottom-width: 0;
+            @include box-shadow(none);
+        }
     }
 }
 
@@ -381,6 +389,30 @@ div.content_sidebar {
         @include animateVisibility(0.3s);
         display: none;
         &.active { @include visible(true); display: block; }
+
+        &.notask { overflow: hidden;
+            & > div { 
+                position: absolute;
+                top: 50%;
+                @include translateY(-50%);
+                text-align: center;
+
+                svg {
+                    height: 120px;
+                    width: 120px;
+                    @include opacity(0.8);
+                }
+
+                p { 
+                    padding: 20px 15px;
+                    font-weight: 600;
+                    line-height: 1.2em;
+                    color: $primaryTextColor;
+                    text-align: center;
+                    font-style: italic;
+                }
+            }
+        }
     }
 }
 
@@ -689,10 +721,11 @@ div.field_item_sidebar {
 
 div.thumbnail {
     width: 100%;
+    background-color: #fff;
+    max-width: 700px;
     margin: 10px 0;
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
-    @include opacity(0.8);
     padding: 2px 5px;
     @include box-sizing(border-box);
     @include single-transition(opacity, 0.2s, ease, 0s);

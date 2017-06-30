@@ -16,7 +16,8 @@ div.container_builder div.container_left {
   width: 70%;
 }
 div.container_builder div.container_right {
-  width: 30%;
+  width: calc(30% - 1px);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
 div.container_builder header.header_builder {
   height: 60px;
@@ -431,11 +432,21 @@ div.tools_section span:last-child {
 }
 
 /*----------  Partie Droite du builder  ----------*/
+header.header_builder_right {
+  border-bottom: none !important;
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
 header.header_builder_right span {
   width: calc(100% / 2);
   display: block;
-  background-color: #fff;
-  color: #444;
+  background-color: #0676B2;
+  color: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   text-align: center;
   height: calc(60px - 1px);
   line-height: 60px;
@@ -452,8 +463,12 @@ header.header_builder_right span {
   transition-property: color, background-color;
 }
 header.header_builder_right span.active {
-  background-color: #FF3B49;
-  color: #fff;
+  background-color: #fff;
+  color: #444;
+  border-bottom-width: 0;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 div.content_sidebar {
@@ -484,6 +499,32 @@ div.content_sidebar div.task_sidebar.active {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
   display: block;
+}
+div.content_sidebar div.task_sidebar.notask {
+  overflow: hidden;
+}
+div.content_sidebar div.task_sidebar.notask > div {
+  position: absolute;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  text-align: center;
+}
+div.content_sidebar div.task_sidebar.notask > div svg {
+  height: 120px;
+  width: 120px;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+div.content_sidebar div.task_sidebar.notask > div p {
+  padding: 20px 15px;
+  font-weight: 600;
+  line-height: 1.2em;
+  color: #444;
+  text-align: center;
+  font-style: italic;
 }
 
 /*----------  Items  ----------*/
@@ -917,11 +958,11 @@ div.field_item_sidebar#padding div.map > div.map_block div.map_block_color > div
 
 div.thumbnail {
   width: 100%;
+  background-color: #fff;
+  max-width: 700px;
   margin: 10px 0;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
-  opacity: 0.8;
   padding: 2px 5px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

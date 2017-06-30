@@ -102,8 +102,9 @@ var getUrlParameter = function getUrlParameter(sParam) {
             for (var i = 0; i < nbSections; i++) {
                 var the_section = $(sections).eq(i).attr('data-section');
                 var thumb = ''+folder+''+the_section+'.png';
+                var maxWidth = $('[data-content]').width();
                 var block = 
-                '<div class="thumbnail" data-thumbnail="'+the_section+'">'+
+                '<div style="max-width:'+maxWidth+'px;" class="thumbnail" data-thumbnail="'+the_section+'">'+
                 '<a href="#" title="">'+
                 '<img src="'+thumb+'" alt="" title=""/>'+
                 '</a>'+
@@ -157,9 +158,9 @@ function creatDraggable(items) {
         /* */
         iframeFix: false,
         /* Opacité pendant le drag */
-        opacity: 0.90,
+        opacity: 1,
         /* Calcul la position a chaque mouvement */
-        refreshPosition: true,
+        refreshPosition: false,
         /* Anime le retour de l'élément au drop */
         revert: false,
         /* Durée du revert */
@@ -229,7 +230,7 @@ function creatSortable(container) {
         /* Elements pouvant être déplacé */
         items: "> *",
         /* Opacité pendant le drag */
-        opacity: 0.90,
+        opacity: 1,
         /* Classe du placeholder */
         placeholder: "sortable-placeholder",
         /* Anime le retour de l'élément au drop */
