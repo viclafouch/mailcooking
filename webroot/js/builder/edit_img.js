@@ -21,6 +21,7 @@
 
 /*----------  Variables  ----------*/
 
+var inCroppie = false; // Statut du croppie
 var imgToEdit; // L'image à editer
 var imgHeight; // Hauteur de l'image
 var imgWidth; // Largeur de l'image
@@ -30,17 +31,12 @@ var imgEdit; // L'image en cours d'édition
 var keys = {37: 1, 38: 1, 39: 1, 40: 1}; // touches directionnelles
 var id_mail; // ID du mail 
 
-// Contenu du container [div.edit_img croppie_sleep]
-var cropper = '<span class="close" id="closeCroppie"></span><div class="container-fluid col col-hori-center nowrap"><div id="cropperimg"></div><div class="action_img row row-hori-center"><input id="imgAltEdit" type="text" value="" placeholder="Tag alternatif"></div><div class="action_img btns_action row row-hori-center nowrap"><input type="file" id="new_file_img" name="pic" accept=".png, .jpeg, .jpg" /><input type="submit" id="saveCroppie" value="Confirmer"></div>'
-
+// Contenu du container de la popup
+var cropper = '<span data-close-popup id="closeCroppie"></span><div id="cropperimg"></div><p><input id="newImg" type="file" accept=".png, .jpeg, .jpg" spellcheck="false" autocomplete="off" /></p><p><input id="altImg" type="text" spellcheck="false" autocomplete="off" placeholder="Tag alternatif"></p><button id="saveImg" class="button_default button_secondary">Sauvegarder</button>';
 /*----------  Functions  ----------*/
 
 /**
     Séléctionnez le titre puis CTRL+D (Windows) ou CMD+D (Mac).
-    - I     :  Bloque les évènements 
-    - II    :  Bloque évènements (touches clavier)
-    - III   :  Désactive Scroll (via I & II);
-    - IV    :  Active Scroll
     - V     :  Récupère les paramètres d'URL
     - VI    :  Création du Cropper
     - VII   :  Insertion d'un nouveau fichier
@@ -48,45 +44,6 @@ var cropper = '<span class="close" id="closeCroppie"></span><div class="containe
     - IX    :  Annule des modifications
     - X     :  Constructeur
 **/
-
-// I : Bloque les évènements 
-function preventDefault(e) {
-    e = e || window.event;
-    if (e.preventDefault) {
-        e.preventDefault();
-        e.returnValue = false;
-    }  
-}
-
-// II : Bloque évènements (touches clavier) 
-function preventDefaultForScrollKeys(e) {
-    if (keys[e.keyCode]) {
-        preventDefault(e);
-        return false;
-    }
-}
-
-// III : Désactive Scroll (via I & II);
-function disableScroll() {
-    if (window.addEventListener) {
-        window.addEventListener('DOMMouseScroll', preventDefault, false);
-        window.onwheel = preventDefault;
-        window.onmousewheel = document.onmousewheel = preventDefault;
-        window.ontouchmove  = preventDefault;
-        document.onkeydown  = preventDefaultForScrollKeys;
-    }
-}
-
-// IV : Active Scroll
-function enableScroll() {
-    if (window.removeEventListener) {
-        window.removeEventListener('DOMMouseScroll', preventDefault, false);
-        window.onmousewheel = document.onmousewheel = null; 
-        window.onwheel = null; 
-        window.ontouchmove = null;  
-        document.onkeydown = null; 
-    }
-}
 
 // V : Récupère les paramètres d'URL
 var getUrlParameter = function getUrlParameter(sParam) {
@@ -169,7 +126,7 @@ var changeCroppie = function(input) {
 // VIII : Sauvegarde des modifications
 var saveCroppie = function(input, selection) {
     $(input).on('click', function() {
-        $alt = $('#imgAltEdit').val();
+        $alt = $('#altImg').val();
         /* Créer une image base64 */
         imgEdit.croppie('result', {
             type: 'base64',
@@ -194,43 +151,30 @@ var saveCroppie = function(input, selection) {
             });
         });
 
-        $('.croppie_sleep').removeClass('active');
-
-        enableScroll();
-    });
-
-    $(document).on('keydown', function(e) {
-        if ($('#imgToCroppie').hasClass('active')) {
-            switch (e.keyCode) {
-            case 13:
-                e.preventDefault();
-                $(input).trigger('click');
-                break;
-            };
-        };
+        $('#popupCroppie').removeClass('active');
     });
 }
 
 // IX : Annule des modifications
 var closeCroppie = function(input) {
     $(input).on('click', function(e){
-        e.stopPropagation();
-        e.preventDefault();
-        $('.croppie_sleep').removeClass('active');
+        inCroppie = false;
+        $('#popupCroppie').removeClass('active');
+
         setTimeout(function(){
             imgEdit.croppie('destroy');
-        }, 300);
-        enableScroll();
+        }, 500);
+
     });
     $(document).on('keydown', function(e) {
-        if ($('#imgToCroppie').hasClass('active')) {
+        if (inCroppie) {
             switch (e.keyCode) {
             case 27:
                 e.preventDefault();
                 $(input).trigger('click');
                 break;
             };
-        };
+        }
     });
 }
 
@@ -244,38 +188,37 @@ var imgCropper = function(selection) {
     imgWidth    =   parseFloat(selection.width());
 
     /* Insertion du contenu HTML */
-    $('#imgToCroppie').html(cropper);
+    $('#popupCroppie .popup_container').html(cropper);
 
     /* Insertion de l'attribut ALT */
-    $('#imgAltEdit').val(imgAlt);
+    $('#altImg').val(imgAlt);
 
-    /* Création du croppie de l'image séléctionnée */
+    //  Création du croppie de l'image séléctionnée 
     creatCroppie(imgToEdit);
 
     /* Affichage de la popup */
-    $('.croppie_sleep').addClass('active');
+    let popup = $('#popupCroppie');
+    popup.addClass('active');
 
     /* Changement de cropper à l'insertion d'un fichier */
-    changeCroppie('#new_file_img');
+    changeCroppie('#newImg');
 
-    /* Sauvegarde de l'image dans le serveur */
-    saveCroppie('#saveCroppie', selection);
+    //  Sauvegarde de l'image dans le serveur 
+    saveCroppie('#saveImg', selection);
 
-    /* Ferme et annule les modifications d'image */
+    // /* Ferme et annule les modifications d'image */
     closeCroppie('#closeCroppie');
 }
 
 /*----------  Actions  ----------*/
 
 // Démarre la modification d'image
-$('#active-croppie').bind('click', function() {
+$('[data-change="img"]').bind('click', function() {
     if ($(this).attr('data-tocroppie')) {
-        if (!$(this).hasClass('active')) {    
-            disableScroll();
-            selectedID = $(this).attr('data-tocroppie');
-            selectedIMG = $("[data-img='" + selectedID + "']");
-            imgCropper(selectedIMG);
-        }
+        inCroppie = true;
+        selectedID = $(this).attr('data-tocroppie');
+        selectedIMG = $("[data-img='" + selectedID + "']");
+        imgCropper(selectedIMG);
     }
 });
 

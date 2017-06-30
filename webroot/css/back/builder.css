@@ -209,7 +209,7 @@ div.content_email > div#storage_email {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 10px 0;
+  padding: 30px 0;
   width: auto;
   margin: 0 auto;
   overflow-x: hidden;
@@ -679,6 +679,13 @@ div.field_item_sidebar#background-color div.minicolors-panel, div.field_item_sid
   top: 100%;
   left: 5px;
 }
+div.field_item_sidebar#img button {
+  margin: 0;
+  min-width: 120px;
+  font-size: 15px;
+  background-color: #444;
+  color: #fff;
+}
 div.field_item_sidebar#height span.ui-spinner, div.field_item_sidebar#font-size span.ui-spinner, div.field_item_sidebar#line-height span.ui-spinner {
   width: 100%;
   height: 100% !important;
@@ -986,6 +993,135 @@ div.thumbnail:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
   border-color: #D7CCC8;
+}
+
+/*----------  Popup  ----------*/
+div#popupCroppie div.popup_container {
+  padding: 30px 15px;
+  background-color: #FFFFFF;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  text-align: center;
+}
+div#popupCroppie div.popup_container span#closeCroppie {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: transparent;
+  cursor: pointer;
+}
+div#popupCroppie div.popup_container span#closeCroppie::after, div#popupCroppie div.popup_container span#closeCroppie::before {
+  content: '';
+  position: absolute;
+  height: 2px;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin-top: -2px;
+  width: 100%;
+  background-color: #444;
+  -moz-transition: -moz-transform 0.3s ease 0s;
+  -o-transition: -o-transform 0.3s ease 0s;
+  -webkit-transition: -webkit-transform 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: transform 0.3s ease 0s;
+}
+div#popupCroppie div.popup_container span#closeCroppie::after {
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+div#popupCroppie div.popup_container span#closeCroppie::before {
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+div#popupCroppie div.popup_container span#closeCroppie:hover::after {
+  -moz-transform: rotate(20deg);
+  -ms-transform: rotate(20deg);
+  -webkit-transform: rotate(20deg);
+  transform: rotate(20deg);
+}
+div#popupCroppie div.popup_container span#closeCroppie:hover::before {
+  -moz-transform: rotate(-20deg);
+  -ms-transform: rotate(-20deg);
+  -webkit-transform: rotate(-20deg);
+  transform: rotate(-20deg);
+}
+div#popupCroppie div.popup_container > div.croppie-container {
+  width: 100%;
+  height: auto;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 350px;
+}
+div#popupCroppie div.popup_container > div.croppie-container input[type=range]::-webkit-slider-thumb {
+  background-color: #0676B2;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  height: 16px;
+  width: 16px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: auto;
+}
+div#popupCroppie div.popup_container > div.croppie-container input[type=range]::-webkit-slider-runnable-track {
+  width: 400px;
+  height: 6px;
+}
+div#popupCroppie div.popup_container p {
+  margin-bottom: 30px;
+}
+div#popupCroppie div.popup_container input#altImg {
+  display: inline-block;
+  padding: 5px 8px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+div#popupCroppie div.popup_container input#newImg {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  visibility: hidden;
+}
+div#popupCroppie div.popup_container input#newImg::after {
+  content: 'Choisir un fichier';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  cursor: pointer;
+  visibility: visible;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  font-family: 'bariolregular', 'Helvetica';
+  font-size: 16px;
+  text-align: center;
+  padding: 10px 15px;
+  color: #000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+div#popupCroppie div.popup_container button {
+  display: inline-block;
 }
 
 /*----------  Sidebar  ----------*/

@@ -386,7 +386,7 @@ function clicToImg(element) {
     borderSizeObjet(element);
     borderColorObjet(element);
     dataImg = $(element).attr('data-img');
-    $('#active-croppie').attr('data-tocroppie', dataImg);
+    $('[data-change="img"]').attr('data-tocroppie', dataImg);
 }
 
 // VII : Cible == Cta
@@ -730,6 +730,7 @@ function disappearItem(e) {
         .removeAttr('data-target')
         .removeClass('active noactive');
         $('[data-menu], [data-task]').removeClass('active');
+        $('[data-menu]#items_sidebar').addClass('active');
         $('[data-task="notask"]').addClass('active');
         inEdit = false;
     }

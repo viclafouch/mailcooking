@@ -212,7 +212,7 @@ div.content_email {
     & > div#storage_email {
         height: 100%;
         @include box-sizing(border-box);
-        padding: 10px 0;
+        padding: 30px 0;
         width: auto;
         margin: 0 auto;
         overflow-x: hidden;
@@ -535,6 +535,16 @@ div.field_item_sidebar {
         div.minicolors-panel { top: 100%; left: 5px; }
     }
 
+    &#img {
+        button {
+            margin: 0;
+            min-width: 120px;
+            font-size: 15px;
+            background-color: $primaryTextColor;
+            color: #fff;
+        }
+    }
+
     &#height, &#font-size, &#line-height {
 
         span.ui-spinner { width: 100%; height: 100%!important; display: block; }
@@ -734,6 +744,100 @@ div.thumbnail {
     * { width: 100%; display: block; cursor: move; }
 
     &:hover { @include opacity(1); border-color: #D7CCC8; }
+}
+
+/*----------  Popup  ----------*/
+
+div#popupCroppie {
+
+    div.popup_container {
+        padding: 30px 15px; 
+        background-color: $primaryBackgroundColor;
+        @include border-radius(3px);
+        text-align: center;
+
+        span#closeCroppie {
+            position: absolute;
+            top: 10px; right: 10px;
+            display: block;
+            width: 22px;
+            height: 22px;
+            background-color: transparent;
+            cursor: pointer;
+            &::after, &::before {
+                content: '';
+                position: absolute;
+                height: 2px;
+                top: 50%; left: 0; right: 0;
+                margin-top: -2px;
+                width: 100%;
+                background-color: $primaryTextColor;
+                @include single-transition(transform, 0.3s, ease, 0s);
+            }
+            &::after { @include rotate(45deg); }
+            &::before { @include rotate(-45deg); }
+
+            &:hover {
+                &::after { @include rotate(20deg); }
+                &::before { @include rotate(-20deg); }
+            }
+        }
+
+        & > div.croppie-container {
+            width: 100%;
+            height: auto;
+            @include box-sizing(border-box);
+            min-height: 350px;
+
+            input[type=range]::-webkit-slider-thumb {
+                background-color: $primaryColor;
+                @include box-shadow($shadow0);
+                height: 16px;
+                width: 16px;
+                @include border-radius(50%);
+                @include appearance(none);
+                cursor: auto;
+            }
+            input[type=range]::-webkit-slider-runnable-track {
+                width: 400px; height: 6px;
+            }
+        }
+
+        p {  margin-bottom: 30px; }
+
+        input#altImg {
+            display: inline-block;
+            padding: 5px 8px;
+            background-color: #fff;
+            border: $primaryBorder;
+            @include border-radius(3px);
+        }
+
+        input#newImg {
+            @include appearance(none);
+            position: relative;
+            visibility: hidden;
+            &::after {
+                content: 'Choisir un fichier';
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                cursor: pointer;
+                visibility: visible;
+                @include translate(-50%, -50%);
+                background-color: #fff;
+                font-family: 'bariolregular', 'Helvetica';
+                font-size: 16px;
+                text-align: center;
+                padding: 10px 15px;
+                color: #000;
+                border-bottom: $primaryBorder;
+                @include border-radius(3px);
+            }
+        }
+
+        button { display: inline-block; }
+    }
 }
 
 

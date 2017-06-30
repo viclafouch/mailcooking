@@ -36,7 +36,7 @@
 		</div>
 		<div class="container_right col nowrap">
 			<header class="header_builder header_builder_right row nowrap">
-				<span id="items_sidebar" data-menu>Items</span>
+				<span id="items_sidebar" class="active" data-menu>Items</span>
 				<span id="thumbnails_sidebar" data-menu>Sections</span>
 			</header>
 			<div class="content_sidebar">
@@ -197,6 +197,11 @@
 								</div>
 							</div>
 						</div>
+						<div id="img" class="field_item_sidebar" data-display-img>
+							<div class="col nowrap">
+								<button data-change="img" class="button_default">Modifier l'image</button>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="task_sidebar" data-task="thumbnails_sidebar">
@@ -208,6 +213,13 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div class="popup_mc" id="popupCroppie">
+		<div class="popup_background">
+		</div>
+		<div class="popup_container">
+			
 		</div>
 	</div>
 </div>
