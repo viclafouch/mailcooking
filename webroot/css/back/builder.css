@@ -493,6 +493,7 @@ div.content_sidebar div.task_sidebar {
   -webkit-transition-property: visibility, opacity;
   transition-property: visibility, opacity;
   display: none;
+  position: relative;
 }
 div.content_sidebar div.task_sidebar.active {
   visibility: visible;
@@ -506,10 +507,11 @@ div.content_sidebar div.task_sidebar.notask {
 div.content_sidebar div.task_sidebar.notask > div {
   position: absolute;
   top: 50%;
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+  left: 50%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   text-align: center;
 }
 div.content_sidebar div.task_sidebar.notask > div svg {

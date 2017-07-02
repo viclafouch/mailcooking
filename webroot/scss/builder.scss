@@ -388,13 +388,14 @@ div.content_sidebar {
         @include visible(false);
         @include animateVisibility(0.3s);
         display: none;
+        position: relative;
         &.active { @include visible(true); display: block; }
 
         &.notask { overflow: hidden;
             & > div { 
                 position: absolute;
-                top: 50%;
-                @include translateY(-50%);
+                top: 50%; left: 50%;
+                @include translate(-50%, -50%);
                 text-align: center;
 
                 svg {
