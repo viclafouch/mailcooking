@@ -360,6 +360,12 @@ $(document).ready(function(){
 		hidePopup(popup);
 	});
 
+	/* Sauvegarde le renouvellement */
+	$(document).on('click', '#profilRenewal button', function(e){
+		e.preventDefault();
+		// ajax
+	});
+
 	/* Duplication d'un email */
 	$(document).on('click', '#duplicateBuilder', function() {
 		var idEmail = $(this).parents('li').data('email');

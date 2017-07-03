@@ -325,7 +325,7 @@
 					</div>
 				</div>
 				<footer>
-					<button class="button_default button_secondary">Sauvegarder</button>
+					<button data-close-popup class="button_default button_secondary">Sauvegarder</button>
 				</footer>
 			</form>
 		</div>

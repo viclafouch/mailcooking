@@ -26,7 +26,7 @@
 		<?php } ?>
 
 		<!-- A DELETE !-->
-		<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+		<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> -->
 
 	  	<!-- Lib [JS]-->
 		<script defer src="lib/js/jquery/jquery-3.1.1.min.js"></script>
