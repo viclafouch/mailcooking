@@ -28,18 +28,20 @@
 	}
 
 
-	function addTemplateMail($dom, $mobile, $id_user, $id_commande)			
+	function addTemplateMail($dom, $mobile, $title_template, $id_user, $id_commande)			
 	{
 		global $connexion;
 
 		try 
 		{
 			$req = "INSERT INTO template_mail (DOM, 
-											medias, 
+											medias,
+											title_template,
 											id_allow,
 											id_template_commande)
 							VALUES (:DOM, 
-									:medias, 
+									:medias,
+									:title_template,
 									:id_allow,
 									:id_template_commande)";
 
@@ -48,6 +50,7 @@
 			// On initialise le paramètre
 			$query->bindParam(':DOM', $dom, PDO::PARAM_INT);
 			$query->bindParam(':medias', $mobile, PDO::PARAM_INT);
+			$query->bindParam(':title_template', $title_template, PDO::PARAM_STR);
 			$query->bindParam(':id_allow', $id_user, PDO::PARAM_INT);
 			$query->bindParam(':id_template_commande', $id_commande, PDO::PARAM_INT);
 

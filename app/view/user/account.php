@@ -324,7 +324,7 @@
 						</div>
 					</div>
 				</div>
-				<footer>
+				<footer class="row row-verti-center row-hori-center nowrap">
 					<button class="button_default button_secondary">Sauvegarder</button>
 				</footer>
 			</form>

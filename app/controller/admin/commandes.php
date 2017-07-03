@@ -11,32 +11,37 @@
 			);
 		}
 		elseif (isset($_POST['addToBdd'])) {
+
 			include_once('app/model/user/template/valide_order.php');
 
-			$order = $_POST['addToBdd'];
+			$options = array( 	"wherecolumn"	=>	"id_commande",
+								"wherevalue"	=>	$_POST['addToBdd']);
+	
+			$commande = selecttable("template_commande", $options);
+
+
+			$orderID = $_POST['addToBdd'];
 		    $dom = $_POST["DOM"];
+		    $title = $commande[0]['nom_commande'];
 		    $user = $_POST['userId'];
 		    $medias = $_POST["mco_template_mobile"];
 		   
-		   	$newTemplate = addTemplateMail($dom, $medias, $user, $order);
+		   	$newTemplate = addTemplateMail($dom, $medias, $title, $user, $orderID);
 
 		   	include_once('app/model/admin/update_commande.php');
 
-			$update = update_commande($order, 2);
+			$update = update_commande($orderID, 2);
 		?>
 
 			<header>
 				<h1>Mise en ligne du template</h1>
 			</header>
 			<div class="content_block popup-blocks row row-verti-center row-hori-center" style="height: 110px;">
-				<button class="button_default" data-try="true">
-					<span class="buttoneffect"></span>
-					<span class="text-cta" data-order="<?= $order ?>">Tester le template</span>
-				</button>
+				<button data-order="<?= $orderID ?>" class="button_default button_secondary">Tester le template</button>
 			</div>
 			<footer class="row row-hori-center nowrap test_template">
-				<a href="#" id="cancelUpload" title="">Annuler la mise en ligne</a>
-				<a href="#" id="testLaster" title="">Essayer plus tard</a>
+				<a href="#" data-close-popup id="cancelUpload" title="">Annuler la mise en ligne</a>
+				<a href="#" data-close-popup id="testLaster" title="">Essayer plus tard</a>
 			</footer>
 		<?php
 			
@@ -184,14 +189,14 @@
 			}
 			echo '?module=admin&action=commandes';		
 		}
+		
+		/* Prise en charge de la commande */
 		elseif (isset($_POST['order'])) {
-			sleep(3);
 			include_once('app/model/admin/update_commande.php');
 
 			$update = update_commande($_POST["order"], 1);
 		}
 		elseif (isset($_FILES)) {
-			sleep(3);
 			$data['file'] = $_FILES;
 		    $data['text'] = $_POST;
 
@@ -229,50 +234,44 @@
 		<header>
 			<h1>Mise en ligne du template</h1>
 		</header>
-		<form method="post" action="?module=admin&action=commandes" id="finishOrder" enctype="multipart/form-data">
+		<form method="post" id="formPreviewTemplate" action="?module=admin&action=commandes" enctype="multipart/form-data">
 			<div class="content_block popup-blocks">
-				<div>
-					<div class="field">
-						<div class="oneside aside">
-							<label for="DOM">Code :*</label>
-						</div>
-						<div class="overside aside">
-							<p><input id="OrderID" type="hidden" name="id" value="<?= $_GET['id_commande']; ?>" />
-								<textarea name="DOM" id="DOM" required="required"></textarea>
-							</p>
-						</div>
+				<div class="field">
+					<div class="oneside aside">
+						<label for="DOM">Code :*</label>
 					</div>
-					<div class="field">
-						<div class="oneside aside">
-							<label for="mco_template_mobile">Media Query :*</label>
-						</div>
-						<div class="overside aside">
-							<p><input type="hidden" name="id" value="<?= $_GET['id_commande']; ?>" />
-								<textarea name="mco_template_mobile" id="mco_template_mobile" required="required"></textarea>
-							</p>
-						</div>
+					<div class="overside aside">
+						<p><input id="OrderID" type="hidden" name="id" value="<?= $_GET['id_commande']; ?>" />
+							<textarea spellcheck="false" autocomplete="false" name="DOM" id="DOM" required="required"></textarea>
+						</p>
 					</div>
-					<div class="field">
-						<div class="oneside aside">
-							<label for="file_image">Image :*</label>
-						</div>
-						<div class="overside aside">
-							<p>
-								<input type="file" accept="application/zip" name="file_image" id="file_image" required="required">
-							</p>
-						</div>
+				</div>
+				<div class="field">
+					<div class="oneside aside">
+						<label for="mco_template_mobile">Media Query :*</label>
+					</div>
+					<div class="overside aside">
+						<p>
+							<textarea spellcheck="false" autocomplete="false" name="mco_template_mobile" id="mco_template_mobile" required="required"></textarea>
+						</p>
+					</div>
+				</div>
+				<div class="field">
+					<div class="oneside aside">
+						<label for="file_image">Image :*</label>
+					</div>
+					<div class="overside aside">
+						<p>
+							<input type="file" accept="application/zip" name="file_image" id="file_image" required="required">
+						</p>
 					</div>
 				</div>
 			</div>
-			<footer>
-				<div>
-					<button id="<?= $_GET["id_commande"]; ?>" class="valideorder button_default">
-						<span class="buttoneffect"></span>
-						<span class="text-cta">Prévisualiser</span>
-					</button>
-				</div>
+			<footer class="col col-hori-center col-verti-center nowrap" id="<?= $_GET['id_commande']; ?>">
+				<button id="previewUploadTemplate" class="button_default button_secondary">Prévisualiser</button>
 			</footer>
 		</form>
+
 		<?php } 
 
 		elseif (isset($_GET['testTemplate'])) { ?>
@@ -293,10 +292,6 @@
 		<?php }
 		else {
 
-			// Secu
-			// protec();
-			// just_admin();
-
 			$nb_commandes = counttable("template_commande");
 
 			include_once('app/model/admin/lire_commandes.php');
@@ -308,6 +303,8 @@
 			include_once('app/view/admin/commandes.php');
 		}
 	}
+
+	/* Affiche la popup de base */
 	else {
 
 		include_once('app/model/admin/lire_commande.php');
@@ -328,55 +325,50 @@
 			<header>
 				<h1>Commande N°<?= $commande[0]["id_commande"]; ?></h1>
 			</header>
-			<div class="content_block popup-blocks">
-				<div>
-					<div class="field">
-						<div class="oneside aside">
-							<p>Statut</p>
+			<form method="post" action="">
+				<div class="content_block popup-blocks">
+					<div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Statut :</label>
+							</div>
+							<div class="overside aside">
+								<p>
+									<span class="statut statut<?= $keep_status ?>"><?= $commande[0]["status"]; ?></span>
+								</p>
+							</div>
 						</div>
-						<div class="overside aside">
-							<p id="statut_change">
-								<span class="label statut<?= $keep_status ?>"><?= $commande[0]["status"]; ?></span>
-							</p>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Auteur :</label>
+							</div>
+							<div class="overside aside">
+								<p><?= $commande[0]["first_name"]; ?>&nbsp;<?= $commande[0]["last_name"]; ?></p>
+							</div>
 						</div>
-					</div>
-					<div class="field">
-						<div class="oneside aside">
-							<p>Auteur :</p>
-						</div>
-						<div class="overside aside">
-							<p><?= $commande[0]["first_name"]; ?> <?= $commande[0]["last_name"]; ?></p>
-						</div>
-					</div>
-					<div class="field">
-						<div class="oneside aside">
-							<p>Commentaire :</p>
-						</div>
-						<div class="overside aside">
-							<p><?= $commande[0]["commentaire_commande"]; ?></p>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Commentaires :</label>
+							</div>
+							<div class="overside aside">
+								<p><?= $commande[0]["commentaire_commande"]; ?></p>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<?php if ($keep_status == 0) { ?>
-				<footer id="<?= $commande[0]["id_commande"]; ?>">
-					<button class="valide button_default" id="valide_order">
-						<span class="buttoneffect"></span>
-						<span class="text-cta">Valider la prise en charge</span>
-					</button>
-				</footer>
-			<?php } elseif ($keep_status == 1) { ?>
-				<footer id="<?= $commande[0]["id_commande"]; ?>" class="confirmation endTakingCharge">
+				<footer class="col col-hori-center col-verti-center nowrap" id="<?= $commande[0]['id_commande']; ?>">
+					<?php if ($keep_status == 0) { ?>
+					<button id="valideOrder" class="button_default button_secondary">Valider la prise en charge</button>
+					<?php } elseif ($keep_status == 1) { ?>
 					<p>Commande prise en charge depuis le 01/05/2016</p>
-					<button class="valide button_default" id="finish_order">
-						<span class="buttoneffect"></span>
-						<span class="text-cta">Prise en charge terminée</span>
-					</button>
+					<button id="finishOrder" class="button_default button_secondary">Prise en charge terminée</button>
+					<?php } elseif ($keep_status == 2) { ?>
+					<button class="button_default button_secondary">Tester le template</button>
+					<?php } elseif ($keep_status == 3) { ?>
+					<p>Commande terminée le 01/05/2016</p>
+					<?php } ?>
 				</footer>
-			<?php } elseif ($keep_status == 2) { ?>
-				<footer id="<?= $commande[0]["id_commande"]; ?>">
-					<p>Commande terminé le 01/05/2016</p>
-				</footer>
-			<?php } 
+			</form>
+			<?php
 		}
 	}

@@ -392,7 +392,8 @@ div.content_sidebar {
         &.active { @include visible(true); display: block; }
 
         &.notask { overflow: hidden;
-            & > div { 
+            & > div {
+                width: 100%;
                 position: absolute;
                 top: 50%; left: 50%;
                 @include translate(-50%, -50%);

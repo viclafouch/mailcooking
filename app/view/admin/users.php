@@ -3,41 +3,55 @@
 	include("app/view/layout/user/header.php"); 
 ?>
 
-<div class="users">
-	<div class="nwrap">
-		<h1>Les utilisateurs</h1>
+<div class="container container_users">
+	<div class="block full_block">
+		<div class="pannel pannel_heading">
+			<div class="row nowrap row-verti-center row-hori-between">
+				<div>
+					<h1>Utilisateurs</h1>
+				</div>
+<!-- 				<button type="submit" class="button_default button_primary">Mon abonnement</button>
+ -->		</div>
+		</div>
 	</div>
-	<div class="data_users container_to_table">
-		<table>
-			<caption>Il y a <?= $nb_users; ?> utilisateurs</caption>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Email</th>
-					<th>Prénom</th>
-					<th>Nom</th>
-					<th>Société</th>
-					<th>Téléphone</th>
-					<th>Civilité</th>
-					<th>Statut</th>
-					<th>Date de création</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($users as $key => $data) { ?>
-				<tr>
-					<td><?= $data["user_id"]; ?></td>
-					<td><?= $data["user_email"]; ?></td>
-					<td><?= $data["first_name"]; ?></td>
-					<td><?= $data["last_name"]; ?></td>
-					<td><?= $data["societe"]; ?></td>
-					<td><?= $data["nb_phone"]; ?></td>
-					<td><?= $data["gender"]; ?></td>
-					<td><?= $data["valide"]; ?></td>
-					<td><?= $data["timestamp"]; ?></td>
-			<?php } ?>
-			</tbody>
-		</table>
+	<div class="block full_block">
+		<div class="pannel pannel_body container_to_table">
+			<table class="table_users">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Email</th>
+						<th>Prénom</th>
+						<th>Nom</th>
+						<th>Société</th>
+						<th>Téléphone</th>
+						<th>Civilité</th>
+						<th>Statut</th>
+						<th>Date de création</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($users as $key => $user) {
+						$timestamp = new DateTime($user['timestamp']);
+						$userDateCreat = $timestamp->format('d/m/Y');
+
+					?>
+
+					<tr>
+						<td><?= $user["user_id"]; ?></td>
+						<td><?= $user["user_email"]; ?></td>
+						<td><?= $user["first_name"]; ?></td>
+						<td><?= $user["last_name"]; ?></td>
+						<td><?= $user["user_societe"]; ?></td>
+						<td><?= $user["nb_phone"]; ?></td>
+						<td><?= $user["gender"]; ?></td>
+						<td><?= $user["valide"]; ?></td>
+						<td><?= $userDateCreat; ?></td>
+					</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 

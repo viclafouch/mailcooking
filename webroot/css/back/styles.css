@@ -134,7 +134,7 @@
   justify-content: space-around;
 }
 
-.verhor-center, div.popup_mc > div.popup_container > form > footer, div.container_profil div.card_block > footer.card_footer {
+.verhor-center, div.container_profil div.card_block > footer.card_footer {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-flow: row nowrap;
@@ -886,93 +886,6 @@ div.container div.block > div.pannel.pannel_legend p {
   margin-bottom: 10px;
 }
 
-/*----------  Alerte  ----------*/
-div.alert {
-  position: fixed;
-  min-width: 150px;
-  height: 50px;
-  background: #0676B2;
-  color: #fff;
-  z-index: 99999999;
-  border: 1px solid #fff;
-  right: 50px;
-  bottom: -50px;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-}
-div.alert p {
-  text-align: center;
-  line-height: 50px;
-  padding: 0 20px;
-}
-
-/*----------  Tableur  ----------*/
-.container_to_table {
-  width: 100%;
-  min-height: 250px;
-}
-.container_to_table table {
-  margin-bottom: 20px;
-  border-collapse: collapse;
-  border-spacing: 0;
-  display: table;
-  width: 100%;
-}
-.container_to_table table > caption {
-  text-align: right;
-  font-size: 20px;
-  padding: 15px 0px;
-  margin: 0 10px 10px 0;
-}
-.container_to_table table > thead, .container_to_table table > tbody {
-  vertical-align: middle;
-}
-.container_to_table table > thead {
-  display: table-header-group;
-}
-.container_to_table table > tbody {
-  display: table-row-group;
-}
-
-.container_to_table > table > thead > tr {
-  display: table-row;
-  vertical-align: inherit;
-}
-.container_to_table > table > thead > tr th {
-  border-bottom: 2px solid #ddd;
-  padding: 8px 12px;
-  line-height: 1.42857143;
-  text-align: left;
-  display: table-cell;
-  font-size: 17px;
-}
-
-.container_to_table > table > tbody > tr {
-  width: 100%;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
-  opacity: 0.9;
-  vertical-align: middle;
-}
-.container_to_table > table > tbody > tr td {
-  padding: 18px 12px;
-  color: #444;
-  border-top: 1px solid #ddd;
-}
-.container_to_table > table > tbody > tr:hover {
-  background: #f5f5f5;
-  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-  opacity: 1;
-}
-
-/*----------  Popup  ----------*/
-div.popup_mc#templateOrder > div.popup_container {
-  width: 80%;
-}
-
 div.popup_mc > div.popup_container > header, div.popup_mc > div.popup_container > form {
   width: 100%;
 }
@@ -1067,6 +980,88 @@ div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-track {
 div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-thumb {
   border-radius: 50px;
   background: #aaaaaa;
+}
+
+/*----------  Alerte  ----------*/
+div.alert {
+  position: fixed;
+  min-width: 150px;
+  height: 50px;
+  background: #0676B2;
+  color: #fff;
+  z-index: 99999999;
+  border: 1px solid #fff;
+  right: 50px;
+  bottom: -50px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+div.alert p {
+  text-align: center;
+  line-height: 50px;
+  padding: 0 20px;
+}
+
+/*----------  Tableur  ----------*/
+.container_to_table {
+  width: 100%;
+  min-height: 250px;
+}
+.container_to_table table {
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  width: 100%;
+}
+.container_to_table table > caption {
+  text-align: right;
+  font-size: 20px;
+  padding: 15px 0px;
+  margin: 0 10px 10px 0;
+}
+.container_to_table table > thead, .container_to_table table > tbody {
+  vertical-align: middle;
+}
+.container_to_table table > thead {
+  display: table-header-group;
+}
+.container_to_table table > tbody {
+  display: table-row-group;
+}
+
+.container_to_table > table > thead > tr {
+  display: table-row;
+  vertical-align: inherit;
+}
+.container_to_table > table > thead > tr th {
+  border-bottom: 2px solid #ddd;
+  padding: 8px 12px;
+  line-height: 1.42857143;
+  text-align: left;
+  display: table-cell;
+  font-size: 17px;
+}
+
+.container_to_table > table > tbody > tr {
+  width: 100%;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+  opacity: 0.9;
+  vertical-align: middle;
+}
+.container_to_table > table > tbody > tr td {
+  padding: 18px 12px;
+  color: #444;
+  border-top: 1px solid #ddd;
+}
+.container_to_table > table > tbody > tr:hover {
+  background: #f5f5f5;
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
 }
 
 /*----------  Dashboard  ----------*/
@@ -1867,7 +1862,7 @@ div.container_profil .checkbonito:checked ~ label::before {
   -o-transition-property: visibility, opacity;
   -webkit-transition-property: visibility, opacity;
   transition-property: visibility, opacity;
-  background-color: rgba(255, 59, 73, 0.7);
+  background-color: rgba(6, 118, 178, 0.7);
   height: 100%;
   width: 100%;
 }
@@ -2123,4 +2118,37 @@ div.container_archives .archive.active {
 }
 div.container_archives .archive.active span {
   background-color: #0676B2;
+}
+
+/*----------  Orders  ----------*/
+div.container_orders .statut {
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  text-transform: uppercase;
+}
+div.container_orders .statut.statut0 {
+  background-color: #777;
+}
+div.container_orders .statut.statut1 {
+  background-color: #f0ad4e;
+}
+div.container_orders .statut.statut2 {
+  background-color: #009688;
+}
+div.container_orders .statut.statut3 {
+  background-color: #5cb85c;
+}
+div.container_orders div#orderPopup div.popup_container footer {
+  min-height: 80px;
+}
+div.container_orders div#orderPopup div.popup_container footer p {
+  padding: 10px;
 }
