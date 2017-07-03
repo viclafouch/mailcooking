@@ -186,6 +186,7 @@
   position: relative;
   cursor: pointer;
   text-align: center;
+  text-decoration: none;
   border: 0;
   margin: 0;
   outline: none;
@@ -217,6 +218,19 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
+}
+.button_default i, .select_default i {
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  font-size: 20px !important;
+  position: relative;
+  top: -1px;
+}
+.button_default.button_href, .button_href.select_default {
+  line-height: 40px;
 }
 
 .select-wrapper {
@@ -2009,4 +2023,104 @@ div.container_profil .checkbonito:checked ~ label::before {
   text-decoration: underline;
   padding: 10px;
   cursor: pointer;
+}
+
+/*----------  Archives  ----------*/
+div.container_archives div.full_block:last-child {
+  border-bottom-color: transparent;
+}
+div.container_archives div.line_btn_archives button {
+  margin-left: 0;
+  background-color: #757575 !important;
+  cursor: not-allowed;
+}
+div.container_archives div.line_btn_archives button:last-child {
+  margin-right: 0;
+}
+div.container_archives div.line_btn_archives button.action {
+  min-width: auto;
+}
+div.container_archives div.line_btn_archives button.active {
+  background-color: #FF3B49 !important;
+  cursor: pointer;
+}
+div.container_archives ul.row {
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+  -webkit-align-content: flex-start;
+  align-content: flex-start;
+}
+div.container_archives .archive {
+  width: 150px;
+  min-width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+  margin-right: 10px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin-bottom: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  opacity: 0.7;
+  background-attachment: scroll !important;
+  background-size: 100% auto !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  -moz-transition: none 0.3s ease 0s;
+  -o-transition: none 0.3s ease 0s;
+  -webkit-transition: none 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: none 0.3s ease 0s;
+  -moz-transition-property: box-shadow, opacity;
+  -o-transition-property: box-shadow, opacity;
+  -webkit-transition-property: box-shadow, opacity;
+  transition-property: box-shadow, opacity;
+}
+div.container_archives .archive:hover {
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+div.container_archives .archive span {
+  position: absolute;
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-color: transparent;
+  border: 2px solid #fff;
+  right: 8px;
+  top: 7px;
+  cursor: pointer;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+  -moz-transition: opacity 0.3s ease 0s;
+  -o-transition: opacity 0.3s ease 0s;
+  -webkit-transition: opacity 0.3s ease;
+  -webkit-transition-delay: 0s;
+  transition: opacity 0.3s ease 0s;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+div.container_archives .archive span:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+div.container_archives .archive.active {
+  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+  opacity: 1;
+}
+div.container_archives .archive.active span {
+  background-color: #0676B2;
 }

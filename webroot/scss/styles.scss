@@ -224,6 +224,7 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     position: relative;
     cursor:pointer;
     text-align: center;
+    text-decoration: none;
     border: 0; margin: 0;
     outline:none;
     background-color: #000;
@@ -235,6 +236,8 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     &.button_secondary { background-color: $secondaryColor; }
     &:hover { @include box-shadow($shadow1); @include opacity(1); }
     margin: 10px 20px;
+    i { @include inline-block(middle); font-size: 20px!important; position: relative; top: -1px; }
+    &.button_href { line-height: 40px; }
 }
 
 .select-wrapper {
@@ -1397,6 +1400,72 @@ div.container_profil { overflow-y: scroll!important;
             text-decoration: underline;
             padding: 10px;
             cursor: pointer;
+        }
+    }
+}
+
+/*----------  Archives  ----------*/
+
+div.container_archives {
+
+    div.full_block:last-child { border-bottom-color: transparent; }
+
+    div.line_btn_archives button {
+        margin-left: 0;
+        &:last-child { margin-right: 0; }
+        background-color: #757575!important;
+        cursor: not-allowed;
+        &.action { min-width: auto; } 
+        &.active { background-color: $secondaryColor!important; cursor: pointer; }
+    }
+
+    ul.row {
+        @include justify-content(flex-start);
+        @include align-content(flex-start);
+    }
+
+    .archive {
+        width: 150px;
+        min-width: 150px;
+        height: 150px;
+        overflow: hidden;
+        position: relative;
+        margin-right: 10px;
+        @include box-shadow($shadow0);
+        margin-bottom: 30px;
+        cursor: pointer;
+        @include noselect();
+        @include box-sizing(border-box);
+        border: $primaryBorder;
+        @include opacity(0.7);
+        background-attachment: scroll!important;
+        background-size: 100% auto!important;
+        background-position: center!important;
+        background-repeat: no-repeat!important;
+        @include single-transition(none, 0.3s, ease, 0s);
+        @include transition-property(box-shadow, opacity);
+        &:hover { @include box-shadow($shadow1); }
+
+        span {
+            position: absolute;
+            display: block;
+            width: 14px;
+            height: 14px;
+            background-color: transparent;
+            border: 2px solid #fff;
+            right: 8px;
+            top: 7px;
+            cursor: pointer;
+            @include opacity(0.8);
+            &:hover { @include opacity(1); }
+            @include single-transition(opacity, 0.3s, ease, 0s);
+            @include border-radius(50%);
+        }
+
+        &.active { @include opacity(1);
+            span {
+                background-color: $primaryColor;
+            } 
         }
     }
 }

@@ -943,9 +943,118 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
-/*======================================
-=            Commandes_page            =
-======================================*/
+	/*----------  Archive page  ----------*/
+
+	function appearAction(boolean) {
+
+		if (boolean == true) {
+			$('[data-remove-archive]').addClass('active').removeAttr('disabled');
+			$('[data-select-archive]').addClass('active').removeAttr('disabled');
+		} else {
+			$('[data-remove-archive]').removeClass('active').attr('disabled', 'disabled');
+			$('[data-select-archive]').removeClass('active').attr('disabled', 'disabled');
+		}
+	}
+	
+	/* Selection d'une archive */
+	$(document).on('click', '.archive:not(.active)', function(){
+		if (!$(this).hasClass('active')) {
+			$(this).addClass('active');
+			
+			appearAction(true);
+		}
+	});
+
+	/* Désélection d'une archive */
+	$(document).on('click', '.archive.active', function(){
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			
+			var countSelected = $('.archive.active').length;
+
+			if (countSelected == 0) {
+				appearAction(false);
+				$('[data-select-archive="allselect"]').addClass('active').removeAttr('disabled');
+			}
+		}
+	});
+
+	/* Selectionner tout */
+	$(document).on('click', '[data-select-archive="allselect"]', function() {
+		if ($('.archive:not(.active)').length != 0) {
+			$('.archive').addClass('active');
+			appearAction(true);
+		}
+	});
+
+	/* Désélectionner tout */
+	$(document).on('click', '[data-select-archive="deselect"]', function(){
+		if (!$(this).attr('disabled')) {
+			$(this).attr('disabled', 'disabled');
+			
+			$('[data-remove-archive]').removeClass('active').attr('disabled', 'disabled');
+			$(this).removeClass('active').attr('disabled', 'disabled');
+			$('.archive').removeClass('active');
+		}
+	});
+
+	/* Suppression/Restauration d'archive */
+	$(document).on('click', '[data-remove-archive]', function() {
+		if ($('.archive.active').length != 0) {
+
+			if ($(this).data('remove-archive') == 'delete') {
+				
+				$('.archive.active').each(function(){
+					
+					let archiveID = $(this).data('archive');
+					
+					$.ajax({
+						type: "POST",
+						data: { dArchiveID: archiveID },
+						url : "?module=user&action=archives", 
+						success : function(data) {
+							let block = $('[data-archive="'+archiveID+'"]');
+							block.animate({
+								'width': '0px',
+								'height': '0px',
+								'opacity': '0'},
+								500, function() {
+									block.remove();
+								}
+							);
+						}
+					});
+				});
+			}
+			else if ($(this).data('remove-archive') == 'restore') {
+				$('.archive.active').each(function(){
+					
+					let archiveID = $(this).data('archive');
+					
+					$.ajax({
+						type: "POST",
+						data: { rArchiveID: archiveID },
+						url : "?module=user&action=archives", 
+						success : function(data) {
+							let block = $('[data-archive="'+archiveID+'"]');
+							block.animate({
+								'width': '0px',
+								'height': '0px',
+								'opacity': '0'},
+								500, function() {
+									block.remove();
+								}
+							);
+						}
+					});
+				});
+			}
+		}
+	});
+
+	/*----------  Order page  ----------*/
+
+
 
 	$(".row_data_commande").click(function() {
 		$(".popup-overlay, .popup-container").css({
@@ -1123,6 +1232,5 @@ document.addEventListener("turbolinks:load", function() {
 	        });
 		}
 	});
-
 /*=====  End of Commandes_page  ======*/
 });
