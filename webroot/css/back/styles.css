@@ -1775,6 +1775,9 @@ div.container_profil .checkbonito:checked ~ label::before {
   overflow-x: hidden !important;
   overflow-y: scroll !important;
 }
+.container_emails h2 {
+  font-size: 21px;
+}
 .container_emails .pannel_title span {
   word-break: keep-all !important;
   height: 22px;
@@ -2125,6 +2128,9 @@ div.container_archives .archive.active span {
 }
 
 /*----------  Orders  ----------*/
+div.container_orders tbody tr[data-order] {
+  cursor: default;
+}
 div.container_orders .statut {
   display: inline;
   padding: .2em .6em .3em;

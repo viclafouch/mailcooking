@@ -294,7 +294,7 @@
 			</table>
 		</div>
 	</div>
-	<div class="popup_mc" id="profilRenewal">
+	<div class="popup_mc" id="profilRenewal" style="visibility: hidden">
 		<div class="popup_background"></div>
 		<div class="popup_container">
 			<header>

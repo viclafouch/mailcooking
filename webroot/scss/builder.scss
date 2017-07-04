@@ -246,6 +246,8 @@ div.content_email {
         a[data-cta] { cursor: text!important; }
 
         table, td { outline: none; word-break: break-all; }
+
+        p { font-size: inherit; font-family: inherit; }
     }
 }
 

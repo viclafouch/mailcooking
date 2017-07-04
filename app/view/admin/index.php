@@ -19,7 +19,8 @@
 	<div class="block full_block"> 
 		<div class="pannel pannel_body">
 			<p><a href="?module=admin&action=users" title="">Utilisateurs</a></p><br>
-			<p><a href="?module=admin&action=commandes" title="">Commandes</a></p>
+			<p><a href="?module=admin&action=commandes" title="">Commandes</a></p><br>
+			<p><a href="?module=admin&action=templates" title="">Templates</a></p>
 		</div>
 	</div>
 </div>

@@ -1235,6 +1235,8 @@ div.container_profil { overflow-y: scroll!important;
 
 .container_emails { overflow-x: hidden!important; overflow-y: scroll!important;
 
+    h2 { font-size: 21px; }
+    
     .pannel_title {
         span {
             word-break: keep-all!important;
@@ -1481,6 +1483,10 @@ div.container_archives {
 /*----------  Orders  ----------*/
 
 div.container_orders {
+
+    tbody tr[data-order] {
+        cursor: default;
+    }
     
     .statut {
         display: inline;

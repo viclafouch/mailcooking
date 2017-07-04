@@ -64,14 +64,13 @@
 								<?php } ?>
 								</p>
 								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
-								<p>Utilisé actuellement dans <strong><?= $countMailsEditor; ?></strong> email<?php if ($countMailsEditor > 1) { ?>s
-								<?php } ?></p>
+								<p>Utilisé actuellement dans <strong><?= $countMailsEditor; ?></strong> email<?php if ($countMailsEditor > 1) { ?>s<?php } ?></p>
 							</div>
 						</div>
 					</div>
 					<div class="col nowrap">
 						<div class="row wrap row-verti-center row-hori-between row_actions_template">
-							<button class="button_default button_secondary">Créer un email</button>
+							<button data-creat-email class="button_default button_secondary">Créer un email</button>
 							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
 						</div>
 						<div class="popup_action_template">
