@@ -31,18 +31,51 @@
 		   	include_once('app/model/admin/update_commande.php');
 
 			$update = update_commande($orderID, 2);
-		?>
 
+			$options = array( 	"wherecolumn"	=>	"user_id",
+								"wherevalue"	=>	$_POST['userId']);
+	
+			$user = selecttable("users", $options);
+		?>
 			<header>
-				<h1>Mise en ligne du template</h1>
+				<h1>Commande N°<?= $commande[0]["id_commande"]; ?></h1>
 			</header>
-			<div class="content_block popup-blocks row row-verti-center row-hori-center" style="height: 110px;">
-				<button data-order="<?= $orderID ?>" class="button_default button_secondary">Tester le template</button>
-			</div>
-			<footer class="row row-hori-center nowrap test_template">
-				<a href="#" data-close-popup id="cancelUpload" title="">Annuler la mise en ligne</a>
-				<a href="#" data-close-popup id="testLaster" title="">Essayer plus tard</a>
-			</footer>
+			<form method="post" action="">
+				<div class="content_block popup-blocks">
+					<div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Statut :</label>
+							</div>
+							<div class="overside aside">
+								<p>
+									<span class="statut statut2">En attente de test</span>
+								</p>
+							</div>
+						</div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Auteur :</label>
+							</div>
+							<div class="overside aside">
+								<p><?= $user[0]["first_name"]; ?>&nbsp;<?= $user[0]["last_name"]; ?></p>
+							</div>
+						</div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Commentaires :</label>
+							</div>
+							<div class="overside aside">
+								<p><?= $commande[0]["commentaire_commande"]; ?></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<footer class="col col-hori-center col-verti-center nowrap" id="<?= $commande[0]['id_commande']; ?>">
+					<button id="testOrder" class="button_default button_secondary">Tester le template</button>
+					<p><a href="#" data-close-popup id="cancelUpload" title="">Annuler la mise en ligne</a></p>
+				</footer>
+			</form>
 		<?php
 			
 		}
@@ -56,9 +89,9 @@
 
 			include_once('app/model/user/email/insert_email.php');
 
-			$test_builder = new_email($commande[0]['id_template'], $_SESSION["user"]["user_id"], $commande[0]['DOM']);
+			$id_mail = new_email($commande[0]['id_template'], $_SESSION["user"]["user_id"], $commande[0]['DOM']);
 
-			if ($test_builder) {
+			if ($id_mail) {
 
 				$options = array( 	
 					"orderby"	=>	"id_mail",
@@ -70,13 +103,13 @@
 				$timestamp = new DateTime($email[0]['timestamp']);
 				$email_date = $timestamp->format('d-m-Y');
 				
-				$new_folder = ''.$test_builder.'_'.$email_date.'';
+				$new_folder = ''.$id_mail.'_'.$email_date.'';
 
 				@mkdir($chemin.'emails/'.$new_folder."", 0777, true);
 
 			}
 
-			echo $test_builder; 
+			echo $id_mail; 
 		}
 
 		elseif (isset($_POST['cancelUpload'])) {
@@ -363,7 +396,8 @@
 					<p>Commande prise en charge depuis le 01/05/2016</p>
 					<button id="finishOrder" class="button_default button_secondary">Prise en charge terminée</button>
 					<?php } elseif ($keep_status == 2) { ?>
-					<button class="button_default button_secondary">Tester le template</button>
+					<button id="testOrder" class="button_default button_secondary">Tester le template</button>
+					<p><a href="#" data-close-popup id="cancelUpload" title="">Annuler la mise en ligne</a></p>
 					<?php } elseif ($keep_status == 3) { ?>
 					<p>Commande terminée le 01/05/2016</p>
 					<?php } ?>

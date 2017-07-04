@@ -1172,7 +1172,7 @@ document.addEventListener("turbolinks:load", function() {
 								success: function(data) {
 									console.log(data);
 									$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
-										'<span class="statut statut1">Prise en charge</span>'
+										'<span class="statut statut2">En attente de test</span>'
 									);
 									$('#orderPopup .popup_container').html(data);
 								},
@@ -1187,49 +1187,38 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
-	// $(document).on('click', '#testLaster', function(event) {
-	// 	event.preventDefault();
-	// 	$(".popup-overlay, .popup-container").css({
-	// 		visibility:"hidden",
-	// 		opacity:"0",
-	// 	});
-	// });
+	$(document).on('click', '#cancelUpload', function(e) {
+		e.preventDefault();
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			idOrder = $(this).parents('footer').attr('id');
+			$.ajax({
+	            type: "POST",
+	            data: {cancelUpload: idOrder},
+	            url : "?module=admin&action=commandes",
+				complete(html) {
+					$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
+						'<span class="statut statut1">Prise en charge</span>'
+					);
+				},
+	        });
+		}
+	});
 
-	// $(document).on('click', '#cancelUpload', function(event) {
-	// 	if (!$(this).attr('data-appened')) {
-	// 		$(this).attr('data-appened', 'true');
-	// 		event.preventDefault();
-	// 		idOrder = $('[data-order]').attr('data-order');
-	// 		$.ajax({
-	//             type: "POST",
-	//             data: {cancelUpload: idOrder},
-	//             url : "?module=admin&action=commandes",
-	// 			complete(html) {
-	// 				$('.td_'+idOrder).html(
-	// 					'<span class="label statut1">Prise en charge</span>'
-	// 				);
-	// 			},
-	//         });
-	//         $(".popup-overlay, .popup-container").css({
-	// 			visibility:"hidden",
-	// 			opacity:"0",
-	// 		});
-	// 	}
-	// });
-
-	// $(document).on('click', '[data-try]', function(){
-	// 	if (!$(this).attr('data-appened')) {
-	// 		$(this).attr('data-appened', 'true');
-	// 		idOrder = $('[data-order]').attr('data-order');
-	// 		$.ajax({
-	//             type: "POST",
-	//             data: {testEmail: idOrder},
-	//             url : "?module=admin&action=commandes",
-	// 			complete(html) {
-	// 				window.location = "?module=user&action=email_builder&id="+html.responseText;
-	// 			},
-	//         });
-	// 	}
-	// });
+	$(document).on('click', '#testOrder', function(e){
+		e.preventDefault();
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			idOrder = $(this).parent('footer').attr('id');
+			$.ajax({
+	            type: "POST",
+	            data: {testEmail: idOrder},
+	            url : "?module=admin&action=commandes",
+				complete(html) {
+					window.location = "?module=user&action=email_builder&id="+html.responseText;
+				},
+	        });
+		}
+	});
 /*=====  End of Commandes_page  ======*/
 });

@@ -1492,6 +1492,8 @@ div.container_orders {
             min-height: 80px;
 
             p { padding: 10px; }
+
+            a#cancelUpload { color: $secondaryColor; font-weight: 600; }
         }
     }
 }

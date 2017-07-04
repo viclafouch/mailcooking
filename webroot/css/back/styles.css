@@ -2152,3 +2152,7 @@ div.container_orders div#orderPopup div.popup_container footer {
 div.container_orders div#orderPopup div.popup_container footer p {
   padding: 10px;
 }
+div.container_orders div#orderPopup div.popup_container footer a#cancelUpload {
+  color: #FF3B49;
+  font-weight: 600;
+}
