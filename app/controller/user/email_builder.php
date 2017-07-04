@@ -65,6 +65,7 @@
 		/*----------  Exportation de l'email  ----------*/
 
 		elseif (isset($_POST['domExport'])) {
+
 			$dom = $_POST['domExport'];
 			$email_id = $_POST['ID'];
 			$background = $_POST['background'];

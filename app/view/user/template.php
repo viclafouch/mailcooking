@@ -52,8 +52,16 @@
 	<div class="block full_block">
 		<div class="pannel pannel_body list_template">
 			<ul class="col nowrap">
-			<?php foreach ($template as $key => $temp) { ?>
-			<?php 
+			<?php foreach ($template as $key => $temp) {
+
+			$commande = get_infos(intval($temp["id_template_commande"]));
+			
+			$id_user = $commande[0]["id_user"];
+			$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
+			$chemin = "client/".$id_user."_".$societe_user."/";
+
+			$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
+
 				// Compter le nombre de mails utilisés par le template
 				$options = array ("wherecolumn" => "template_id", 
 									"wherevalue" => $temp['id_template']);
@@ -61,8 +69,7 @@
 			?>
 				<li class="row nowrap row-hori-between li_template" data-list-templates data-allow="<?php if ($temp['id_allow'] == 'all') { ?>0<?php } else { ?>1<?php } ?>" data-template="<?= $temp['id_template']; ?>">
 					<div class="row nowrap">
-						<div class="col nowrap col_template_thumbs">
-							<img data-popup-preview src="http://via.placeholder.com/120x170" alt="">
+						<div style="background: url('<?= $chemin.'templates/'.$folder.'/thumbnails/thumbnail.png'; ?>');" data-popup-preview class="col nowrap col_template_thumbs">
 						</div>
 						<div class="col nowrap col_template_descr">
 							<p>
@@ -84,7 +91,7 @@
 					</div>
 					<div class="col nowrap">
 						<div class="row wrap row-verti-center row-hori-between row_actions_template">
-							<button class="button_default button_secondary">Créer un email</button>
+							<button data-creat-email class="button_default button_secondary">Créer un email</button>
 							<button data-action-template class="button_default button_secondary"><i class="material-icons data-action-template">expand_more</i></button>
 						</div>
 						<div class="popup_action_template">
@@ -147,7 +154,7 @@
 						</div>
 					</div>
 				</div>
-				<footer>
+				<footer class="row row-hori-center">
 					<button type="submit" class="button_default button_secondary">Envoyer ma commande</button>
 				</footer>
 			</form>

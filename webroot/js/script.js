@@ -465,6 +465,23 @@ document.addEventListener("turbolinks:load", function() {
 		});
 	});
 
+	/* Création d'un email à partir d un template */
+	$(document).on('click', '[data-creat-email]', function(e){
+		e.preventDefault();
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			idTemplate = $(this).parents('li').data('template');
+			$.ajax({
+				type: "POST",
+				data: { template_id: idTemplate },
+				url : "?module=user&action=template", 
+				success : function(data) {
+					window.location = "?module=user&action=email_builder&id="+data;
+				}
+			});
+		}
+	});
+
 	/*----------  Emails  ----------*/
 
 	clicOnPen = false;
@@ -1144,6 +1161,20 @@ document.addEventListener("turbolinks:load", function() {
 
 	               	$(document).on('click', '#valideUploadOrder', function(e) {
 	               		e.preventDefault();
+						
+						var container = $('.popup_container .content_block');
+						cheminImage = html.responseText;
+						cheminThumbs = cheminImage.replace('images', 'thumbnails');
+						html2canvas(container, {
+							onrendered: function(canvas) {
+								$.ajax({
+				                    type: "POST",
+				                    data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminThumbs },
+				                    url : "?module=admin&action=commandes"
+				                });
+							}
+						});
+
 
 	               		$('#orderPopup [data-section]').each(function(){
 							var id = Math.floor(Math.random() * 16777215).toString(16);

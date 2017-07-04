@@ -757,6 +757,7 @@ div#popupCroppie {
         background-color: $primaryBackgroundColor;
         @include border-radius(3px);
         text-align: center;
+        max-width: none;
 
         span#closeCroppie {
             position: absolute;

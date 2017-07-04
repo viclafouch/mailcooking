@@ -1273,9 +1273,13 @@ div.container_template div.list_template > ul li > div {
 }
 div.container_template div.list_template > ul li div.col_template_thumbs {
   margin-right: 15px;
-}
-div.container_template div.list_template > ul li div.col_template_thumbs img {
-  display: block;
+  width: 120px;
+  background-attachment: scroll !important;
+  background-size: 100% auto !important;
+  background-position: top !important;
+  background-repeat: no-repeat !important;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: zoom-in;
 }
 div.container_template div.list_template > ul li div.col_template_descr > p span {
   word-break: keep-all !important;

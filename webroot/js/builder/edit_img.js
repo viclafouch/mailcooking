@@ -96,7 +96,7 @@ var creatCroppie = function($url) {
 
     }).then(function(){
         /* Zoom par defaut */
-       imgEdit.croppie('setZoom', 0)
+       imgEdit.croppie('setZoom', 0.4)
     });
 }
 

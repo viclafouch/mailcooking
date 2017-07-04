@@ -1006,6 +1006,7 @@ div#popupCroppie div.popup_container {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   text-align: center;
+  max-width: none;
 }
 div#popupCroppie div.popup_container span#closeCroppie {
   position: absolute;

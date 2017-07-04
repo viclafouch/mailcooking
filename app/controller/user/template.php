@@ -35,15 +35,24 @@
 			
 			foreach ($template as $key => $temp) { ?>
 				<?php 
+
+					include_once('app/model/user/template/valide_order.php');
 					// Compter le nombre de mails utilisés par le template
 					$options = array ("wherecolumn" => "template_id", 
 										"wherevalue" => $temp['id_template']);
 					$countMailsEditor = counttable("mail_editor", $options);
+
+					$commande = get_infos(intval($temp["id_template_commande"]));
+			
+					$id_user = $commande[0]["id_user"];
+					$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
+					$chemin = "client/".$id_user."_".$societe_user."/";
+
+					$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
 				?>
 				<li class="row nowrap row-hori-between li_template" data-allow="<?php if ($temp['id_allow'] == 'all') { ?>0<?php } else { ?>1<?php } ?>" data-template="<?= $temp['id_template']; ?>">
 					<div class="row nowrap">
-						<div class="col nowrap col_template_thumbs">
-							<img data-popup-preview src="http://via.placeholder.com/120x170" alt="">
+						<div style="background: url('<?= $chemin.'templates/'.$folder.'/thumbnails/thumbnail.png'; ?>');" data-popup-preview class="col nowrap col_template_thumbs">
 						</div>
 						<div class="col nowrap col_template_descr">
 							<p class="title_row"><span class="title_template" contenteditable="false" onpaste="return false;" spellcheck="false"><?= $temp['title_template']?></span>&nbsp;</p>
@@ -83,8 +92,43 @@
 
 			update_title_template($_POST['idTemplate'], $_POST['template_title']);
 		}
+
+		/* Création d'un email */
+		elseif (isset($_POST['template_id'])) {
+			
+			$options = array( 	"wherecolumn"	=>	"id_template",
+								"wherevalue"	=>	$_POST['template_id']);
+	
+			$template = selecttable("template_mail", $options);
+
+			include_once('app/model/user/email/insert_email.php');
+
+			$id_mail = new_email($template[0]['id_template'], $_SESSION["user"]["user_id"], $template[0]['DOM']);
+
+			if ($id_mail) {
+
+				$options = array( 	
+					"orderby"	=>	"id_mail",
+					"order"	=>	'DESC',
+					"limit" => 1);
+
+				$email = selecttable("mail_editor", $options);
+
+				$timestamp = new DateTime($email[0]['timestamp']);
+				$email_date = $timestamp->format('d-m-Y');
+				
+				$new_folder = ''.$id_mail.'_'.$email_date.'';
+
+				@mkdir($chemin.'emails/'.$new_folder."", 0777, true);
+
+			}
+
+			echo $id_mail; 
+		}
 		else {
 			protec();
+
+			include_once('app/model/user/template/valide_order.php');
 
 			// Appel du modèle pour l'affichage des templates
 			include_once("app/model/user/template/read_templates.php");

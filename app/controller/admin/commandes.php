@@ -1,7 +1,16 @@
 <?php 
 
 	if (!empty($_POST)) {
-		if (isset($_POST['thumb'])) {
+		if (isset($_POST['thumbnail'])) {
+			$chemin = $_POST['chemin'];
+			$name = 'thumbnail';
+
+			$savefile = @file_put_contents(	
+				$chemin.$name.'.png',  
+				base64_decode(explode(",", $_POST["thumbnail"])[1])
+			);
+		}
+		elseif (isset($_POST['thumb'])) {
 			$chemin = $_POST['chemin'];
 			$name = $_POST['nameThumb'];
 
@@ -112,6 +121,7 @@
 			echo $id_mail; 
 		}
 
+		/* Annule le template */
 		elseif (isset($_POST['cancelUpload'])) {
 			$orderID = $_POST['cancelUpload'];
 			include_once('app/model/user/template/valide_order.php');
@@ -173,11 +183,14 @@
 			include_once('app/model/user/template/delete_template.php');
 
 			delete_template($orderID);
-
+			// Pour l'email builder --> Page commande
 			echo '?module=admin&action=commandes';
 		}
+
+		/* Confirme et valide définitvement le template */
 		elseif (isset($_POST['valideTemplate'])) {
 			$orderID = $_POST['valideTemplate'];
+			
 			include_once('app/model/user/template/valide_order.php');
 	
 			$commande = get_infos(intval($orderID));
