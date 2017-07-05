@@ -37,7 +37,7 @@ var familyName; // Police à exporter
 var src; // Tableau des images
 var srcImg; // Image à exporter
 var mediasMobile; // Media Query
-var viewDesktop = true; // Affichage du builder
+var viewDesktop = true; // Mode d'affichage du builder
 var invalidExport; // Invalidité de l'export
 
 // Bout de code pour correction dans de l'app Gmail
@@ -236,7 +236,8 @@ function exportDocument(storageID) {
         }
     });
 
-    cleanAttr(storageID);
+    cleanAttr(storageID); 
+
     for (var i = $(storageID+ ' img').length - 1; i >= 0; i--) {
         srcImg = $(storageID+ ' img').eq(i).attr('src');
         src.push(srcImg);
@@ -360,24 +361,20 @@ $(document).ready(function() {
         }, 2000);
     });
 
-    /* */
+    /* Valider le template */
     $(document).on('click', '#valideTemplate', function(){
         valideTemplate(id_template);
     });
 
-    /* */
+    /* Invalider le template */
     $(document).on('click', '#cancelTemplate', function(){
         cancelTemplate(id_template);
     });
 
-    $(document).on('click', '.popup_overlay', function(){
-        $('.popup_overlay, .popup_container').removeClass('active');
-    });
-
+    /* Active la vue mobile */
     $(document).on('click', '#mobileView', function(){
         mobileView(this);
     });
-
 });
 
 /*=====  End of Actions du builder  ======*/

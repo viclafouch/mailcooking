@@ -37,15 +37,15 @@ var cropper = '<span data-close-popup id="closeCroppie"></span><div id="cropperi
 
 /**
     Séléctionnez le titre puis CTRL+D (Windows) ou CMD+D (Mac).
-    - V     :  Récupère les paramètres d'URL
-    - VI    :  Création du Cropper
-    - VII   :  Insertion d'un nouveau fichier
-    - VIII  :  Sauvegarde des modifications
-    - IX    :  Annule des modifications
-    - X     :  Constructeur
+    - I     :  Récupère les paramètres d'URL
+    - II    :  Création du Cropper
+    - III   :  Insertion d'un nouveau fichier
+    - IV    :  Sauvegarde des modifications
+    - V     :  Annule des modifications
+    - VI    :  Constructeur
 **/
 
-// V : Récupère les paramètres d'URL
+// I : Récupère les paramètres d'URL
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
     sURLVariables = sPageURL.split('&'),sParameterName,i;
@@ -59,7 +59,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
-// VI :  Création du Cropper
+// II :  Création du Cropper
 var creatCroppie = function($url) {
 
     imgEdit = $('#cropperimg').croppie({
@@ -96,18 +96,18 @@ var creatCroppie = function($url) {
 
     }).then(function(){
         /* Zoom par defaut */
-       imgEdit.croppie('setZoom', 0.4)
+       imgEdit.croppie('setZoom', 0)
     });
 }
 
-// VII : Insertion d'un nouveau fichier
+// III : Insertion d'un nouveau fichier
 var changeCroppie = function(input) {
     $(input).change(function() {
         var file = this.files[0];
          
         /* Verification du poids du fichier inséré */
         if (file.size > 2500000 || file.fileSize > 2500000) {
-           alert("Allowed file size exceeded. (Max. 2.5 MB)");
+           alert('fichier trop volumineux');
            this.value = null;
         } else {
             /* Destruction du DOM */
@@ -123,7 +123,7 @@ var changeCroppie = function(input) {
     });
 }
 
-// VIII : Sauvegarde des modifications
+// IV : Sauvegarde des modifications
 var saveCroppie = function(input, selection) {
     $(input).on('click', function() {
         $alt = $('#altImg').val();
@@ -155,7 +155,7 @@ var saveCroppie = function(input, selection) {
     });
 }
 
-// IX : Annule des modifications
+// V : Annule des modifications
 var closeCroppie = function(input) {
     $(input).on('click', function(e){
         inCroppie = false;
@@ -178,7 +178,7 @@ var closeCroppie = function(input) {
     });
 }
 
-// X : Constructeur
+// VI : Constructeur
 var imgCropper = function(selection) {
 
     /* Récupération des infos de l'image séléctionnée */

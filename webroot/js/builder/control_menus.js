@@ -16,6 +16,11 @@
         - Github : https://github.com/claviska/jquery-minicolors
         - Documentation : http://labs.abeautifulsite.net/jquery-minicolors/
     *
+     * Librairie : JQuery UI
+        - JS : lib/js/jquery-ui
+        - CSS : lib/css/jquery-ui
+        - Github : https://github.com/jquery/jquery-ui
+        - Documentation : http://api.jqueryui.com/
     *
 */
 
@@ -23,12 +28,9 @@
 
 inEdit = false; // Statut des items du builder
 
-/*----------  Functions  ----------*/
 /*----------  Actions  ----------*/
 
 $(document).ready( function() {
-
-	var minicolor;
 
 	$('#background_email').minicolors({
 		change: function(value) { 

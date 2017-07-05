@@ -46,9 +46,8 @@ var tools_section = '<div class="tools_section col">'+
     - V     :  Blocage des redirections des liens
     - VI    :  Génération du draggable des thumbnails
     - VII   :  Génération du sortable des sections
-    - VIII  :  Ajout d'un espacement en fin de l'email
-    - IX    :  Suppression d'une section
-    - X     :  Duplication d'une section
+    - VIII  :  Suppression d'une section
+    - IX    :  Duplication d'une section
 **/
 
 // I : Génération d'un ID unique
@@ -302,7 +301,7 @@ function creatSortable(container) {
     });
 }
 
-// IX : Suppression d'une section
+// VIII : Suppression d'une section
 function removeSection(targetClic) {
     sectionSelected = $(targetClic).closest('table[data-section]');
     sectionSelected.fadeOut( "slow", function() {
@@ -311,7 +310,7 @@ function removeSection(targetClic) {
     saveInStack(createId(), $('#sortable').html());
 }
 
-// X : Duplication d'une section
+// IX : Duplication d'une section
 function duplicateSection(targetClic) {
     sectionSelected = $(targetClic).closest('table[data-section]');
     duplicatedSection = sectionSelected.clone();
@@ -341,7 +340,11 @@ function duplicateSection(targetClic) {
 
 // Démarrage des modules de contrôle de sections
 $(document).ready(function() {
+    
+    /* Génération du draggable des thumbnails */
     creatDraggable('.thumbnail');
+
+    /* Génération du sortable des sections */
     creatSortable('#storage_email');
 
     /* Attribution d'un nombre random en ID */
