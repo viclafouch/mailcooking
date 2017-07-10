@@ -1777,6 +1777,22 @@ div.container_profil .checkbonito:checked ~ label::before {
 }
 .container_emails h2 {
   font-size: 21px;
+  font-weight: 600;
+  color: #444;
+}
+.container_emails .pannel_title a {
+  color: #444;
+  font-weight: 600;
+  padding: 7px 10px;
+  border: 2px solid #444;
+  text-decoration: none;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #fafafa;
+}
+.container_emails .pannel_title a:hover {
+  text-decoration: underline;
 }
 .container_emails .pannel_title span {
   word-break: keep-all !important;

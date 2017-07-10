@@ -67,7 +67,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="block full_block emails_list">
+	<div class="block full_block">
 		<div class="pannel pannel_body">
 			<div class="row row-verti-center nowrap">
 				<?php foreach ($emails as $key => $email) {

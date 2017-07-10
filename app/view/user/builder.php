@@ -94,6 +94,14 @@
 								</div>
 							</div>
 						</div>
+						<div id="border-radius" class="field_item_sidebar" data-display-cta>
+							<div class="col nowrap">
+								<label>Contour de bordure <span class="unity">(en px)</span></label>
+								<div class="item">
+									<input type="text" value="" class="change_number" data-change='border-radius' data-max="25" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />	
+								</div>
+							</div>
+						</div>
 						<div id="line-height" class="field_item_sidebar" data-display-text>
 							<div class="col nowrap">
 								<label>Interlignage <span class="unity">(en px)</span></label>

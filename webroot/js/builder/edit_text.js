@@ -46,6 +46,7 @@ var borderColorTopSection; // Couleur de bordure haute de l'objet
 var borderColorRightSection; // Couleur de bordure droite de l'objet
 var borderColorBottomSection; // Couleur de bordure basse de l'objet
 var borderColorLeftSection; // Couleur de bordure gauche de l'objet
+var borderRadius; // Taille de border radius
 var target; // Cible à modifier
 var parent; // Parent Cible
 var parentLink; // Parent direct href de l'objet
@@ -83,7 +84,8 @@ var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','C
     - XIX   :  Récupération/Modification de l'espacement
     - XX    :  Récupération/Modification de la taille des bordures
     - XXI   :  Récupération/Modification de la couleur des bordures
-    - XXII  :  Disparition des items
+    - XXII  :  Récupération/Modification du contour des bordures
+    - XXIII :  Disparition des items
 **/
 
 // I : Création de Medium Editor
@@ -399,6 +401,7 @@ function clicToCta(element) {
     linkObjet(element);
     borderSizeObjet(element);
     borderColorObjet(element);
+    borderRadiusObjet(element);
 }
 
 // VIII : Cible == Spacer
@@ -720,7 +723,17 @@ function borderColorObjet(element) {
     })();
 }
 
-// XXII : Disparition des items
+// Récupération/Modification du contour des bordures
+function borderRadiusObjet (element) {
+    let input = $('[data-change="border-radius"]');
+    borderRadius = parseFloat($(element).css('border-radius'));
+    input.val(borderRadius).attr('value', borderRadius);
+
+    changeSpinner(element, 'border-radius');
+}
+
+
+// XXIII : Disparition des items
 function disappearItem(e) {
     var click =  $(e.target).children();
     if (click.is("[data-content]")){
