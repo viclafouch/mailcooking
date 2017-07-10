@@ -78,7 +78,7 @@
 								<input spellcheck="false" autocomplete="off" type="url" class="input" data-change="link" placeholder="http://">
 							</div>
 						</div>
-						<div id="height" class="field_item_sidebar" data-display-spacer>
+						<div id="height" class="field_item_sidebar" data-display-spacer data-display-img>
 							<div class="col nowrap">
 								<label>Hauteur <span class="unity">(en px)</span></label>
 								<div class="item">

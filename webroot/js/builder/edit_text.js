@@ -385,6 +385,7 @@ function clicToImg(element) {
     $(element).removeAttr('border');
     $('[data-display-img]').show();
     linkObjet(element);
+    heightObjet(element);
     borderSizeObjet(element);
     borderColorObjet(element);
     dataImg = $(element).attr('data-img');
@@ -429,6 +430,17 @@ function editSidebar(element) {
 function changeSpinner(element, change) {
     let input = $('[data-change="'+change+'"]');
     let style = change;
+
+    if ($(element).attr('data-img')) {
+       $('[data-change="height"]')
+            .attr('data-max', '700')
+            .attr('data-min', '10');
+    } else {
+         $('[data-change="height"]')
+            .attr('data-max', '150')
+            .attr('data-min', '20');
+    }
+
     let max = parseFloat(input.attr('data-max'));
     let min = parseFloat(input.attr('data-min'));
 
@@ -453,6 +465,11 @@ function changeSpinner(element, change) {
 
                         $('[data-change="line-height"]').spinner( "option", "max", ui.value * 3);
                         $('[data-change="line-height"]').spinner( "option", "min", ui.value );
+                    }
+                }
+                if ($(element).attr('data-img')) {
+                    if ($(event.target).attr('data-change') == 'height') {
+                        $(element).attr('height', ui.value);
                     }
                 }
             },
