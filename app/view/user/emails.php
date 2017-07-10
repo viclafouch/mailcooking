@@ -26,7 +26,7 @@
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
 						<?php foreach ($emails as $email): ?>
-							<?php if ($email["email_cat_id"] == NULL) {
+							<?php if ($email["email_cat_id"] == NULL && $email["saved"] != 0) {
 
 								$timestamp = new DateTime($email['timestamp']);
 								$emailDate = $timestamp->format('d-m-Y');
@@ -55,7 +55,7 @@
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
 						<?php foreach ($emails as $email): ?>
-							<?php if ($cat['cat_id'] == $email['email_cat_id']) {
+							<?php if ($cat['cat_id'] == $email['email_cat_id'] && $email["saved"] != 0) {
 
 								$timestamp = new DateTime($email['timestamp']);
 								$emailDate = $timestamp->format('d-m-Y');

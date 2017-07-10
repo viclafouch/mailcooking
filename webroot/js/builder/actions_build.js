@@ -192,20 +192,6 @@ function cleanAttr(storage) {
     .removeClass('noactive');
 }
 
-// VIII : Vérification des sources des images
-var checkSrc = function () {
-    $('#storage_email img').each(function(){
-        src = $(this).attr('src');
-        if (src.indexOf('template') != -1) {
-            invalidExport = true;
-        }
-        else {
-            invalidExport = false;
-        }
-    });
-    return invalidExport;
-}
-
 // IX : Exporter le document
 function exportDocument(storageID) {
 
@@ -340,13 +326,8 @@ $(document).ready(function() {
 
     /* Sauvegarde et exporte le document */
     $(document).on('click', '#exportDocument', function(){
-        if (checkSrc()) {
-            alert('Attention : il vous reste des images du template ! Modifiez-les !');
-        }
-        else {
-            saveBuilder($(this));
+            // saveBuilder($(this));
             exportDocument('#storage_email_to_export');
-        }
     });
 
     /* Sauvegarde du mail */

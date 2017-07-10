@@ -120,6 +120,28 @@
 
 				@mkdir($chemin.'emails/'.$new_folder."", 0777, true);
 
+				$emailFolder = $chemin.'emails/'.$new_folder;
+
+				if ($template[0]['id_allow'] == $sessionID) {
+
+					$options = array( 	"wherecolumn"	=>	"id_commande",
+								"wherevalue"	=>	$template[0]['id_template_commande']);
+	
+					$order = selecttable("template_commande", $options);
+
+					$folder = $order[0]["id_commande"].'_'.substr(str_replace(' ', '_', $order[0]["nom_commande"]),0,15);
+
+					$chemin = $chemin.'templates/'.$folder.'/';
+					$src = $chemin.'/images';
+					$dest =  $emailFolder;
+					$files = glob($src.'/*.*');
+
+					foreach($files as $file){
+						$file_to_go = str_replace($src,$dest,$file);
+						copy($file, $file_to_go);
+					}
+				}
+
 			}
 
 			echo $id_mail; 

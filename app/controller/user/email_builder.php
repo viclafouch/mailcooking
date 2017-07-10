@@ -110,14 +110,27 @@
 			$googleFontLink = substr($link, 0, -1);
 
 			foreach ($i as $key => $src) {
+				$mystring = $src;
+				$findme = 'template';
+				$pos = strpos($mystring, $findme);
 				$name_img = explode("/", $src);
-				$newDom = str_replace($src, "images/".$name_img[4], $dom);
-				$dom = $newDom;
+				if ($pos === false) {
+					$newDom = str_replace($src, "images/".$name_img[4], $dom);
+					$dom = $newDom;
 
-				$newPath = $path.'/';
-				$newName  = $newPath.explode('/', $src)[4];
-				$copied = copy($src , $newName);
+					$newPath = $path.'/';
+					$newName  = $newPath.explode('/', $src)[4];
+					$copied = copy($src , $newName);
+				} else {
+					$newDom = str_replace($src, "images/".$name_img[5], $dom);
+					$dom = $newDom;
+
+					$newPath = $path.'/';
+					$newName  = $newPath.explode('/', $src)[5];
+					$copied = copy($src , $newName);
+				}
 			}
+
 
 			header ("Content-type: image/png");
 			$image = imagecreate(750,1);
@@ -226,7 +239,7 @@
 
 			if ($_POST['emailbackground'] == '') { $_POST['emailbackground'] = '#f0f0f0'; }
 
-			$save = save($_POST['emailTitle'], $_POST['emailDom'],$_POST['emailbackground'], $_POST['emailID'], $_SESSION['user']['user_id']);
+			$save = save($_POST['emailTitle'], $_POST['emailDom'],$_POST['emailbackground'], $_POST['emailID'],1, $_SESSION['user']['user_id']);
 		}
 	}
 

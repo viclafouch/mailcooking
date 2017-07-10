@@ -438,7 +438,7 @@ function changeSpinner(element, change) {
     } else {
          $('[data-change="height"]')
             .attr('data-max', '150')
-            .attr('data-min', '20');
+            .attr('data-min', '15');
     }
 
     let max = parseFloat(input.attr('data-max'));

@@ -95,7 +95,7 @@
 			
 			if ($emailDuplicated) {
 
-				$newID = new_email($emailDuplicated['id_user'], $emailDuplicated['email_name'], $emailDuplicated['email_dom'], $emailDuplicated['email_background'], $emailDuplicated['template_id'], $emailDuplicated['email_cat_id'], $emailDuplicated['archive']);
+				$newID = new_email($emailDuplicated['id_user'], $emailDuplicated['email_name'], $emailDuplicated['email_dom'], $emailDuplicated['email_background'], $emailDuplicated['template_id'], $emailDuplicated['email_cat_id'], 1, $emailDuplicated['archive']);
 
 
 				$timestamp = new DateTime($emailDuplicated['timestamp']);
