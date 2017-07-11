@@ -91,6 +91,35 @@ function hidePopup(popup) {
 	});
 }
 
+function stripeSourceHandler(source) {
+  // Insert the source ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeSource');
+  hiddenInput.setAttribute('value', source.id);
+  form.appendChild(hiddenInput);
+
+  // Submit the form
+  form.submit();
+}
+
+// var form = document.getElementById('payment-form');
+// form.addEventListener('submit', function(event) {
+//   event.preventDefault();
+
+//   stripe.createSource(card).then(function(result) {
+//     if (result.error) {
+//       // Inform the user if there was an error
+//       var errorElement = document.getElementById('card-errors');
+//       errorElement.textContent = result.error.message;
+//     } else {
+//       // Send the source to your server
+//       stripeSourceHandler(result.source);
+//     }
+//   });
+// });
+
 /*----------  Actions  ----------*/
 
 // Démarrage des modules sans turbulinks

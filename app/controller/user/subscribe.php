@@ -1,31 +1,77 @@
-<?php 
+<?php
 
-	require '/vendor/autoload.php';
+	require_once('app/config/config_stripe.php');
 
-	// Set your secret key: remember to change this to your live secret key in production
-	// See your keys here: https://dashboard.stripe.com/account/apikeys
-// Set your secret key: remember to change this to your live secret key in production
-// See your keys here: https://dashboard.stripe.com/account/apikeys
-	\Stripe\Stripe::setApiKey("sk_test_PS2zQTpRTNObBqwvbCkMtC8p");
+	try {
 
-	// Token is created using Stripe.js or Checkout!
-	// Get the payment token submitted by the form:
-	$token = $_POST['stripeToken'];
+		$token  = $_POST['stripeToken'];
 
-	// Charge the user's card:
-	$plan = \Stripe\Plan::create(array(
-	  "name" => "Basic Plan",
-	  "id" => $token,
-	  "interval" => "month",
-	  "currency" => "usd",
-	  "amount" => 0,
-	));
+		$customer = \Stripe\Customer::create(array(
+			// Description du user
+		 	"description" => 'Société :'.$_SESSION['user']['user_societe'],
+		 	// Email du client
+			// "email" => strip_tags(trim($_POST['stripeEmail'])),
+			"email" => "victor.dlf@outkoo.fr",
+			// Metadonnées du client
+			"metadata" => array(
+				"Prénom" => $_SESSION['user']['first_name'], 
+				"Nom" => $_SESSION['user']['last_name'],
+				"Civilité" => $_SESSION['user']['gender']
+			),
+			// Token du client
+			'card'  => $token,
+		));
 
-	$customer = \Stripe\Customer::create(array(
-	  "email" => "jenny.rosen@example.com",
-	));
+		if (isset($_GET['premium'])) {
+			$sub = \Stripe\Subscription::create(array(
+			  "customer" => $customer->id,
+			  "plan" => "testplan",
+			));
+			$plan = 'prenium';
+		}
 
-	\Stripe\Subscription::create(array(
-	  "customer" => $customer->$sessionID,
-	  "plan" => "basic-monthly",
-	));
+		$id_costumer = $customer->id;
+		$id_subscription = $sub->id;
+		$id_user = $sessionID;
+		$period_end = $sub->current_period_end;
+
+		include_once('app/model/user/account/payment/subscribe.php');
+		subscribe($id_user, $id_costumer, $id_subscription, $plan, $period_end);
+
+		echo "Abonnement validé !";
+
+
+	} catch(\Stripe\Error\Card $e) {
+		// Since it's a decline, \Stripe\Error\Card will be caught
+		$body = $e->getJsonBody();
+		$err  = $body['error'];
+
+		print('Status is:' . $e->getHttpStatus() . "\n");
+		print('Type is:' . $err['type'] . "\n");
+		print('Code is:' . $err['code'] . "\n");
+		// param is '' in this case
+		print('Param is:' . $err['param'] . "\n");
+		print('Message is:' . $err['message'] . "\n");
+	} catch (\Stripe\Error\RateLimit $e) {
+		echo "Too many requests made to the API too quickly";
+		// Too many requests made to the API too quickly
+	} catch (\Stripe\Error\InvalidRequest $e) {
+		echo "Invalid parameters were supplied to Stripe's API";
+		var_dump(get_object_vars($e)['jsonBody']['error']);
+		// Invalid parameters were supplied to Stripe's API
+	} catch (\Stripe\Error\Authentication $e) {
+		echo "Authentication with Stripe's API failed";
+		// Authentication with Stripe's API failed
+		// (maybe you changed API keys recently)
+	} catch (\Stripe\Error\ApiConnection $e) {
+		echo "Network communication with Stripe failed";
+		// Network communication with Stripe failed
+	} catch (\Stripe\Error\Base $e) {
+		// Display a very generic error to the user, and maybe send
+		// yourself an email
+		echo "Display a very generic error to the user, and maybe send";
+	} catch (Exception $e) {
+		echo "Something else happened, completely unrelated to Stripe";
+		// Something else happened, completely unrelated to Stripe
+	}
+

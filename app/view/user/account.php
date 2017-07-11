@@ -220,11 +220,11 @@
 						</ul>
 					</div>
 					<footer class="card_footer">
-						<form action="?module=user&action=subscribe" method="POST">
+						<form action="?module=user&action=subscribe&premium" method="POST">
 						  <script
 						    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 						    data-key="pk_test_jdtjz4b05ADqlx5k093fsmgK"
-						    data-amount="999"
+						    data-amount="4800"
 						    data-name="Demo Site"
 						    data-description="Widget"
 						    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
