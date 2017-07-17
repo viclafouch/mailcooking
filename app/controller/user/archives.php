@@ -1,43 +1,46 @@
-<?php 
+<?php
+	if (!empty($_POST)) {
 
-		// Secu
-		protec();
+		/* Suppression d'une archive */
+		if (isset($_POST['dArchiveID'])) {
+			include_once('app/model/user/email/delete_email.php');
 
-		// Recovery Email
-		if (isset($_POST['data_restore'])) {
+			$archiveDeleted = getEmailInfo($_POST['dArchiveID'], $sessionID);
 
-			include_once('app/model/user/archive/recovery_email.php');
+			$chemin = $chemin.'emails/';
 
-			$data = json_decode($_POST['data_restore']);
+			$timestamp = new DateTime($archiveDeleted['timestamp']);
+			$emailDate = $timestamp->format('d-m-Y');
+			$folder = ''.$archiveDeleted['id_mail'].'_'.$emailDate.'';
 
-			foreach($data as $d){
-				$recovery_email = recovery_email(0, $d ,$_SESSION["user"]["user_id"]);
+			if (count(glob($chemin.$folder."/*")) >= 1 ) {
+				removeFiles(glob($chemin.$folder.'/*'));
 			}
-		}
-		// Delete Email
-		else if (isset($_POST['data_delete'])) {
 
-			include_once('app/model/user/archive/delete_email.php');
-
-			$data = json_decode($_POST['data_delete']);
-
-			foreach($data as $d){
-				$delete_email = delete_email($d ,$_SESSION["user"]["user_id"]);
+			if (file_exists($chemin.$folder)) {
+				rmdir($chemin.$folder);
 			}
-		}
-		else {
 
-			include_once('app/model/user/archive/count_archives.php');
-
-			$nb_archives = count_archives($_SESSION["user"]["user_id"], 1);
-
-			// Read all emails
-			include_once('app/model/user/email/read_my_all_mails.php');
-
-			$emails = read_my_all_mails($_SESSION["user"]["user_id"], 1);
-
-			metadatas('Mes emails', 'Description', 'none');
-			// Appel de la view
-			include_once("app/view/user/archives.php");
+			delete_email($_POST['dArchiveID'], $sessionID);
 		}
 
+		/* Restauration d'une archive */
+		elseif (isset($_POST['rArchiveID'])) {
+			include_once('app/model/user/archive/update_archive.php');
+
+			update_archive($_POST["rArchiveID"], 0, $sessionID);
+
+			include_once('app/model/user/email/update_cat_email.php');
+
+			update_cat_email(NULL, $_POST['rArchiveID'], $sessionID);
+		}
+	} else {
+
+		include_once('app/model/user/email/read_my_all_mails.php');
+		/* Lecture des emails archivés */
+		$archives = read_my_all_mails($_SESSION["user"]["user_id"], 1);
+
+		metadatas('Mes archives', 'Description', 'none');
+
+		include_once("app/view/user/archives.php");
+	}

@@ -19,13 +19,14 @@
 	<div class="block full_block">
 		<div class="pannel pannel_body" data-list-emails data-allow="0">
 			<div class="col nowrap">
-				<div class="pannel_title">
+				<div class="pannel_title row row-hori-between row-verti-center">
 					<h2>Emails non classés</h2>
+					<a href="?module=user&action=archives">Archives</a>
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
 						<?php foreach ($emails as $email): ?>
-							<?php if ($email["email_cat_id"] == NULL) {
+							<?php if ($email["email_cat_id"] == NULL && $email["saved"] != 0) {
 
 								$timestamp = new DateTime($email['timestamp']);
 								$emailDate = $timestamp->format('d-m-Y');
@@ -54,7 +55,7 @@
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
 						<?php foreach ($emails as $email): ?>
-							<?php if ($cat['cat_id'] == $email['email_cat_id']) {
+							<?php if ($cat['cat_id'] == $email['email_cat_id'] && $email["saved"] != 0) {
 
 								$timestamp = new DateTime($email['timestamp']);
 								$emailDate = $timestamp->format('d-m-Y');

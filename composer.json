@@ -1,0 +1,12 @@
+{
+    "name": "victor/mailcooking",
+    "authors": [
+        {
+            "name": "Victor de la Fouchardiere",
+            "email": "victor.dlf@outlook.fr"
+        }
+    ],
+    "require": {
+        "stripe/stripe-php": "^5.1"
+    }
+}

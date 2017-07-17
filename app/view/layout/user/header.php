@@ -46,11 +46,10 @@
 	<body>
 		<main>
 			<aside data-turbolinks-permanent class="sidebar" id="sidebar">
-				<header>
+				<header class="row row-verti-center row-hori-center">
 					<div id="menu">
 						<span></span>
 					</div>
-					<span class="mymail"><?= $_SESSION["user"]["user_email"]; ?></span>
 				</header>
  				<div class="link_container">
 	 				<div class="important_links col col-hori-center nowrap">

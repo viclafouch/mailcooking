@@ -9,6 +9,7 @@
 											FROM mail_editor
 												WHERE id_user=:id_user
 												AND archive=:archive
+												AND saved = 1
 												ORDER BY timestamp DESC
 												LIMIT 3');
 

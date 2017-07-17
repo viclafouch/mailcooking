@@ -3,48 +3,58 @@
 	include("app/view/layout/user/header.php"); 
 ?>
 
-<div class="commandes">
-	<div class="nwrap">
-		<h1>Les commandes</h1>
+<div class="container container_orders">
+	<div class="block full_block">
+		<div class="pannel pannel_heading">
+			<div class="row nowrap row-verti-center row-hori-between">
+				<div>
+					<h1>Commandes</h1>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="datas_commandes container_to_table">
-		<table>
-			<caption>Il y a <?= $nb_commandes; ?> commandes</caption>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Auteur</th>
-					<th>Nom de la commande</th>
-					<th>Commentaire</th>
-					<th>Date de création</th>
-					<th>Statut</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($users as $key => $data) { 
-				$keep_status = $data["status"];
-				if ($data["status"] == 0) {
-					$data["status"] = "En attente de validation";
-				} elseif ($data["status"] == 1) {
-					$data["status"] = "Prise en charge";
-				} elseif ($data["status"] == 2) {
-					$data["status"] = "En attente de test";
-				} elseif ($data["status"] == 3) {
-					$data["status"] = "Terminé";
-			} ?>
-				<tr class="row_data_commande" id="<?= $data["id_commande"]; ?>">
-					<td><?= $data["id_commande"]; ?></td>
-					<td><?= $data["first_name"]; ?> <?= $data["last_name"]; ?></td>
-					<td><?= $data["nom_commande"]; ?></td>
-					<td><?= htmlspecialchars(substr($data["commentaire_commande"],0,10)); ?>...</td>
-					<td><?= $data["date_creat"]; ?></td>
-					<td class="td_<?= $data["id_commande"]; ?>"><span class="label statut<?= $keep_status ?>"><?= $data["status"]; ?></span></td>
-			<?php } ?>
-			</tbody>
-		</table>
+	<div class="block full_block">
+		<div class="pannel pannel_body container_to_table">
+			<table class="table_order">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Auteur</th>
+						<th>Nom de la commande</th>
+						<th>Commentaire</th>
+						<th>Date de création</th>
+						<th>Statut</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach ($users as $key => $order) { 
+					$keep_status = $order["status"];
+					if ($order["status"] == 0) {
+						$order["status"] = "En attente de validation";
+					} elseif ($order["status"] == 1) {
+						$order["status"] = "Prise en charge";
+					} elseif ($order["status"] == 2) {
+						$order["status"] = "En attente de test";
+					} elseif ($order["status"] == 3) {
+						$order["status"] = "Terminé";
+				} ?>
+					<tr data-order="<?= $order["id_commande"]; ?>">
+						<td><?= $order["id_commande"]; ?></td>
+						<td><?= $order["first_name"]; ?> <?= $order["last_name"]; ?></td>
+						<td><?= $order["nom_commande"]; ?></td>
+						<td><?= htmlspecialchars(substr($order["commentaire_commande"],0,10)); ?>...</td>
+						<td><?= $order["date_creat"]; ?></td>
+						<td><span class="statut statut<?= $keep_status ?>"><?= $order["status"]; ?></span></td>
+					</tr>
+				<?php } ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<div class="popup-overlay"></div>
-	<div class="popup-container commande">
+
+	<div class="popup_mc" id="orderPopup">
+		<div class="popup_background"></div>
+		<div class="popup_container"></div>
 	</div>
 </div>
 

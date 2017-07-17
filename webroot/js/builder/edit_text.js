@@ -46,6 +46,7 @@ var borderColorTopSection; // Couleur de bordure haute de l'objet
 var borderColorRightSection; // Couleur de bordure droite de l'objet
 var borderColorBottomSection; // Couleur de bordure basse de l'objet
 var borderColorLeftSection; // Couleur de bordure gauche de l'objet
+var borderRadius; // Taille de border radius
 var target; // Cible à modifier
 var parent; // Parent Cible
 var parentLink; // Parent direct href de l'objet
@@ -83,7 +84,8 @@ var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','C
     - XIX   :  Récupération/Modification de l'espacement
     - XX    :  Récupération/Modification de la taille des bordures
     - XXI   :  Récupération/Modification de la couleur des bordures
-    - XXII  :  Disparition des items
+    - XXII  :  Récupération/Modification du contour des bordures
+    - XXIII :  Disparition des items
 **/
 
 // I : Création de Medium Editor
@@ -383,6 +385,7 @@ function clicToImg(element) {
     $(element).removeAttr('border');
     $('[data-display-img]').show();
     linkObjet(element);
+    heightObjet(element);
     borderSizeObjet(element);
     borderColorObjet(element);
     dataImg = $(element).attr('data-img');
@@ -399,6 +402,7 @@ function clicToCta(element) {
     linkObjet(element);
     borderSizeObjet(element);
     borderColorObjet(element);
+    borderRadiusObjet(element);
 }
 
 // VIII : Cible == Spacer
@@ -426,6 +430,17 @@ function editSidebar(element) {
 function changeSpinner(element, change) {
     let input = $('[data-change="'+change+'"]');
     let style = change;
+
+    if ($(element).attr('data-img')) {
+       $('[data-change="height"]')
+            .attr('data-max', '700')
+            .attr('data-min', '10');
+    } else {
+         $('[data-change="height"]')
+            .attr('data-max', '150')
+            .attr('data-min', '15');
+    }
+
     let max = parseFloat(input.attr('data-max'));
     let min = parseFloat(input.attr('data-min'));
 
@@ -450,6 +465,11 @@ function changeSpinner(element, change) {
 
                         $('[data-change="line-height"]').spinner( "option", "max", ui.value * 3);
                         $('[data-change="line-height"]').spinner( "option", "min", ui.value );
+                    }
+                }
+                if ($(element).attr('data-img')) {
+                    if ($(event.target).attr('data-change') == 'height') {
+                        $(element).attr('height', ui.value);
                     }
                 }
             },
@@ -720,7 +740,17 @@ function borderColorObjet(element) {
     })();
 }
 
-// XXII : Disparition des items
+// Récupération/Modification du contour des bordures
+function borderRadiusObjet (element) {
+    let input = $('[data-change="border-radius"]');
+    borderRadius = parseFloat($(element).css('border-radius'));
+    input.val(borderRadius).attr('value', borderRadius);
+
+    changeSpinner(element, 'border-radius');
+}
+
+
+// XXIII : Disparition des items
 function disappearItem(e) {
     var click =  $(e.target).children();
     if (click.is("[data-content]")){

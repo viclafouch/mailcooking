@@ -218,6 +218,9 @@ div.content_email {
         overflow-x: hidden;
         overflow-y: scroll;
         max-width: 100%;
+        &::-webkit-scrollbar { width: 9px; }
+        &::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); @include border-radius(50px); }
+        &::-webkit-scrollbar-thumb { border-radius: 50px; background: adjust-lightness(#444, 40); }
 
         & > .sortable-placeholder {
             border: 1px dotted #444;
@@ -246,11 +249,13 @@ div.content_email {
         a[data-cta] { cursor: text!important; }
 
         table, td { outline: none; word-break: break-all; }
+
+        p { font-size: inherit; font-family: inherit; }
     }
 }
 
 div.medium-editor-toolbar {
-    animation-duration: 500ms!important;
+    @include animation-duration(300ms!important);
     @include box-shadow($shadow0);
     &.medium-toolbar-arrow-under::after { border-color: $primaryColor; border-width: 4px 10px 0px; margin-left: -10px; bottom: -3px;}
     ul.medium-editor-toolbar-actions {
@@ -384,6 +389,9 @@ div.content_sidebar {
     div.task_sidebar {
         width: 100%;
         overflow-y: scroll;
+        &::-webkit-scrollbar { width: 9px; }
+        &::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); @include border-radius(50px); }
+        &::-webkit-scrollbar-thumb { border-radius: 50px; background: adjust-lightness(#444, 40); }
         height: 100%;
         @include visible(false);
         @include animateVisibility(0.3s);
@@ -392,7 +400,8 @@ div.content_sidebar {
         &.active { @include visible(true); display: block; }
 
         &.notask { overflow: hidden;
-            & > div { 
+            & > div {
+                width: 100%;
                 position: absolute;
                 top: 50%; left: 50%;
                 @include translate(-50%, -50%);
@@ -546,7 +555,7 @@ div.field_item_sidebar {
         }
     }
 
-    &#height, &#font-size, &#line-height {
+    &#height, &#font-size, &#line-height, &#border-radius {
 
         span.ui-spinner { width: 100%; height: 100%!important; display: block; }
 
@@ -756,6 +765,7 @@ div#popupCroppie {
         background-color: $primaryBackgroundColor;
         @include border-radius(3px);
         text-align: center;
+        max-width: none;
 
         span#closeCroppie {
             position: absolute;
@@ -865,183 +875,52 @@ div#popupExport {
     }
 }
 
-
 .cssload-thecube {
-    width: 73px;
-    height: 73px;
+    width: 73px; height: 73px;
     margin: 0 auto;
     margin-top: 49px;
     position: relative;
-    transform: rotateZ(45deg);
-        -o-transform: rotateZ(45deg);
-        -ms-transform: rotateZ(45deg);
-        -webkit-transform: rotateZ(45deg);
-        -moz-transform: rotateZ(45deg);
-}
-.cssload-thecube .cssload-cube {
-    position: relative;
-    transform: rotateZ(45deg);
-        -o-transform: rotateZ(45deg);
-        -ms-transform: rotateZ(45deg);
-        -webkit-transform: rotateZ(45deg);
-        -moz-transform: rotateZ(45deg);
-}
-.cssload-thecube .cssload-cube {
-    float: left;
-    width: 50%;
-    height: 50%;
-    position: relative;
-    transform: scale(1.1);
-        -o-transform: scale(1.1);
-        -ms-transform: scale(1.1);
-        -webkit-transform: scale(1.1);
-        -moz-transform: scale(1.1);
-}
-.cssload-thecube .cssload-cube:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(43,160,199);
-    animation: cssload-fold-thecube 2.76s infinite linear both;
-        -o-animation: cssload-fold-thecube 2.76s infinite linear both;
-        -ms-animation: cssload-fold-thecube 2.76s infinite linear both;
-        -webkit-animation: cssload-fold-thecube 2.76s infinite linear both;
-        -moz-animation: cssload-fold-thecube 2.76s infinite linear both;
-    transform-origin: 100% 100%;
-        -o-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        -webkit-transform-origin: 100% 100%;
-        -moz-transform-origin: 100% 100%;
-}
-.cssload-thecube .cssload-c2 {
-    transform: scale(1.1) rotateZ(90deg);
-        -o-transform: scale(1.1) rotateZ(90deg);
-        -ms-transform: scale(1.1) rotateZ(90deg);
-        -webkit-transform: scale(1.1) rotateZ(90deg);
-        -moz-transform: scale(1.1) rotateZ(90deg);
-}
-.cssload-thecube .cssload-c3 {
-    transform: scale(1.1) rotateZ(180deg);
-        -o-transform: scale(1.1) rotateZ(180deg);
-        -ms-transform: scale(1.1) rotateZ(180deg);
-        -webkit-transform: scale(1.1) rotateZ(180deg);
-        -moz-transform: scale(1.1) rotateZ(180deg);
-}
-.cssload-thecube .cssload-c4 {
-    transform: scale(1.1) rotateZ(270deg);
-        -o-transform: scale(1.1) rotateZ(270deg);
-        -ms-transform: scale(1.1) rotateZ(270deg);
-        -webkit-transform: scale(1.1) rotateZ(270deg);
-        -moz-transform: scale(1.1) rotateZ(270deg);
-}
-.cssload-thecube .cssload-c2:before {
-    animation-delay: 0.35s;
-        -o-animation-delay: 0.35s;
-        -ms-animation-delay: 0.35s;
-        -webkit-animation-delay: 0.35s;
-        -moz-animation-delay: 0.35s;
-}
-.cssload-thecube .cssload-c3:before {
-    animation-delay: 0.69s;
-        -o-animation-delay: 0.69s;
-        -ms-animation-delay: 0.69s;
-        -webkit-animation-delay: 0.69s;
-        -moz-animation-delay: 0.69s;
-}
-.cssload-thecube .cssload-c4:before {
-    animation-delay: 1.04s;
-        -o-animation-delay: 1.04s;
-        -ms-animation-delay: 1.04s;
-        -webkit-animation-delay: 1.04s;
-        -moz-animation-delay: 1.04s;
+    @include rotateZ(45deg);
+
+    .cssload-cube {
+        position: relative;
+        float: left;
+        width: 50%; height: 50%;
+        @include scale(1.1);
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgb(43,160,199);
+            @include animation(cssload-fold-thecube 2.76s infinite linear both);
+            @include transform-origin(100%, 100%);
+        }
+    }
+
+    .cssload-c2 { @include transform(scale(1.1) rotateZ(90deg)); 
+        &:before {  @include animation-delay(0.35s); }
+    }
+    .cssload-c3 { @include transform(scale(1.1) rotateZ(180deg)); 
+        &:before { @include animation-delay(0.69s); }
+    }
+    .cssload-c4 { @include transform(scale(1.1) rotateZ(0deg)); 
+        &:before { @include animation-delay(1.04s); }
+    }
 }
 
-
-
-@keyframes cssload-fold-thecube {
+@include keyframes(cssload-fold-thecube) {
     0%, 10% {
-        transform: perspective(136px) rotateX(-180deg);
-        opacity: 0;
+        @include transform(perspective(136px) rotateX(-180deg));
+        @include opacity(0);
     }
-    25%,
-                75% {
-        transform: perspective(136px) rotateX(0deg);
-        opacity: 1;
+    25%,75% {
+        @include transform(perspective(136px) rotateX(0deg));
+        @include opacity(1);
     }
-    90%,
-                100% {
-        transform: perspective(136px) rotateY(180deg);
-        opacity: 0;
-    }
-}
-
-@-o-keyframes cssload-fold-thecube {
-    0%, 10% {
-        -o-transform: perspective(136px) rotateX(-180deg);
-        opacity: 0;
-    }
-    25%,
-                75% {
-        -o-transform: perspective(136px) rotateX(0deg);
-        opacity: 1;
-    }
-    90%,
-                100% {
-        -o-transform: perspective(136px) rotateY(180deg);
-        opacity: 0;
-    }
-}
-
-@-ms-keyframes cssload-fold-thecube {
-    0%, 10% {
-        -ms-transform: perspective(136px) rotateX(-180deg);
-        opacity: 0;
-    }
-    25%,
-                75% {
-        -ms-transform: perspective(136px) rotateX(0deg);
-        opacity: 1;
-    }
-    90%,
-                100% {
-        -ms-transform: perspective(136px) rotateY(180deg);
-        opacity: 0;
-    }
-}
-
-@-webkit-keyframes cssload-fold-thecube {
-    0%, 10% {
-        -webkit-transform: perspective(136px) rotateX(-180deg);
-        opacity: 0;
-    }
-    25%,
-                75% {
-        -webkit-transform: perspective(136px) rotateX(0deg);
-        opacity: 1;
-    }
-    90%,
-                100% {
-        -webkit-transform: perspective(136px) rotateY(180deg);
-        opacity: 0;
-    }
-}
-
-@-moz-keyframes cssload-fold-thecube {
-    0%, 10% {
-        -moz-transform: perspective(136px) rotateX(-180deg);
-        opacity: 0;
-    }
-    25%,
-                75% {
-        -moz-transform: perspective(136px) rotateX(0deg);
-        opacity: 1;
-    }
-    90%,
-                100% {
-        -moz-transform: perspective(136px) rotateY(180deg);
-        opacity: 0;
+    90%,100% {
+        @include transform(perspective(136px) rotateY(180deg));
+        @include opacity(0);
     }
 }

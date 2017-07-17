@@ -220,7 +220,19 @@
 						</ul>
 					</div>
 					<footer class="card_footer">
-						<button class="button_default">S'abonner</button>
+						<form action="?module=user&action=subscribe&premium" method="POST">
+						  <script
+						    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+						    data-key="pk_test_jdtjz4b05ADqlx5k093fsmgK"
+						    data-amount="4800"
+						    data-name="Demo Site"
+						    data-description="Widget"
+						    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+						    data-locale="auto"
+						    data-zip-code="true"
+						    data-currency="eur">
+						  </script>
+						</form>
 					</footer>
 				</div>
 				<div class="card_block col nowrap">
@@ -294,7 +306,7 @@
 			</table>
 		</div>
 	</div>
-	<div class="popup_mc" id="profilRenewal">
+	<div class="popup_mc" id="profilRenewal" style="visibility: hidden">
 		<div class="popup_background"></div>
 		<div class="popup_container">
 			<header>
@@ -324,8 +336,13 @@
 						</div>
 					</div>
 				</div>
+<<<<<<< HEAD
 				<footer>
 					<button data-close-popup class="button_default button_secondary">Sauvegarder</button>
+=======
+				<footer class="row row-verti-center row-hori-center nowrap">
+					<button class="button_default button_secondary">Sauvegarder</button>
+>>>>>>> 8c8e58e8074b71dd82261764f49d6329f9640b52
 				</footer>
 			</form>
 		</div>

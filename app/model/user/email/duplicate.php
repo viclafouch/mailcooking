@@ -24,7 +24,7 @@
 		}
 	}
 	
-	function new_email($id_user, $email_name, $email_dom, $email_background, $template_id, $email_cat_id, $archive) {
+	function new_email($id_user, $email_name, $email_dom, $email_background, $template_id, $email_cat_id, $saved, $archive) {
 
 		global $connexion;
 
@@ -36,6 +36,7 @@
 											email_background, 
 											template_id,
 											email_cat_id,
+											saved,
 											archive)
 							VALUES (:id_user, 
 									:email_name,
@@ -43,6 +44,7 @@
 									:email_background,
 									:template_id,
 									:email_cat_id,
+									:saved,
 									:archive)";
 
 			$query = $connexion->prepare($req);
@@ -53,6 +55,7 @@
 			$query->bindValue(':email_background', $email_background, PDO::PARAM_STR);
 			$query->bindValue(':template_id', $template_id, PDO::PARAM_INT);
 			$query->bindValue(':email_cat_id', $email_cat_id, PDO::PARAM_INT);
+			$query->bindValue(':saved', $saved, PDO::PARAM_INT);
 			$query->bindValue(':archive', $archive, PDO::PARAM_INT);
 
 			$query->execute();

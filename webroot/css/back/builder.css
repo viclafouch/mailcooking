@@ -216,6 +216,19 @@ div.content_email > div#storage_email {
   overflow-y: scroll;
   max-width: 100%;
 }
+div.content_email > div#storage_email::-webkit-scrollbar {
+  width: 9px;
+}
+div.content_email > div#storage_email::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+}
+div.content_email > div#storage_email::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: #aaaaaa;
+}
 div.content_email > div#storage_email > .sortable-placeholder {
   border: 1px dotted #444;
   border-right: 0;
@@ -261,9 +274,15 @@ div.content_email > div#storage_email table, div.content_email > div#storage_ema
   outline: none;
   word-break: break-all;
 }
+div.content_email > div#storage_email p {
+  font-size: inherit;
+  font-family: inherit;
+}
 
 div.medium-editor-toolbar {
-  animation-duration: 500ms !important;
+  -moz-animation-duration: 300ms !important;
+  -webkit-animation-duration: 300ms !important;
+  animation-duration: 300ms !important;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -495,6 +514,19 @@ div.content_sidebar div.task_sidebar {
   display: none;
   position: relative;
 }
+div.content_sidebar div.task_sidebar::-webkit-scrollbar {
+  width: 9px;
+}
+div.content_sidebar div.task_sidebar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+}
+div.content_sidebar div.task_sidebar::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+  background: #aaaaaa;
+}
 div.content_sidebar div.task_sidebar.active {
   visibility: visible;
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
@@ -505,6 +537,7 @@ div.content_sidebar div.task_sidebar.notask {
   overflow: hidden;
 }
 div.content_sidebar div.task_sidebar.notask > div {
+  width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -688,12 +721,12 @@ div.field_item_sidebar#img button {
   background-color: #444;
   color: #fff;
 }
-div.field_item_sidebar#height span.ui-spinner, div.field_item_sidebar#font-size span.ui-spinner, div.field_item_sidebar#line-height span.ui-spinner {
+div.field_item_sidebar#height span.ui-spinner, div.field_item_sidebar#font-size span.ui-spinner, div.field_item_sidebar#line-height span.ui-spinner, div.field_item_sidebar#border-radius span.ui-spinner {
   width: 100%;
   height: 100% !important;
   display: block;
 }
-div.field_item_sidebar#height input.ui-spinner-input, div.field_item_sidebar#font-size input.ui-spinner-input, div.field_item_sidebar#line-height input.ui-spinner-input {
+div.field_item_sidebar#height input.ui-spinner-input, div.field_item_sidebar#font-size input.ui-spinner-input, div.field_item_sidebar#line-height input.ui-spinner-input, div.field_item_sidebar#border-radius input.ui-spinner-input {
   margin: 0;
   padding: 5px;
   -moz-box-sizing: border-box;
@@ -702,7 +735,7 @@ div.field_item_sidebar#height input.ui-spinner-input, div.field_item_sidebar#fon
   height: 100%;
   vertical-align: baseline;
 }
-div.field_item_sidebar#height a.ui-button, div.field_item_sidebar#font-size a.ui-button, div.field_item_sidebar#line-height a.ui-button {
+div.field_item_sidebar#height a.ui-button, div.field_item_sidebar#font-size a.ui-button, div.field_item_sidebar#line-height a.ui-button, div.field_item_sidebar#border-radius a.ui-button {
   position: absolute;
   width: 30px;
   height: 100%;
@@ -711,7 +744,7 @@ div.field_item_sidebar#height a.ui-button, div.field_item_sidebar#font-size a.ui
   bottom: 0;
   border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
-div.field_item_sidebar#height a.ui-button:last-child, div.field_item_sidebar#font-size a.ui-button:last-child, div.field_item_sidebar#line-height a.ui-button:last-child {
+div.field_item_sidebar#height a.ui-button:last-child, div.field_item_sidebar#font-size a.ui-button:last-child, div.field_item_sidebar#line-height a.ui-button:last-child, div.field_item_sidebar#border-radius a.ui-button:last-child {
   right: 30px;
 }
 div.field_item_sidebar#text-align span.format_align {
@@ -1005,6 +1038,7 @@ div#popupCroppie div.popup_container {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   text-align: center;
+  max-width: none;
 }
 div#popupCroppie div.popup_container span#closeCroppie {
   position: absolute;
@@ -1155,34 +1189,21 @@ div#popupExport div.popup_container > p {
   margin: 0 auto;
   margin-top: 49px;
   position: relative;
-  transform: rotateZ(45deg);
-  -o-transform: rotateZ(45deg);
-  -ms-transform: rotateZ(45deg);
-  -webkit-transform: rotateZ(45deg);
-  -moz-transform: rotateZ(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
-
 .cssload-thecube .cssload-cube {
   position: relative;
-  transform: rotateZ(45deg);
-  -o-transform: rotateZ(45deg);
-  -ms-transform: rotateZ(45deg);
-  -webkit-transform: rotateZ(45deg);
-  -moz-transform: rotateZ(45deg);
-}
-
-.cssload-thecube .cssload-cube {
   float: left;
   width: 50%;
   height: 50%;
-  position: relative;
-  transform: scale(1.1);
-  -o-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
+  -moz-transform: scale(1.1, 1.1);
+  -ms-transform: scale(1.1, 1.1);
+  -webkit-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
 }
-
 .cssload-thecube .cssload-cube:before {
   content: "";
   position: absolute;
@@ -1191,143 +1212,102 @@ div#popupExport div.popup_container > p {
   width: 100%;
   height: 100%;
   background-color: #2ba0c7;
-  animation: cssload-fold-thecube 2.76s infinite linear both;
-  -o-animation: cssload-fold-thecube 2.76s infinite linear both;
-  -ms-animation: cssload-fold-thecube 2.76s infinite linear both;
-  -webkit-animation: cssload-fold-thecube 2.76s infinite linear both;
   -moz-animation: cssload-fold-thecube 2.76s infinite linear both;
-  transform-origin: 100% 100%;
-  -o-transform-origin: 100% 100%;
+  -webkit-animation: cssload-fold-thecube 2.76s infinite linear both;
+  animation: cssload-fold-thecube 2.76s infinite linear both;
+  -moz-transform-origin: 100% 100%;
   -ms-transform-origin: 100% 100%;
   -webkit-transform-origin: 100% 100%;
-  -moz-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
 }
-
 .cssload-thecube .cssload-c2 {
-  transform: scale(1.1) rotateZ(90deg);
-  -o-transform: scale(1.1) rotateZ(90deg);
+  -moz-transform: scale(1.1) rotateZ(90deg);
   -ms-transform: scale(1.1) rotateZ(90deg);
   -webkit-transform: scale(1.1) rotateZ(90deg);
-  -moz-transform: scale(1.1) rotateZ(90deg);
+  transform: scale(1.1) rotateZ(90deg);
 }
-
+.cssload-thecube .cssload-c2:before {
+  -moz-animation-delay: 0.35s;
+  -webkit-animation-delay: 0.35s;
+  animation-delay: 0.35s;
+}
 .cssload-thecube .cssload-c3 {
-  transform: scale(1.1) rotateZ(180deg);
-  -o-transform: scale(1.1) rotateZ(180deg);
+  -moz-transform: scale(1.1) rotateZ(180deg);
   -ms-transform: scale(1.1) rotateZ(180deg);
   -webkit-transform: scale(1.1) rotateZ(180deg);
-  -moz-transform: scale(1.1) rotateZ(180deg);
+  transform: scale(1.1) rotateZ(180deg);
 }
-
-.cssload-thecube .cssload-c4 {
-  transform: scale(1.1) rotateZ(270deg);
-  -o-transform: scale(1.1) rotateZ(270deg);
-  -ms-transform: scale(1.1) rotateZ(270deg);
-  -webkit-transform: scale(1.1) rotateZ(270deg);
-  -moz-transform: scale(1.1) rotateZ(270deg);
-}
-
-.cssload-thecube .cssload-c2:before {
-  animation-delay: 0.35s;
-  -o-animation-delay: 0.35s;
-  -ms-animation-delay: 0.35s;
-  -webkit-animation-delay: 0.35s;
-  -moz-animation-delay: 0.35s;
-}
-
 .cssload-thecube .cssload-c3:before {
-  animation-delay: 0.69s;
-  -o-animation-delay: 0.69s;
-  -ms-animation-delay: 0.69s;
-  -webkit-animation-delay: 0.69s;
   -moz-animation-delay: 0.69s;
+  -webkit-animation-delay: 0.69s;
+  animation-delay: 0.69s;
 }
-
+.cssload-thecube .cssload-c4 {
+  -moz-transform: scale(1.1) rotateZ(0deg);
+  -ms-transform: scale(1.1) rotateZ(0deg);
+  -webkit-transform: scale(1.1) rotateZ(0deg);
+  transform: scale(1.1) rotateZ(0deg);
+}
 .cssload-thecube .cssload-c4:before {
-  animation-delay: 1.04s;
-  -o-animation-delay: 1.04s;
-  -ms-animation-delay: 1.04s;
-  -webkit-animation-delay: 1.04s;
   -moz-animation-delay: 1.04s;
+  -webkit-animation-delay: 1.04s;
+  animation-delay: 1.04s;
 }
 
-@keyframes cssload-fold-thecube {
+@-moz-keyframes cssload-fold-thecube {
   0%, 10% {
+    -moz-transform: perspective(136px) rotateX(-180deg);
     transform: perspective(136px) rotateX(-180deg);
     opacity: 0;
   }
-  25%,
-                75% {
+  25%,75% {
+    -moz-transform: perspective(136px) rotateX(0deg);
     transform: perspective(136px) rotateX(0deg);
     opacity: 1;
   }
-  90%,
-                100% {
+  90%,100% {
+    -moz-transform: perspective(136px) rotateY(180deg);
     transform: perspective(136px) rotateY(180deg);
-    opacity: 0;
-  }
-}
-@-o-keyframes cssload-fold-thecube {
-  0%, 10% {
-    -o-transform: perspective(136px) rotateX(-180deg);
-    opacity: 0;
-  }
-  25%,
-                75% {
-    -o-transform: perspective(136px) rotateX(0deg);
-    opacity: 1;
-  }
-  90%,
-                100% {
-    -o-transform: perspective(136px) rotateY(180deg);
-    opacity: 0;
-  }
-}
-@-ms-keyframes cssload-fold-thecube {
-  0%, 10% {
-    -ms-transform: perspective(136px) rotateX(-180deg);
-    opacity: 0;
-  }
-  25%,
-                75% {
-    -ms-transform: perspective(136px) rotateX(0deg);
-    opacity: 1;
-  }
-  90%,
-                100% {
-    -ms-transform: perspective(136px) rotateY(180deg);
     opacity: 0;
   }
 }
 @-webkit-keyframes cssload-fold-thecube {
   0%, 10% {
     -webkit-transform: perspective(136px) rotateX(-180deg);
+    transform: perspective(136px) rotateX(-180deg);
     opacity: 0;
   }
-  25%,
-                75% {
+  25%,75% {
     -webkit-transform: perspective(136px) rotateX(0deg);
+    transform: perspective(136px) rotateX(0deg);
     opacity: 1;
   }
-  90%,
-                100% {
+  90%,100% {
     -webkit-transform: perspective(136px) rotateY(180deg);
+    transform: perspective(136px) rotateY(180deg);
     opacity: 0;
   }
 }
-@-moz-keyframes cssload-fold-thecube {
+@keyframes cssload-fold-thecube {
   0%, 10% {
     -moz-transform: perspective(136px) rotateX(-180deg);
+    -ms-transform: perspective(136px) rotateX(-180deg);
+    -webkit-transform: perspective(136px) rotateX(-180deg);
+    transform: perspective(136px) rotateX(-180deg);
     opacity: 0;
   }
-  25%,
-                75% {
+  25%,75% {
     -moz-transform: perspective(136px) rotateX(0deg);
+    -ms-transform: perspective(136px) rotateX(0deg);
+    -webkit-transform: perspective(136px) rotateX(0deg);
+    transform: perspective(136px) rotateX(0deg);
     opacity: 1;
   }
-  90%,
-                100% {
+  90%,100% {
     -moz-transform: perspective(136px) rotateY(180deg);
+    -ms-transform: perspective(136px) rotateY(180deg);
+    -webkit-transform: perspective(136px) rotateY(180deg);
+    transform: perspective(136px) rotateY(180deg);
     opacity: 0;
   }
 }

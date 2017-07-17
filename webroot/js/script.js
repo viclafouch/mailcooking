@@ -91,6 +91,35 @@ function hidePopup(popup) {
 	});
 }
 
+function stripeSourceHandler(source) {
+  // Insert the source ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeSource');
+  hiddenInput.setAttribute('value', source.id);
+  form.appendChild(hiddenInput);
+
+  // Submit the form
+  form.submit();
+}
+
+// var form = document.getElementById('payment-form');
+// form.addEventListener('submit', function(event) {
+//   event.preventDefault();
+
+//   stripe.createSource(card).then(function(result) {
+//     if (result.error) {
+//       // Inform the user if there was an error
+//       var errorElement = document.getElementById('card-errors');
+//       errorElement.textContent = result.error.message;
+//     } else {
+//       // Send the source to your server
+//       stripeSourceHandler(result.source);
+//     }
+//   });
+// });
+
 /*----------  Actions  ----------*/
 
 // Démarrage des modules sans turbulinks
@@ -469,6 +498,23 @@ document.addEventListener("turbolinks:load", function() {
 				$('.list_template ul').html(data);
 			}
 		});
+	});
+
+	/* Création d'un email à partir d un template */
+	$(document).on('click', '[data-creat-email]', function(e){
+		e.preventDefault();
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			idTemplate = $(this).parents('li').data('template');
+			$.ajax({
+				type: "POST",
+				data: { template_id: idTemplate },
+				url : "?module=user&action=template", 
+				success : function(data) {
+					window.location = "?module=user&action=email_builder&id="+data;
+				}
+			});
+		}
 	});
 
 	/*----------  Emails  ----------*/
@@ -949,83 +995,189 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
-/*======================================
-=            Commandes_page            =
-======================================*/
+	/*----------  Archive page  ----------*/
 
-	$(".row_data_commande").click(function() {
-		$(".popup-overlay, .popup-container").css({
-			visibility:"visible",
-			opacity:"1",
-		}).show();
-		if ($(this).find('span').hasClass('statut2')) {
-			$(".commande").load("?module=admin&action=commandes&testTemplate="+$(this).attr("id"));
+	function appearAction(boolean) {
+
+		if (boolean == true) {
+			$('[data-remove-archive]').addClass('active').removeAttr('disabled');
+			$('[data-select-archive]').addClass('active').removeAttr('disabled');
+		} else {
+			$('[data-remove-archive]').removeClass('active').attr('disabled', 'disabled');
+			$('[data-select-archive]').removeClass('active').attr('disabled', 'disabled');
 		}
-		else {
-			$(".commande").load("?module=admin&action=commandes&id="+$(this).attr("id"));
+	}
+	
+	/* Selection d'une archive */
+	$(document).on('click', '.archive:not(.active)', function(){
+		if (!$(this).hasClass('active')) {
+			$(this).addClass('active');
+			
+			appearAction(true);
 		}
 	});
 
-	// Show confirmation ==> update order
-	$(document).on('click', '#valide_order', function (){
-		$btn = $(this);
-		$footer = $btn.parent('footer');
-		$footer.html(
-			'<p style="margin-bottom:16px;">Confirmer et envoyer un email à l\'utilisateur ?</p>'+
-			'<button class="valide button_default confirm">'+
-			'<span class="buttoneffect"></span>'+
-			'<span class="text-cta">Je confirme</span>'+
-			'</button>'
-		);
-		$footer.addClass('confirmation');
+	/* Désélection d'une archive */
+	$(document).on('click', '.archive.active', function(){
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+			
+			var countSelected = $('.archive.active').length;
+
+			if (countSelected == 0) {
+				appearAction(false);
+				$('[data-select-archive="allselect"]').addClass('active').removeAttr('disabled');
+			}
+		}
 	});
 
-
-	// Hide notif
-	$(document).ready(function(){
-	    $(".notif").delay(3000).hide("fast");
+	/* Selectionner tout */
+	$(document).on('click', '[data-select-archive="allselect"]', function() {
+		if ($('.archive:not(.active)').length != 0) {
+			$('.archive').addClass('active');
+			appearAction(true);
+		}
 	});
 
+	/* Désélectionner tout */
+	$(document).on('click', '[data-select-archive="deselect"]', function(){
+		if (!$(this).attr('disabled')) {
+			$(this).attr('disabled', 'disabled');
+			
+			$('[data-remove-archive]').removeClass('active').attr('disabled', 'disabled');
+			$(this).removeClass('active').attr('disabled', 'disabled');
+			$('.archive').removeClass('active');
+		}
+	});
 
-	// Update confirmation post ==> Order supported
-	$(document).on('click', '.confirm', function (){
-		const $footer = $(this).parent('footer');
-		let $id_commande = $footer.attr('id');
-		$footer.html('<div class="loader_popup"><span></span></div>');
-		$.post( "?module=admin&action=commandes", { order: $id_commande }, function(html) {
-			$footer.html(
-				'<p style="font-size:17px;">Prise en charge effectuée !</p>'
-			);
-			$('.td_'+$id_commande).html(
-				'<span class="label statut1">Prise en charge</span>'
-			);
-			$('#statut_change').html(
-				'<span class="label statut1">Prise en charge</span>'
+	/* Suppression/Restauration d'archive */
+	$(document).on('click', '[data-remove-archive]', function() {
+		if ($('.archive.active').length != 0) {
+
+			if ($(this).data('remove-archive') == 'delete') {
+				
+				$('.archive.active').each(function(){
+					
+					let archiveID = $(this).data('archive');
+					
+					$.ajax({
+						type: "POST",
+						data: { dArchiveID: archiveID },
+						url : "?module=user&action=archives", 
+						success : function(data) {
+							let block = $('[data-archive="'+archiveID+'"]');
+							block.animate({
+								'width': '0px',
+								'height': '0px',
+								'opacity': '0'},
+								500, function() {
+									block.remove();
+								}
+							);
+						}
+					});
+				});
+			}
+			else if ($(this).data('remove-archive') == 'restore') {
+				$('.archive.active').each(function(){
+					
+					let archiveID = $(this).data('archive');
+					
+					$.ajax({
+						type: "POST",
+						data: { rArchiveID: archiveID },
+						url : "?module=user&action=archives", 
+						success : function(data) {
+							let block = $('[data-archive="'+archiveID+'"]');
+							block.animate({
+								'width': '0px',
+								'height': '0px',
+								'opacity': '0'},
+								500, function() {
+									block.remove();
+								}
+							);
+						}
+					});
+				});
+			}
+		}
+	});
+
+	/*----------  Order page  ----------*/
+
+	$(document).on('click', '[data-order]', function() {
+		let popup = $('#orderPopup');
+		popup.addClass('active');
+
+		hidePopup(popup);
+
+		$("#orderPopup .popup_container").load("?module=admin&action=commandes&id="+$(this).data("order"));
+	});
+
+	/* Show confirmation ==> update order */
+	$(document).on('click', '#valideOrder', function (e) {
+		e.preventDefault();
+		$(this).parent('footer').animate({
+			'min-height': '120px',
+		}, 500, function(){
+			$('#valideOrder').parent('footer').html(
+			'<p>Confirmer et envoyer un email à l\'utilisateur ?</p>'+
+			'<button id="confirmValideOrder" class="button_default button_secondary">Confirmer</button>'
 			);
 		});
 	});
 
-	// Update confirmation post ==> Order finished
-	$(document).on('click', '#finish_order', function () {
-		const $parent = $(this).parents('.commande');
-		$parent.load("?module=admin&action=commandes&id_commande="+$(this).parent().attr("id"));
+	/* Update confirmation post ==> Order supported */
+	$(document).on('click', '#confirmValideOrder', function (e) {
+		e.preventDefault();
+
+		var idOrder = $(this).parent('footer').attr('id');
+
+		$.ajax({
+			type: "POST",
+			data: { order: idOrder },
+			url : "?module=admin&action=commandes", 
+			success : function(data) {
+				$('#confirmValideOrder').parent('footer').html(
+					'<p>Prise en charge effectuée !'
+				);
+
+				$('#orderPopup').find('.statut').parent('p').html(
+					'<span class="statut statut1">Prise en charge</span>'
+				);
+
+				$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
+					'<span class="statut statut1">Prise en charge</span>'
+				);
+			}
+		});
 	});
 
-	$(document).on('click', '.valideorder', function(e) {
+	/* Update confirmation post ==> Order finished */
+	$(document).on('click', '#finishOrder', function(e) {
 		if (!$(this).attr('data-appened')) {
 			$(this).attr('data-appened', 'true');
 			e.preventDefault();
-			e.stopPropagation();
+
+			var idOrder = $(this).parent('footer').attr('id');
+
+			$(this).parents('.popup_container').load("?module=admin&action=commandes&id_commande="+idOrder);
+		}
+	});
+
+	$(document).on('click', '#previewUploadTemplate', function(e) {
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			e.preventDefault();
 			 
-	        var $form = $('#finishOrder');
+	        var $form = $('#formPreviewTemplate');
 	        var formdata = (window.FormData) ? new FormData($form[0]) : null;
 	        var data = (formdata !== null) ? formdata : $form.serialize();
-			var idOrder = $('#OrderID').val();
+			var idOrder = $(this).parent('footer').attr('id');
 			var dom = $('#DOM').val();
 			var medias = $('#mco_template_mobile').val();
 
-			const $footer = $(this).parents('footer');
-			$footer.html('<div class="loader_popup"><span></span></div>');
 	        $.ajax({
 	            url: "?module=admin&action=commandes",
 	            type: "POST",
@@ -1034,17 +1186,32 @@ document.addEventListener("turbolinks:load", function() {
 	            dataType: 'json',
 	            data: data,
 	            complete: function (html) {
+	            	console.log(html.responseText);
 	                var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText);
-					$footer.html('<button id="'+idOrder+'" class="completeorder button_default">'+
-					'<span class="buttoneffect"></span>'+
-					'<span class="text-cta">Valider le template</span>'+
-					'</button>');
-					$('.popup-container header').hide();
-	               	$('.popup-container.commande .content_block ').html(newDom);
-	               	$(document).on('click', '.completeorder', function(event) {
-	               		event.preventDefault();
-	               		event.stopPropagation();
-	               		$('.content_block.popup-blocks [data-section]').each(function(){
+					$('#previewUploadTemplate').parent('footer').html(
+						'<button id="valideUploadOrder" class="button_default button_secondary">Valider le template</button>'
+					);
+					$('#orderPopup header').hide();
+					$('#orderPopup .content_block').html(newDom);
+
+	               	$(document).on('click', '#valideUploadOrder', function(e) {
+	               		e.preventDefault();
+						
+						var container = $('.popup_container .content_block');
+						cheminImage = html.responseText;
+						cheminThumbs = cheminImage.replace('images', 'thumbnails');
+						html2canvas(container, {
+							onrendered: function(canvas) {
+								$.ajax({
+				                    type: "POST",
+				                    data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminThumbs },
+				                    url : "?module=admin&action=commandes"
+				                });
+							}
+						});
+
+
+	               		$('#orderPopup [data-section]').each(function(){
 							var id = Math.floor(Math.random() * 16777215).toString(16);
 						    $(this).attr('data-section', id);
 							var section = $('[data-section="'+id+'"]');
@@ -1063,16 +1230,17 @@ document.addEventListener("turbolinks:load", function() {
 						.promise().done(function () { 
 							var idUser = cheminImage.split('/');
 							idUser = idUser[1].replace(/\D+/g, '');
-							dom = $('.popup-container.commande .content_block ').html();
+							dom = $('#orderPopup .content_block').html();
 						    $.ajax({
 			                    type: "POST",
 			                    data: {addToBdd: idOrder, DOM: dom, mco_template_mobile: medias, userId: idUser },
 			                    url : "?module=admin&action=commandes",
 								success: function(data) {
-									$('.td_'+idOrder).html(
-										'<span class="label statut2">En attente de test</span>'
+									console.log(data);
+									$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
+										'<span class="statut statut2">En attente de test</span>'
 									);
-									$('.commande').html(data);
+									$('#orderPopup .popup_container').html(data);
 								},
 			                });
 						});
@@ -1085,40 +1253,29 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 
-	$(document).on('click', '#testLaster', function(event) {
-		event.preventDefault();
-		$(".popup-overlay, .popup-container").css({
-			visibility:"hidden",
-			opacity:"0",
-		});
-	});
-
-	$(document).on('click', '#cancelUpload', function(event) {
+	$(document).on('click', '#cancelUpload', function(e) {
+		e.preventDefault();
 		if (!$(this).attr('data-appened')) {
 			$(this).attr('data-appened', 'true');
-			event.preventDefault();
-			idOrder = $('[data-order]').attr('data-order');
+			idOrder = $(this).parents('footer').attr('id');
 			$.ajax({
 	            type: "POST",
 	            data: {cancelUpload: idOrder},
 	            url : "?module=admin&action=commandes",
 				complete(html) {
-					$('.td_'+idOrder).html(
-						'<span class="label statut1">Prise en charge</span>'
+					$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
+						'<span class="statut statut1">Prise en charge</span>'
 					);
 				},
 	        });
-	        $(".popup-overlay, .popup-container").css({
-				visibility:"hidden",
-				opacity:"0",
-			});
 		}
 	});
 
-	$(document).on('click', '[data-try]', function(){
+	$(document).on('click', '#testOrder', function(e){
+		e.preventDefault();
 		if (!$(this).attr('data-appened')) {
 			$(this).attr('data-appened', 'true');
-			idOrder = $('[data-order]').attr('data-order');
+			idOrder = $(this).parent('footer').attr('id');
 			$.ajax({
 	            type: "POST",
 	            data: {testEmail: idOrder},
@@ -1129,6 +1286,5 @@ document.addEventListener("turbolinks:load", function() {
 	        });
 		}
 	});
-
 /*=====  End of Commandes_page  ======*/
 });
