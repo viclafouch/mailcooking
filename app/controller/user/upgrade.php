@@ -1,59 +1,41 @@
-<?php
+<?php 
 
 	if (!empty($_POST)) {
 		require_once('app/config/config_stripe.php');
-
 		try {
 			$token  = $_POST['stripeToken'];
 
-			$customer = \Stripe\Customer::create(array(
-				// Description du user
-			 	"description" => 'Société :'.$_SESSION['user']['user_societe'],
-			 	// Email du client
-				// "email" => strip_tags(trim($_POST['stripeEmail'])),
-				"email" => "victor.dlf@outkoo.fr",
-				// Metadonnées du client
-				"metadata" => array(
-					"Prénom" => $_SESSION['user']['first_name'], 
-					"Nom" => $_SESSION['user']['last_name'],
-					"Civilité" => $_SESSION['user']['gender']
-				),
-				// Token du client
-				'card'  => $token,
-			));
+			\Stripe\Stripe::setApiKey("sk_test_PS2zQTpRTNObBqwvbCkMtC8p");
 
-			if (isset($_GET['tip'])) {
-				$sub = \Stripe\Subscription::create(array(
-				  "customer" => $customer->id,
-				  "plan" => "tip",
-				));
-				$plan = 1;
-				echo "Abonnement tip validé !";
-			} elseif (isset($_GET['top'])) {
-				$sub = \Stripe\Subscription::create(array(
-				  "customer" => $customer->id,
-				  "plan" => "top",
-				));
-				$plan = 2;
-				echo "Abonnement top validé !";
-			} elseif (isset($_GET['tiptop'])) {
-				$sub = \Stripe\Subscription::create(array(
-				  "customer" => $customer->id,
-				  "plan" => "tiptop",
-				));
-				$plan = 3;
-				echo "Abonnement tip top validé !";
+			$option = array( 
+				'wherecolumn' 	=> 	'user_id',
+				'wherevalue'	=>	$sessionID,
+			);
+			$sub = selecttable('subscribers', $option);	
+
+			$sub_id = $sub[0]['subscription_id'];
+
+			$subscription = \Stripe\Subscription::retrieve($sub_id);
+
+			if ($_POST['plan'] == 1) {
+				$subscription->plan = "tip";
+			} elseif ($_POST['plan'] == 2) {
+				$subscription->plan = "top";
+			} elseif ($_POST['plan'] == 3) {
+				$subscription->plan = "tiptop";
 			}
+			
+			$subscription->save();
 
-			$id_costumer = $customer->id;
-			$id_subscription = $sub->id;
-			$id_user = $sessionID;
-			$period_end = $sub->current_period_end;
+			include_once('app/model/user/account/payment/upgrade.php');
+			$upgrade = upgrade($sessionID, $_POST['plan']);
 
-			include_once('app/model/user/account/payment/subscribe.php');
-			subscribe($id_user, $id_costumer, $id_subscription, $plan, $period_end);
-
-
+			if ($upgrade) {
+				echo "Abonnement mise à jour !";
+				sleep(3);
+				location('user', 'account');
+			}
+			
 
 
 		} catch(\Stripe\Error\Card $e) {
@@ -87,7 +69,7 @@
 			echo "Display a very generic error to the user, and maybe send";
 		} catch (Exception $e) {
 			echo "Something else happened, completely unrelated to Stripe";
-			die('Une erreur dans le try est survenue');
+			// Something else happened, completely unrelated to Stripe
 		}
 	} else {
 		die('Une erreur est survenue');

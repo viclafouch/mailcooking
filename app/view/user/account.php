@@ -208,7 +208,6 @@
 		<div class="pannel pannel_body">
 			<div class="row_cards row row-hori-around nowrap">
 				<div class="card_block col nowrap">
-					<span class="subactual">Abonnement validé</span>
 					<header class="card_heading col col-hori-center col-verti-center nowrap">
 						<span class="card_price">48&euro;<sub>/Mo</sub></span>
 						<span class="card_name">Abonnement tip</span>
@@ -219,21 +218,81 @@
 							<li>Complete documentation</li>
 						</ul>
 					</div>
+					<?php
+					if ($subcription) {
+						if ($plan == 1) { ?>
+					<span class="subactual">Abonnement validé</span>
+						<?php } else { ?>
 					<footer class="card_footer">
-						<form action="?module=user&action=subscribe&premium" method="POST">
-						  <script
-						    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-						    data-key="pk_test_jdtjz4b05ADqlx5k093fsmgK"
-						    data-amount="4800"
-						    data-name="Demo Site"
-						    data-description="Widget"
-						    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-						    data-locale="auto"
-						    data-zip-code="true"
-						    data-currency="eur">
-						  </script>
+						<button id="btn__upgradeToTip" class="button_default">Upgrade</button>
+						<form action="?module=user&action=upgrade" id="paiement-form-1" method="POST">
+							<script>
+							var handleUpgradeTip = StripeCheckout.configure({
+							  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+							  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+							  	locale: 'auto',
+							  	token: function(token) {
+								    var $inputToken = $('<input type=hidden name=stripeToken />').val(token.id);
+								    var $inputPlan = $('<input type=hidden name=plan />').val('1');
+  									$('#paiement-form-1').append($inputToken).append($inputPlan).submit();
+							  	}
+							});
+
+							document.getElementById('btn__upgradeToTip').addEventListener('click', function(e) {
+							  	handleUpgradeTip.open({
+								    name: 'Mailcooking',
+								    description: 'Abonnement tip',
+								    zipCode: true,
+								    amount: 4800,
+								    currency: 'EUR'
+								});
+							  e.preventDefault();
+							});
+
+							// Close Checkout on page navigation:
+							window.addEventListener('popstate', function() {
+							  	handleUpgradeTip.close();
+							});
+							</script>
 						</form>
 					</footer>
+						<?php } 
+					}
+					else { ?>
+					<footer class="card_footer">
+						<form action="?module=user&action=upgrade&tip" id="paiement-form-1" method="POST">
+							<button id="formtip" class="button_default">S'abonner</button>
+						
+							<script>
+							var handlerTip = StripeCheckout.configure({
+							  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+							  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+							  	locale: 'auto',
+							  	token: function(token) {
+								    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+  									$('#paiement-form-1').append($input).submit();
+							  	}
+							});
+
+							document.getElementById('formtip').addEventListener('click', function(e) {
+							  	handlerTip.open({
+								    name: 'Mailcooking',
+								    description: 'Abonnement tip',
+								    zipCode: true,
+								    amount: 4800,
+								    currency: 'EUR'
+								});
+							  e.preventDefault();
+							});
+
+							// Close Checkout on page navigation:
+							window.addEventListener('popstate', function() {
+							  	handlerTip.close();
+							});
+							</script>
+						</form>
+					</footer>
+					<?php } ?>
 				</div>
 				<div class="card_block col nowrap">
 					<header class="card_heading col col-hori-center col-verti-center nowrap">
@@ -247,9 +306,80 @@
 							<li>Complete documentation</li>
 						</ul>
 					</div>
+					<?php
+					if ($subcription) {
+						if ($plan == 2) { ?>
+					<span class="subactual">Abonnement validé</span>
+						<?php } else { ?>
 					<footer class="card_footer">
-						<button class="button_default">S'abonner</button>
+						<button id="btn__upgradeToTop" class="button_default">Upgrade</button>
+						<form action="?module=user&action=upgrade" id="paiement-form-2" method="POST">
+							<script>
+							var handleUpgradeTop = StripeCheckout.configure({
+							  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+							  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+							  	locale: 'auto',
+							  	token: function(token) {
+								    var $inputToken = $('<input type=hidden name=stripeToken />').val(token.id);
+								    var $inputPlan = $('<input type=hidden name=plan />').val('2');
+  									$('#paiement-form-2').append($inputToken).append($inputPlan).submit();
+							  	}
+							});
+
+							document.getElementById('btn__upgradeToTop').addEventListener('click', function(e) {
+							  	handleUpgradeTop.open({
+								    name: 'Mailcooking',
+								    description: 'Abonnement top',
+								    zipCode: true,
+								    amount: 7200,
+								    currency: 'EUR'
+								});
+							  e.preventDefault();
+							});
+
+							// Close Checkout on page navigation:
+							window.addEventListener('popstate', function() {
+							  	handleUpgradeTop.close();
+							});
+							</script>
+						</form>
 					</footer>
+						<?php } 
+					}
+					else { ?>
+					<footer class="card_footer">
+						<button id="btn__subscribeToTip" class="button_default">S'abonner</button>
+						<form action="?module=user&action=subscribe&top" id="paiement-form-2" method="POST">
+							<script>
+							var handlerTop = StripeCheckout.configure({
+							  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+							  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+							  	locale: 'auto',
+							  	token: function(token) {
+								    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+  									$('#paiement-form-2').append($input).submit();
+							  	}
+							});
+
+							document.getElementById('btn__subscribeToTip').addEventListener('click', function(e) {
+							  	handlerTop.open({
+								    name: 'Mailcooking',
+								    description: 'Abonnement top',
+								    zipCode: true,
+								    amount: 7200,
+								    currency: 'EUR'
+								});
+							  e.preventDefault();
+							});
+
+							// Close Checkout on page navigation:
+							window.addEventListener('popstate', function() {
+							  	handlerTop.close();
+							});
+							</script>
+						</form>
+					</footer>
+					<?php } ?>
 				</div>
 				<div class="card_block col nowrap">
 					<header class="card_heading col col-hori-center col-verti-center nowrap">
@@ -264,9 +394,81 @@
 							<li>Complete documentation</li>
 						</ul>
 					</div>
+					<?php 
+					if ($subcription) {
+						if ($plan == 3) { ?>
+					<span class="subactual">Abonnement validé</span>
+						<?php } else { ?>
 					<footer class="card_footer">
-						<button class="button_default">S'abonner</button>
+						<button id="btn__upgradeToTipTop" class="button_default">Upgrade</button>
+						<form action="?module=user&action=upgrade" id="paiement-form-3" method="POST">
+							<script>
+							var handleUpgradeTipTop = StripeCheckout.configure({
+							  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+							  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+							  	locale: 'auto',
+							  	token: function(token) {
+								    var $inputToken = $('<input type=hidden name=stripeToken />').val(token.id);
+								    var $inputPlan = $('<input type=hidden name=plan />').val('3');
+  									$('#paiement-form-3').append($inputToken).append($inputPlan).submit();
+							  	}
+							});
+
+							document.getElementById('btn__upgradeToTipTop').addEventListener('click', function(e) {
+							  	handleUpgradeTipTop.open({
+								    name: 'Mailcooking',
+								    description: 'Abonnement tip top',
+								    zipCode: true,
+								    amount: 10800,
+								    currency: 'EUR'
+								});
+							  e.preventDefault();
+							});
+
+							// Close Checkout on page navigation:
+							window.addEventListener('popstate', function() {
+							  	handleUpgradeTipTop.close();
+							});
+							</script>
+						</form>
 					</footer>
+						<?php } 
+					}
+					else { ?>
+					<footer class="card_footer">
+						<form action="?module=user&action=subscribe&tiptop" id="paiement-form-3" method="POST">
+							<button id="formtiptop" class="button_default">S'abonner</button>
+						
+							<script>
+							var handlerTipTop = StripeCheckout.configure({
+							  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+							  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+							  	locale: 'auto',
+							  	token: function(token) {
+								    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+  									$('#paiement-form-3').append($input).submit();
+							  	}
+							});
+
+							document.getElementById('formtiptop').addEventListener('click', function(e) {
+							  	handlerTipTop.open({
+								    name: 'Mailcooking',
+								    description: 'Abonnement tip top',
+								    zipCode: true,
+								    amount: 10800,
+								    currency: 'EUR'
+								});
+							  e.preventDefault();
+							});
+
+							// Close Checkout on page navigation:
+							window.addEventListener('popstate', function() {
+							  	handlerTipTop.close();
+							});
+							</script>
+						</form>
+					</footer>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

@@ -35,6 +35,8 @@
 		<script defer src="lib/js/jquery-ui/jquery-ui.min.js"></script>
 		<script defer src="lib/js/jquery-minicolors/jquery.minicolors.min.js"></script>
 
+		<script src="https://checkout.stripe.com/checkout.js"></script>
+
 		<!-- Custom [JS]-->
 		<script defer src="webroot/js/script.js"></script>
 
