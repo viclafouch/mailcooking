@@ -1,17 +1,51 @@
-<?php 
+<?php
+
+	/**
+	 *
+	 * Fichier de paiement et de mise à jour de plan
+	 * Documentation de Stripe : stripe.com/docs
+	 * Github : github.com/stripe/stripe-php
+	 * Composer requis : github.com/composer/composer
+	 *
+	 */
+
+	/**
+	 *
+	 * Fonction de sécurité
+	 * Vérification d'une session
+	 *
+	 */
+	
+	protec();
+
+	/**
+	 *
+	 * Le POST est obligatoire 
+	 *
+	 */
 
 	if (!empty($_POST)) {
-		require_once('app/config/config_stripe.php');
-		try {
-			$token  = $_POST['stripeToken'];
 
-			\Stripe\Stripe::setApiKey("sk_test_PS2zQTpRTNObBqwvbCkMtC8p");
+		require_once('app/config/config_stripe.php');
+
+		try {
+
+			/**
+			 *
+			 * Mise à jour de l'abonnement
+			 * DOC : stripe.com/docs/api#retrieve_subscription
+			 *
+			 */
+
+			$token  = $_POST['stripeToken'];
 
 			$option = array( 
 				'wherecolumn' 	=> 	'user_id',
 				'wherevalue'	=>	$sessionID,
 			);
+
 			$sub = selecttable('subscribers', $option);	
+
 
 			$sub_id = $sub[0]['subscription_id'];
 
@@ -28,16 +62,15 @@
 			$subscription->save();
 
 			include_once('app/model/user/account/payment/upgrade.php');
+
 			$upgrade = upgrade($sessionID, $_POST['plan']);
 
 			if ($upgrade) {
 				echo "Abonnement mise à jour !";
 				sleep(3);
-				location('user', 'account');
+				location('user', 'account', 'plan='.$_POST['plan']);
 			}
 			
-
-
 		} catch(\Stripe\Error\Card $e) {
 			// Since it's a decline, \Stripe\Error\Card will be caught
 			$body = $e->getJsonBody();

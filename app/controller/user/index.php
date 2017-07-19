@@ -1,4 +1,25 @@
-<?php 
+<?php
+
+	/**
+	 *
+	 * Fichier d'affichage du dashobard user
+	 *
+	 */
+
+	/**
+	 *
+	 * Fonction de sécurité
+	 * Vérification d'une session
+	 *
+	 */
+	
+	protec();
+
+	/**
+	 *
+	 * Affichage de la vue
+	 *
+	 */
 
 	include_once('app/model/user/email/read_limit_emails.php');
 

@@ -1,10 +1,28 @@
 <?php 
-	// Secu
+
+	/**
+	 *
+	 * Fichier d'affichage du dashboard admin
+	 *
+	 */
+	
+	/**
+	 *
+	 * Fonctions de sécurité
+	 * Vérification d'une session
+	 * Vérfication du rôle de la session
+	 *
+	 */
+	
 	protec();
 	just_admin();
 	
+	/**
+	 *
+	 * Affichage de la vue
+	 *
+	 */
 
 	metadatas('Backoffice', 'Description', 'none');
 	
-	// Appel de la view
 	include_once("app/view/admin/index.php");

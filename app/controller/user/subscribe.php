@@ -1,60 +1,115 @@
 <?php
 
-	if (!empty($_POST)) {
+	/**
+	 *
+	 * Fichier de paiement et d'attribution de plan
+	 * Documentation de Stripe : stripe.com/docs
+	 * Github : github.com/stripe/stripe-php
+	 * Composer requis : github.com/composer/composer
+	 *
+	 */
+
+	/**
+	 *
+	 * Fonction de sécurité
+	 * Vérification d'une session
+	 *
+	 */
+	
+	protec();
+
+	/**
+	 *
+	 * Le POST est obligatoire 
+	 *
+	 */
+	
+	protec();
+
+	if (isset($_POST['stripeToken'])) {
+
 		require_once('app/config/config_stripe.php');
 
 		try {
+			
 			$token  = $_POST['stripeToken'];
 
+			/**
+			 *
+			 * Création d'un client chez Stripe
+			 * Attributions de paramètres (facultatifs mais conseillés)
+			 * DOC : stripe.com/docs/api#customers
+			 *
+			 */
+
 			$customer = \Stripe\Customer::create(array(
-				// Description du user
 			 	"description" => 'Société :'.$_SESSION['user']['user_societe'],
-			 	// Email du client
-				// "email" => strip_tags(trim($_POST['stripeEmail'])),
-				"email" => "victor.dlf@outkoo.fr",
-				// Metadonnées du client
+				"email" => $_POST['stripeEmail'],
 				"metadata" => array(
 					"Prénom" => $_SESSION['user']['first_name'], 
 					"Nom" => $_SESSION['user']['last_name'],
 					"Civilité" => $_SESSION['user']['gender']
 				),
-				// Token du client
 				'card'  => $token,
 			));
+
+
+			/**
+			 *
+			 * Création de l'abonnement chez Stripe
+			 * DOC : stripe.com/docs/api#create_subscription
+			 * /! La méthode GET n'est pas super, à changer de facon pour choisir le plan !\
+			 *
+			 */
 
 			if (isset($_GET['tip'])) {
 				$sub = \Stripe\Subscription::create(array(
 				  "customer" => $customer->id,
 				  "plan" => "tip",
 				));
-				$plan = 1;
-				echo "Abonnement tip validé !";
+				if ($sub) {
+					$plan = 1;
+				}
+				
 			} elseif (isset($_GET['top'])) {
 				$sub = \Stripe\Subscription::create(array(
 				  "customer" => $customer->id,
 				  "plan" => "top",
 				));
-				$plan = 2;
-				echo "Abonnement top validé !";
+				if ($sub) {
+					$plan = 2;
+				}
 			} elseif (isset($_GET['tiptop'])) {
 				$sub = \Stripe\Subscription::create(array(
 				  "customer" => $customer->id,
 				  "plan" => "tiptop",
 				));
-				$plan = 3;
-				echo "Abonnement tip top validé !";
+				if ($sub) {
+					$plan = 3;
+				}
 			}
 
-			$id_costumer = $customer->id;
-			$id_subscription = $sub->id;
-			$id_user = $sessionID;
-			$period_end = $sub->current_period_end;
+			/**
+			 *
+			 * Insertion de l'abonnement en bdd
+			 *
+			 */
 
-			include_once('app/model/user/account/payment/subscribe.php');
-			subscribe($id_user, $id_costumer, $id_subscription, $plan, $period_end);
+			if ($plan) {
+				$id_costumer = $customer->id;
+				$id_subscription = $sub->id;
+				$id_user = $sessionID;
+				$period_end = $sub->current_period_end;
 
+				include_once('app/model/user/account/payment/subscribe.php');
+				$subscribe = subscribe($id_user, $id_costumer, $id_subscription, $plan, $period_end);
 
-
+				if ($subscribe) {
+					location('user', 'account', 'plan='.$plan);
+				} else {
+					die('erreur lors du subscribe');
+				}
+			} 
 
 		} catch(\Stripe\Error\Card $e) {
 			// Since it's a decline, \Stripe\Error\Card will be caught
@@ -89,6 +144,7 @@
 			echo "Something else happened, completely unrelated to Stripe";
 			die('Une erreur dans le try est survenue');
 		}
-	} else {
+	} 
+	else {
 		die('Une erreur est survenue');
 	}

@@ -260,7 +260,7 @@
 					}
 					else { ?>
 					<footer class="card_footer">
-						<form action="?module=user&action=upgrade&tip" id="paiement-form-1" method="POST">
+						<form action="?module=user&action=subscribe&tip" id="paiement-form-1" method="POST">
 							<button id="formtip" class="button_default">S'abonner</button>
 						
 							<script>
@@ -270,7 +270,8 @@
 							  	locale: 'auto',
 							  	token: function(token) {
 								    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
-  									$('#paiement-form-1').append($input).submit();
+								    var $theEmail = $('<input type=hidden name=stripeEmail />').val(token.email);
+  									$('#paiement-form-1').append($input).append($theEmail).submit();
 							  	}
 							});
 
@@ -348,7 +349,7 @@
 					}
 					else { ?>
 					<footer class="card_footer">
-						<button id="btn__subscribeToTip" class="button_default">S'abonner</button>
+						<button id="btn__subscribeToTop" class="button_default">S'abonner</button>
 						<form action="?module=user&action=subscribe&top" id="paiement-form-2" method="POST">
 							<script>
 							var handlerTop = StripeCheckout.configure({
@@ -357,11 +358,12 @@
 							  	locale: 'auto',
 							  	token: function(token) {
 								    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
-  									$('#paiement-form-2').append($input).submit();
+  									var $theEmail = $('<input type=hidden name=stripeEmail />').val(token.email);
+  									$('#paiement-form-1').append($input).append($theEmail).submit();
 							  	}
 							});
 
-							document.getElementById('btn__subscribeToTip').addEventListener('click', function(e) {
+							document.getElementById('btn__subscribeToTop').addEventListener('click', function(e) {
 							  	handlerTop.open({
 								    name: 'Mailcooking',
 								    description: 'Abonnement top',
@@ -446,7 +448,8 @@
 							  	locale: 'auto',
 							  	token: function(token) {
 								    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
-  									$('#paiement-form-3').append($input).submit();
+  									var $theEmail = $('<input type=hidden name=stripeEmail />').val(token.email);
+  									$('#paiement-form-3').append($input).append($theEmail).submit();
 							  	}
 							});
 

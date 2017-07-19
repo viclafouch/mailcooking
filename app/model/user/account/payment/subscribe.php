@@ -26,7 +26,7 @@
 
 			$query->execute();
 			
-			return $connexion->LastInsertId();
+			return true;
 		}
 
 		catch (Exception $e) {

@@ -1428,7 +1428,7 @@ div.container_profil { overflow-y: scroll!important;
 
 /*----------  Archives  ----------*/
 
-div.container_archives {
+div.container_archives { overflow-y: scroll!important;
 
     div.full_block:last-child { border-bottom-color: transparent; }
 

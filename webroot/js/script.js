@@ -825,7 +825,7 @@ document.addEventListener("turbolinks:load", function() {
 					type: "POST",
 					data: { idCategorie: catID },
 					url : "?module=user&action=emails", 
-					success : function(data) {
+					success : function() {
 						container = $('[data-section="'+catID+'"]');
 						container.animate({
 							'height': '0px',

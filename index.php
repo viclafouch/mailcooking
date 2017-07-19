@@ -2,6 +2,12 @@
 
 	session_start();
 
+	/**
+	 *
+	 * Récupération du dossier client selon la session
+	 *
+	 */
+	
 	if (isset($_SESSION['user'])) {
 		
 		$sessionID = $_SESSION['user']['user_id'];
@@ -21,13 +27,13 @@
 	// Securités
 	include_once("core/coresecu.php");
 
-	// Location /
+	// Location / Upload / Mail sender / Remove files / Unzip files
 	include_once("core/corecontroller.php");
 
 	// Metadatas
 	include_once("core/coreview.php");
 
-	// Selecttable /
+	// Selecttable / Counttable
 	include_once("core/coremodel.php");
 
 	// Appel du controleur et du module demandé
@@ -47,5 +53,5 @@
 		include_once("$url");
 	}
 	else { 
-		die("Erreur 404 !!!");	
+		die("Page not found");	
 	}

@@ -1,34 +1,33 @@
 <?php 
 	
-	/*==================================
-	=            Page Email            =
-	==================================*/
+	/**
+	 *
+	 * Fichier d'affichage et de modifications des emails
+	 *
+	 */
 
-	if (empty($_POST)) {
+	/**
+	 *
+	 * Chaque modification d'email doit s'effectuer par un POST
+	 *
+	 */
 
-		include_once('app/model/user/email/read_my_all_mails.php');
-		/* Lecture des emails non archivés */
-		$emails = read_my_all_mails($_SESSION["user"]["user_id"], 0);
+	if (!empty($_POST)) {
 
-		/* Lecture des catégories du user SESSION */
-		$option = array( 
-			'wherecolumn' 	=> 	'user_id',
-			'wherevalue'	=>	$_SESSION["user"]["user_id"],
-			'orderby'		=> 'cat_id',
-			'order' 		=> 'ASC',
-		);
-		$userCat = selecttable('email_cat', $option);
+		/**
+		 *
+		 * Fonctions concernant la modification de catégories
+		 *
+		 */
 
-		/* Insertion des métadonnés */
-		metadatas('Mes emails', 'Description', 'none');
+		if (isset($_POST['idCategorie']) || isset($_POST['catName'])) {
 
-		/* Affichage de la vue */
-		include_once("app/view/user/emails.php");
-	}
-	else {
-		if (isset($_POST['idCategorie'])) {
+			/**
+			 *
+			 * Modification de la catégorie de l'email
+			 *
+			 */
 
-			/* Modification d'une catégorie d'un email */
 			if (isset($_POST['idEmail'])) {
 
 				if ($_POST['idCategorie'] == 'NULL') { $_POST['idCategorie'] = NULL; }
@@ -38,15 +37,41 @@
 				update_cat_email($_POST['idCategorie'], $_POST['idEmail'], $sessionID);
 			}
 
-			/* Modification du titre d'une catégorie */
+			/**
+			 *
+			 * Modification du titre de la catégorie
+			 *
+			 */
+
 			elseif (isset($_POST['titleCategorie'])) {
 
 				include_once('app/model/user/categorie/update_cat.php');
 
 				update_cat($_POST['idCategorie'], $_POST['titleCategorie'], $sessionID);
 			} 
+
+			/**
+			 *
+			 * Création d'une catégorie
+			 *
+			 */
+
+			elseif (isset($_POST['catName'])) {
+
+				include_once('app/model/user/categorie/new_cat.php');
+
+				$catID = new_cat($_POST['catName'], $sessionID);
+
+				echo $catID;
+			}
 			
-			/* Suppression d'une catégorie */
+			/**
+			 *
+			 * Suppression d'une catégorie
+			 * CCP : Suppression des emails de cette catégorie
+			 *
+			 */
+
 			else {
 				include_once('app/model/user/categorie/delete_cat.php');
 
@@ -68,25 +93,20 @@
 					}
 
 					delete_email($email['id_mail'], 0, $sessionID);
-
-					echo $chemin.$folder;
 				}
 
 				delete_cat($_POST['idCategorie'], $sessionID);
 			}
 		}
 		
-		/* Création d'une catégorie */
-		elseif (isset($_POST['catName'])) {
 
-			include_once('app/model/user/categorie/new_cat.php');
+		/**
+		 *
+		 * Fonction de duplication d'email
+		 * CCP : Renvoie le dossier image
+		 *
+		 */
 
-			$catID = new_cat($_POST['catName'], $sessionID);
-
-			echo $catID;
-		}
-
-		/* Duplication d'un email */
 		elseif (isset($_POST['idEmail'])) {
 			
 			include_once('app/model/user/email/duplicate.php');
@@ -95,7 +115,7 @@
 			
 			if ($emailDuplicated) {
 
-				$newID = new_email($emailDuplicated['id_user'], $emailDuplicated['email_name'], $emailDuplicated['email_dom'], $emailDuplicated['email_background'], $emailDuplicated['template_id'], $emailDuplicated['email_cat_id'], 1, $emailDuplicated['archive']);
+				$newID = new_email($emailDuplicated['id_user'], $emailDuplicated['email_name'], $emailDuplicated['email_dom'], $emailDuplicated['email_background'], $emailDuplicated['template_id'], $emailDuplicated['email_cat_id'], 1, $emailDuplicated['<hive']);
 
 
 				$timestamp = new DateTime($emailDuplicated['timestamp']);
@@ -130,7 +150,14 @@
 				echo $newFolder;
 			}
 		}
-		/* Insertion en archive d'un email */
+
+
+		/**
+		 *
+		 * Fonction de déplacement en archive d'un email
+		 *
+		 */
+
 		elseif (isset($_POST['archive'])) {
 
 			include_once('app/model/user/archive/update_archive.php');
@@ -138,7 +165,12 @@
 			update_archive($_POST["archive"], 1, $sessionID);
 		}
 
-		/* Suppression d'un email */
+		/**
+		 *
+		 * Fonction de suppression totale d'un email
+		 *
+		 */
+
 		elseif (isset($_POST['trash'])) {
 
 			include_once('app/model/user/email/delete_email.php');
@@ -161,6 +193,31 @@
 
 			delete_email($_POST['trash'], $sessionID);
 		}
+	}
+
+	/**
+	 *
+	 * Affichage de la vue
+	 *
+	 */
+
+	else {
+		
+		include_once('app/model/user/email/read_my_all_mails.php');
+
+		$emails = read_my_all_mails($sessionID, 0);
+
+		$option = array( 
+			'wherecolumn' 	=> 	'user_id',
+			'wherevalue'	=>	$sessionID,
+			'orderby'		=> 'cat_id',
+			'order' 		=> 'ASC',
+		);
+
+		$userCat = selecttable('email_cat', $option);
+
+		metadatas('Mes emails', 'Description', 'none');
+
+		include_once("app/view/user/emails.php");
 
 	}
-	/*=====  End of Page Email  ======*/

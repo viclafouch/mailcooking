@@ -2044,6 +2044,9 @@ div.container_profil .checkbonito:checked ~ label::before {
 }
 
 /*----------  Archives  ----------*/
+div.container_archives {
+  overflow-y: scroll !important;
+}
 div.container_archives div.full_block:last-child {
   border-bottom-color: transparent;
 }

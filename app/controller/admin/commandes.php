@@ -1,6 +1,34 @@
-<?php 
+<?php
 
+	/**
+	 *
+	 * Fichier d'affiche et de modifications des commandes
+	 * Valeur des commandes : 
+	 * 
+	 * - 0 : En attente de validation
+	 * - 1 : Prise en charge
+	 * - 2 : Tester le template
+	 * - 3 : Terminé
+	 *
+	 */
+
+
+	/**
+	 *
+	 * Chaque modification de commande doit s'effectuer par un POST
+	 *
+	 */
+	
 	if (!empty($_POST)) {
+
+		/**
+		 *
+		 * Valeur en cours : 1
+		 * Valeur désirée : 2
+		 * Fonction : Fonction : Sauvegarde de la thumbnail du template complet
+		 *
+		 */
+		
 		if (isset($_POST['thumbnail'])) {
 			$chemin = $_POST['chemin'];
 			$name = 'thumbnail';
@@ -10,6 +38,15 @@
 				base64_decode(explode(",", $_POST["thumbnail"])[1])
 			);
 		}
+
+		/**
+		 *
+		 * Valeur en cours : 1
+		 * Valeur désirée : 2
+		 * Fonction : Sauvegarde de chacune des thumbnails du template
+		 *
+		 */
+		
 		elseif (isset($_POST['thumb'])) {
 			$chemin = $_POST['chemin'];
 			$name = $_POST['nameThumb'];
@@ -19,6 +56,17 @@
 				base64_decode(explode(",", $_POST["thumb"])[1])
 			);
 		}
+
+		/**
+		 *
+		 * Valeur en cours : 1
+		 * Valeur désirée : 2
+		 * Fonction : Passage de la valeur a 2
+		 * CC : Création du template en BDD
+		 * CCP : Affichage en retour la popup de la valeur 2
+		 *
+		 */
+		
 		elseif (isset($_POST['addToBdd'])) {
 
 			include_once('app/model/user/template/valide_order.php');
@@ -45,7 +93,9 @@
 								"wherevalue"	=>	$_POST['userId']);
 	
 			$user = selecttable("users", $options);
-		?>
+			
+			?>
+
 			<header>
 				<h1>Commande N°<?= $commande[0]["id_commande"]; ?></h1>
 			</header>
@@ -85,10 +135,17 @@
 					<p><a href="#" data-close-popup id="cancelUpload" title="">Annuler la mise en ligne</a></p>
 				</footer>
 			</form>
-		<?php
-			
-		}
+		<?php }
 
+		/**
+		 *
+		 * Valeur en cours : 2
+		 * Valeur désirée : 3
+		 * Fonction : Création d'un email pour le test de celui-ci
+		 * CCP : Retourne l'id du builder pour la redirection
+		 *
+		 */
+		
 		elseif (isset($_POST['testEmail'])) {
 
 			$options = array( 	"wherecolumn"	=>	"id_template_commande",
@@ -121,7 +178,15 @@
 			echo $id_mail; 
 		}
 
-		/* Annule le template */
+		/**
+		 *
+		 * Valeur en cours : 2
+		 * Valeur désirée : 1
+		 * Fonction : Suppression du template et des emails associés
+		 * CCP : Retourne la page de commandes
+		 *
+		 */
+		
 		elseif (isset($_POST['cancelUpload'])) {
 			$orderID = $_POST['cancelUpload'];
 			include_once('app/model/user/template/valide_order.php');
@@ -183,12 +248,21 @@
 			include_once('app/model/user/template/delete_template.php');
 
 			delete_template($orderID);
-			// Pour l'email builder --> Page commande
+
 			echo '?module=admin&action=commandes';
 		}
 
-		/* Confirme et valide définitvement le template */
+		/**
+		 *
+		 * Valeur en cours : 2
+		 * Valeur désirée : 3
+		 * Fonction : Valide le template en valeur 3 et supprime les emails associés
+		 * CCP : Retourne la page de commandes
+		 *
+		 */
+		
 		elseif (isset($_POST['valideTemplate'])) {
+
 			$orderID = $_POST['valideTemplate'];
 			
 			include_once('app/model/user/template/valide_order.php');
@@ -236,12 +310,29 @@
 			echo '?module=admin&action=commandes';		
 		}
 		
-		/* Prise en charge de la commande */
+		/**
+		 *
+		 * Valeur en cours : 0
+		 * Valeur désirée : 1
+		 * Fonction : Passe la commande à valeur 1
+		 *
+		 */
+		
 		elseif (isset($_POST['order'])) {
 			include_once('app/model/admin/update_commande.php');
 
 			$update = update_commande($_POST["order"], 1);
 		}
+
+		/**
+		 *
+		 * Valeur en cours : 1
+		 * Valeur désirée : 2
+		 * Fonction : Récupère l'archive image et extraction de celle-ci
+		 * CCP : Retourne la bonne source pour les images
+		 *
+		 */
+		
 		elseif (isset($_FILES)) {
 			$data['file'] = $_FILES;
 		    $data['text'] = $_POST;
@@ -273,10 +364,23 @@
 		}
 	}
 
-	else if (!isset($_GET["id"])) {
+	/**
+	 *
+	 * Les popup s'affichent via un GET
+	 *
+	 */
+	
 
-		// Finish order
-		if (isset($_GET['id_commande'])) { ?>
+	/**
+	 *
+	 * Valeur en cours : 1
+	 * Valeur désirée : 2
+	 * Formulaire de mise en ligne du template
+	 *
+	 */
+
+	elseif (isset($_GET['id_commande'])) { ?>
+
 		<header>
 			<h1>Mise en ligne du template</h1>
 		</header>
@@ -318,9 +422,17 @@
 			</footer>
 		</form>
 
-		<?php } 
+	<?php } 
 
-		elseif (isset($_GET['testTemplate'])) { ?>
+	/**
+	 *
+	 * Valeur en cours : 2
+	 * Valeur désirée : 3
+	 * Demande de test du template
+	 *
+	 */
+
+	elseif (isset($_GET['testTemplate'])) { ?>
 
 		<header>
 			<h1>Mise en ligne du template</h1>
@@ -335,23 +447,18 @@
 			<a href="#" id="cancelUpload" title="">Annuler la mise en ligne</a>
 			<a href="#" id="testLaster" title="">Essayer plus tard</a>
 		</footer>
-		<?php }
-		else {
+	
+	<?php }
 
-			$nb_commandes = counttable("template_commande");
-
-			include_once('app/model/admin/lire_commandes.php');
-
-			$users = lire_commandes();
-
-			metadatas('Les commandes', 'Description', 'none');
-
-			include_once('app/view/admin/commandes.php');
-		}
-	}
-
-	/* Affiche la popup de base */
-	else {
+	/**
+	 *
+	 * Valeur en cours : X
+	 * Valeur désirée : X
+	 * Popup de base
+	 *
+	 */
+	
+	elseif (isset($_GET['id'])) {
 
 		include_once('app/model/admin/lire_commande.php');
 
@@ -416,6 +523,25 @@
 					<?php } ?>
 				</footer>
 			</form>
-			<?php
-		}
+		<?php }
+	}
+
+	/**
+	 *
+	 * Affichage de la vue
+	 * Envoie des données pour la lectures des commandes
+	 *
+	 */
+
+	else {
+
+		$nb_commandes = counttable("template_commande");
+
+		include_once('app/model/admin/lire_commandes.php');
+
+		$users = lire_commandes();
+
+		metadatas('Les commandes', 'Description', 'none');
+
+		include_once('app/view/admin/commandes.php');
 	}

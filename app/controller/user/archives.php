@@ -1,8 +1,27 @@
 <?php
+
+	/**
+	 *
+	 * Fichier d'affichage et de modification des archives
+	 *
+	 */
+
+	/**
+	 *
+	 * Chaque modification d'archive doit s'effectuer par un POST
+	 *
+	 */
+
 	if (!empty($_POST)) {
 
-		/* Suppression d'une archive */
+		/**
+		 *
+		 * Fonction de suppression d'archive (et donc de l'email)
+		 *
+		 */
+
 		if (isset($_POST['dArchiveID'])) {
+
 			include_once('app/model/user/email/delete_email.php');
 
 			$archiveDeleted = getEmailInfo($_POST['dArchiveID'], $sessionID);
@@ -24,20 +43,34 @@
 			delete_email($_POST['dArchiveID'], $sessionID);
 		}
 
-		/* Restauration d'une archive */
-		elseif (isset($_POST['rArchiveID'])) {
-			include_once('app/model/user/archive/update_archive.php');
+		/**
+		 *
+		 * Fonction de restauration d'archive et de sa catégorie
+		 *
+		 */
 
-			update_archive($_POST["rArchiveID"], 0, $sessionID);
+		elseif (isset($_POST['rArchiveID'])) {
+
+			include_once('app/model/user/archive/update_archive.php');
 
 			include_once('app/model/user/email/update_cat_email.php');
 
+			update_archive($_POST["rArchiveID"], 0, $sessionID);
+
 			update_cat_email(NULL, $_POST['rArchiveID'], $sessionID);
 		}
-	} else {
+	} 
+
+	/**
+	 *
+	 * Affichage de la vue
+	 *
+	 */
+
+	else {
 
 		include_once('app/model/user/email/read_my_all_mails.php');
-		/* Lecture des emails archivés */
+		
 		$archives = read_my_all_mails($_SESSION["user"]["user_id"], 1);
 
 		metadatas('Mes archives', 'Description', 'none');

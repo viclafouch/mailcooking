@@ -1,30 +1,32 @@
 <?php
 
-	ini_set('display_errors', '1');
+	/**
+	 *
+	 * Script serveur s'executant toutes les 24h afin de supprimer
+	 * les emails non sauvegardés au moins 1 fois. 
+	 * CC : Suppression des emails dont l'etat 'saved' est 0
+	 *
+	 */
 
-	try 
-    {
-        // Identifiant & port à compléter
+
+	try {
         $dns = 'mysql:host=localhost;port=3306;dbname=crmcu309_mc_2016';
         $utilisateur = 'root';
         $motDePasse='';
 
-        // Option de connexion
         $options = array (PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
                             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 
-        // Initialisation de la varible avec ma connexion PDO
         $connexion = new PDO ($dns, $utilisateur, $motDePasse, $options);
-    }
-    catch (Exception $e)
-    {
+
+    } 
+
+    catch (Exception $e) {
         echo "Connexion à MySQL impossible : ", $e->getMessage();
         die();
     }
 
-
-    function delete_email($id_mail)
-	{
+    function delete_email($id_mail) {
 		global $connexion;
 
 		try {
@@ -32,11 +34,9 @@
 						WHERE id_mail = :id_mail';
 
 			$query = $connexion->prepare($req);
-
 			$query->bindValue(':id_mail', $id_mail, PDO::PARAM_INT);
-
 			$query->execute();
-			
+			$query->closeCursor();
 		}
 
 		catch (Exception $e) {
@@ -44,12 +44,10 @@
 		}
 	}
 
-	function read_email($saved)			
-	{
+	function read_email($saved) {
 		global $connexion;
 
-		try 
-		{
+		try {
 			$query = $connexion->prepare('SELECT * 
 											FROM mail_editor
 												WHERE saved=:saved');
@@ -62,26 +60,22 @@
 			return $emails;
 		}
 		
-		catch (Exception $e) 
-		{
+		catch (Exception $e) {
 			die("Erreur SQL : " . $e->getMessage());
 		}
 	}
 
 	$emailsNotSaved = read_email(0);
 
-	function read_user($user_id)			
-	{
+	function read_user($user_id) {
 		global $connexion;
 
-		try 
-		{
-			// On voit la requête
+		try {
+
 			$query = $connexion->prepare('SELECT * 
 											FROM users
 												WHERE user_id=:user_id');
 
-			// On initialise le paramètre
 			$query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 
 			$query->execute();
@@ -91,8 +85,7 @@
 			return $user;
 		}
 		
-		catch (Exception $e) 
-		{
+		catch (Exception $e) {
 			die("Erreur SQL : " . $e->getMessage());
 		}
 	}
@@ -118,6 +111,4 @@
 		}
 		delete_email($email['id_mail']);
 	}
-
-	sleep(10);
 ?>
