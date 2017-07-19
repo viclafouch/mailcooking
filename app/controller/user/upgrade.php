@@ -24,7 +24,7 @@
 	 *
 	 */
 
-	if (!empty($_POST)) {
+	if (isset($_POST['stripeToken'])) {
 
 		require_once('app/config/config_stripe.php');
 
@@ -66,8 +66,6 @@
 			$upgrade = upgrade($sessionID, $_POST['plan']);
 
 			if ($upgrade) {
-				echo "Abonnement mise à jour !";
-				sleep(3);
 				location('user', 'account', 'plan='.$_POST['plan']);
 			}
 			

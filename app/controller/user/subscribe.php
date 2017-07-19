@@ -23,8 +23,6 @@
 	 * Le POST est obligatoire 
 	 *
 	 */
-	
-	protec();
 
 	if (isset($_POST['stripeToken'])) {
 
