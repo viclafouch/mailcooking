@@ -4,11 +4,11 @@ Bienvenue à bord __jeune padawan__!
 
 ![](https://media4.giphy.com/media/10a9ikXNvR9MXe/giphy.gif)
 
-Voici la documentation de Mailcooking. Projet construit par CRMCURVE dont le stagiaire [Victor de la Fouchardière](https://github.com/upstage/ "Victor de la Fouchardière") étant en majeur partie contribuer à cette l'application PaaS.
+Voici la documentation de Mailcooking. Projet construit par CRMCURVE dont le stagiaire [Victor de la Fouchardière](https://github.com/upstage/ "Victor de la Fouchardière") étant en majeur partie développeur de cette l'application PaaS.
 
 ## Mailcooking en bref
 
-MailCooking est une plateforme PaaS vous permetant de concevoir et éditer vos newsletters en quelques clics et de les programmer sur votre routeurs.
+MailCooking est une plateforme PaaS vous permettant de concevoir et d'éditer vos newsletters en quelques clics et de les programmer sur votre routeur.
 
 *Le contenu ci-dessous peut ne pas être vérifié ou à jour.*
 
@@ -25,7 +25,7 @@ Le site est structuré en __MVC__ (__Modele / Vue / Controller__), très pratiqu
 
 ## API, langages et librairies utilisés
 
-Les différentes __API__ que Mailcooking profitent sont : 
+Les différentes __API__ que Mailcooking profite sont : 
 
 * [Stripe](https://stripe.com/fr)
 
