@@ -1,87 +1,89 @@
 # Mailcooking
 
-Voici un 
+Bienvenue à bord jeune padawan !
 
-## Getting Started
+![](https://media4.giphy.com/media/10a9ikXNvR9MXe/giphy.gif)
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Voici la documentation de Mailcooking. Projet construit par CRMCURVE dont le stagiaire [Victor de la Fouchardière](https://github.com/upstage/ "Victor de la Fouchardière") étant en majeur partie contribuer à cette l'application PaaS.
 
-### Prerequisites
+## Mailcooking en bref
 
-What things you need to install the software and how to install them
+MailCooking est une plateforme PaaS vous permetant de concevoir et éditer vos newsletters en quelques clics et de les programmer sur votre routeurs.
+
+*Le contenu ci-dessous peut ne pas être vérifié ou à jour.*
+
+La plateforme est composée de 2 partie. Une partie "Non connectée" permettant de comprendre ce qu'est Mailcooking, mais ne permet pas d'accéder à l'application en elle-même. L'autre partie concerne donc l'application avec des plans d'abonnements (via [Stripe](https://stripe.com/fr)).
+
+3 plans d'abonnement :
+* Le plan TIP à 48€/mo
+* Le plan TOP à 72€/mo
+* Le plan TIP TOP à 108€/mo
+
+Chaque abonnement se renouvelle chaque mois __sauf__ si l'utilisateur désactive la récurrence dans ses paramètres de compte.
+
+Le site est structuré en MVC (Modele / Vue / Controller), très pratique pour les applications web. Pour comprendre comment cela fonctionne. Vous pouvez-vous référer à ce lien [Wikipedia](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur/).
+
+## API, langages et librairies utilisés
+
+Les différentes API que Mailcooking profitent sont : 
+
+* [Stripe](https://stripe.com/fr)
+
+Pour commencer la configuration et l'optimisation de l'application, il est préférable de comprendre les différents langages utilisés pour faire fonctionner Mailcooking :
+
+* PHP 5.6
+* Javascript (dont l'utilisation du framework jQuery)
+* HTML / CSS (SCSS est préférable)
+
+De multiples librairies sont égalements exploitées : 
+
+* [Turbolinks](https://github.com/turbolinks/turbolinks)
+* [jQuery UI](http://jqueryui.com/)
+* [HTML2Canvas](https://html2canvas.hertzen.com/)
+* [jQuery Minicolors](https://labs.abeautifulsite.net/jquery-minicolors/)
+* [Croppie](https://github.com/foliotek/croppie)
+* [Medium Editor](https://github.com/yabwe/medium-editor)
+* [Undo manager](https://github.com/ArthurClemens/Javascript-Undo-Manager)
+
+Pour ce qui est la base de données, l'application gère cela avec PHPMyAdmin, une application Web de gestion pour les systèmes de gestion de base de données MySQL réalisée en PHP.
+
+### Installation
+
+Tout d'abord et pour commencer, une plate-forme de développement Web est obligatoire (ou pas dans certains cas), je vous conseille d'y installer [Wamp](http://www.wampserver.com/) pour Windows ou [MAMP](https://www.mamp.info/de/) pour OS X.
+
+Ensuite, il va vous falloir être muni de l'invite de commande, ou d'un émulateur (je peux vous conseiller [Cmder](http://cmder.net/)). Quelques lignes de commandes vont être nécessaires pour le bon fonctionnement de Mailcooking. 
+
+[Composer](https://getcomposer.org/) est nécessaire pour faire appel aux differents paquets (comme [Stripe PHP](https://github.com/stripe/stripe-php)). Vous devez donc l'installer sur votre système.
+
+Une fois que avez cloné le dossier sur votre serveur local, munissez-vous de votre terminal et placez-vous sur le dossier mailcooking. Téléchargez ensuite les paquets via Composer : 
 
 ```
-Give examples
+Composer install
 ```
 
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
+Pour ce qui est du préprocesseur SASS, l'installation de [COMPASS](http://compass-style.org/) est donc obligatoire, démarrez donc votre compilateur via la commande :
 ```
-Give the example
+Compass watch
 ```
 
-And repeat
+Et voilà, vous êtes prêt pour optimiser l'application, n'oubliez d'y inclure la base de données ;)
 
-```
-until finished
-```
+### Aides fournies
 
-End with an example of getting some data out of the system or using it for a little demo
+Evidemment que je ne vais pas vous laisser un code sans commentaire ! :p 
 
-## Running the tests
+![](https://media.giphy.com/media/gw3MYmhxEv8T52ow/giphy.gif)
 
-Explain how to run the automated tests for this system
+Chaque controllers est commenté de A à Z, mais un minimum de connaissances en PHP est requis (sinon ce serait trop simple). Pour ce qui est de la plus grosse partie du développement, je veux bien entendu parler du builder, les scripts sont découpés en fonction de leur utilité.
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Vous pouvez me contacter par tel ou par mail (JC & Antoine ont mes coordonnées). #noSkype
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+La version finalisée par Victor de la Fouchardière se trouve ici : 
 
-## Authors
+## Conclusion
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+C'est partit et ne casse pas tout ! 
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+![](http://ljdchost.com/L8am6Ta.gif)
