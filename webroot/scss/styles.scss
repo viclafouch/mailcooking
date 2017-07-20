@@ -1177,9 +1177,23 @@ div.container_profil { overflow-y: scroll!important;
                 text-align: center;
                 padding: 22px 10px;
                 width: 80%;
+                @include flex(row nowrap, space-between, center);
                 margin: 0 auto;
                 border-bottom: $primaryBorder; 
                 color: rgb(138, 138, 138);
+
+                span, i { @include inline-block(middle); }
+
+                i {
+                    color: #fff;
+                    border: 1px solid white;
+                    font-size: 18px;
+                    padding: 3px;
+                    @include border-radius(50%);
+
+                    &.ok { background-color: #4CAF50; }
+                    &.nok { background-color: #F44336; }
+                }
             }
         }
 

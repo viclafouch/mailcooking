@@ -1,10 +1,37 @@
 <?php 
 
+	/**
+	 *
+	 * Fichier d'affichage et de templates
+	 *
+	 */
+
+	/**
+	 *
+	 * Fonction de sécurité
+	 * Vérification d'une session
+	 *
+	 */
+
+	protec();
+
+	/**
+	 *
+	 * Chaque modification de template doit s'effectuer par un POST
+	 *
+	 */
+
 	if (!isset($_POST["nom_commande"])) {
+
+		/**
+		 *
+		 * Fonction d'aperçu d'un template
+		 * CCP : Retourne le DOM du template
+		 *
+		 */
 
 		if (isset($_GET["id"])) {
 
-			// Appel du modèle pour la preview du template
 			include_once("app/model/user/template/preview_template.php");
 
 			if ($_GET['allow'] == 0) {
@@ -16,8 +43,16 @@
 			echo $temp[0]["DOM"];
 
 		}
+
+		/**
+		 *
+		 * Fonction d'appel des templates lors de la modification des filtres
+		 * CCP : Retourne X lignes de template
+		 *
+		 */
+
 		elseif (isset($_POST['templates'])) {
-			// Appel du modèle pour l'affichage des templates
+		
 			include_once("app/model/user/template/read_templates.php");
 
 			if ($_POST['templates'] == 1 && $_POST['orderby'] == 1) {
@@ -37,7 +72,7 @@
 				<?php 
 
 					include_once('app/model/user/template/valide_order.php');
-					// Compter le nombre de mails utilisés par le template
+					
 					$options = array ("wherecolumn" => "template_id", 
 										"wherevalue" => $temp['id_template']);
 					$countMailsEditor = counttable("mail_editor", $options);
@@ -50,6 +85,7 @@
 
 					$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
 				?>
+
 				<li class="row nowrap row-hori-between li_template" data-allow="<?php if ($temp['id_allow'] == 'all') { ?>0<?php } else { ?>1<?php } ?>" data-template="<?= $temp['id_template']; ?>">
 					<div class="row nowrap">
 						<div style="background: url('<?= $chemin.'templates/'.$folder.'/thumbnails/thumbnail.png'; ?>');" data-popup-preview class="col nowrap col_template_thumbs">
@@ -86,13 +122,26 @@
 				</li>
 			<?php }
 		}
+
+		/**
+		 *
+		 * Fonction de modification de titre de template perso
+		 *
+		 */
+
 		elseif (isset($_POST['template_title'])) {
 			include_once('app/model/user/template/update_title_template.php');
 
 			update_title_template($_POST['idTemplate'], $_POST['template_title']);
 		}
 
-		/* Création d'un email */
+		/**
+		 *
+		 * Fonction de création d'un email
+		 * CCP : Retourne l'id du mail créé
+		 *
+		 */
+
 		elseif (isset($_POST['template_id'])) {
 			
 			$options = array( 	"wherecolumn"	=>	"id_template",
@@ -146,48 +195,55 @@
 
 			echo $id_mail; 
 		}
+
+		/**
+		 *
+		 * Affichage de la vue
+		 *
+		 */
+
 		else {
 			protec();
 
 			include_once('app/model/user/template/valide_order.php');
 
-			// Appel du modèle pour l'affichage des templates
 			include_once("app/model/user/template/read_templates.php");
 
-			// Compter le nombre de templates perso
 			$options = array ("wherecolumn" => "id_allow", 
 								"wherevalue" => $_SESSION['user']['user_id']);
 			$perso = counttable("template_mail", $options);
 
 			if ($perso >= 1) {
-				// Affichage des templates persos
 				$public = false;
 				$template = read_templates($_SESSION["user"]["user_id"], 'DESC');
 			}
 			else {
-				// Affichage des templates publics
 				$public = true;
 				$template = read_templates('all', 'DESC');
 			}
 
 			metadatas('Mes templates', 'Description', 'none');
 
-			// Appel de la view
 			include_once("app/view/user/template.php");
 		}		
 	}
+
+	/**
+	 *
+	 * Fonction de création d'une commande
+	 *
+	 */
+
 	else {
 
-		// Appel du modèle pour l'insertion de la commande
 		include_once("app/model/user/template/creat_order.php");
 
-		// Défintion du statut par défault
 		$default_statut = 0;
 
-		// Insertion de la commande
 		$new_order = new_order($_POST, $_SESSION["user"]["user_id"], $default_statut);
 
 		if (!$new_order) { location('user', 'template', 'notif=nok'); } 
+
 		else {
 
 			$new_folder = $new_order.'_'.substr(str_replace(' ', '_', $_POST["nom_commande"]),0,15);
@@ -195,7 +251,6 @@
 
 			$folder = $chemin.'commandes/'.$new_folder.'/';
 
-			// Upload du fichier dans le dossier 
 			move_uploaded_file($_FILES['file_commande']['tmp_name'], $folder.$_FILES['file_commande']['name']);
 
 			location('user', 'template', "notif=ok"); 

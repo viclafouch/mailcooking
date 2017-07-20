@@ -214,8 +214,12 @@
 					</header>
 					<div class="card_body">
 						<ul class="col nowrap">
-							<li>Complete documentation</li>
-							<li>Complete documentation</li>
+							<li><span>Utilisateur(s) :</span>1</li>
+							<li><span>Modèles publics : </span><i class="material-icons ok">done</i></li>
+							<li><span>Templates dédiés : </span><i class="material-icons nok">clear</i></li>
+							<li><span>Implémentation de templates : </span><i class="material-icons nok">clear</i></li>
+							<li><span>API :</span><i class="material-icons nok">clear</i></li>
+							<li><span>Conseils : </span><i class="material-icons nok">clear</i></li>
 						</ul>
 					</div>
 					<?php
@@ -302,9 +306,12 @@
 					</header>
 					<div class="card_body">
 						<ul class="col nowrap">
-							<li>Complete documentation</li>
-							<li>Complete documentation</li>
-							<li>Complete documentation</li>
+							<li><span>Utilisateur(s) :</span> 3</li>
+							<li><span>Modèles publics : </span><i class="material-icons ok">done</i></li>
+							<li><span>Templates dédiés : </span>3</li>
+							<li><span>Implémentation de templates : </span><i class="material-icons nok">clear</i></li>
+							<li><span>API :</span>1</li>
+							<li><span>Conseils : </span><i class="material-icons nok">clear</i></li>
 						</ul>
 					</div>
 					<?php
@@ -390,10 +397,12 @@
 					</header>
 					<div class="card_body">
 						<ul class="col nowrap">
-							<li>Complete documentation</li>
-							<li>Complete documentation</li>
-							<li>Complete documentation</li>
-							<li>Complete documentation</li>
+							<li><span>Utilisateur(s) :</span> illimité</li>
+							<li><span>Modèles publics : </span><i class="material-icons ok">done</i></li>
+							<li><span>Templates dédiés : </span>5</li>
+							<li><span>Implémentation de templates : </span><i class="material-icons ok">done</i></li>
+							<li><span>API :</span>10+</li>
+							<li><span>Conseils : </span><i class="material-icons ok">done</i></li>
 						</ul>
 					</div>
 					<?php 

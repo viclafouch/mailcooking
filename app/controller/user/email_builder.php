@@ -1,10 +1,38 @@
 <?php
 
-	protec(); 
+	/**
+	 *
+	 * Fichier d'affichage et de modifications du builder
+	 *
+	 */
+
+	/**
+	 *
+	 * Fonction de sécurité
+	 * Vérification d'une session
+	 *
+	 */
+
+	protec();
+
+	
+	/**
+	 *
+	 * Chaque modification d'email doit s'effectuer par un POST
+	 *
+	 */
 
 	if (!empty($_POST)) {
+
+		/**
+		 *
+		 * Fonction d'upload d'image (via ImageCropper)
+		 * CCP : Retourne le path + name de l'image
+		 *
+		 */
+
 		if (isset($_POST["new_img"])) {
-			// Enregistrement de l'image
+
 			$options = array( 	
 					"wherecolumn"	=>	"id_mail",
 					"wherevalue"	=>	$_POST['id_mail']);
@@ -27,13 +55,22 @@
 				base64_decode(explode(",", $_POST["new_img"])[1])
 			);
 
-			if($savefile){
+			if ($savefile){
 				echo $chemin.'/'.$random;
 			}
+
 			else {
 				echo 'upload fail';
 			}
 		}
+
+		/**
+		 *
+		 * Fonction d'insertion des thumbnails
+		 * CCP : Retourne le path du template
+		 *
+		 */
+
 		elseif (isset($_POST['idMail4Thumbs'])) {
 
 			$options = array( "wherecolumn"	=>	"id_mail",
@@ -52,9 +89,9 @@
 			if ($template_mail[0]['id_template_commande'] == 0) {
 				echo "template_all/template_public_".$template_mail[0]['id_template']."/";
 			}
+
 			else {
 				$template_commande = selecttable("template_commande", $options);
-
 				$chemin = ''.$chemin.'templates/';
 				$id = $template_mail[0]['id_template_commande'];
 				$new_folder = $id.'_'.substr(str_replace(' ', '_', $template_commande[0]["nom_commande"]),0,15);
@@ -62,7 +99,13 @@
 			}
 		}
 
-		/*----------  Exportation de l'email  ----------*/
+		/**
+		 *
+		 * Fonction d'export du template
+		 * CCP : Retourne le path du zip à télécharger
+		 * CCP2 : Nettoyage du dossier export à chaque export
+		 *
+		 */
 
 		elseif (isset($_POST['domExport'])) {
 
@@ -131,7 +174,10 @@
 				}
 			}
 
-
+			/*================================================
+			=            Création du fichier HTML            =
+			================================================*/
+			
 			header ("Content-type: image/png");
 			$image = imagecreate(750,1);
 			$black = imagecolorallocate($image, 0, 0, 0);
@@ -187,7 +233,10 @@
 			$data = htmlspecialchars_decode($newDom);
 			fwrite($fh, $data);
 
+			/*=====  End of Création du fichier HTML  ======*/
+
 			if (count(glob($path."/*")) !== 0 ) {
+
 				$zip = new ZipArchive();
 				$rootPath = realpath($path);
 
@@ -198,6 +247,7 @@
 				    RecursiveIteratorIterator::LEAVES_ONLY
 				);
 				$zip->addFile($file,'index.html');
+
 				foreach ($files as $name => $file)
 				{
 				    if (!$file->isDir())
@@ -209,10 +259,17 @@
 				    }
 				}
 				$zip->close();
+
 				echo $chemin.'/'.$_POST['titleExport'].'.zip';
 			}
 		}
-		/*----------  Sauvegarde de l'email & Création de la thumbnail  ----------*/
+		
+		/**
+		 *
+		 * Fonction de sauvegarde de l'email
+		 * CCP : Mise à jour de la thumb
+		 *
+		 */
 		
 		elseif (isset($_POST['emailID'])) {
 
@@ -228,9 +285,7 @@
 			$email_date = $timestamp->format('d-m-Y');
 
 			$folder = ''.$email[0]['id_mail'].'_'.$email_date.'';
-
 			$chemin = $chemin.'emails/'.$folder;
-
 			$thumbsName = 'thumbs.png';
 
 			$savefile = @file_put_contents(	
@@ -243,12 +298,16 @@
 		}
 	}
 
-	/*----------  Affichage de l'email  ----------*/
+	/**
+	 *
+	 * Affichage de l'email
+	 * CCP : Toutes les sécurités se trouvent ici
+	 * /! Faites vous plaisir, je n'y ai mis qu'une infime partie !\
+	 *
+	 */
 	
-	/* Vérifie si le paramètre existe */
 	else if (isset($_GET['id'])) {
 
-		/* Verifie si le paramètre est un nombre */
 		if (is_numeric($_GET['id'])) {
 
 			$options = array( 	"wherecolumn"	=>	"id_mail",
@@ -256,7 +315,6 @@
 			
 			$mail = selecttable("mail_editor", $options);
 
-			/* Vérifie si le mail existe bien*/
 			if (!empty($mail)) {
 
 				$options = array( 	
@@ -267,7 +325,7 @@
 				$template = selecttable("template_mail", $options);
 
 				if (!empty($template)) {
-					/* Vérifie si c'est bien l'email de la SESSION user */
+
 					if ($mail[0]['id_user'] == $_SESSION['user']['user_id']) {
 						
 						metadatas('Email_builder', 'Description', 'none');
@@ -283,7 +341,13 @@
 		else { die("erreur param"); }
 	}
 
-	/*----------  Création d'un email à partir des templates  ----------*/
+	
+	/**
+	 *
+	 * Création d'un email
+	 * CCP : Retourne l'url vers l'email builder associé
+	 *
+	 */
 	
 	/* Vérifie si le paramètre existe */
 	else if (isset($_GET['template'])) {
@@ -293,13 +357,11 @@
 
 		$template = selecttable("template_mail", $options);
 
-		/* Vérifie si le template existe */
 		if ($template) {
 			include_once('app/model/user/email/insert_email.php');
 
 			$mail = new_email($_GET['template'], $_SESSION['user']['user_id'], $template[0]['DOM']);
-			
-			/* Vérifie si la création de l'email est un succès */
+
 			if ($mail) {
 
 				$options = array( 	
@@ -318,9 +380,9 @@
 
 				location('user', 'email_builder', 'id='.$mail.'');
 			}
-			else { die('la création à échoué'); }
+			else { die('La création a échoué'); }
 		}
-		else { die('template inexistant'); }
+		else { die('Template inéxistant'); }
 	}
 	else { die('Aucun ID renseigné'); }
 ?>

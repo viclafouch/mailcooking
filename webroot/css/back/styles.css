@@ -1677,9 +1677,39 @@ div.container_profil div.card_block > div.card_body > ul > li {
   text-align: center;
   padding: 22px 10px;
   width: 80%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  align-items: center;
   margin: 0 auto;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   color: #8a8a8a;
+}
+div.container_profil div.card_block > div.card_body > ul > li span, div.container_profil div.card_block > div.card_body > ul > li i {
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+}
+div.container_profil div.card_block > div.card_body > ul > li i {
+  color: #fff;
+  border: 1px solid white;
+  font-size: 18px;
+  padding: 3px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+div.container_profil div.card_block > div.card_body > ul > li i.ok {
+  background-color: #4CAF50;
+}
+div.container_profil div.card_block > div.card_body > ul > li i.nok {
+  background-color: #F44336;
 }
 div.container_profil div.card_block > footer.card_footer {
   width: 100%;
