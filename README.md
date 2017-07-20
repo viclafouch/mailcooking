@@ -4,7 +4,7 @@ Bienvenue à bord __jeune padawan__!
 
 ![](https://media4.giphy.com/media/10a9ikXNvR9MXe/giphy.gif)
 
-Voici la documentation de Mailcooking. Projet construit par CRMCURVE dont le stagiaire [Victor de la Fouchardière](https://github.com/upstage/ "Victor de la Fouchardière") étant en majeur partie développeur de cette l'application PaaS.
+Voici la documentation de Mailcooking. Projet construit par CRMCURVE dont le stagiaire [Victor de la Fouchardière](http://www.victor-de-la-fouchardiere.fr/ "Victor de la Fouchardière") étant en majeur partie développeur de cette l'application PaaS.
 
 ## Mailcooking en bref
 
