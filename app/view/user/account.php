@@ -138,7 +138,7 @@
 				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
 						<span>Adresse e-mail</span>
-						<p>Ajouter ou supprimez des adresses e-mail sur votre compte</p>
+						<p>Ajoutez ou supprimez des adresses e-mail sur votre compte</p>
 					</div>
 					<div class="col nowrap col-verti-around">
 						<button data-info="email" class="button_default button_primary">Modifier</button>
@@ -190,6 +190,36 @@
 								<p>	
 									<a href="#" title="">Modifier</a>
 								</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col nowrap">
+				<div class="bg_field row nowrap row-hori-between">
+					<div class="col nowrap col-verti-around">
+						<span>Utilisateurs</span>
+						<p>Ajoutez des d'utilisateurs à votre compte selon votre abonnement.</p>
+					</div>
+					<div class="col nowrap col-verti-around">
+						<button data-info="user" class="button_default button_primary">Modifier</button>
+						<p><span data-count="user">1</span> utilisateurs enregistré</p>
+					</div>
+				</div>
+				<div id="user" class="info_accordeon">
+					<div class="col nowrap">
+						<div class="row nowrap sm_field">
+							<p><strong>Voici les comptes utilisateurs que vous avez ajoutés :</strong></p>
+						</div>
+						<ul class="col nowrap sm_field" id="user_list">
+							<li class="row row-hori-between nowrap">
+								<p>victor.dlf@outlook.fr</p>
+								<p>	
+									<a href="#" title="" data-modif="user">Modifier</a>
+								</p>
+							</li>
+							<li class="row row-hori-between nowrap">
+								<p><strong><a href="#" data-add="user" title="">Ajouter un utilisateur</a></strong></p>
 							</li>
 						</ul>
 					</div>
@@ -520,7 +550,7 @@
 			</table>
 		</div>
 	</div>
-	<div class="popup_mc" id="profilRenewal" style="visibility: hidden">
+	<div class="popup_mc" id="profilRenewal">
 		<div class="popup_background"></div>
 		<div class="popup_container">
 			<header>
@@ -550,13 +580,8 @@
 						</div>
 					</div>
 				</div>
-<<<<<<< HEAD
 				<footer>
 					<button data-close-popup class="button_default button_secondary">Sauvegarder</button>
-=======
-				<footer class="row row-verti-center row-hori-center nowrap">
-					<button class="button_default button_secondary">Sauvegarder</button>
->>>>>>> 8c8e58e8074b71dd82261764f49d6329f9640b52
 				</footer>
 			</form>
 		</div>

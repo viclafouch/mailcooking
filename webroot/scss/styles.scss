@@ -971,7 +971,7 @@ div.container_template { overflow-y: scroll!important;
 
 div.container_profil { overflow-y: scroll!important;
 
-    div.popup_mc#profilRenewal footer { height: 120px; }
+    div.popup_mc#profilRenewal button { margin: 10px auto; }
 
     div.settings_menu {
         position: relative;
@@ -1108,6 +1108,7 @@ div.container_profil { overflow-y: scroll!important;
             height: 50px;
             overflow: hidden;
             line-height: 50px;
+            @include box-sizing(border-box);
             border-top: 1px solid rgbaExpress(black, 0.085);
             & > p { padding: 0 5px; }
             & > p > input {

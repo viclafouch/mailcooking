@@ -1383,8 +1383,8 @@ div.container_template div.list_template > ul div.popup_action_template ul li:ho
 div.container_profil {
   overflow-y: scroll !important;
 }
-div.container_profil div.popup_mc#profilRenewal footer {
-  height: 120px;
+div.container_profil div.popup_mc#profilRenewal button {
+  margin: 10px auto;
 }
 div.container_profil div.settings_menu {
   position: relative;
@@ -1579,6 +1579,9 @@ div.container_profil div.info_accordeon ul.sm_field > li {
   height: 50px;
   overflow: hidden;
   line-height: 50px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   border-top: 1px solid rgba(0, 0, 0, 0.085);
 }
 div.container_profil div.info_accordeon ul.sm_field > li > p {
