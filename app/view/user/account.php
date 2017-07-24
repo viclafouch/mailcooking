@@ -29,7 +29,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="block full_block" data-task="inf">
+<!-- 	<div class="block full_block" data-task="inf">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Informations de compte</h2>
 		</div>
@@ -128,7 +128,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="block full_block" data-task="inf">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Informations de connexion</h2>
@@ -203,7 +203,7 @@
 					</div>
 					<div class="col nowrap col-verti-around">
 						<button data-info="user" class="button_default button_primary">Modifier</button>
-						<p><span data-count="user">1</span> utilisateurs enregistré</p>
+						<p><span data-count="user"><?= count($users_additional); ?></span> utilisateurs enregistré(s)</p>
 					</div>
 				</div>
 				<div id="user" class="info_accordeon">
@@ -212,12 +212,16 @@
 							<p><strong>Voici les comptes utilisateurs que vous avez ajoutés :</strong></p>
 						</div>
 						<ul class="col nowrap sm_field" id="user_list">
-							<li class="row row-hori-between nowrap">
-								<p>victor.dlf@outlook.fr</p>
-								<p>	
-									<a href="#" title="" data-modif="user">Modifier</a>
-								</p>
-							</li>
+							<?php foreach ($users_additional as $key => $user): ?>
+								<li>
+									<form class="row row-hori-between nowrap form-account" id="<?= $user['user_additional_id'];?>" action="">
+										<p><?= $user['user_additional_email'];?></p>
+										<p>	
+											<a href="#" title="" data-delete="user">Supprimer</a>
+										</p>
+									</form>
+								</li>
+							<?php endforeach ?>
 							<li class="row row-hori-between nowrap">
 								<p><strong><a href="#" data-add="user" title="">Ajouter un utilisateur</a></strong></p>
 							</li>

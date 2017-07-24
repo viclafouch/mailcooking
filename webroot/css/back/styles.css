@@ -987,10 +987,9 @@ div.alert {
   position: fixed;
   min-width: 150px;
   height: 50px;
-  background: #0676B2;
   color: #fff;
   z-index: 99999999;
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   right: 50px;
   bottom: -50px;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -1584,18 +1583,24 @@ div.container_profil div.info_accordeon ul.sm_field > li {
   box-sizing: border-box;
   border-top: 1px solid rgba(0, 0, 0, 0.085);
 }
-div.container_profil div.info_accordeon ul.sm_field > li > p {
+div.container_profil div.info_accordeon ul.sm_field > li p {
   padding: 0 5px;
 }
-div.container_profil div.info_accordeon ul.sm_field > li > p > input {
+div.container_profil div.info_accordeon ul.sm_field > li input:not([type="submit"]) {
   border: 0;
   margin-right: 5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   font-style: italic;
   color: #444;
 }
-div.container_profil div.info_accordeon ul.sm_field > li > p > strong > a {
+div.container_profil div.info_accordeon ul.sm_field > li input[type="submit"] {
   text-decoration: none;
+  color: #0676B2;
+  font-size: 17px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
   -moz-transition: none 0.3s ease 0s;
   -o-transition: none 0.3s ease 0s;
   -webkit-transition: none 0.3s ease;
@@ -1613,7 +1618,7 @@ div.container_profil div.info_accordeon ul.sm_field > li > p > strong > a {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
-div.container_profil div.info_accordeon ul.sm_field > li > p > strong > a.desactivate {
+div.container_profil div.info_accordeon ul.sm_field > li input[type="submit"].desactivate {
   visibility: hidden;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;

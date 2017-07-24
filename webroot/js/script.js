@@ -23,8 +23,8 @@ var titleListEmail = '<p><span spellcheck="false" onpaste="return false" class="
 var clicOnPen = false; // Statut du clic sur un crayon d'edition
 var title; // Titre d'edition de template
 var contentTitle; // Valeur du titre
-var flagAdd = false // Etat du bouton ajout d'informations
-var flagModif = false // Etat du bouton de modification d'informations
+var flagAdd = false; // Etat du bouton ajout d'informations
+var flagAlert = false; // Etat de l'alerte de notification
 
 /*----------  Fonctions  ----------*/
 
@@ -51,6 +51,40 @@ function activateSidebar(btn) {
 	$(btn).toggleClass('active');
 }
 
+function insertAlert(message, statut) {
+	if (!flagAlert) {
+		flagAlert = true;
+	
+		if (statut == false) {
+			var background = '#C62828';
+		} else {
+			var background = '#0676B2';
+		}
+
+		var text = message.charAt(0).toUpperCase() + message.slice(1).toLowerCase();
+		var alert = '<div class="alert" style="background-color:'+background+'"><p>'+text+'</p></div>';
+		$('body').append(alert);
+
+		$('.alert').animate({
+			bottom: '25px',
+			top: 'auto'
+		}, 1000);
+
+		/* Cache l'alerte */
+		setTimeout(
+			function() {
+				$('.alert').animate({
+					top: '100%',
+				}, 1000, function() {
+					$(this).remove();
+					flagAlert = false;
+				});
+			},
+			5000
+		);
+	}
+}
+
 // II : Récupération des paramètres d'URL
 var getUrlParameter = function getUrlParameter(sParam) {
 	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -69,6 +103,10 @@ var idEmail = function getEmailInfo(element) {
 	var idEmail = $(element).parents('li').data('email');
 	return idEmail;
 }
+
+$.fn.hasAttr = function(name) {  
+   return this.attr(name) !== undefined;
+};
 
 function displayOfActionsTemplate(btn) {
 	$('[data-opened]').css('height', '0px')
@@ -135,22 +173,6 @@ $(document).ready(function(){
 	$(document).on('click', '#menu', function(){
 		activateSidebar(this);
 	});
-
-	/* Affiche l'alerte */
-	$('.alert').animate({
-		bottom: '25px',
-		top: 'auto'
-	}, 1000);
-
-	/* Cache l'alerte */
-	setTimeout(
-		function() {
-			$('.alert').animate({
-				top: '100%',
-			}, 1000);
-		},
-		5000
-	);
 	
 	/* Empêche (pour le moment) l'envoi du formulaire de recherche */
 	$(document).on('submit', '#searchForm', function(event){
@@ -244,91 +266,120 @@ $(document).ready(function(){
 		}		
 	});
 
+	/* Compte le nombre de chaque paramètres de compte */
 	function countLi(id) {
 		let list = '#'+id+'_list';
 		let length = $(list+' li').length - 1;
 		$('[data-count="'+id+'"]').html(length);
 	}
 
+	/* Active l'ajout d'un paramètre de compte */
 	$(document).on('click', '[data-add]', function(e){
 		e.preventDefault();
-		if (!flagAdd && !flagModif) {
+		if (!flagAdd) {
 			flagAdd = true;
 			$(this).addClass('desactivate');
 			let data = $(this).data('add');
-			let list = '#'+data+'_list';
 			let accordeon = $('#'+data);
 			let h = parseFloat(accordeon.css('height'));
 			let x = parseFloat($(this).parents('li').css('height'));
 			accordeon.css('height',  h + x +'px');
-			var row = $(list+' li:first-child');
-			let $clone = row.clone(true);
-			let inputHTML = '<input placeholder="'+data+'" spellcheck="false" autocomplete"off" type="text" data-input="'+data+'" />'
-			let saveHTML = '<a href="#" data-save="'+data+'" title="">Sauvegarder</a>';
-			$($clone).find('p:first-child').html(inputHTML);
-			$($clone).find('p:last-child').html(saveHTML);
-			$($clone).insertBefore($(this).parents('li'));
+			let inputHTML = '<input placeholder="..." spellcheck="false" autocomplete"off" type="text" data-input="'+data+'" />'
+			let saveHTML = '<a href="#" data-save="'+data+'" title="">Sauvegarder</a>&nbsp;<input type="submit" data-delete="'+data+'" data-cancel value="Annuler" />';
+			var rowAccountAdd = '<li><form class="row row-hori-between nowrap form-account" action=""><p>'+inputHTML+'</p><p>'+saveHTML+'</p></form></li>'
+			$(rowAccountAdd).insertBefore($(this).parents('li'));
 		}
 	});
 
-	$(document).on('click', '[data-modif]', function(e) {
-		e.preventDefault();
-		if (!flagAdd && !flagModif) {
-			flagModif = true;
-			$('[data-add]').addClass('desactivate');
-			let data = $(this).data('modif');
-			let row = $(this).parents('li');
-			let value = row.find('p:first-child').text();
-			let inputHTML = '<input placeholder="'+data+'" value="'+value+'" spellcheck="false" autocomplete"off" type="text" data-input="'+data+'" />'
-			row.find('p:first-child').html(inputHTML);
-			$(this).parent('p').html('<a href="#" data-delete="'+data+'" title="">Supprimer</a>&nbsp;<a href="#" data-save="'+data+'" title="">Sauvegarder</a>');
-		}
-	});
-
+	/* Active la sauvegarde d'un paramètre de compte */
 	$(document).on('click', '[data-save]', function(e) {
 		e.preventDefault();
-		if (flagAdd || flagModif) {
-			let data = $(this).data('save');
-			let accordeon = $('#'+data);
-			let row = $(this).parents('li');
-			let value = row.find('input').val();
+		if (flagAdd) {
+			var data = $(this).data('save');
+			var accordeon = $('#'+data);
+			var row = $('[data-save]').parents('li');
+			var value = row.find('input').val();
 
 			if (value == '') {
+				insertAlert('Vous devez renseigner un email', false);
 				return false;
-			} else {
-				row.find('p:first-child').html(value);
-				$('.desactivate').removeClass('desactivate');
-				$(this).parent('p').html('<a href="#" data-modif="'+data+'" title="">Modifier</a>');
-				let h = parseFloat(accordeon.css('height'));
-				let x = parseFloat($(this).parents('li').css('height'));
-				accordeon.css('height',  h + x +'px');
-				if (flagAdd) {
-					flagAdd = false;
-				}
-				if (flagModif) {
-					flagModif = false;
-				}
-				countLi(data);
+			}
+
+			if (!value.match( /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i ) ) {
+				insertAlert('Veuillez respecter le format requis', false);
+    			return false;
+			}
+			
+			else {
+				$.ajax({
+					type: "POST",
+					data: { account: value },
+					url : "?module=user&action=account", 
+					success : function(respons) {
+					  	if (respons.empty == false) {
+							insertAlert('L\'adresse email est déjà utilisée', false);
+							return false;
+						}
+						else if (respons.send == false) {
+							insertAlert('Une erreur est survenue', false);
+							return false;
+						}
+						else if (respons.valide == false) {
+							insertAlert('Veuillez respecter le format requis', false);
+							return false;
+						} 
+						row.find('p:first-child').html(value);
+						$('.desactivate').removeClass('desactivate');
+						$('[data-save]').parent('p').html('<a href="#" title="" data-delete="user">Supprimer</a>');
+						let h = parseFloat(accordeon.css('height'));
+						let x = parseFloat($('[data-save]').parents('li').css('height'));
+						accordeon.css('height',  h + x +'px');
+						flagAdd = false;
+						countLi(data);
+						insertAlert('Un email a été envoyé à l\'utilisateur', true);
+						
+					}
+				});
 			}
 		}
 	});
 
-
+	/* Active la suppression d'un paramètre de compte */
 	$(document).on('click', '[data-delete]', function(e) {
 		e.preventDefault();
-		if (flagModif) {
-			flagModif = false;
-			$('[data-add]').removeClass('desactivate');
-			let data = $(this).data('delete');
-			let accordeon = $('#'+data);
-			let row = $(this).parents('li');
-			let h = parseFloat(accordeon.css('height'));
-			let x = parseFloat(row.css('height'));
-			console.log(x);
-			accordeon.css('height',  h - x +'px');
-			row.remove();
+		var data = $(this).data('delete');
+		var accordeon = $('#'+data);
+		var row = $(this).parents('li');
+		var id = row.find('form').attr('id');
+		var h = parseFloat(accordeon.css('height'));
+		var x = parseFloat(row.css('height'));
 
+		if (!$(this).hasAttr('data-cancel')) {
+			$.ajax({
+				type: "POST",
+				data: { idAccount: id },
+				url : "?module=user&action=account", 
+				success : function(respons) {
+					if (respons.error == true) {
+						insertAlert('Une erreur est survenue', false);
+						return false;
+					}
+				}
+			});
+			insertAlert('Le compte utilisateur a bien été supprimé', true);
 		}
+
+		$('[data-add]').removeClass('desactivate');
+		accordeon.css('height',  h - x +'px');
+		row.remove();
+		countLi(data);
+		flagAdd = false;
+	});
+
+	/* Empeche l'envoi du formulaire de paramètres de compte */
+	$(document).on('submit', '.form-account', function(e) {
+		e.preventDefault();
+		return false;
 	});
 
 	/* Active la popup de renouvellement */

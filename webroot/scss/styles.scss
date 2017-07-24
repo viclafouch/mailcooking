@@ -697,10 +697,9 @@ div.alert {
     position: fixed;
     min-width: 150px;
     height: 50px;
-    background: $primaryColor;
     color: #fff;
     z-index: 99999999;
-    border: 1px solid #fff;
+    border: 2px solid #fff;
     right: 50px; bottom: -50px;
     @include box-shadow($shadow0);
     @include border-radius(3px);
@@ -1110,16 +1109,21 @@ div.container_profil { overflow-y: scroll!important;
             line-height: 50px;
             @include box-sizing(border-box);
             border-top: 1px solid rgbaExpress(black, 0.085);
-            & > p { padding: 0 5px; }
-            & > p > input {
+            p { padding: 0 5px; }
+            input:not([type="submit"]) {
                 border: 0;
                 margin-right: 5px;
                 border-bottom: 1px solid rgbaExpress(black, 0.05);
                 font-style: italic;
                 color: $primaryTextColor;
             }
-            & > p > strong > a { 
+            input[type="submit"]{ 
                 text-decoration: none;
+                color: $primaryColor; 
+                font-size: 17px;
+                background-color: transparent;
+                border: 0; cursor: pointer;
+                text-decoration: underline;
                 @include animateVisibility(0.3s);
                 @include transition-delay(0.2s);
                 @include visible(true);

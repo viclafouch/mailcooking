@@ -18,10 +18,30 @@
 
 			include_once("app/model/user/account/signin/login.php");
 
-			$retour = login($_POST);
+			$checkAdmin = loginAdmin($_POST);
+			$checkUser = loginUser($_POST);
 
-			if (!$retour) { location('home', 'index', 'notif=nok'); }
-			else { $_SESSION["user"] = $retour; location('user', 'index', "ok"); }
+			if ($checkAdmin || $checkUser) {
+				if ($checkAdmin) { $_SESSION["user"] = $checkAdmin; } 
+				else { 
+					$option = array( 
+						'wherecolumn' 	=> 	'user_id',
+						'wherevalue'	=>	$checkUser['user_additional_admin_id'],
+					);
+
+					$user = selecttable('users', $option);
+					$_SESSION['user'] = $user[0];
+
+					$_SESSION['additional'] = $checkUser;
+					var_dump($_SESSION);
+					die();
+
+				}
+				location('user', 'index');
+			}
+			else { 
+				die('Adresse email ou mot de passe invalide');
+			}
 		}
 
 		/**
