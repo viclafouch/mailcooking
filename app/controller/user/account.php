@@ -81,7 +81,6 @@
 		}
 		elseif (isset($_POST['idAccount'])) {
 			$id = $_POST['idAccount'];
-			echo "test";
 
 			include_once('/app/model/user/account/additional/delete_user.php');
 
@@ -102,6 +101,17 @@
 				}
 			}
 			else {
+				header('Content-Type: application/json');
+				echo json_encode(array(
+				    'error' => true,
+				));
+			}
+		}
+		elseif (isset($_POST['password'])) {
+			include_once('/app/model/user/account/modif.php');
+			$hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+			$update = update_user('password', $hash);
+			if (!$update) {
 				header('Content-Type: application/json');
 				echo json_encode(array(
 				    'error' => true,

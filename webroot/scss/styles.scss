@@ -238,6 +238,7 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     margin: 10px 20px;
     i { @include inline-block(middle); font-size: 20px!important; position: relative; top: -1px; }
     &.button_href { line-height: 40px; }
+    &.disabled { background-color: #BDBDBD; @include box-shadow($shadow0); @include opacity(0.9); }
 }
 
 .select-wrapper {

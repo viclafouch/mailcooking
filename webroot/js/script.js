@@ -273,32 +273,58 @@ $(document).ready(function(){
 		$('[data-count="'+id+'"]').html(length);
 	}
 
+	var role, inputHTML, saveHTML, cancelHTML, deleteHTML, row, rowAccountAdd, accordeon, x, h;
+	function htmlAccount(input, data) {
+		role = $(input).data(data);
+		accordeon = $('#'+role);
+		paramRow = $(input).parents('li');
+		value = paramRow.find('[data-input]').val();
+		saveHTML = '<input type="submit" value="Sauvegarder" data-save="'+role+'"/>';
+		cancelHTML = '<input type="submit" value="Annuler" data-cancel="'+role+'"/>';
+		deleteHTML = '<input type="submit" value="Supprimer" data-delete="'+role+'"/>';
+		modifHTML = '<a href="#" title="" data-modif="'+role+'">Modifier</a>';
+		h = parseFloat(accordeon.css('height'));
+		x = parseFloat(paramRow.css('height'));
+		if (role == 'password') {
+			inputHTML = '<input type="password" data-input placeholder="**********"/>';
+		};
+		if (role == 'user') {
+			inputHTML = '<input type="email" data-input placeholder="monemail@societe.com" />';
+			rowAccountAdd = '<li><form class="row row-hori-between nowrap form-account" action=""><p>'+inputHTML+'</p><p>'+saveHTML+'</p></form></li>'
+		}
+	}
+
+	$(document).on('click', '[data-modif]', function(e) {
+		e.preventDefault();
+		htmlAccount(this, 'modif');
+		paramRow.find('p:first-child').html(inputHTML);
+		$(this).parent('p').html(saveHTML+cancelHTML);
+	});
+
+	$(document).on('click', '[data-cancel]', function(e) {
+		e.preventDefault();
+		htmlAccount(this, 'cancel');
+		if (role == 'password') {
+			paramRow.find('p:first-child').html("**********");
+		}
+		$(this).parent('p').html(modifHTML);
+	});
+
 	/* Active l'ajout d'un paramètre de compte */
 	$(document).on('click', '[data-add]', function(e){
 		e.preventDefault();
-		if (!flagAdd) {
-			flagAdd = true;
-			$(this).addClass('desactivate');
-			let data = $(this).data('add');
-			let accordeon = $('#'+data);
-			let h = parseFloat(accordeon.css('height'));
-			let x = parseFloat($(this).parents('li').css('height'));
-			accordeon.css('height',  h + x +'px');
-			let inputHTML = '<input placeholder="..." spellcheck="false" autocomplete"off" type="text" data-input="'+data+'" />'
-			let saveHTML = '<a href="#" data-save="'+data+'" title="">Sauvegarder</a>&nbsp;<input type="submit" data-delete="'+data+'" data-cancel value="Annuler" />';
-			var rowAccountAdd = '<li><form class="row row-hori-between nowrap form-account" action=""><p>'+inputHTML+'</p><p>'+saveHTML+'</p></form></li>'
-			$(rowAccountAdd).insertBefore($(this).parents('li'));
-		}
+		$(this).addClass('desactivate');
+		htmlAccount(this, 'add');
+		accordeon.css('height',  h + x +'px');
+		$(rowAccountAdd).insertBefore($(this).parents('li'));
 	});
 
 	/* Active la sauvegarde d'un paramètre de compte */
 	$(document).on('click', '[data-save]', function(e) {
 		e.preventDefault();
-		if (flagAdd) {
-			var data = $(this).data('save');
-			var accordeon = $('#'+data);
-			var row = $('[data-save]').parents('li');
-			var value = row.find('input').val();
+		htmlAccount(this, 'save');
+		
+		if (role == 'user') {
 
 			if (value == '') {
 				insertAlert('Vous devez renseigner un email', false);
@@ -307,57 +333,45 @@ $(document).ready(function(){
 
 			if (!value.match( /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i ) ) {
 				insertAlert('Veuillez respecter le format requis', false);
-    			return false;
+				return false;
 			}
-			
-			else {
-				$.ajax({
-					type: "POST",
-					data: { account: value },
-					url : "?module=user&action=account", 
-					success : function(respons) {
-					  	if (respons.empty == false) {
-							insertAlert('L\'adresse email est déjà utilisée', false);
-							return false;
-						}
-						else if (respons.send == false) {
-							insertAlert('Une erreur est survenue', false);
-							return false;
-						}
-						else if (respons.valide == false) {
-							insertAlert('Veuillez respecter le format requis', false);
-							return false;
-						} 
-						row.find('p:first-child').html(value);
-						$('.desactivate').removeClass('desactivate');
-						$('[data-save]').parent('p').html('<a href="#" title="" data-delete="user">Supprimer</a>');
-						let h = parseFloat(accordeon.css('height'));
-						let x = parseFloat($('[data-save]').parents('li').css('height'));
-						accordeon.css('height',  h + x +'px');
-						flagAdd = false;
-						countLi(data);
-						insertAlert('Un email a été envoyé à l\'utilisateur', true);
-						
-					}
-				});
-			}
-		}
-	});
 
-	/* Active la suppression d'un paramètre de compte */
-	$(document).on('click', '[data-delete]', function(e) {
-		e.preventDefault();
-		var data = $(this).data('delete');
-		var accordeon = $('#'+data);
-		var row = $(this).parents('li');
-		var id = row.find('form').attr('id');
-		var h = parseFloat(accordeon.css('height'));
-		var x = parseFloat(row.css('height'));
-
-		if (!$(this).hasAttr('data-cancel')) {
 			$.ajax({
 				type: "POST",
-				data: { idAccount: id },
+				data: { account: value },
+				url : "?module=user&action=account", 
+				success : function(respons) {
+				  	if (respons.empty == false) {
+						insertAlert('L\'adresse email est déjà utilisée', false);
+						return false;
+					}
+					else if (respons.send == false) {
+						insertAlert('Une erreur est survenue', false);
+						return false;
+					}
+					else if (respons.valide == false) {
+						insertAlert('Veuillez respecter le format requis', false);
+						return false;
+					} 
+					paramRow.find('p:first-child').html(value);
+					$('[data-save]').parent('p').html(deleteHTML);
+					$('.desactivate').removeClass('desactivate');
+					accordeon.css('height',  h + x +'px');
+					countLi(role);
+					insertAlert('Un email a été envoyé à l\'utilisateur', true);
+					
+				}
+			});
+		}
+
+		if (role == 'password') {
+			if (value == '') {
+				insertAlert('Vous devez renseigner un mot de passe', false);
+				return false;
+			}
+			$.ajax({
+				type: "POST",
+				data: { password: value },
 				url : "?module=user&action=account", 
 				success : function(respons) {
 					if (respons.error == true) {
@@ -366,14 +380,35 @@ $(document).ready(function(){
 					}
 				}
 			});
-			insertAlert('Le compte utilisateur a bien été supprimé', true);
+			paramRow.find('p:first-child').html('***********');
+			$('[data-save]').parent('p').html(modifHTML);
+			insertAlert('Un email de confirmation vous a été envoyé', true);
+
 		}
+	});
+
+	/* Active la suppression d'un paramètre de compte */
+	$(document).on('click', '[data-delete]', function(e) {
+		e.preventDefault();
+		htmlAccount(this, 'delete');
+		var id = paramRow.find('form').attr('id');
+		accordeon.css('height',  h - x +'px');
+		$.ajax({
+			type: "POST",
+			data: { idAccount: id },
+			url : "?module=user&action=account", 
+			success : function(respons) {
+				if (respons.error == true) {
+					insertAlert('Une erreur est survenue', false);
+					return false;
+				}
+			}
+		});
+		insertAlert('Le compte utilisateur a bien été supprimé', true);
 
 		$('[data-add]').removeClass('desactivate');
-		accordeon.css('height',  h - x +'px');
-		row.remove();
-		countLi(data);
-		flagAdd = false;
+		paramRow.remove();
+		countLi(role);
 	});
 
 	/* Empeche l'envoi du formulaire de paramètres de compte */

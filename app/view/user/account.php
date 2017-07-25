@@ -138,13 +138,25 @@
 				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
 						<span>Adresse e-mail</span>
+						<?php if (!isset($_SESSION['additional'])) { ?>
 						<p>Ajoutez ou supprimez des adresses e-mail sur votre compte</p>
+						<?php } else { ?>
+						<p>En tant qu'utilisateur lié, vous ne pouvez changer d'adresse email</p>
+						<?php } ?>
 					</div>
+					<?php if (!isset($_SESSION['additional'])) { ?>
 					<div class="col nowrap col-verti-around">
 						<button data-info="email" class="button_default button_primary">Modifier</button>
 						<p>2 adresses email enregistrées</p>
 					</div>
+					<?php } else { ?>
+					<div class="col nowrap col-verti-around">
+						<button disabled="disabled" class="button_default button_primary disabled">Modifier</button>
+						<p><?= $_SESSION['additional']['user_additional_email']; ?></p>
+					</div>
+					<?php } ?>
 				</div>
+				<?php if (!isset($_SESSION['additional'])) { ?>
 				<div id="email" class="info_accordeon">
 					<div class="col nowrap">
 						<div class="row nowrap sm_field">
@@ -167,6 +179,7 @@
 						</ul>
 					</div>
 				</div>
+				<?php } ?>
 			</div>
 			<div class="col nowrap">
 				<div class="bg_field row nowrap row-hori-between">
@@ -186,15 +199,16 @@
 						</div>
 						<ul class="col nowrap sm_field" id="password_list">
 							<li class="row row-hori-between nowrap">
-								<p>*******</p>
+								<p>***********</p>
 								<p>	
-									<a href="#" title="">Modifier</a>
+									<a href="#" title="" data-modif="password">Modifier</a>
 								</p>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
+			<?php if (!isset($_SESSION['additional'])) { ?>
 			<div class="col nowrap">
 				<div class="bg_field row nowrap row-hori-between">
 					<div class="col nowrap col-verti-around">
@@ -217,7 +231,7 @@
 									<form class="row row-hori-between nowrap form-account" id="<?= $user['user_additional_id'];?>" action="">
 										<p><?= $user['user_additional_email'];?></p>
 										<p>	
-											<a href="#" title="" data-delete="user">Supprimer</a>
+											<input type="submit" title="" data-delete="user" value="Supprimer"/>
 										</p>
 									</form>
 								</li>
@@ -229,6 +243,7 @@
 					</div>
 				</div>
 			</div>
+			<?php } ?>
 		</div>		
 	</div>
 	<div class="block full_block" data-task="sub" style="display: none;">
