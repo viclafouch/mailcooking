@@ -238,6 +238,14 @@ div.content_email {
              .noactive { @include opacity(0.75); }
         }
 
+        & > table[data-section] {  @include box-sizing(border-box);
+            border-top: 1px solid transparent;
+            border-bottom: 1px solid transparent;
+            &:hover {
+               border-color: red;
+            }
+        }
+
         table[data-content] { position: relative; }
 
         & > table[data-mobile] { width: 500px!important; }

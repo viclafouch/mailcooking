@@ -290,7 +290,7 @@ $(document).ready(function(){
 		};
 		if (role == 'user') {
 			inputHTML = '<input type="email" data-input placeholder="monemail@societe.com" />';
-			rowAccountAdd = '<li><form class="row row-hori-between nowrap form-account" action=""><p>'+inputHTML+'</p><p>'+saveHTML+'</p></form></li>'
+			rowAccountAdd = '<li><form class="row row-hori-between nowrap form-account" action=""><p>'+inputHTML+'</p><p>'+saveHTML+deleteHTML+'</p></form></li>'
 		}
 	}
 
@@ -352,7 +352,8 @@ $(document).ready(function(){
 					else if (respons.valide == false) {
 						insertAlert('Veuillez respecter le format requis', false);
 						return false;
-					} 
+					}
+					console.log(respons); 
 					paramRow.find('p:first-child').html(value);
 					$('[data-save]').parent('p').html(deleteHTML);
 					$('.desactivate').removeClass('desactivate');

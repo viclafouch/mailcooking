@@ -254,6 +254,16 @@ div.content_email > div#storage_email > table[data-section] .noactive, div.conte
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
   opacity: 0.75;
 }
+div.content_email > div#storage_email > table[data-section] {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+div.content_email > div#storage_email > table[data-section]:hover {
+  border-color: red;
+}
 div.content_email > div#storage_email table[data-content] {
   position: relative;
 }

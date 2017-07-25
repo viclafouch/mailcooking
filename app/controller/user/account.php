@@ -46,20 +46,16 @@
 				if ($exist > 0) { header('Content-Type: application/json'); echo json_encode(array( 'empty' => false,)); return false; }
 
 				else {
-					$password = uniqid();
-					$hash = password_hash($password, PASSWORD_DEFAULT);
-					$add = add_user($sessionID, $email, $hash);
+					$key = uniqid();
+					$add = add_user($sessionID, $email, $key);
 
 					if ($add) {
 						$to = $email;
 						$from = 'victor.dlf@outlook.fr';
 						$subject = "Création de votre compte MailCooking par ".$_SESSION['user']["first_name"]." ".$_SESSION['user']["last_name"];
 						$message = '<html><body color="#000">';
-						$message .= '<h3>Voici vos identifiants de connexion à la plateforme MailCooking</h3>';
-						$message .= '<p>Vos informations de connexion à l\'adresse suivante : <a href="#">mailcooking.fr</a></p>';
-						$message .= '<p>Adresse email : '.$email.'</p>';
-						$message .= '<p>Mot de passe : '.$password.'</p>';
-						$message .= '<p>Connectez-vous dès maintenant et modifier votre mot de passe dans la partie "Mon profil"</p>';
+						$message .= '<h3>Veuillez confirmer votre compte et créer votre mot de passe</h3>';
+						$message .= '<a href="http://localhost/mailcooking/?module=home&action=confirm_user&id='.$add.'&key='.hash('md5', $key).'">http://localhost/mailcooking/?module=home&action=confirm_user&id='.$add.'&key='.hash('md5', $key).'</a>';
 						$message .= '</body></html>';
 
 						$headers = "From: " . strip_tags('mailcooking.noreply@mailcooking.fr') . "\r\n";
@@ -75,6 +71,7 @@
 							));
 							return false;
 						}
+						echo $add;
 					}
 				}
 			}
