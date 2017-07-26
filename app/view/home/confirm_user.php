@@ -12,6 +12,8 @@
 		<div class="col-md-6">
 			<h1>Confirmer le compte utilisateur</h1>
 			<form action="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>" method="post">
+				<p><input type="text" name="firstname" placeholder="Jean"></p>
+				<p><input type="text" name="lastname" placeholder="Dupont"></p>
 				<p><input type="password" name="password1" placeholder="**********"></p>
 				<p><input type="password" name="password2" placeholder="**********"></p>
 				<br/>

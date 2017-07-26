@@ -29,7 +29,7 @@
 		}
 	}
 
-	function valide_user_add($user_additional_id, $user_additional_password, $statut) {
+	function valide_user_add($user_additional_id, $user_additional_password, $user_additional_fn, $user_additional_ln, $statut) {
 	
 		global $connexion;
 
@@ -37,11 +37,15 @@
 
 			$query = $connexion->prepare('UPDATE users_additional
 				SET user_additional_password = :user_additional_password,
+				user_additional_fn = :user_additional_fn,
+				user_additional_ln = :user_additional_ln,
 				statut = :statut
 				WHERE user_additional_id = :user_additional_id');
 
 			$query->BindValue(":user_additional_id",    $user_additional_id,    PDO::PARAM_STR);
 			$query->BindValue(":user_additional_password", $user_additional_password, PDO::PARAM_STR);
+			$query->BindValue(":user_additional_fn", $user_additional_fn, PDO::PARAM_STR);
+			$query->BindValue(":user_additional_ln", $user_additional_ln, PDO::PARAM_STR);
 			$query->BindValue(":statut", $statut, PDO::PARAM_STR);
 
 			$query->execute();

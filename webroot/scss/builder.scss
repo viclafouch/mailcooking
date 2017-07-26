@@ -129,6 +129,16 @@ header.header_builder_left {
         &:focus { color: #000; @include opacity(1.0); }
     }
 
+    div.label_input {
+        @include align-items(flex-end);
+    }
+    p.label_saved_name {
+        color: #BDBDBD;
+        font-style: italic;
+        margin-left: 10px;
+        font-size: 14px;
+    }
+
 
     // A TESTER !!!
     span.btn_Test_template {
@@ -241,8 +251,8 @@ div.content_email {
         & > table[data-section] {  @include box-sizing(border-box);
             border-top: 1px solid transparent;
             border-bottom: 1px solid transparent;
-            &:hover {
-               border-color: red;
+            &.active, &:hover {
+               border-color: #9E9E9E;
             }
         }
 
@@ -761,7 +771,9 @@ div.thumbnail {
 
     * { width: 100%; display: block; cursor: move; }
 
-    &:hover { @include opacity(1); border-color: #D7CCC8; }
+    img { border: 1px dashed $colorBorder; @include border-radius(1px); }
+
+    &:hover { @include opacity(1); }
 }
 
 /*----------  Popup  ----------*/

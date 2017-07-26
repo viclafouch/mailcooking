@@ -294,7 +294,24 @@
 
 			if ($_POST['emailbackground'] == '') { $_POST['emailbackground'] = '#f0f0f0'; }
 
-			$save = save($_POST['emailTitle'], $_POST['emailDom'],$_POST['emailbackground'], $_POST['emailID'],1, $_SESSION['user']['user_id']);
+			if (isset($_SESSION['additional'])) {
+				$fn = $_SESSION['additional']['user_additional_fn'];
+				$ln = ucfirst(substr($_SESSION['additional']['user_additional_ln'], 0, 1));
+				$savedBy = $fn.' '.$ln;
+			} else {
+				$fn = $_SESSION['user']['first_name'];
+				$ln = ucfirst(substr($_SESSION['user']['last_name'], 0, 1));
+				$savedBy = $fn.' '.$ln;
+			}
+
+			$save = save($_POST['emailTitle'], 
+						$_POST['emailDom'],
+						$_POST['emailbackground'], 
+						$_POST['emailID'],
+						1,
+						$savedBy,
+						$_SESSION['user']['user_id']
+					);
 		}
 	}
 

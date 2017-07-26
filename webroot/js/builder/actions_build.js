@@ -103,6 +103,8 @@ function saveBuilder(btnSave) {
         
         DOM = document.getElementById('storage_email');
 
+        $(btnSave).parents('.header_builder').find('.label_saved_name').html('Enregistrement en cours...');
+
         html2canvas(DOM, {
             onrendered: function(canvas) {
                 $.ajax({
@@ -110,6 +112,9 @@ function saveBuilder(btnSave) {
                     data: {thumbs: canvas.toDataURL("image/png"), emailTitle : titleMail, emailID: id_mail, emailDom: DomMail, emailbackground: backgroundMail},
                     url : "?module=user&action=email_builder",
                     success : function() {
+                        setTimeout(function() {
+                            $(btnSave).parents('.header_builder').find('.label_saved_name').html('Toutes les modifications ont été sauvegardées');
+                        }, 1500);
                         saving = false;
                         creatMediumEditor();
                     }

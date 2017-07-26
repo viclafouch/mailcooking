@@ -18,7 +18,14 @@
 					</div>
 					<input id="documentTitle" style="display: none;" value='<?= htmlspecialchars($mail[0]['email_name']); ?>'/>
 				<?php } else { ?>
-				<input id="documentTitle" spellcheck="false" placeholder="Nom de l'email" autocomplete="off" value='<?= htmlspecialchars($mail[0]['email_name']); ?>' type="text" required>
+				<div class="row nowrap label_input">
+					<input id="documentTitle" spellcheck="false" placeholder="Nom de l'email" autocomplete="off" value='<?= htmlspecialchars($mail[0]['email_name']); ?>' type="text" required>
+					<?php if ($mail[0]['saved'] == 0) { ?>
+					<p class="label_saved_name">Jamais sauvegardé</p>
+					<?php } else { ?>
+					<p class="label_saved_name">Dernière modification effectuée par <?= htmlspecialchars($mail[0]['saved_by']); ?></p>
+					<?php } ?>
+				</div>
 				<?php } ?>
 				<div class="tools_primary row wrap row-verti-center">
 					<input type="text" spellcheck="false" autocomplete="off" value="<?= $mail[0]['email_background'];?>" id="background_email" class="choose_color" />

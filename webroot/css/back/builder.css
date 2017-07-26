@@ -53,6 +53,16 @@ header.header_builder_left input#documentTitle:focus {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
 }
+header.header_builder_left div.label_input {
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+header.header_builder_left p.label_saved_name {
+  color: #BDBDBD;
+  font-style: italic;
+  margin-left: 10px;
+  font-size: 14px;
+}
 header.header_builder_left span.btn_Test_template {
   font-size: 15px;
   color: #f0f0f0;
@@ -261,8 +271,8 @@ div.content_email > div#storage_email > table[data-section] {
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
-div.content_email > div#storage_email > table[data-section]:hover {
-  border-color: red;
+div.content_email > div#storage_email > table[data-section].active, div.content_email > div#storage_email > table[data-section]:hover {
+  border-color: #9E9E9E;
 }
 div.content_email > div#storage_email table[data-content] {
   position: relative;
@@ -1034,10 +1044,15 @@ div.thumbnail * {
   display: block;
   cursor: move;
 }
+div.thumbnail img {
+  border: 1px dashed rgba(0, 0, 0, 0.2);
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+}
 div.thumbnail:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
   opacity: 1;
-  border-color: #D7CCC8;
 }
 
 /*----------  Popup  ----------*/

@@ -762,6 +762,7 @@ function disappearItem(e) {
         $('[data-menu], [data-task]').removeClass('active');
         $('[data-menu]#items_sidebar').addClass('active');
         $('[data-task="notask"]').addClass('active');
+        $('[data-section]').removeClass('active');
         inEdit = false;
     }
 }
@@ -783,6 +784,8 @@ $(document).ready(function() {
         /* Active / Désactive le hover opacity */
         $('[data-text], [data-img], [data-cta], [data-spacer]').removeClass('active');
         $(this).addClass('active');
+        $('[data-section]').removeClass('active');
+        $(this).parents('[data-section]').addClass('active');
 
         $('[data-text], [data-img], [data-cta], [data-spacer]').not('.active').addClass('noactive');
         $(this).removeClass('noactive');
