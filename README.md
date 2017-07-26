@@ -25,15 +25,15 @@ Le site est structuré en __MVC__ (__Modele / Vue / Controller__), très pratiqu
 
 ## API, langages et librairies utilisés
 
-Les différentes __API__ que Mailcooking profite sont : 
-
-* [Stripe](https://stripe.com/fr)
-
 Pour commencer la configuration et l'optimisation de l'application, il est préférable de comprendre les différents langages utilisés pour faire fonctionner Mailcooking :
 
 * __PHP 5.6__
 * __Javascript__ (dont l'utilisation du framework jQuery)
 * __HTML / CSS__ (SCSS est préférable)
+
+Les différentes __API__ que Mailcooking profite sont : 
+
+* [Stripe](https://stripe.com/fr)
 
 De multiples librairies sont égalements exploitées : 
 
@@ -66,7 +66,10 @@ Pour ce qui est du préprocesseur __SASS__, l'installation de [COMPASS](http://c
 Compass watch
 ```
 
-Et voilà, vous êtes prêt pour optimiser l'application, n'oubliez d'y inclure la base de données ;)
+Durant votre optimisation, des envoie d'emails vont être nécessaire. Assurez-vous donc d'avoir un serveur mail opérationnel. 
+Pour Mac, tout est déjà installé dans votre serveur local Mamp (il y a peut etre des paramètres à changer...). Pour les Windowsiens, il existe SendMail, je vous laisse donc suivre [ce petit tutoriel](https://www.grafikart.fr/blog/mail-local-wamp) pour l'installation de l'application.
+
+Et voilà, vous êtes prêt pour optimiser Mailcooking, n'oubliez d'y inclure la base de données ;)
 
 ### Aides fournies
 
