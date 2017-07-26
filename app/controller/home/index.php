@@ -33,8 +33,6 @@
 					$_SESSION['user'] = $user[0];
 
 					$_SESSION['additional'] = $checkUser;
-					var_dump($_SESSION);
-					die();
 
 				}
 				location('user', 'index');

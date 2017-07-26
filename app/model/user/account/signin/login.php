@@ -38,7 +38,8 @@
 			// On voit la requête
 			$query = $connexion->prepare('SELECT * 
 											FROM users_additional
-												WHERE user_additional_email=:user_additional_email');
+												WHERE user_additional_email=:user_additional_email
+												AND statut= 1');
 
 			$query->bindParam(':user_additional_email', $form["user_email"], PDO::PARAM_STR);
 
