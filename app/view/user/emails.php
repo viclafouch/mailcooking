@@ -25,9 +25,10 @@
 				</div>
 				<div class="pannel_body">
 					<ul class="row row-verti-center nowrap emails_list">
+						<?php $notempty = false; ?>
 						<?php foreach ($emails as $email): ?>
 							<?php if ($email["email_cat_id"] == NULL && $email["saved"] != 0) {
-
+								$notempty = true;
 								$timestamp = new DateTime($email['timestamp']);
 								$emailDate = $timestamp->format('d-m-Y');
 
@@ -40,6 +41,9 @@
 								</li>
 							<?php } ?>
 						<?php endforeach ?>
+						<?php if (!$notempty): ?>
+							<div class="empty_list_emails"><p>Aucun emails non classé</p></div>
+						<?php endif ?>
 					</ul>
 				</div>
 			</div>

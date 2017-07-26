@@ -20,12 +20,14 @@
 				<div class="link_block active">
 					<a href="#" data-link-profil="inf" title="">Compte</a>
 				</div>
+				<?php if (!isset($_SESSION['additional'])) { ?>
 				<div class="link_block">
 					<a href="#" data-link-profil="sub" title="">Abonnement</a>
 				</div>
 				<div class="link_block">
 					<a href="#" data-link-profil="fac" title="">Factures</a>
 				</div>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -246,6 +248,7 @@
 			<?php } ?>
 		</div>		
 	</div>
+	<?php if (!isset($_SESSION['additional'])) { ?>
 	<div class="block full_block" data-task="sub" style="display: none;">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Votre abonnement actuel : </h2>
@@ -592,8 +595,8 @@
 							</div>
 							<div class="overside aside">
 								<p>
-									<input type="checkbox" id="check1" class="checkbonito"/>
-   									<label for="check1"></label>
+									<input type="checkbox" id="radioRenew" class="checkbonito"/>
+   									<label for="radioRenew"></label>
 								</p>
 							</div>
 						</div>
@@ -605,6 +608,7 @@
 			</form>
 		</div>
 	</div>
+	<?php } ?>
 </div>
 		
 <?php 

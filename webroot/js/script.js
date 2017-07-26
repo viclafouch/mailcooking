@@ -432,7 +432,19 @@ $(document).ready(function(){
 	/* Sauvegarde le renouvellement */
 	$(document).on('click', '#profilRenewal button', function(e){
 		e.preventDefault();
-		// ajax
+		if ($('#radioRenew').is(':checked')) { 
+			var renew = false;
+		} else {
+			var renew = true;
+		}
+		$.ajax({
+			type: "POST",
+			data: { renew: renew },
+			url : "?module=user&action=account", 
+			success : function(data) {
+				console.log(data);
+			}
+		});
 	});
 
 	/* Duplication d'un email */
@@ -445,7 +457,7 @@ $(document).ready(function(){
 			data: { idEmail: idEmail },
 			url : "?module=user&action=emails", 
 			success : function(data) {
-
+				console.log(data);
 				let folder = data;
 				let idEmail = data.split('_')[0];
 				let cloneEmail = block.clone();
@@ -567,7 +579,7 @@ document.addEventListener("turbolinks:load", function() {
 	        /* Curseur style quand mouvement en fonctionnement */
 	        cursor: 'move',
 	        /* Elements pouvant être déplacé */
-	        items: "> *",
+	        items: "> li",
 	        /* Opacité pendant le drag */
 	        opacity: 0.90,
 	        /* Classe du placeholder */
@@ -586,7 +598,12 @@ document.addEventListener("turbolinks:load", function() {
 	        change: function(event, ui){
 	        },
 	        /* Event à la création du module (onready) */
-	        create: function(event, ui){},
+	        create: function(event, ui){
+	        	var notClassedList = $('[data-allow="0"] li').length;
+	        	if (notClassedList == 0) {
+	        		$('[data-allow="0"] ul').css('position', 'relative');
+	        	}
+	        },
 	        /* Event à la fin du sortable */
 	        deactivate: function(event, ui){},
 	        /* Event lorsqu'un item en mouvement sort du container */
@@ -613,12 +630,19 @@ document.addEventListener("turbolinks:load", function() {
 	        		var idCategorie = parent.data('section');
 	        	} else {
 					var idCategorie = 'NULL';
+					$('.empty_list_emails').parent('ul').css('position', 'static');
+					$('.empty_list_emails').hide();
 	        	}
 	        	$.ajax({
 					type: "POST",
 					data: { idCategorie: idCategorie, idEmail: idEmail},
 					url : "?module=user&action=emails", 
 				});
+				var notClassedList = $('[data-allow="0"] li').length;
+	        	if (notClassedList == 0) {
+	        		$('[data-allow="0"] ul').css('position', 'relative');
+	        		$('.empty_list_emails').show();
+	        	}
 	        },
 	        /* Event lorqu'un item est déplacé dans un autre container */
 	        remove: function(event, ui) {},

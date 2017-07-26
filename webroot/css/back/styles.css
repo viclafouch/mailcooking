@@ -2,6 +2,10 @@
 =            Feuille de style du site sans l'admin            =
 =============================================================*/
 /*----------  Import   ----------*/
+.Modal-animationWrapper {
+  position: static !important;
+}
+
 /*----------  Fonts  ----------*/
 /* fallback */
 @font-face {
@@ -239,6 +243,12 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
   opacity: 0.9;
+}
+
+.turbolinks-progress-bar {
+  height: 5px;
+  background-color: #0676B2;
+  z-index: 9999999;
 }
 
 .select-wrapper {
@@ -1874,6 +1884,32 @@ div.container_profil .checkbonito:checked ~ label::before {
   padding: 15px 0;
   overflow-x: hidden;
   height: 150px;
+}
+.container_emails .emails_list > div {
+  position: absolute;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 150px;
+  border: 1px dashed black;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.container_emails .emails_list > div p {
+  text-align: center;
+  font-size: 15px;
 }
 .container_emails .email {
   background-attachment: scroll !important;

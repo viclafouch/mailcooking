@@ -115,7 +115,7 @@
 			
 			if ($emailDuplicated) {
 
-				$newID = new_email($emailDuplicated['id_user'], $emailDuplicated['email_name'], $emailDuplicated['email_dom'], $emailDuplicated['email_background'], $emailDuplicated['template_id'], $emailDuplicated['email_cat_id'], 1, $emailDuplicated['<hive']);
+				$newID = new_email($emailDuplicated['id_user'], $emailDuplicated['email_name'], $emailDuplicated['email_dom'], $emailDuplicated['email_background'], $emailDuplicated['template_id'], $emailDuplicated['email_cat_id'], 1, 0);
 
 
 				$timestamp = new DateTime($emailDuplicated['timestamp']);

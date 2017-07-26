@@ -115,6 +115,24 @@
 				));
 			}
 		}
+		if (isset($_POST['renew'])) {
+			$renew = (int)$_POST['renew'];
+
+			require_once('app/config/config_stripe.php');
+
+			$option = array( 
+				'wherecolumn' 	=> 	'user_id',
+				'wherevalue'	=>	$sessionID,
+			);
+
+			$sub = selecttable('subscribers', $option);
+			$sub_id = $sub[0]['subscription_id'];
+
+			$subscription = \Stripe\Subscription::retrieve($sub_id);
+
+			$subscription->cancel(array('at_period_end' => $_POST['renew']));
+			$subscription->save();
+		}
 	}
 
 	else {
