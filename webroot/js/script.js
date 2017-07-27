@@ -25,6 +25,7 @@ var title; // Titre d'edition de template
 var contentTitle; // Valeur du titre
 var flagAdd = false; // Etat du bouton ajout d'informations
 var flagAlert = false; // Etat de l'alerte de notification
+var loaderHTML = '<div class="loader"><span></span></div>';
 
 /*----------  Fonctions  ----------*/
 
@@ -142,22 +143,6 @@ function stripeSourceHandler(source) {
   // Submit the form
   form.submit();
 }
-
-// var form = document.getElementById('payment-form');
-// form.addEventListener('submit', function(event) {
-//   event.preventDefault();
-
-//   stripe.createSource(card).then(function(result) {
-//     if (result.error) {
-//       // Inform the user if there was an error
-//       var errorElement = document.getElementById('card-errors');
-//       errorElement.textContent = result.error.message;
-//     } else {
-//       // Send the source to your server
-//       stripeSourceHandler(result.source);
-//     }
-//   });
-// });
 
 /*----------  Actions  ----------*/
 
@@ -418,7 +403,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	/* Active la popup de renouvellement */
+	/* Active la popup de détails d'abonnement */
 	$(document).on('click', '[data-popup]', function(e){
 		e.preventDefault();
 		let data = $(this).data('popup');
@@ -426,26 +411,47 @@ $(document).ready(function(){
 
 		popup.addClass('active');
 
+		popup.find('.popup_container').load('?module=user&action=account&popupStopSub');
+
 		hidePopup(popup);
 	});
 
-	/* Sauvegarde le renouvellement */
-	$(document).on('click', '#profilRenewal button', function(e){
+	/* Demande de suppression de l'abonnement */
+	$(document).on('click', '#stopSubscription', function(e){
 		e.preventDefault();
-		if ($('#radioRenew').is(':checked')) { 
-			var renew = false;
-		} else {
-			var renew = true;
-		}
-		$.ajax({
-			type: "POST",
-			data: { renew: renew },
-			url : "?module=user&action=account", 
-			success : function(data) {
-				console.log(data);
+		$(this).parent('footer').animate( { 'height': '200px' }, 500,
+			function() {
+				$(this).html(
+				'<p>Merci d\'indiquer votre mot de passe pour confirmer votre choix </p>'+
+				'<p><input data-input-cancel-subscription type="password" name="userPassword"/></p>'+
+				'<p><span class="errorMessage"></span></p>'+
+				'<button id="cancelSubscription" class="button_default button_secondary">Je confirme</button>'
+				);
 			}
-		});
+		);
 	});
+
+	/* Confirmation de suppression de l'abonnement */
+	$(document).on('click', '#cancelSubscription', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var valuePassword = $('[data-input-cancel-subscription]').val();
+			$(this).replaceWith(loader);
+			$.ajax({
+				type: "POST",
+				data: { cancelSubscription: valuePassword },
+				url : "?module=user&action=account", 
+				success : function(respons) {
+					if (respons.error) {
+						$('.errorMessage').html(respons[0]);
+						$('.loader').replaceWith('<button id="cancelSubscription" class="button_default button_secondary">Je confirme</button>')
+						return false;
+					} else {
+						window.location = "?module=user&action=account&cancel=ok";
+					}
+				},
+			});
+		});
 
 	/* Duplication d'un email */
 	$(document).on('click', '#duplicateBuilder', function() {

@@ -19,7 +19,7 @@
 		<?php } ?>
 
 		<!-- Custom [CSS]-->
-		<link rel="stylesheet" href="webroot/css/back/styles.css">
+		<link rel="stylesheet" href="webroot/css/back/styles.css?8766">
 		<?php 
 			if ($_GET['action'] == 'email_builder') { ?>
 		<link rel="stylesheet" href="webroot/css/back/builder.css">

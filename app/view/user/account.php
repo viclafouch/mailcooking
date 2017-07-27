@@ -252,7 +252,7 @@
 	<div class="block full_block" data-task="sub" style="display: none;">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Votre abonnement actuel : </h2>
-			<p class="legend"><button data-popup="profilRenewal" class="button_legend">Date de renouvellement</button></p>
+			<p class="legend"><button data-popup="stoppedSubscription" class="button_legend">Les détails</button></p>
 		</div>
 		<div class="pannel pannel_body pannel_legend">
 			<p>Nos tarifs sont clairs et fixes. Vous aurez la possibilité de mettre votre compte en pause en fonction de votre activité et de le relancer quand vous le souhaiterez, sans perte de données.</p>
@@ -418,7 +418,7 @@
 							  	token: function(token) {
 								    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
   									var $theEmail = $('<input type=hidden name=stripeEmail />').val(token.email);
-  									$('#paiement-form-1').append($input).append($theEmail).submit();
+  									$('#paiement-form-2').append($input).append($theEmail).submit();
 							  	}
 							});
 
@@ -572,41 +572,9 @@
 			</table>
 		</div>
 	</div>
-	<div class="popup_mc" id="profilRenewal">
+	<div class="popup_mc" id="stoppedSubscription">
 		<div class="popup_background"></div>
-		<div class="popup_container">
-			<header>
-				<h1>REVENOUVELLEMENT</h1>
-			</header>
-			<form method="post" action="">
-				<div class="content_block popup-blocks">
-					<div>
-						<div class="field">
-							<div class="oneside aside">
-								<label>Date du prochain prévèlement :</label>
-							</div>
-							<div class="overside aside">
-								<p>15/08/2017</p>
-							</div>
-						</div>
-						<div class="field">
-							<div class="oneside aside">
-								<label>Renouvellement automatique :*</label>
-							</div>
-							<div class="overside aside">
-								<p>
-									<input type="checkbox" id="radioRenew" class="checkbonito"/>
-   									<label for="radioRenew"></label>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<footer>
-					<button data-close-popup class="button_default button_secondary">Sauvegarder</button>
-				</footer>
-			</form>
-		</div>
+		<div class="popup_container"></div>
 	</div>
 	<?php } ?>
 </div>

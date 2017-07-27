@@ -27,3 +27,13 @@
 			define("PAGE_ROBOTS", "none");
 		}
 	}
+
+	function errorAjax($error=null) {
+		header('Content-Type: application/json');
+		$array = array('error' => true);
+		if (isset($error)) {
+	    	array_push($array, $error);
+	    }
+		echo json_encode($array);
+		return false;
+	}

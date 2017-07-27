@@ -2,10 +2,6 @@
 =            Feuille de style du site sans l'admin            =
 =============================================================*/
 /*----------  Import   ----------*/
-.Modal-animationWrapper {
-  position: static !important;
-}
-
 /*----------  Fonts  ----------*/
 /* fallback */
 @font-face {
@@ -147,10 +143,6 @@
   justify-content: center;
   -webkit-align-items: center;
   align-items: center;
-}
-
-.full-width {
-  width: 100%;
 }
 
 .material-icons, .select-wrapper::after {
@@ -857,7 +849,7 @@ div.container div.block > div.pannel.pannel_legend p {
 .popup_mc {
   position: fixed;
   width: 100%;
-  z-index: 99999999999;
+  z-index: 999999;
   height: 100vh;
   top: 0;
   right: 0;
@@ -1006,7 +998,7 @@ div.alert {
   min-width: 150px;
   height: 50px;
   color: #fff;
-  z-index: 99999999;
+  z-index: 9999999;
   border: 2px solid #fff;
   right: 50px;
   bottom: -50px;
@@ -1023,6 +1015,62 @@ div.alert p {
   padding: 0 20px;
 }
 
+/*----------  Loader  ----------*/
+.loader {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  background: transparent;
+  position: relative;
+}
+.loader:after, .loader::before {
+  content: '';
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  -moz-animation: updown 1s ease-in-out 0s infinite;
+  -webkit-animation: updown 1s ease-in-out 0s infinite;
+  animation: updown 1s ease-in-out 0s infinite;
+}
+.loader:before {
+  left: 30px;
+  -moz-animation-delay: 0s;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+.loader:after {
+  right: 30px;
+  -moz-animation-delay: 0.66s;
+  -webkit-animation-delay: 0.66s;
+  animation-delay: 0.66s;
+}
+.loader span {
+  height: 20px;
+  width: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  -moz-animation: updown 1s ease-in-out 0.33s infinite;
+  -webkit-animation: updown 1s ease-in-out 0.33s infinite;
+  animation: updown 1s ease-in-out 0.33s infinite;
+}
+
+@keyframes updown {
+  0%, 100% {
+    -moz-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+  }
+  50% {
+    -moz-transform: translateY(-80%);
+    -ms-transform: translateY(-80%);
+    -webkit-transform: translateY(-80%);
+    transform: translateY(-80%);
+  }
+}
 /*----------  Tableur  ----------*/
 .container_to_table {
   width: 100%;
@@ -1400,8 +1448,43 @@ div.container_template div.list_template > ul div.popup_action_template ul li:ho
 div.container_profil {
   overflow-y: scroll !important;
 }
-div.container_profil div.popup_mc#profilRenewal button {
+div.container_profil div.popup_mc#stoppedSubscription footer {
+  height: 100px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+div.container_profil div.popup_mc#stoppedSubscription footer p {
+  padding: 5px;
+}
+div.container_profil div.popup_mc#stoppedSubscription button {
   margin: 10px auto;
+}
+div.container_profil div.popup_mc#stoppedSubscription i {
+  color: #fff;
+  border: 1px solid white;
+  font-size: 10px;
+  padding: 3px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+div.container_profil div.popup_mc#stoppedSubscription i.ok {
+  background-color: #4CAF50;
+}
+div.container_profil div.popup_mc#stoppedSubscription i.nok {
+  background-color: #F44336;
+}
+div.container_profil div.popup_mc#stoppedSubscription .errorMessage {
+  color: red;
+}
+div.container_profil div.popup_mc#stoppedSubscription .loader {
+  margin-top: 30px;
 }
 div.container_profil div.settings_menu {
   position: relative;
@@ -1768,63 +1851,6 @@ div.container_profil table.table_fac i {
   user-select: none;
   color: #BE0804;
 }
-div.container_profil .checkbonito {
-  display: none;
-}
-div.container_profil .checkbonito ~ label {
-  display: inline-block;
-  max-width: 30px;
-  background-color: #f0f0f0;
-  padding: 10px 25px;
-  -moz-border-radius: 50px;
-  -webkit-border-radius: 50px;
-  border-radius: 50px;
-  cursor: pointer;
-  -moz-transition: all 200ms ease-in-out 0s;
-  -o-transition: all 200ms ease-in-out 0s;
-  -webkit-transition: all 200ms ease-in-out;
-  -webkit-transition-delay: 0s;
-  transition: all 200ms ease-in-out 0s;
-  margin: 5px;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-div.container_profil .checkbonito:checked ~ label {
-  background-color: #089ded;
-}
-div.container_profil .checkbonito ~ label::before {
-  content: "";
-  background-color: white;
-  padding: 13px;
-  position: absolute;
-  cursor: pointer;
-  display: block;
-  -moz-transform: translate(-30px, -13px);
-  -ms-transform: translate(-30px, -13px);
-  -webkit-transform: translate(-30px, -13px);
-  transform: translate(-30px, -13px);
-  -moz-border-radius: 50px;
-  -webkit-border-radius: 50px;
-  border-radius: 50px;
-  -moz-transition: all 200ms ease-in-out 0s;
-  -o-transition: all 200ms ease-in-out 0s;
-  -webkit-transition: all 200ms ease-in-out;
-  -webkit-transition-delay: 0s;
-  transition: all 200ms ease-in-out 0s;
-  -moz-box-shadow: 1px 1px 5px 0.5px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 1px 1px 5px 0.5px rgba(0, 0, 0, 0.5);
-  box-shadow: 1px 1px 5px 0.5px rgba(0, 0, 0, 0.5);
-}
-div.container_profil .checkbonito:checked ~ label::before {
-  -moz-transform: translate(5px, -13px);
-  -ms-transform: translate(5px, -13px);
-  -webkit-transform: translate(5px, -13px);
-  transform: translate(5px, -13px);
-  background-color: #0676B2;
-}
 
 /*----------  Emails  ----------*/
 .container_emails {
@@ -1892,7 +1918,7 @@ div.container_profil .checkbonito:checked ~ label::before {
   box-sizing: border-box;
   width: 100%;
   height: 150px;
-  border: 1px dashed black;
+  border: 1px dashed rgba(0, 0, 0, 0.2);
   left: 50%;
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
@@ -1910,6 +1936,7 @@ div.container_profil .checkbonito:checked ~ label::before {
 .container_emails .emails_list > div p {
   text-align: center;
   font-size: 15px;
+  color: #444;
 }
 .container_emails .email {
   background-attachment: scroll !important;
