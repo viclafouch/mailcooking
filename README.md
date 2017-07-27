@@ -4,7 +4,7 @@ Bienvenue à bord __jeune padawan__!
 
 ![](https://media4.giphy.com/media/10a9ikXNvR9MXe/giphy.gif)
 
-Voici la documentation de Mailcooking. Projet construit par CRMCURVE dont le stagiaire [Victor de la Fouchardière](http://www.victor-de-la-fouchardiere.fr/ "Victor de la Fouchardière") étant en majeur partie développeur de cette l'application PaaS.
+Voici la documentation de Mailcooking. Projet construit par CRMCURVE dont le stagiaire __[Victor de la Fouchardière](http://www.victor-de-la-fouchardiere.fr/ "Victor de la Fouchardière")__ étant en majeur partie développeur de cette l'application PaaS.
 
 ## Mailcooking en bref
 
@@ -25,7 +25,7 @@ Le site est structuré en __MVC__ (__Modele / Vue / Controller__), très pratiqu
 
 ## API, langages et librairies utilisés
 
-Pour commencer la configuration et l'optimisation de l'application, il est préférable de comprendre les différents langages utilisés pour faire fonctionner Mailcooking :
+Pour commencer la configuration et l'optimisation de l'application, il est préférable de comprendre les différents __langages__ utilisés pour faire fonctionner Mailcooking :
 
 * __PHP 5.6__
 * __Javascript__ (dont l'utilisation du framework jQuery)
@@ -35,7 +35,7 @@ Les différentes __API__ que Mailcooking profite sont :
 
 * [Stripe](https://stripe.com/fr)
 
-De multiples librairies sont égalements exploitées : 
+De multiples __librairies__ sont égalements exploitées : 
 
 * [Turbolinks](https://github.com/turbolinks/turbolinks)
 * [jQuery UI](http://jqueryui.com/)
@@ -66,10 +66,31 @@ Pour ce qui est du préprocesseur __SASS__, l'installation de [COMPASS](http://c
 Compass watch
 ```
 
-Durant votre optimisation, des envoie d'emails vont être nécessaire. Assurez-vous donc d'avoir un serveur mail opérationnel. 
-Pour Mac, tout est déjà installé dans votre serveur local Mamp (il y a peut etre des paramètres à changer...). Pour les Windowsiens, il existe SendMail, je vous laisse donc suivre [ce petit tutoriel](https://www.grafikart.fr/blog/mail-local-wamp) pour l'installation de l'application.
+Durant votre optimisation, des envoie d'emails vont être nécessaire. Assurez-vous donc d'avoir un __serveur mail opérationnel__. 
+Pour Mac, tout est déjà installé dans votre serveur local __Mamp__ (il y a peut etre des paramètres à changer...). Pour les Windowsiens, il existe __sendMail__, je vous laisse donc suivre [ce petit tutoriel](https://www.grafikart.fr/blog/mail-local-wamp) pour l'installation de l'application.
 
-Et voilà, vous êtes prêt pour optimiser Mailcooking, n'oubliez d'y inclure la base de données ;)
+Et voilà, vous êtes prêt pour optimiser Mailcooking, n'oubliez d'y __inclure la base de données__ ;)
+
+### Stripe
+
+Les paiements récurrents se font via l'API Stripe dont le site est : https://stripe.com/fr
+* __Login__ : crmcurve@gmail.com
+* __Mot de passe__ : Mailcooking&1234
+
+Les __clefs publiques & privées__ du site sont des clefs de test. Il ne faudra donc pas oublier de les changer lorsque Mailcooking sera finalisé. 
+
+Les clefs sont : 
+
+```php
+$stripe = array(
+"secret_key"      => getenv('sk_test_PS2zQTpRTNObBqwvbCkMtC8p'),
+"publishable_key" => getenv('pk_test_jdtjz4b05ADqlx5k093fsmgK')
+);
+
+\Stripe\Stripe::setApiKey("sk_test_PS2zQTpRTNObBqwvbCkMtC8p");
+```
+
+Elles peuvent être également trouvées sur [API Keys - Stripe Dashboard](https://dashboard.stripe.com/account/apikeys)
 
 ### Aides fournies
 
