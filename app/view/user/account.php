@@ -219,7 +219,7 @@
 					</div>
 					<div class="col nowrap col-verti-around">
 						<button data-info="user" class="button_default button_primary">Modifier</button>
-						<p><span data-count="user"><?= count($users_additional); ?></span> utilisateurs enregistré(s)</p>
+						<p><span data-count="user"><?= count($users_additional); ?></span><?php if (isset($_SESSION['subscriber'])) { ?><?php if ($plan == 1): ?>/1<?php elseif($plan == 2): ?>/3<?php endif; } ?> utilisateurs enregistré(s)</p>
 					</div>
 				</div>
 				<div id="user" class="info_accordeon">

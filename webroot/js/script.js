@@ -326,26 +326,16 @@ $(document).ready(function(){
 				data: { account: value },
 				url : "?module=user&action=account", 
 				success : function(respons) {
-				  	if (respons.empty == false) {
-						insertAlert('L\'adresse email est déjà utilisée', false);
+				  	if (respons.error) {
+						insertAlert(respons[0], false);
 						return false;
 					}
-					else if (respons.send == false) {
-						insertAlert('Une erreur est survenue', false);
-						return false;
-					}
-					else if (respons.valide == false) {
-						insertAlert('Veuillez respecter le format requis', false);
-						return false;
-					}
-					console.log(respons); 
 					paramRow.find('p:first-child').html(value);
 					$('[data-save]').parent('p').html(deleteHTML);
 					$('.desactivate').removeClass('desactivate');
 					accordeon.css('height',  h + x +'px');
 					countLi(role);
 					insertAlert('Un email a été envoyé à l\'utilisateur', true);
-					
 				}
 			});
 		}
@@ -378,18 +368,18 @@ $(document).ready(function(){
 		e.preventDefault();
 		htmlAccount(this, 'delete');
 		var id = paramRow.find('form').attr('id');
-		accordeon.css('height',  h - x +'px');
 		$.ajax({
 			type: "POST",
 			data: { idAccount: id },
 			url : "?module=user&action=account", 
 			success : function(respons) {
-				if (respons.error == true) {
-					insertAlert('Une erreur est survenue', false);
+				if (respons.error) {
+					insertAlert(respons[0], false);
 					return false;
 				}
 			}
 		});
+		accordeon.css('height',  h - x +'px');
 		insertAlert('Le compte utilisateur a bien été supprimé', true);
 
 		$('[data-add]').removeClass('desactivate');

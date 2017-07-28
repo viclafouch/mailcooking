@@ -32,57 +32,66 @@
 		 */
 
 		if (isset($_POST['account'])) {
-			$email = $_POST['account'];
-			include_once('/app/model/user/account/additional/add_user.php');
-			include_once('/app/model/user/account/additional/verif_exist_user.php');
 
-			if (filter_var($email, FILTER_VALIDATE_EMAIL)) { $valide = true; }
-	        
-			else { header('Content-Type: application/json'); echo json_encode(array('valide' => false,)); return false; }
-
-			if ($valide) {
-				$exist = verif_exist_user($email);
-				if ($exist > 0) { header('Content-Type: application/json'); echo json_encode(array( 'empty' => false,)); return false; }
-
-			 	$query = $connexion->prepare('SELECT user_email FROM users WHERE user_email = \''.$email.'\';');
-      			$query->execute(array('.$email.' => $email));
-
-        		$res = $query->fetch();
-        		if ($res) { header('Content-Type: application/json'); echo json_encode(array( 'empty' => false,)); return false; }
+			if (isset($_SESSION['subscriber'])) {
 
 
-				if ($exist > 0) { header('Content-Type: application/json'); echo json_encode(array( 'empty' => false,)); return false; }
+				$option = array( 
+					'wherecolumn' 	=> 	'user_additional_admin_id',
+					'wherevalue'	=>	$sessionID,
+				);
 
-				else {
-					$key = uniqid();
-					$add = add_user($sessionID, $email, $key);
+				$users = selecttable('users_additional', $option);
 
-					if ($add) {
-						$to = $email;
-						$from = 'victor.dlf@outlook.fr';
-						$subject = "Création de votre compte MailCooking par ".$_SESSION['user']["first_name"]." ".$_SESSION['user']["last_name"];
-						$message = '<html><body color="#000">';
-						$message .= '<h3>Veuillez confirmer votre compte et créer votre mot de passe</h3>';
-						$message .= '<a href="http://localhost/mailcooking/?module=home&action=confirm_user&id='.$add.'&key='.hash('md5', $key).'">http://localhost/mailcooking/?module=home&action=confirm_user&id='.$add.'&key='.hash('md5', $key).'</a>';
-						$message .= '</body></html>';
+				if ($plan == 1 && count($users) >= 1) {
+					errorAjax('Vous avez atteint le nombre max d\'utilisateurs'); 
+					return false;
+				} elseif ($plan == 2 && count($users) >= 3)  {
+					errorAjax('Vous avez atteint le nombre max d\'utilisateurs'); 
+					return false;
+				}
 
-						$headers = "From: " . strip_tags('mailcooking.noreply@mailcooking.fr') . "\r\n";
-						$headers .= "Reply-To: ". strip_tags('victor.dlf@outlook.fr') . "\r\n";
-						$headers .= "MIME-Version: 1.0\r\n";
-						$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-						$send = @mail($to, $subject, $message, $headers, "-f " . $from);
+				$email = $_POST['account'];
+				include_once('/app/model/user/account/additional/add_user.php');
+				include_once('/app/model/user/account/additional/verif_exist_user.php');
 
-						if (!$send) {
-							header('Content-Type: application/json');
-							echo json_encode(array(
-							    'send' => false,
-							));
-							return false;
+				if (filter_var($email, FILTER_VALIDATE_EMAIL)) { $valide = true; }
+		        
+				else { errorAjax('Veuillez respecter le format requis'); return false; }
+
+				if ($valide) {
+					$exist = verif_exist_user($email);
+
+				 	$query = $connexion->prepare('SELECT user_email FROM users WHERE user_email = \''.$email.'\';');
+	      			$query->execute(array('.$email.' => $email));
+
+	        		$res = $query->fetch();
+	        		if ($exist > 0 || $res) { errorAjax('L\'adresse email existe déjà');  return false; }
+
+					else {
+						$key = uniqid();
+						$add = add_user($sessionID, $email, $key);
+
+						if ($add) {
+							$to = $email;
+							$from = 'victor.dlf@outlook.fr';
+							$subject = "Création de votre compte MailCooking par ".$_SESSION['user']["first_name"]." ".$_SESSION['user']["last_name"];
+							$message = '<html><body color="#000">';
+							$message .= '<h3>Veuillez confirmer votre compte et créer votre mot de passe</h3>';
+							$message .= '<a href="http://localhost/mailcooking/?module=home&action=confirm_user&id='.$add.'&key='.hash('md5', $key).'">http://localhost/mailcooking/?module=home&action=confirm_user&id='.$add.'&key='.hash('md5', $key).'</a>';
+							$message .= '</body></html>';
+
+							$headers = "From: " . strip_tags('mailcooking.noreply@mailcooking.fr') . "\r\n";
+							$headers .= "Reply-To: ". strip_tags('victor.dlf@outlook.fr') . "\r\n";
+							$headers .= "MIME-Version: 1.0\r\n";
+							$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+							$send = @mail($to, $subject, $message, $headers, "-f " . $from);
+
+							if (!$send) { errorAjax('Une erreur est survenue'); return false; }
 						}
-						echo $add;
 					}
 				}
-			}
+			} else { errorAjax('Action refusée'); return false; }
 		}
 
 		/**
@@ -105,19 +114,9 @@
 
 			if ($user[0]['user_additional_admin_id'] == $sessionID) {
 				$delete = delete_user($id);
-				if (!$delete) {
-					header('Content-Type: application/json');
-					echo json_encode(array(
-					    'error' => true,
-					));
-				}
+				if (!$delete) { errorAjax('Une erreur est survenue'); return false; }
 			}
-			else {
-				header('Content-Type: application/json');
-				echo json_encode(array(
-				    'error' => true,
-				));
-			}
+			else { errorAjax('Une erreur est survenue'); return false; }
 		}
 
 		/**

@@ -2,6 +2,12 @@
 
 	session_start();
 
+	// Connexion à la base de données
+	include_once("app/model/param.inc.php");
+
+	// Selecttable / Counttable
+	include_once("core/coremodel.php");
+
 	/**
 	 *
 	 * Récupération du dossier client selon la session
@@ -16,10 +22,26 @@
 		$societe_user = mb_strtolower(substr($_SESSION['user']["societe"], 0, 3));
 		$chemin = "client/".$id_user."_".$societe_user."/";
 
+
+		/**
+		 *
+		 * Vérification de l'abonnement du user
+		 *
+		 */
+
+
+		$option = array( 
+			'wherecolumn' 	=> 	'user_id',
+			'wherevalue'	=>	$sessionID,
+		);
+
+		$subscriber = selecttable('subscribers', $option);
+
+		if ($subscriber  && !empty($subscriber)) {
+			$_SESSION['subscriber'] = $subscriber[0];
+			$plan = $_SESSION['subscriber']['plan'];
+		}
 	}
-	
-	// Connexion à la base de données
-	include_once("app/model/param.inc.php");
 
 	// Config
 	include_once("app/config/config.inc.php");
@@ -32,9 +54,6 @@
 
 	// Metadatas
 	include_once("core/coreview.php");
-
-	// Selecttable / Counttable
-	include_once("core/coremodel.php");
 
 	// Appel du controleur et du module demandé
 	if (!isset($_GET['module'])) {
