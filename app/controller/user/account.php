@@ -1,5 +1,4 @@
 <?php 
-
 	/**
 	 *
 	 * Fichier d'affichage de la page profil
@@ -91,7 +90,7 @@
 						}
 					}
 				}
-			} else { errorAjax('Action refusée'); return false; }
+			} else { errorAjax('Un abonnement est requis'); return false; }
 		}
 
 		/**
@@ -163,6 +162,7 @@
 							require_once('app/config/config_stripe.php');
 							$subscription = \Stripe\Subscription::retrieve($sub_id);
 							$subscription->cancel();
+							unset($_SESSION['subscriber']);
 						} 
 						catch(\Stripe\Error\Card $e) {
 							errorAjax('Une erreur s\'est produite');

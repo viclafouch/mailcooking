@@ -426,7 +426,7 @@ $(document).ready(function(){
 			e.preventDefault();
 			e.stopPropagation();
 			var valuePassword = $('[data-input-cancel-subscription]').val();
-			$(this).replaceWith(loader);
+			$(this).replaceWith(loaderHTML);
 			$.ajax({
 				type: "POST",
 				data: { cancelSubscription: valuePassword },
