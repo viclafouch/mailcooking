@@ -23,6 +23,10 @@ Chaque abonnement se renouvelle chaque mois __sauf__ si l'utilisateur désactive
 
 Le site est structuré en __MVC__ (__Modele / Vue / Controller__), très pratique pour les applications web. Pour comprendre comment cela fonctionne. Vous pouvez-vous référer à ce lien [Wikipedia](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur/).
 
+## Version de test
+
+Une version de test est disponible à cette url http://www.vicandtips.fr/mailcooking . L'inscription n'est pas encore fonctionnelle (pas le temps pour la facilité). Du coups voici les logins : victor.dlf@outlook.fr & admin. Amusez-vous !
+
 ## API, langages et librairies utilisés
 
 Pour commencer la configuration et l'optimisation de l'application, il est préférable de comprendre les différents __langages__ utilisés pour faire fonctionner Mailcooking :
@@ -100,11 +104,11 @@ Evidemment que je ne vais pas vous laisser un code sans commentaire ! :p
 
 Chaque controller est commenté de A à Z, mais un minimum de connaissances en PHP est requis (sinon ce serait trop simple). Pour ce qui est de la plus grosse partie du développement, je veux bien entendu parler du builder, les scripts sont découpés en fonction de leur utilité.
 
-Vous pouvez me contacter par tel ou par mail (JC & Antoine ont mes coordonnées). #noSkype
+Vous pouvez me contacter par __tel ou par mail__ (JC & Antoine ont mes coordonnées). __#noSkype__
 
 ## Versioning
 
-La version finalisée par Victor de la Fouchardière se trouve ici : 
+La version finalisée par Victor de la Fouchardière se trouve ici : https://github.com/viclafouch/mailcooking/releases/tag/v1
 
 ## Conclusion
 
