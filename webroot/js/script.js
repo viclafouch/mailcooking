@@ -26,6 +26,8 @@ var contentTitle; // Valeur du titre
 var flagAdd = false; // Etat du bouton ajout d'informations
 var flagAlert = false; // Etat de l'alerte de notification
 var loaderHTML = '<div class="loader"><span></span></div>';
+var publicKey = 'pk_test_jdtjz4b05ADqlx5k093fsmgK';
+
 
 /*----------  Fonctions  ----------*/
 
@@ -42,6 +44,122 @@ var loaderHTML = '<div class="loader"><span></span></div>';
     - IX    :  Annule des modifications
     - X     :  Constructeur
 **/
+
+$.fn.hasAttr = function(name) {  
+   return this.attr(name) !== undefined;
+};
+
+$(document).on('click', '[data-btn-upgrade], [data-btn-subscribe]', function(event) {
+	event.preventDefault();
+
+	if ($(this).hasAttr('data-btn-subscribe')) {
+		var booking_id = $(this).data('btn-subscribe');
+		handler = stripe_subscription(booking_id, true);
+	} else if ($(this).attr('data-btn-upgrade')) {
+		var booking_id = $(this).data('btn-upgrade');
+		handler = stripe_subscription(booking_id, false);
+	}
+	
+	$.ajax({ 
+	    type: 'GET', 
+	    url: '?module=user&action=account', 
+	    data: { booking_id: booking_id }, 
+	    dataType: 'json',
+	    success: function (data) {    
+	    	handler.open({
+				key: data.key,
+				image: data.image,
+				locale: data.locale,
+				name: data.name,
+			    zipCode: data.zipCode,
+			    currency: data.currency,
+			    amount: data.amount,
+				description: data.description,
+			});
+	    },
+	});
+
+	$(window).on('popstate', function() {
+		handler.close();
+	});
+});
+
+function stripe_subscription(booking_id, action) {
+	var handler = StripeCheckout.configure({
+		key: publicKey,
+		token: function(token) {
+			var $metadata = '<input type="hidden" name="stripeToken" value="'+token.id+'"/>'+
+			'<input type="hidden" name="stripeEmail" value="'+token.email+'"/>'+
+			'<input type="hidden" name="stripePlan" value="'+booking_id+'" />';
+
+			if (action == true) {
+				$('[data-send-subscription="'+booking_id+'"]').prepend($metadata).submit();
+			} else {
+				$('[data-send-upgrade="'+booking_id+'"]').prepend($metadata).submit();
+			}		
+		}
+	});
+  	return handler;
+}
+
+
+
+var subscriptionParam = StripeCheckout.configure({
+  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+  	locale: 'auto',
+  	token: function(token) {
+	    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+	    var $theEmail = $('<input type=hidden name=stripeEmail />').val(token.email);
+			// $('[data-send-subscription='+plan+'"]').append($input).append($theEmail).submit();
+			console.log(plan);
+  	},
+  	name: 'Mailcooking',
+    zipCode: true,
+    currency: 'EUR'
+});
+
+$(document).on('click', '[data-btn-subscribe]', function(e) {
+	e.preventDefault();
+	var plan = $(this).data('btn-subscribe');
+	if (plan == 1) {
+		subscriptionParam.open({
+			amount: 4800,
+			description: firstPlanName,
+		});
+	}
+});
+
+window.addEventListener('popstate', function() {
+  	handlerTip.close();
+});
+
+var handleUpgradeTip = StripeCheckout.configure({
+  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+  	locale: 'auto',
+  	token: function(token) {
+	    var $inputToken = $('<input type=hidden name=stripeToken />').val(token.id);
+	    var $inputPlan = $('<input type=hidden name=plan />').val('1');
+			$('#paiement-form-1').append($inputToken).append($inputPlan).submit();
+  	}
+});
+
+$(document).on('click', '#btn__upgradeToTip', function(e) {
+	e.preventDefault();
+	handleUpgradeTip.open({
+	    name: 'Mailcooking',
+	    description: 'Abonnement tip',
+	    zipCode: true,
+	    amount: 4800,
+	    currency: 'EUR'
+	});
+})
+
+// Close Checkout on page navigation:
+window.addEventListener('popstate', function() {
+  	handleUpgradeTip.close();
+});
 
 // I : Activation/Desactivation de la sidebar 
 function activateSidebar(btn) {
@@ -104,10 +222,6 @@ var idEmail = function getEmailInfo(element) {
 	var idEmail = $(element).parents('li').data('email');
 	return idEmail;
 }
-
-$.fn.hasAttr = function(name) {  
-   return this.attr(name) !== undefined;
-};
 
 function displayOfActionsTemplate(btn) {
 	$('[data-opened]').css('height', '0px')
@@ -453,7 +567,6 @@ $(document).ready(function(){
 			data: { idEmail: idEmail },
 			url : "?module=user&action=emails", 
 			success : function(data) {
-				console.log(data);
 				let folder = data;
 				let idEmail = data.split('_')[0];
 				let cloneEmail = block.clone();
@@ -588,11 +701,9 @@ document.addEventListener("turbolinks:load", function() {
 	        /* Event drag de n'importe quoi (container même ou autre) */
 	        activate: function(event, ui){},
 	        /* Event au lachage mais placeholder encore en activité */
-	        beforeStop: function(event, ui){
-	        },
+	        beforeStop: function(event, ui){},
 	        /* Event au changement de l'ordre des éléments (durant le drag) */
-	        change: function(event, ui){
-	        },
+	        change: function(event, ui){},
 	        /* Event à la création du module (onready) */
 	        create: function(event, ui){
 	        	var notClassedList = $('[data-allow="0"] li').length;
@@ -643,8 +754,7 @@ document.addEventListener("turbolinks:load", function() {
 	        /* Event lorqu'un item est déplacé dans un autre container */
 	        remove: function(event, ui) {},
 	        /* Event durant le mouvement */
-	        sort: function(event, ui) {
-	        },
+	        sort: function(event, ui) {},
 	        /* Event à la création du sort */
 	        start: function(event, ui){},
 	        /* Event une fois que le sort est terminé */
@@ -658,9 +768,7 @@ document.addEventListener("turbolinks:load", function() {
 	        	}
 	        },
 	        /* Event au changement de l'ordre des éléments */
-	        update: function(event, ui){
-	        	// console.log(ui);
-	        },
+	        update: function(event, ui){},
 	    });
 	}
 
@@ -801,7 +909,7 @@ document.addEventListener("turbolinks:load", function() {
 						'height': '0px',
 						'opacity': '0'},
 						500, function() {
-						block.remove();
+							block.remove();
 						}
 					);
 				}
@@ -1246,7 +1354,6 @@ document.addEventListener("turbolinks:load", function() {
 	            dataType: 'json',
 	            data: data,
 	            complete: function (html) {
-	            	console.log(html.responseText);
 	                var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText);
 					$('#previewUploadTemplate').parent('footer').html(
 						'<button id="valideUploadOrder" class="button_default button_secondary">Valider le template</button>'
@@ -1296,7 +1403,6 @@ document.addEventListener("turbolinks:load", function() {
 			                    data: {addToBdd: idOrder, DOM: dom, mco_template_mobile: medias, userId: idUser },
 			                    url : "?module=admin&action=commandes",
 								success: function(data) {
-									console.log(data);
 									$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
 										'<span class="statut statut2">En attente de test</span>'
 									);

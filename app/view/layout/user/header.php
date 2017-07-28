@@ -25,9 +25,6 @@
 		<link rel="stylesheet" href="webroot/css/back/builder.css">
 		<?php } ?>
 
-		<!-- A DELETE !-->
-		<!-- <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script> -->
-
 	  	<!-- Lib [JS]-->
 		<script defer src="lib/js/jquery/jquery-3.1.1.min.js"></script>
 		<script defer src="lib/js/croppie/croppie-2.4.1.min.js"></script>

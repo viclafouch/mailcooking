@@ -273,8 +273,37 @@
 			<?php endif; ?>
 		</form>
 
-		<?php } 
+		<?php }
+
 		else {
-			include_once("app/view/user/account.php");
+			if (isset($_GET['booking_id']) && is_numeric($_GET['booking_id'])) {
+				$plan = $_GET['booking_id'];
+				$data = [
+				    'key'      	=> 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+				    'image'    => 'https://stripe.com/img/documentation/checkout/marketplace.png',
+				    'locale'       => 'auto',
+				    'name' => 'Entrepriseeeeeeeeee',
+				    'zipCode'      => true,
+				    'currency' => 'EUR',
+				];
+				if ($plan == 1) {
+					$amount = 4800;
+					$description = 'Abonnement Tip';
+				} elseif ($plan == 2) {
+					$amount = 7200;
+					$description = 'Abonnement Top';
+				} elseif ($plan == 3) {
+					$amount = 10800;
+					$description = 'Abonnement Tip Top';
+				}
+				$data['amount'] = $amount;
+				$data['description'] = $description;
+
+				if (in_array('amount', $data) && in_array('description', $data)) {
+					echo json_encode($data);
+				}
+			} else {
+				include_once("app/view/user/account.php");
+			}
 		}
 	}

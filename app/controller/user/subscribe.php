@@ -29,8 +29,9 @@
 		require_once('app/config/config_stripe.php');
 
 		try {
-			
+
 			$token  = $_POST['stripeToken'];
+
 
 			/**
 			 *
@@ -56,58 +57,36 @@
 			 *
 			 * Création de l'abonnement chez Stripe
 			 * DOC : stripe.com/docs/api#create_subscription
-			 * /! La méthode GET n'est pas super, à changer de facon pour choisir le plan !\
 			 *
 			 */
 
-			if (isset($_GET['tip'])) {
-				$sub = \Stripe\Subscription::create(array(
-				  "customer" => $customer->id,
-				  "plan" => "tip",
-				));
-				if ($sub) {
-					$plan = 1;
+			if (isset($_POST['stripePlan'])) {
+				$plan = $_POST['stripePlan'];
+				if ($plan == 1) {
+					$sub = \Stripe\Subscription::create(array(
+					  	"customer" => $customer->id,
+					  	"plan" => "tip",
+					));
+					if ($sub) { $validation = 1; } 
+					else { die('Une erreur est survenue'); }
 				}
-				
-			} elseif (isset($_GET['top'])) {
-				$sub = \Stripe\Subscription::create(array(
-				  "customer" => $customer->id,
-				  "plan" => "top",
-				));
-				if ($sub) {
-					$plan = 2;
+				elseif ($plan == 2) {
+					$sub = \Stripe\Subscription::create(array(
+					  	"customer" => $customer->id,
+					  	"plan" => "top",
+					));
+					if ($sub) { $validation = 2; } 
+					else { die('Une erreur est survenue'); }
 				}
-			} elseif (isset($_GET['tiptop'])) {
-				$sub = \Stripe\Subscription::create(array(
-				  "customer" => $customer->id,
-				  "plan" => "tiptop",
-				));
-				if ($sub) {
-					$plan = 3;
+				elseif ($plan == 3) {
+					$sub = \Stripe\Subscription::create(array(
+					  	"customer" => $customer->id,
+					  	"plan" => "tiptop",
+					));
+					if ($sub) { $validation = 3; } 
+					else { die('Une erreur est survenue'); }
 				}
 			}
-
-			/**
-			 *
-			 * Insertion de l'abonnement en bdd
-			 *
-			 */
-
-			if ($plan) {
-				$id_costumer = $customer->id;
-				$id_subscription = $sub->id;
-				$id_user = $sessionID;
-				$period_end = $sub->current_period_end;
-
-				include_once('app/model/user/account/payment/subscribe.php');
-				$subscribe = subscribe($id_user, $id_costumer, $id_subscription, $plan, $period_end);
-
-				if ($subscribe) {
-					location('user', 'account', 'plan='.$plan);
-				} else {
-					die('erreur lors du subscribe');
-				}
-			} 
 
 		} catch(\Stripe\Error\Card $e) {
 			// Since it's a decline, \Stripe\Error\Card will be caught
@@ -142,7 +121,31 @@
 			echo "Something else happened, completely unrelated to Stripe";
 			die('Une erreur dans le try est survenue');
 		}
+
+		/**
+		 *
+		 * Insertion de l'abonnement en bdd
+		 *
+		 */
+
+		if ($validation) {
+			$id_costumer = $customer->id;
+			$id_subscription = $sub->id;
+			$id_user = $sessionID;
+			$period_end = $sub->current_period_end;
+
+			include_once('app/model/user/account/payment/subscribe.php');
+			$subscribe = subscribe($id_user, $id_costumer, $id_subscription, $validation, $period_end);
+
+			if ($subscribe) {
+				location('user', 'account', 'plan='.$validation);
+			} else {
+				die('erreur lors du subscribe');
+			}
+		} 
 	} 
+
 	else {
+		var_dump($_POST);
 		die('Une erreur est survenue');
 	}

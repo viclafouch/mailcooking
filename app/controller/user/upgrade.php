@@ -46,27 +46,26 @@
 
 			$sub = selecttable('subscribers', $option);	
 
+			if ($sub) {
 
-			$sub_id = $sub[0]['subscription_id'];
+				$sub_id = $sub[0]['subscription_id'];
 
-			$subscription = \Stripe\Subscription::retrieve($sub_id);
+				$subscription = \Stripe\Subscription::retrieve($sub_id);
 
-			if ($_POST['plan'] == 1) {
-				$subscription->plan = "tip";
-			} elseif ($_POST['plan'] == 2) {
-				$subscription->plan = "top";
-			} elseif ($_POST['plan'] == 3) {
-				$subscription->plan = "tiptop";
-			}
-			
-			$subscription->save();
+				if ($subscription && isset($_POST['stripePlan'])) {
+					$plan = $_POST['stripePlan'];
+					if ($plan == 1) { $subscription->plan = "tip"; $subscription->save();}
+					elseif ($plan == 2) { $subscription->plan = "top"; $subscription->save();}
+					elseif ($plan == 3) { $subscription->plan = "tiptop"; $subscription->save();}
+				}
 
-			include_once('app/model/user/account/payment/upgrade.php');
+				include_once('app/model/user/account/payment/upgrade.php');
 
-			$upgrade = upgrade($sessionID, $_POST['plan']);
+				$upgrade = upgrade($sessionID, $plan);
 
-			if ($upgrade) {
-				location('user', 'account', 'plan='.$_POST['plan']);
+				if ($upgrade) {
+					location('user', 'account', 'plan='.$plan);
+				}
 			}
 			
 		} catch(\Stripe\Error\Card $e) {
