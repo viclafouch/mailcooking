@@ -23,7 +23,13 @@
 					<?php if ($mail[0]['saved'] == 0) { ?>
 					<p class="label_saved_name">Jamais sauvegardé</p>
 					<?php } else { ?>
-					<p class="label_saved_name">Dernière modification effectuée par <?= htmlspecialchars($mail[0]['saved_by']); ?></p>
+					<p class="label_saved_name">
+						<?php if (is_null($mail[0]['saved_by'])) {
+							echo "Jamais sauvegardé";
+						} else {
+							echo "Dernière modification effectuée par".htmlspecialchars($mail[0]['saved_by'])."";
+						} ?>
+					</p>
 					<?php } ?>
 				</div>
 				<?php } ?>

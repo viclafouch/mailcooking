@@ -17,7 +17,7 @@
 				<p><input type="password" name="password1" placeholder="**********"></p>
 				<p><input type="password" name="password2" placeholder="**********"></p>
 				<br/>
-				<input type="submit" value="RESET PASSWORD">
+				<input type="submit" value="Valider">
 			</form>
 		</div>
 	</body>

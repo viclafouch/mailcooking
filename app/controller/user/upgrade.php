@@ -63,6 +63,14 @@
 
 				$upgrade = upgrade($sessionID, $plan);
 
+				/* Supprime les users additionnels */
+				if ($sub[0]['plan'] > $_POST['stripePlan']) {
+
+					include_once('app/model/user/account/payment/delete_users_add.php');
+					delete_users($sessionID);
+
+				}
+
 				if ($upgrade) {
 					location('user', 'account', 'plan='.$plan);
 				}

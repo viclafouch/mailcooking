@@ -23,7 +23,6 @@ var titleListEmail = '<p><span spellcheck="false" onpaste="return false" class="
 var clicOnPen = false; // Statut du clic sur un crayon d'edition
 var title; // Titre d'edition de template
 var contentTitle; // Valeur du titre
-var flagAdd = false; // Etat du bouton ajout d'informations
 var flagAlert = false; // Etat de l'alerte de notification
 var loaderHTML = '<div class="loader"><span></span></div>';
 var publicKey = 'pk_test_jdtjz4b05ADqlx5k093fsmgK';
@@ -334,8 +333,8 @@ $(document).ready(function(){
 	/* Navigation dans le menu du profil */
 	$(document).on('click', '[data-link-profil]', function(e){
 		e.preventDefault();
-		$('.bg_field').removeClass('active');	
-		$('.info_accordeon').removeClass('active').css('height', '0px');
+		// $('.bg_field').removeClass('active');	
+		// $('.info_accordeon').removeClass('active').css('height', '0px');
 		$('.link_block').removeClass('active');
 		$(this).parent().addClass('active');
 		let menu = $(this).data('link-profil');
@@ -344,25 +343,27 @@ $(document).ready(function(){
 	});
 
 	/* Clic sur les paramètres de compte */
-	$(document).on('click', "[data-info]", function(e){
+	$(document).on('click', "[data-info]", function(e) {
 		e.preventDefault();
-		let id = $(this).attr('data-info');
-		let accordeon = $('#'+id);
+		if (!flagAdd) {
+			let id = $(this).attr('data-info');
+			let accordeon = $('#'+id);
 
-		if (accordeon.hasClass('active')) {
-			$(this).parents('.bg_field').removeClass('active');	
-			accordeon.css('height', '0px');
-			accordeon.removeClass('active');
+			if (accordeon.hasClass('active')) {
+				$(this).parents('.bg_field').removeClass('active');	
+				accordeon.css('height', '0px');
+				accordeon.removeClass('active');
+			}
+
+			else {
+				$('.bg_field').removeClass('active');	
+				$(this).parents('.bg_field').addClass('active');
+				$('.info_accordeon').removeClass('active').css('height', '0px');
+				var h = $('#'+id+" > div").height();
+				accordeon.css('height', h+'px');
+				accordeon.addClass('active');
+			}		
 		}
-
-		else {
-			$('.bg_field').removeClass('active');	
-			$(this).parents('.bg_field').addClass('active');
-			$('.info_accordeon').removeClass('active').css('height', '0px');
-			var h = $('#'+id+" > div").height();
-			accordeon.css('height', h+'px');
-			accordeon.addClass('active');
-		}		
 	});
 
 	/* Compte le nombre de chaque paramètres de compte */
@@ -373,6 +374,7 @@ $(document).ready(function(){
 	}
 
 	var role, inputHTML, saveHTML, cancelHTML, deleteHTML, row, rowAccountAdd, accordeon, x, h;
+
 	function htmlAccount(input, data) {
 		role = $(input).data(data);
 		accordeon = $('#'+role);
@@ -410,12 +412,17 @@ $(document).ready(function(){
 	});
 
 	/* Active l'ajout d'un paramètre de compte */
+	var flagAdd = false; // Etat du bouton ajout
 	$(document).on('click', '[data-add]', function(e){
 		e.preventDefault();
-		$(this).addClass('desactivate');
-		htmlAccount(this, 'add');
-		accordeon.css('height',  h + x +'px');
-		$(rowAccountAdd).insertBefore($(this).parents('li'));
+		if (!flagAdd) {
+			flagAdd = true;
+			$(this).addClass('desactivate');
+			htmlAccount(this, 'add');
+			accordeon.css('height',  h + x +'px');
+			$(rowAccountAdd).insertBefore($(this).parents('li'));
+			console.log(flagAdd);
+		}
 	});
 
 	/* Active la sauvegarde d'un paramètre de compte */
@@ -442,6 +449,7 @@ $(document).ready(function(){
 				success : function(respons) {
 				  	if (respons.error) {
 						insertAlert(respons[0], false);
+						console.log(flagAdd);
 						return false;
 					}
 					paramRow.find('p:first-child').html(value);
@@ -450,6 +458,7 @@ $(document).ready(function(){
 					accordeon.css('height',  h + x +'px');
 					countLi(role);
 					insertAlert('Un email a été envoyé à l\'utilisateur', true);
+					flagAdd = false;
 				}
 			});
 		}
@@ -473,7 +482,7 @@ $(document).ready(function(){
 			paramRow.find('p:first-child').html('***********');
 			$('[data-save]').parent('p').html(modifHTML);
 			insertAlert('Un email de confirmation vous a été envoyé', true);
-
+			flagAdd = false;
 		}
 	});
 
@@ -481,24 +490,28 @@ $(document).ready(function(){
 	$(document).on('click', '[data-delete]', function(e) {
 		e.preventDefault();
 		htmlAccount(this, 'delete');
-		var id = paramRow.find('form').attr('id');
-		$.ajax({
-			type: "POST",
-			data: { idAccount: id },
-			url : "?module=user&action=account", 
-			success : function(respons) {
-				if (respons.error) {
-					insertAlert(respons[0], false);
-					return false;
-				}
-			}
-		});
-		accordeon.css('height',  h - x +'px');
-		insertAlert('Le compte utilisateur a bien été supprimé', true);
+		if (value == '') {
 
+		} else {
+			var id = paramRow.find('form').attr('id');
+			$.ajax({
+				type: "POST",
+				data: { idAccount: id },
+				url : "?module=user&action=account", 
+				success : function(respons) {
+					if (respons.error) {
+						insertAlert(respons[0], false);
+						return false;
+					}
+					insertAlert('Le compte utilisateur a bien été supprimé', true);
+				}
+			});
+		}
+		accordeon.css('height',  h - x +'px');
 		$('[data-add]').removeClass('desactivate');
 		paramRow.remove();
 		countLi(role);
+		flagAdd = false;
 	});
 
 	/* Empeche l'envoi du formulaire de paramètres de compte */

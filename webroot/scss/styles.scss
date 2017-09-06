@@ -1189,7 +1189,6 @@ div.container_profil { overflow-y: scroll!important;
                 @include animateVisibility(0.3s);
                 @include transition-delay(0.2s);
                 @include visible(true);
-                &.desactivate { @include visible(false); }
             }
         }
     }
