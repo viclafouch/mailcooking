@@ -173,6 +173,9 @@ header.header_builder_left {
         @include single-transition(opacity, 0.3s, ease, 0s);
         &:hover{@include opacity(1.0); }
         &.active { color: #1565C0; }
+        &[disabled="disabled"] {
+            color: #E0E0E0;
+        }
     }
 
     div.minicolors {
@@ -786,33 +789,6 @@ div#popupCroppie {
         @include border-radius(3px);
         text-align: center;
         max-width: none;
-
-        span#closeCroppie {
-            position: absolute;
-            top: 10px; right: 10px;
-            display: block;
-            width: 22px;
-            height: 22px;
-            background-color: transparent;
-            cursor: pointer;
-            &::after, &::before {
-                content: '';
-                position: absolute;
-                height: 2px;
-                top: 50%; left: 0; right: 0;
-                margin-top: -2px;
-                width: 100%;
-                background-color: $primaryTextColor;
-                @include single-transition(transform, 0.3s, ease, 0s);
-            }
-            &::after { @include rotate(45deg); }
-            &::before { @include rotate(-45deg); }
-
-            &:hover {
-                &::after { @include rotate(20deg); }
-                &::before { @include rotate(-20deg); }
-            }
-        }
 
         & > div.croppie-container {
             width: 100%;

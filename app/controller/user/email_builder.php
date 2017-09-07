@@ -205,11 +205,11 @@
 			$title = $document->createElement('title', $_POST['titleExport']);
 			$head->appendChild($title);
 
-			$fonts = $document->createElement('link');
-			$fonts->setAttribute('href', $googleFontLink);
-			$fonts->setAttribute('rel', 'stylesheet');
-			$fonts->setAttribute('type', 'text/css');
-			$head->appendChild($fonts);
+			$family = $document->createElement('link');
+			$family->setAttribute('href', $googleFontLink);
+			$family->setAttribute('rel', 'stylesheet');
+			$family->setAttribute('type', 'text/css');
+			$head->appendChild($family);
 
 			$styles = $document->createElement('style', 'body { text-size-adjust:none; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; padding:0; margin:0; background-color:'.$background.'!important; } .ReadMsgBody{ width:100%; } .ExternalClass{ width:100%; } .gmapp{ display:none; display:none!important;}');
 			$styles->setAttribute('type', 'text/css');
@@ -218,6 +218,14 @@
 			$query = $document->createElement('style', $medias);
 			$query->setAttribute('type', 'text/css');
 			$head->appendChild($query);
+
+			foreach ($fonts as $key => $font) {
+				$theFont = str_replace('+', ' ', $font);
+				$fallBack = "[style*='".$theFont."'] { font-family: '".$theFont."', Arial, sans-serif !important }";
+				$fallBackFonts = $document->createElement('style', $fallBack);
+				$fallBackFonts->setAttribute('type', 'text/css');
+				$head->appendChild($fallBackFonts);
+			}
 
 			$body = $document->createElement('body', $newDom);
 			$body->setAttribute('style', 'background-color:'.$background);

@@ -433,7 +433,7 @@ function changeSpinner(element, change) {
 
     if ($(element).attr('data-img')) {
        $('[data-change="height"]')
-            .attr('data-max', '700')
+            .attr('data-max', '550')
             .attr('data-min', '10');
     } else {
          $('[data-change="height"]')

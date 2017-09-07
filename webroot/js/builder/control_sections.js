@@ -279,7 +279,8 @@ function creatSortable(container) {
             $('[medium-editor-index]').removeAttr('medium-editor-index');
             $('[data-original-title]').removeAttr('data-original-title');
 
-            creatMediumEditor();     
+            creatMediumEditor();
+            console.log('save');
         },
         /* Event lorqu'un item est déplacé dans un autre container */
         remove: function(event, ui) {},
@@ -295,9 +296,7 @@ function creatSortable(container) {
             $('.tools_section').remove();
         },
         /* Event au changement de l'ordre des éléments */
-        update: function(event, ui){
-            saveInStack(createId(), $('#storage_email').html());
-        },
+        update: function(event, ui){},
     });
 }
 
@@ -307,7 +306,6 @@ function removeSection(targetClic) {
     sectionSelected.fadeOut( "slow", function() {
         sectionSelected.remove();
     });
-    saveInStack(createId(), $('#sortable').html());
 }
 
 // IX : Duplication d'une section
@@ -332,8 +330,6 @@ function duplicateSection(targetClic) {
     $('[data-original-title]').removeAttr('data-original-title');
 
     creatMediumEditor();
-    
-    saveInStack(createId(), $('#sortable').html());
 }
 
 /*----------  Actions  ----------*/

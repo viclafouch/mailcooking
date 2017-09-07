@@ -32,7 +32,7 @@ var keys = {37: 1, 38: 1, 39: 1, 40: 1}; // touches directionnelles
 var id_mail; // ID du mail 
 
 // Contenu du container de la popup
-var cropper = '<span data-close-popup id="closeCroppie"></span><div id="cropperimg"></div><p><input id="newImg" type="file" accept=".png, .jpeg, .jpg" spellcheck="false" autocomplete="off" /></p><p><input id="altImg" type="text" spellcheck="false" autocomplete="off" placeholder="Tag alternatif"></p><button id="saveImg" class="button_default button_secondary">Sauvegarder</button>';
+var cropper = '<div id="cropperimg"></div><p><input id="newImg" type="file" accept=".png, .jpeg, .jpg" spellcheck="false" autocomplete="off" /></p><p><input id="altImg" type="text" spellcheck="false" autocomplete="off" placeholder="Tag alternatif"></p><button id="saveImg" class="button_default button_secondary">Sauvegarder</button>';
 /*----------  Functions  ----------*/
 
 /**
@@ -147,6 +147,7 @@ var saveCroppie = function(input, selection) {
                 url : "?module=user&action=email_builder",
                 success : function(html) {
                     selection.attr('src', html);
+                    saveInStack();
                 }
             });
         });
@@ -156,8 +157,8 @@ var saveCroppie = function(input, selection) {
 }
 
 // V : Annule des modifications
-var closeCroppie = function(input) {
-    $(input).on('click', function(e){
+var closeCroppie = function(el) {
+    $(el).on('click', function(e){
         inCroppie = false;
         $('#popupCroppie').removeClass('active');
 
@@ -171,7 +172,7 @@ var closeCroppie = function(input) {
             switch (e.keyCode) {
             case 27:
                 e.preventDefault();
-                $(input).trigger('click');
+                $(el).trigger('click');
                 break;
             };
         }
@@ -207,7 +208,7 @@ var imgCropper = function(selection) {
     saveCroppie('#saveImg', selection);
 
     // /* Ferme et annule les modifications d'image */
-    closeCroppie('#closeCroppie');
+    closeCroppie('#popupCroppie > .popup_background');
 }
 
 /*----------  Actions  ----------*/

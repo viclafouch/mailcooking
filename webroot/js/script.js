@@ -129,9 +129,9 @@ $(document).on('click', '[data-btn-subscribe]', function(e) {
 	}
 });
 
-window.addEventListener('popstate', function() {
-  	handlerTip.close();
-});
+// window.addEventListener('popstate', function() {
+//   	handlerTip.close();
+// });
 
 var handleUpgradeTip = StripeCheckout.configure({
   	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
@@ -155,10 +155,10 @@ $(document).on('click', '#btn__upgradeToTip', function(e) {
 	});
 })
 
-// Close Checkout on page navigation:
-window.addEventListener('popstate', function() {
-  	handleUpgradeTip.close();
-});
+// // Close Checkout on page navigation:
+// window.addEventListener('popstate', function() {
+//   	handleUpgradeTip.close();
+// });
 
 // I : Activation/Desactivation de la sidebar 
 function activateSidebar(btn) {

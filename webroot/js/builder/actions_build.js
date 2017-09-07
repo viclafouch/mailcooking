@@ -124,47 +124,81 @@ function saveBuilder(btnSave) {
     }
 }
 
-// IV : Mise à jour des boutons Undo/Redo
-var udpateBtn = function() {
-    undoManager.setCallback(
-       function updateUI() {
-            $('#undo').prop('disabled', (!undoManager.hasUndo() || undoRedoStack.length <= 1));
-            $('#redo').prop('disabled', !undoManager.hasRedo());
+var h = []; // historique, au load de la page, l'historique commence donc à 1 item.
+var positionInArray; // On va évidemment bouger dans l'array, il faut savoir où on est.
+var contentToObserve = document.getElementById('storage_email'); // Le contenu qui doit être observé
+var btnUndo = document.getElementById('undo');
+var btnRedo = document.getElementById('redo');
+
+var buttonsUndoRedo = [btnUndo, btnRedo];
+var hLengthMax = 10;
+
+function saveInStack() {
+    if (h.length == 0) {
+        for (var i = buttonsUndoRedo.length - 1; i >= 0; i--) {
+            buttonsUndoRedo[i].setAttribute('disabled', 'disabled');
         }
-    );
+    } else {
+        buttonsUndoRedo[0].removeAttribute('disabled');
+        buttonsUndoRedo[1].setAttribute('disabled', 'disabled');
+    }
+    var content = contentToObserve.innerHTML;
+    h.push(content);
+    positionInArray = h.length - 1;
+    if (h.length > hLengthMax) {
+        h.shift();
+    }
 }
 
-// V : Création de l'état de sauvegarde
-function saveInStack(id, dem) {
-
-    undoRedoStack[id] = dem;
-
-    undoManager.add({
-        undo: function () {
-            var index = -1;
-            for (var i = 0; i < undoRedoStack.length; i += 1) {
-                if (i === id) {
-                    index = i;
-                }
-            }
-            if (index !== -1) {
-                undoRedoStack.splice(index, 1);
-            }
-            var dem = undoRedoStack[undoRedoStack.length - 1];
-            $('#storage_email').html(dem);
-        },
-        redo: function () {
-            undoRedoStack[id] = dem;
-            var step = undoRedoStack[undoRedoStack.length - 1];
-            $('#storage_email').html(step);
+function undo() {
+    if (positionInArray - 1 >= 0) {
+        positionInArray =  positionInArray - 1;
+        var lastDOM = h[positionInArray];
+        contentToObserve.innerHTML = lastDOM;
+        buttonsUndoRedo[1].removeAttribute('disabled');
+        creatMediumEditor();
+        if (positionInArray == 0) {
+            buttonsUndoRedo[0].setAttribute('disabled', 'disabled');
         }
-    });
+    }
 }
 
-// VI : Réserve un ID pour l'undo/redo
-function createId() {
-    return undoRedoStack.length;
+function redo() {
+    if (positionInArray + 1 < h.length) {
+        positionInArray = positionInArray + 1;
+        var lastDOM = h[positionInArray];
+        contentToObserve.innerHTML = lastDOM;
+
+        buttonsUndoRedo[0].removeAttribute('disabled');
+        creatMediumEditor();
+        if (positionInArray + 1 == h.length) {
+            buttonsUndoRedo[1].setAttribute('disabled', 'disabled');
+        }
+    }
 }
+
+// saveInStack();
+
+var flagWriting;
+$(document).on('keyup', '[data-text], [data-cta]', function() {
+    flagWriting = true;
+});
+
+$(document).click(function(e) {
+    if (flagWriting) {
+        flagWriting = false;
+        saveInStack();
+    }
+})
+
+$(document).on('click', '#undo', function() {
+    undo();
+});
+
+$(document).on('click', '#redo', function() {
+    redo();
+});
+
 
 // VII : Nettoyage des attributs
 function cleanAttr(storage) {
@@ -224,6 +258,13 @@ function exportDocument(storageID) {
             if (!family.includes(familyName)) {
                 family.push(familyName);
             }
+
+            var fallBackFonts = $(this).css('font-family').split(',');
+            familyName = familyName.replace('+', ' ');
+            console.log(familyName);
+
+            $(this).css('font-family', fallBackFonts[1]+', '+fallBackFonts[2]+', '+familyName+'');
+            console.log( $(this).css('font-family'));
         }
     });
 
@@ -248,9 +289,21 @@ function exportDocument(storageID) {
         }
     });
 
+    String.prototype.replaceAll = function(search, replacement) {
+        var target = this;
+        return target.replace(new RegExp(search, 'g'), replacement);
+    };
+
+    var html = $(storageID).html();
+    for (var i = family.length - 1; i >= 0; i--) {
+        var f = family[i].replace('+', ' ');
+        html = html.replaceAll('&quot;', '');
+        html = html.replaceAll(f, "'"+f+"'");
+    }
+
     $.ajax({
         type: "POST",
-        data: {domExport : $(storageID).html(), titleExport: titleMail, img: src, background: backgroundMail, fonts: family, ID:id_mail, fixGmail: fixGmailApp},
+        data: {domExport : html, titleExport: titleMail, img: src, background: backgroundMail, fonts: family, ID:id_mail, fixGmail: fixGmailApp},
         url : "?module=user&action=email_builder",
         success : function(html) {
             setTimeout(function() {
@@ -308,26 +361,25 @@ function cancelTemplate(orderID) {
 // Démarrage des modules d'actions du builder
 $(document).ready(function() {
     /* Mise à jour des boutons undo/redo */
-    udpateBtn();
 
     /* Sauvegarde du builder */
     $(document).on("click", '#saveDocument', function() {
         saveBuilder($(this));
     });
 
-    /* Annuler une modification */
-    $(document).on('click', '#undo', function (e){ 
-        undoManager.undo();
-        console.log('undo');
-        e.preventDefault();
-    });
+    // /* Annuler une modification */
+    // $(document).on('click', '#undo', function (e){ 
+    //     undoManager.undo();
+    //     console.log('undo');
+    //     e.preventDefault();
+    // });
 
-    /* Réaffecter une modification */
-    $(document).on('click', '#redo', function (e){ 
-        undoManager.redo();
-        console.log('redo');
-        e.preventDefault();
-    });
+    // /* Réaffecter une modification */
+    // $(document).on('click', '#redo', function (e){ 
+    //     undoManager.redo();
+    //     console.log('redo');
+    //     e.preventDefault();
+    // });
 
     /* Sauvegarde et exporte le document */
     $(document).on('click', '#exportDocument', function(){
@@ -336,7 +388,6 @@ $(document).ready(function() {
     });
 
     /* Sauvegarde du mail */
-    saveInStack(createId(), $('#storage_email').html());
 
     /* Démarre le téléchargement de l'archive */
     $(document).on('click', '#downloading', function(){
