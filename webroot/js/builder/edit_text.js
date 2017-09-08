@@ -59,6 +59,8 @@ var min; // Valeur min à insérer
 // Les polices websave
 var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','Courier','Courier New','DejaVu Serif','DejaVu Sans Mono','Georgia','Geneva','Helvetica','Impact','Kalimati','Liberation Sans','Liberation Mono','Lucida Console','FreeSans','FreeMono','Times New Roman', 'Times','Trebuchet MS','FreeSerif', 'Liberation Serif','Lucida Sans','Lucida Grande','Lucida Sans Unicode','Luxi Sans','monospace','Monaco','Norasi','serif', 'sans-serif','Verdana','Tahoma'];
 
+var flagEditor;
+
 /*----------  Functions  ----------*/
 
 /**
@@ -220,7 +222,11 @@ var creatMediumEditor = function() {
         autoLink: true,
         // Empêche le dragging & dropping dans la section
         imageDragging: false,
+    }).subscribe('editableInput', function (event, editable) {
+        flagEditor = true;
+        console.log('medium editor, bold par exemple');
     });
+
     new MediumEditor('[data-cta] > p', {
         targetBlank: false,
         spellcheck: false,
@@ -420,7 +426,7 @@ function editSidebar(element) {
     $('.field_item_sidebar').hide();
     $("[data-menu]#items_sidebar").trigger( "click" );
 
-    if ($(element).attr('data-text')) { clicToText(element) }
+    if ($(element).attr('data-text')) { clicToText(element); console.log('test'); }
     else if ($(element).attr('data-img')) { clicToImg(element) }
     else if ($(element).attr('data-cta')) { clicToCta(element) }
     else if ($(element).attr('data-spacer')) { clicToSpacer(element) }
@@ -523,11 +529,13 @@ function alignmentText(element) {
     $('#'+alignmentSection+'').addClass('active');
 
     (function change(){
-        $(document).on('click', '.format_align', function(){
-            $('.format_align').removeClass('active');
-            $(this).addClass('active');
-            alignmentSection = $(this).attr('id');
-            $(element).css('text-align', alignmentSection);
+        $(document).on('click', '.format_align', function(e){
+            if (!$(this).hasClass('active') && checkHandle(e)) {
+                $('.format_align').removeClass('active');
+                $(this).addClass('active');
+                alignmentSection = $(this).attr('id');
+                $(element).css('text-align', alignmentSection);
+            }
         });
     })();
 }
@@ -552,6 +560,11 @@ function colorText(element) {
             colorSection = $(this).val();
             $(element).css('color', colorSection);
         });
+        $(document).on('blur', '[data-change="color"]', function(e){
+            if (checkHandle(e)) {
+                saveInStack(element);
+            }
+        });
     })();
 }
 
@@ -566,12 +579,20 @@ function backgroundText(element) {
             backgroundSection = $(this).val();
             $(element).css('background-color', backgroundSection);
         });
-        $(document).on('blur', '[data-change="background-color"]', function(){
+        $(document).on('blur', '[data-change="background-color"]', function() {
             if ($(this).val() == '') {
                 input.attr('value', backgroundSection).val(backgroundSection).minicolors('value',backgroundSection);
             }
         });
     })();
+}
+
+var checkHandle = function(event) {
+    event.preventDefault();
+    if (!event.handled) {
+        event.handled = true
+        return event.handled;
+    }
 }
 
 // XV : Récupération/Modification de la police de texte
@@ -584,15 +605,17 @@ function familyText(element) {
     input.val(newFamilySection);
 
     (function change() {
-        $(document).on('change', '[data-change="font-family"]', function() {
-            input = $(this);
-            val = input.val();
-            if (webSaveFonts.includes(val)) {
-                $(element).css('font-family', val);
-            } else {
-                 $(element).css('font-family', val+", Arial, sans-serif");
+        $(document).on('change', '[data-change="font-family"]', function(e) {
+            if (checkHandle(e)) {
+                input = $(this);
+                val = input.val();
+                if (webSaveFonts.includes(val)) {
+                    $(element).css('font-family', val);
+                } else {
+                     $(element).css('font-family', val+", Arial, sans-serif");
+                }
+                $(element).attr('style', $(element).attr('style').replace('"', "'").replace('"', "'"));
             }
-            $(element).attr('style', $(element).attr('style').replace('"', "'").replace('"', "'"));
         });
     })();
 }
@@ -648,32 +671,34 @@ function linkObjet(element){
     }
 
     (function change(){
-        $(document).on('change', '[data-change="link"]', function(){
-            linkSection = $(this).val();
-            if ($(element).attr('data-cta')) {
-                if (linkSection == '') {
-                    $(element).attr('href', '');
+        $(document).on('change', '[data-change="link"]', function(e){
+            if (checkHandle(e)) {
+                linkSection = $(this).val();
+                if ($(element).attr('data-cta')) {
+                    if (linkSection == '') {
+                        $(element).attr('href', '');
+                    } 
+                    else if (linkSection.indexOf('http') == -1 ) {
+                        $(element).attr('href', 'http://'+linkSection);
+                        $('[data-change="link"]').val('http://'+linkSection);
+                    }
+                    else {
+                        $(element).attr('href', linkSection);
+                    }
                 } 
-                else if (linkSection.indexOf('http') == -1 ) {
-                    $(element).attr('href', 'http://'+linkSection);
-                    $('[data-change="link"]').val('http://'+linkSection);
+                else if ($(element).parent('a').attr('data-href')) {
+                    if (linkSection == '') {
+                        $('[data-href]').attr('href', '');
+                    }
+                    else if (linkSection.indexOf('http') == -1 ) {
+                        $('[data-href]').attr('href', 'http://'+linkSection);
+                        $('[data-change="link"]').val('http://'+linkSection);
+                    }
+                    else {
+                        $('[data-href]').attr('href', linkSection);
+                    } 
                 }
-                else {
-                    $(element).attr('href', linkSection);
-                }
-            } 
-            else if ($(element).parent('a').attr('data-href')) {
-                if (linkSection == '') {
-                    $('[data-href]').attr('href', '');
-                }
-                else if (linkSection.indexOf('http') == -1 ) {
-                    $('[data-href]').attr('href', 'http://'+linkSection);
-                    $('[data-change="link"]').val('http://'+linkSection);
-                }
-                else {
-                    $('[data-href]').attr('href', linkSection);
-                } 
-            }            
+            }   
         });
     })();
 }
@@ -749,21 +774,24 @@ function borderRadiusObjet (element) {
     changeSpinner(element, 'border-radius');
 }
 
+function hideSidebar() {
+    $('.field_item_sidebar').hide();
+    $('#storage_email [data-content]').removeClass('activeover');
+    $('[data-text], [data-img], [data-cta], [data-spacer]')
+    .removeAttr('data-target')
+    .removeClass('active noactive');
+    $('[data-menu], [data-task]').removeClass('active');
+    $('[data-menu]#items_sidebar').addClass('active');
+    $('[data-task="notask"]').addClass('active');
+    $('[data-section]').removeClass('active');
+    inEdit = false;
+}
 
 // XXIII : Disparition des items
 function disappearItem(e) {
     var click =  $(e.target).children();
     if (click.is("[data-content]")){
-        $('.field_item_sidebar').hide();
-        $('#storage_email [data-content]').removeClass('activeover');
-        $('[data-text], [data-img], [data-cta], [data-spacer]')
-        .removeAttr('data-target')
-        .removeClass('active noactive');
-        $('[data-menu], [data-task]').removeClass('active');
-        $('[data-menu]#items_sidebar').addClass('active');
-        $('[data-task="notask"]').addClass('active');
-        $('[data-section]').removeClass('active');
-        inEdit = false;
+        hideSidebar();
     }
 }
 
@@ -794,5 +822,13 @@ $(document).ready(function() {
     /* Disparition des items */
     $(document).on("click", '#storage_email', function(e) {
         disappearItem(e);
+    });
+
+    /* Sauvegarde dans l'historique */
+    $(document).click(function(e) {
+        if (flagEditor) {
+            flagEditor = false;
+            saveInStack();
+        }
     });
 });

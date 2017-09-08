@@ -28,10 +28,6 @@ var id_template = $('[data-template]').data('template'); // ID du template
 var backgroundMail; // Valeur du fond de couleur
 var DomMail; // Contenu du mail
 var btnSave; // Bouton de sauvegarde
-var saved = -1; // Etat de sauvegarde
-var undoManager = new UndoManager(); // Creation du module undo/redo
-undoManager.setLimit(15); // Limite du nombre de changements
-var undoRedoStack = []; // Tableau des modifications
 var family; // Tableau des polices
 var familyName; // Police à exporter
 var src; // Tableau des images
@@ -124,16 +120,35 @@ function saveBuilder(btnSave) {
     }
 }
 
+function reloadMediumEditor() {
+    $('[data-medium-editor-element]').removeAttr('data-medium-editor-element');
+    $('[data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
+    $('[data-medium-focused]').removeAttr('data-medium-focused');
+    $('[data-placeholder]').removeAttr('data-placeholder');
+    $('[medium-editor-index]').removeAttr('medium-editor-index');
+    creatMediumEditor();
+}
+
 var h = []; // historique, au load de la page, l'historique commence donc à 1 item.
 var positionInArray; // On va évidemment bouger dans l'array, il faut savoir où on est.
 var contentToObserve = document.getElementById('storage_email'); // Le contenu qui doit être observé
-var btnUndo = document.getElementById('undo');
-var btnRedo = document.getElementById('redo');
+var btnUndo = document.getElementById('undo'); // Bouton Undo
+var btnRedo = document.getElementById('redo'); // Bouton Redo
 
-var buttonsUndoRedo = [btnUndo, btnRedo];
-var hLengthMax = 10;
+var buttonsUndoRedo = [btnUndo, btnRedo]; // Tableau des boutons
+var hLengthMax = 10; // Taille de l'historique max
 
-function saveInStack() {
+
+function actionAfterUndoRedo(element){
+    if (element) { 
+        $('[data-target]').click();
+    } else {
+        hideSidebar();
+    }
+    reloadMediumEditor();
+}
+
+function saveInStack(object) {
     if (h.length == 0) {
         for (var i = buttonsUndoRedo.length - 1; i >= 0; i--) {
             buttonsUndoRedo[i].setAttribute('disabled', 'disabled');
@@ -142,8 +157,16 @@ function saveInStack() {
         buttonsUndoRedo[0].removeAttribute('disabled');
         buttonsUndoRedo[1].setAttribute('disabled', 'disabled');
     }
-    var content = contentToObserve.innerHTML;
-    h.push(content);
+
+    var arrayStack = [contentToObserve.innerHTML];
+
+    if (object) {
+        var proto = document.querySelector(object);
+    } else {
+        var proto = undefined;
+    }
+    arrayStack.push(proto);
+    h.push(arrayStack);
     positionInArray = h.length - 1;
     if (h.length > hLengthMax) {
         h.shift();
@@ -153,10 +176,11 @@ function saveInStack() {
 function undo() {
     if (positionInArray - 1 >= 0) {
         positionInArray =  positionInArray - 1;
-        var lastDOM = h[positionInArray];
+        var lastDOM = h[positionInArray][0];
+        var obj = h[positionInArray][1];
         contentToObserve.innerHTML = lastDOM;
+        actionAfterUndoRedo(obj);
         buttonsUndoRedo[1].removeAttribute('disabled');
-        creatMediumEditor();
         if (positionInArray == 0) {
             buttonsUndoRedo[0].setAttribute('disabled', 'disabled');
         }
@@ -166,39 +190,16 @@ function undo() {
 function redo() {
     if (positionInArray + 1 < h.length) {
         positionInArray = positionInArray + 1;
-        var lastDOM = h[positionInArray];
+        var lastDOM = h[positionInArray][0];
+        var obj = h[positionInArray][1];
         contentToObserve.innerHTML = lastDOM;
-
         buttonsUndoRedo[0].removeAttribute('disabled');
-        creatMediumEditor();
+        actionAfterUndoRedo(obj);
         if (positionInArray + 1 == h.length) {
             buttonsUndoRedo[1].setAttribute('disabled', 'disabled');
         }
     }
 }
-
-// saveInStack();
-
-var flagWriting;
-$(document).on('keyup', '[data-text], [data-cta]', function() {
-    flagWriting = true;
-});
-
-$(document).click(function(e) {
-    if (flagWriting) {
-        flagWriting = false;
-        saveInStack();
-    }
-})
-
-$(document).on('click', '#undo', function() {
-    undo();
-});
-
-$(document).on('click', '#redo', function() {
-    redo();
-});
-
 
 // VII : Nettoyage des attributs
 function cleanAttr(storage) {
@@ -360,26 +361,14 @@ function cancelTemplate(orderID) {
 
 // Démarrage des modules d'actions du builder
 $(document).ready(function() {
-    /* Mise à jour des boutons undo/redo */
+
+    /* Création du premier élément dans l'historique */
+    saveInStack();
 
     /* Sauvegarde du builder */
     $(document).on("click", '#saveDocument', function() {
         saveBuilder($(this));
     });
-
-    // /* Annuler une modification */
-    // $(document).on('click', '#undo', function (e){ 
-    //     undoManager.undo();
-    //     console.log('undo');
-    //     e.preventDefault();
-    // });
-
-    // /* Réaffecter une modification */
-    // $(document).on('click', '#redo', function (e){ 
-    //     undoManager.redo();
-    //     console.log('redo');
-    //     e.preventDefault();
-    // });
 
     /* Sauvegarde et exporte le document */
     $(document).on('click', '#exportDocument', function(){
@@ -387,7 +376,9 @@ $(document).ready(function() {
             exportDocument('#storage_email_to_export');
     });
 
-    /* Sauvegarde du mail */
+    /* Activation de l'undo / redo */
+    $(document).on('click', '#undo', function() { undo() });
+    $(document).on('click', '#redo', function() { redo() });
 
     /* Démarre le téléchargement de l'archive */
     $(document).on('click', '#downloading', function(){

@@ -278,9 +278,6 @@ function creatSortable(container) {
             $('[data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
             $('[medium-editor-index]').removeAttr('medium-editor-index');
             $('[data-original-title]').removeAttr('data-original-title');
-
-            creatMediumEditor();
-            console.log('save');
         },
         /* Event lorqu'un item est déplacé dans un autre container */
         remove: function(event, ui) {},
@@ -296,7 +293,9 @@ function creatSortable(container) {
             $('.tools_section').remove();
         },
         /* Event au changement de l'ordre des éléments */
-        update: function(event, ui){},
+        update: function(event, ui){
+            saveInStack();
+        },
     });
 }
 
@@ -305,6 +304,7 @@ function removeSection(targetClic) {
     sectionSelected = $(targetClic).closest('table[data-section]');
     sectionSelected.fadeOut( "slow", function() {
         sectionSelected.remove();
+        saveInStack();
     });
 }
 
@@ -330,6 +330,8 @@ function duplicateSection(targetClic) {
     $('[data-original-title]').removeAttr('data-original-title');
 
     creatMediumEditor();
+
+    saveInStack();
 }
 
 /*----------  Actions  ----------*/
