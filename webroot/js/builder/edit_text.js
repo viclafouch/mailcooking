@@ -60,6 +60,7 @@ var min; // Valeur min à insérer
 var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','Courier','Courier New','DejaVu Serif','DejaVu Sans Mono','Georgia','Geneva','Helvetica','Impact','Kalimati','Liberation Sans','Liberation Mono','Lucida Console','FreeSans','FreeMono','Times New Roman', 'Times','Trebuchet MS','FreeSerif', 'Liberation Serif','Lucida Sans','Lucida Grande','Lucida Sans Unicode','Luxi Sans','monospace','Monaco','Norasi','serif', 'sans-serif','Verdana','Tahoma'];
 
 var flagEditor;
+var flagInEdit;
 
 /*----------  Functions  ----------*/
 
@@ -67,27 +68,29 @@ var flagEditor;
     Séléctionnez le titre puis CTRL+D (Windows) ou CMD+D (Mac).
     - I     :  Création de Medium Editor 
     - II    :  Transformation d'un rgb en hex
-    - III   :  Concentration des données modifiées vers la cible
-    - IV    :  Concentration des données modifiées vers le parent cible
-    - V     :  Cible == Text
-    - VI    :  Cible == Img
-    - VII   :  Cible == Cta
-    - VIII  :  Cible == Spacer
-    - IX    :  Affichage des items selon le clic
-    - X     :  Spinner +/- des items
-    - XI    :  Récupération/Modification de l'alignement
-    - XII   :  Récupération/Modification de la taille de texte
-    - XIII  :  Récupération/Modification de la couleur de texte
-    - XIV   :  Récupération/Modification de la couleur de fond
-    - XV    :  Récupération/Modification de la police de texte
-    - XVI   :  Récupération/Modification de l'interlignage
-    - XVII  :  Récupération/Modification de la hauteur
-    - XVIII :  Récupération/Modification du lien de redirection
-    - XIX   :  Récupération/Modification de l'espacement
-    - XX    :  Récupération/Modification de la taille des bordures
-    - XXI   :  Récupération/Modification de la couleur des bordures
-    - XXII  :  Récupération/Modification du contour des bordures
-    - XXIII :  Disparition des items
+    - III   :  Limite le multi event
+    - IV    :  Concentration des données modifiées vers la cible
+    - V     :  Concentration des données modifiées vers le parent cible
+    - VI    :  Cible == Text
+    - VII   :  Cible == Img
+    - VIII  :  Cible == Cta
+    - IX    :  Cible == Spacer
+    - X     :  Affichage des items selon le clic
+    - XI    :  Spinner +/- des items
+    - XII   :  Récupération/Modification de l'alignement
+    - XIII  :  Récupération/Modification de la taille de texte
+    - XIV   :  Récupération/Modification de la couleur de texte
+    - XV    :  Récupération/Modification de la couleur de fond
+    - XVI   :  Récupération/Modification de la police de texte
+    - XVII  :  Récupération/Modification de l'interlignage
+    - XVIII :  Récupération/Modification de la hauteur
+    - XIX   :  Récupération/Modification du lien de redirection
+    - XX    :  Récupération/Modification de l'espacement
+    - XXI   :  Récupération/Modification de la taille des bordures
+    - XXII  :  Récupération/Modification de la couleur des bordures
+    - XXIII :  Récupération/Modification du contour des bordures
+    - XXIV  :  Action des différents items à la disparition des items
+    - XXV   :  Disparition des items
 **/
 
 // I : Création de Medium Editor
@@ -355,7 +358,16 @@ function rgb2hex(rgb){
     ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
-// III : Concentration des données modifiées vers la cible
+// III : Limite le multi event
+var checkHandle = function(event) {
+    event.preventDefault();
+    if (!event.handled) {
+        event.handled = true
+        return event.handled;
+    }
+}
+
+// IV : Concentration des données modifiées vers la cible
 function targetTheTarget(element) {
     $('[data-text], [data-img], [data-cta], [data-spacer]').removeAttr('data-target');
     $('[data-content]').removeAttr('data-parent-target');
@@ -365,14 +377,14 @@ function targetTheTarget(element) {
     return target;
 }
 
-// IV : Concentration des données modifiées vers le parent cible
+// V : Concentration des données modifiées vers le parent cible
 function targetTheTargetParent(element) {
     $(element).parents('[data-content]').attr('data-parent-target', 'true');
     parent = '[data-parent-target]';
     return parent;
 }
 
-// V : Cible == Text
+// VI : Cible == Text
 function clicToText(element) {
     $('[data-display-text]').show();
     alignmentText(element);
@@ -386,7 +398,7 @@ function clicToText(element) {
     borderColorObjet(element);
 }
 
-// VI : Cible == Img
+// VII : Cible == Img
 function clicToImg(element) {
     $(element).removeAttr('border');
     $('[data-display-img]').show();
@@ -398,7 +410,7 @@ function clicToImg(element) {
     $('[data-change="img"]').attr('data-tocroppie', dataImg);
 }
 
-// VII : Cible == Cta
+// VIII : Cible == Cta
 function clicToCta(element) {
     $('[data-display-cta]').show();
     sizeText(element);
@@ -411,7 +423,7 @@ function clicToCta(element) {
     borderRadiusObjet(element);
 }
 
-// VIII : Cible == Spacer
+// IX : Cible == Spacer
 function clicToSpacer(element) {
     $('[data-display-spacer]').show();
     backgroundText(element);
@@ -420,19 +432,19 @@ function clicToSpacer(element) {
     borderColorObjet(element);
 }
 
-// IX : Affichage des items selon le clic
+// X : Affichage des items selon le clic
 function editSidebar(element) {
     element = '[data-target]';
     $('.field_item_sidebar').hide();
     $("[data-menu]#items_sidebar").trigger( "click" );
 
-    if ($(element).attr('data-text')) { clicToText(element); console.log('test'); }
+    if ($(element).attr('data-text')) { clicToText(element); }
     else if ($(element).attr('data-img')) { clicToImg(element) }
     else if ($(element).attr('data-cta')) { clicToCta(element) }
     else if ($(element).attr('data-spacer')) { clicToSpacer(element) }
 }
 
-// X : Spinner +/- des items
+// XI : Spinner +/- des items
 function changeSpinner(element, change) {
     let input = $('[data-change="'+change+'"]');
     let style = change;
@@ -522,7 +534,7 @@ function changeSpinner(element, change) {
     });
 }
 
-// XI : Récupération/Modification de l'alignement
+// XII : Récupération/Modification de l'alignement
 function alignmentText(element) {
     alignmentSection = $(element).css('text-align');
     $('.format_align').removeClass('active');
@@ -540,7 +552,7 @@ function alignmentText(element) {
     })();
 }
 
-// XII : Récupération/Modification de la taille de texte
+// XIII : Récupération/Modification de la taille de texte
 function sizeText(element) {
     
     sizeSection = parseFloat($(element).css('font-size'));
@@ -549,16 +561,18 @@ function sizeText(element) {
     changeSpinner(element, 'font-size');
 }
 
-// XIII : Récupération/Modification de la couleur de texte
+// XIV : Récupération/Modification de la couleur de texte
 function colorText(element) {
     let input = $('[data-change="color"]');
     colorSection = rgb2hex($(element).css('color'));
     input.attr('value', colorSection).val(colorSection).minicolors('value',colorSection);
 
     (function change(){
-        $(document).on('change', '[data-change="color"]', function(){
-            colorSection = $(this).val();
-            $(element).css('color', colorSection);
+        $(document).on('change', '[data-change="color"]', function(e){
+            if (checkHandle(e)) {
+                colorSection = $(this).val();
+                $(element).css('color', colorSection);
+            }
         });
         $(document).on('blur', '[data-change="color"]', function(e){
             if (checkHandle(e)) {
@@ -568,34 +582,30 @@ function colorText(element) {
     })();
 }
 
-// XIV : Récupération/Modification de la couleur de fond
+// XV : Récupération/Modification de la couleur de fond
 function backgroundText(element) {
     let input = $('[data-change="background-color"]');
     backgroundSection = rgb2hex($(element).css('background-color'));
     input.attr('value', backgroundSection).val(backgroundSection).minicolors('value',backgroundSection);
 
     (function change(){
-        $(document).on('change', '[data-change="background-color"]', function(){
-            backgroundSection = $(this).val();
-            $(element).css('background-color', backgroundSection);
+        $(document).on('change', '[data-change="background-color"]', function(e){
+            if (checkHandle(e)) {
+                backgroundSection = $(this).val();
+                $(element).css('background-color', backgroundSection);
+            }
         });
-        $(document).on('blur', '[data-change="background-color"]', function() {
-            if ($(this).val() == '') {
-                input.attr('value', backgroundSection).val(backgroundSection).minicolors('value',backgroundSection);
+        $(document).on('blur', '[data-change="background-color"]', function(e) {
+            if (checkHandle(e)) {
+                if ($(this).val() == '') {
+                    input.attr('value', backgroundSection).val(backgroundSection).minicolors('value',backgroundSection);
+                }
             }
         });
     })();
 }
 
-var checkHandle = function(event) {
-    event.preventDefault();
-    if (!event.handled) {
-        event.handled = true
-        return event.handled;
-    }
-}
-
-// XV : Récupération/Modification de la police de texte
+// XVI : Récupération/Modification de la police de texte
 function familyText(element) {
     let input = $('[data-change="font-family"]');
     familySection = $(element).css('font-family').split(', ');
@@ -620,7 +630,7 @@ function familyText(element) {
     })();
 }
 
-// XVI : Récupération/Modification de l'interlignage
+// XVII : Récupération/Modification de l'interlignage
 function lineText(element) {
    
     let input = $('[data-change="line-height"]');
@@ -642,7 +652,7 @@ function lineText(element) {
     changeSpinner(element, 'line-height');
 }
 
-// XVII : Récupération/Modification de la hauteur
+// XVIII : Récupération/Modification de la hauteur
 function heightObjet (element) {
     height = parseFloat($(element).attr('height'));
     $('[data-change="height"]').val(height).attr('value', height);
@@ -650,7 +660,7 @@ function heightObjet (element) {
     changeSpinner(element, 'height');
 }
 
-// XVIII : Récupération/Modification du lien de redirection
+// XIX : Récupération/Modification du lien de redirection
 function linkObjet(element){
     let input = $('[data-change="link"]');
 
@@ -703,7 +713,7 @@ function linkObjet(element){
     })();
 }
 
-// XIX : Récupération/Modification de l'espacement
+// XX : Récupération/Modification de l'espacement
 function paddingObjet(element) {
     paddingTopSection = parseFloat($(element).css('padding-top'));
     paddingRightSection = parseFloat($(element).css('padding-right'));
@@ -720,7 +730,7 @@ function paddingObjet(element) {
     changeSpinner(element, 'padding-right');
 }
 
-// XX : Récupération/Modification de la taille des bordures
+// XXI : Récupération/Modification de la taille des bordures
 function borderSizeObjet(element) {
     borderWidthTopSection = parseFloat($(element).css('border-top-width'));
     borderWidthRightSection = parseFloat($(element).css('border-right-width'));
@@ -740,7 +750,7 @@ function borderSizeObjet(element) {
     changeSpinner(element, 'border-bottom-width');
 }
 
-// XXI : Récupération/Modification de la couleur des bordures
+// XXII : Récupération/Modification de la couleur des bordures
 function borderColorObjet(element) {
     borderColorTopSection = rgb2hex($(element).css('border-top-color'));
     borderColorRightSection = rgb2hex($(element).css('border-right-color'));
@@ -752,20 +762,24 @@ function borderColorObjet(element) {
     $('[data-change="border-top-left"]').attr('value', borderColorLeftSection).minicolors('value', borderColorLeftSection);
 
     (function change(){
-        $(document).on('change', '#border input.minicolors-input', function() {
-            input = $(this);
-            val = input.val();
-            $(element).css(input.attr('data-change'), val);
+        $(document).on('change', '#border input.minicolors-input', function(e) {
+            if (checkHandle(e)) {
+                input = $(this);
+                val = input.val();
+                $(element).css(input.attr('data-change'), val);
+            }
         });
-        $(document).on('blur', '#border input.minicolors-input', function(){
-            if (input.val() == '') {
-                input.attr('value', val).val(val).minicolors('value',val);
+        $(document).on('blur', '#border input.minicolors-input', function(e){
+            if (checkHandle(e)) {
+                if (input.val() == '') {
+                    input.attr('value', borderColorTopSection).val(borderColorTopSection).minicolors('value',borderColorTopSection);
+                }
             }
         });
     })();
 }
 
-// Récupération/Modification du contour des bordures
+// XXIII : Récupération/Modification du contour des bordures
 function borderRadiusObjet (element) {
     let input = $('[data-change="border-radius"]');
     borderRadius = parseFloat($(element).css('border-radius'));
@@ -774,6 +788,7 @@ function borderRadiusObjet (element) {
     changeSpinner(element, 'border-radius');
 }
 
+// XXIV : Action des différents items à la disparition des items
 function hideSidebar() {
     $('.field_item_sidebar').hide();
     $('#storage_email [data-content]').removeClass('activeover');
@@ -787,7 +802,7 @@ function hideSidebar() {
     inEdit = false;
 }
 
-// XXIII : Disparition des items
+// XXV : Disparition des items
 function disappearItem(e) {
     var click =  $(e.target).children();
     if (click.is("[data-content]")){

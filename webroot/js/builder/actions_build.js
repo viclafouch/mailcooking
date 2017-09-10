@@ -46,11 +46,11 @@ var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0"
     - I     :  Récupèration des paramètres d'URL 
     - II    :  Récupèration des informations de l'email
     - III   :  Sauvegarde du builder
-    - IV    :  Mise à jour des boutons Undo/Redo
-    - V     :  Undo/Redo
-    - VI    :  Réserve un ID pour l'undo/redo
-    - VII   :  Nettoyage des attributs
-    - VIII  :  Vérification des sources des images
+    - IV    :  Redémarrage de Medium Editor
+    - V     :  Action après l'undo/redo
+    - VI    :  Capture du DOM dans l'historique des modifications
+    - VII   :  Undo
+    - VIII  :  Redo
     - IX    :  Exporter le document
     - X     :  Active la vue mobile
     - XI    :  Valider le template
@@ -120,6 +120,7 @@ function saveBuilder(btnSave) {
     }
 }
 
+// IV : Redémarrage de Medium Editor
 function reloadMediumEditor() {
     $('[data-medium-editor-element]').removeAttr('data-medium-editor-element');
     $('[data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
@@ -139,6 +140,7 @@ var buttonsUndoRedo = [btnUndo, btnRedo]; // Tableau des boutons
 var hLengthMax = 10; // Taille de l'historique max
 
 
+// V : Action après l'undo/redo
 function actionAfterUndoRedo(element){
     if (element) { 
         $('[data-target]').click();
@@ -148,6 +150,7 @@ function actionAfterUndoRedo(element){
     reloadMediumEditor();
 }
 
+// VI : Capture du DOM dans l'historique des modifications
 function saveInStack(object) {
     if (h.length == 0) {
         for (var i = buttonsUndoRedo.length - 1; i >= 0; i--) {
@@ -173,6 +176,7 @@ function saveInStack(object) {
     }
 }
 
+// VI : Undo 
 function undo() {
     if (positionInArray - 1 >= 0) {
         positionInArray =  positionInArray - 1;
@@ -187,6 +191,7 @@ function undo() {
     }
 }
 
+// VII : Redo
 function redo() {
     if (positionInArray + 1 < h.length) {
         positionInArray = positionInArray + 1;
@@ -201,7 +206,7 @@ function redo() {
     }
 }
 
-// VII : Nettoyage des attributs
+// VIII : Nettoyage des attributs
 function cleanAttr(storage) {
     $(storage+' [data-content]').removeClass('activeover');
     $(storage+' [contenteditable]').removeAttr('contenteditable');
