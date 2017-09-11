@@ -174,6 +174,7 @@ function saveInStack(object) {
     if (h.length > hLengthMax) {
         h.shift();
     }
+    console.log('save');
 }
 
 // VI : Undo 

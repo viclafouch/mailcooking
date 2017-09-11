@@ -141,7 +141,7 @@
 									<div class="map_block notvisible"></div>
 									<div class="map_block center">
 										<div class="flipper">
-											<div class="map_block_number flipper_front">
+											<div class="map_block_number flipper_front" id="padding-top">
 												<input type="text" value="" class="change_number" data-change='padding-top' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
@@ -149,7 +149,7 @@
 									<div class="map_block notvisible"></div>
 									<div class="map_block">
 										<div class="flipper">
-											<div class="map_block_number flipper_front">
+											<div class="map_block_number flipper_front" id="padding-left">
 												<input type="text" value="" class="change_number" data-change='padding-left' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
@@ -159,7 +159,7 @@
 									</div>
 									<div class="map_block">
 										<div class="flipper">
-											<div class="map_block_number flipper_front">
+											<div class="map_block_number flipper_front" id="padding-right">
 												<input type="text" value="" class="change_number" data-change='padding-right' data-max="80" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
@@ -167,7 +167,7 @@
 									<div class="map_block notvisible"></div>
 									<div class="map_block center">
 										<div class="flipper">
-											<div class="map_block_number flipper_front">
+											<div class="map_block_number flipper_front" id="padding-bottom">
 												<input type="text" value="" class="change_number" data-change='padding-bottom' data-max="100" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 										</div>
@@ -189,7 +189,7 @@
 									<div class="map_block notvisible"></div>
 									<div class="map_block center">
 										<div class="flipper">
-											<div class="map_block_number flipper_front">
+											<div class="map_block_number flipper_front" id="border-top-width">
 												<input type="text" value="" class="change_number" data-change='border-top-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 											<div class="map_block_color flipper_back">
@@ -206,7 +206,7 @@
 									<div class="map_block notvisible"></div>
 									<div class="map_block center">
 										<div class="flipper">
-											<div class="map_block_number flipper_front">
+											<div class="map_block_number flipper_front" id="border-bottom-width">
 												<input type="text" value="" class="change_number" data-change='border-bottom-width' data-max="20" onkeypress='return event.charCode >= 48 && event.charCode <= 57' data-min="0" />
 											</div>
 											<div class="map_block_color flipper_back">
