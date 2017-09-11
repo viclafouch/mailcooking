@@ -232,7 +232,7 @@ $shadow3: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
     @include transition-property(box-shadow, opacity);
     &.button_primary { background-color: $primaryColor; }
     &.button_secondary { background-color: $secondaryColor; }
-    &:hover { @include box-shadow($shadow1); @include opacity(1); }
+    // &:hover { @include box-shadow($shadow1); @include opacity(1); }
     margin: 10px 20px;
     i { @include inline-block(middle); font-size: 20px!important; position: relative; top: -1px; }
     &.button_href { line-height: 40px; }
@@ -645,6 +645,9 @@ div.popup_mc > div.popup_container {
     }
 
     & > form { background-color: #fff;
+
+        &.active { display: block; }
+        &.noactive { display: none; }
 
         div.field {
             @include flex(row nowrap, flex-start, center);

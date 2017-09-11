@@ -42,6 +42,18 @@
 
 			echo $temp[0]["DOM"];
 
+		} elseif (isset($_GET['stripeOrder'])) {
+			$data = [
+			    'key' => 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
+			    'image' => 'https://stripe.com/img/documentation/checkout/marketplace.png',
+			    'locale' => 'auto',
+			    'name' => 'MailCooking',
+			    'zipCode' => false,
+			    'currency' => 'EUR',
+			    'description' => '1 commande de template',
+			    'amount' => 20000
+			];
+			echo json_encode($data);
 		}
 
 		/**

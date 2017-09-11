@@ -229,7 +229,6 @@ var creatMediumEditor = function() {
         imageDragging: false,
     }).subscribe('editableInput', function (event, editable) {
         flagEditor = true;
-        console.log('medium editor, bold par exemple');
     });
 
     new MediumEditor('[data-cta] > p', {

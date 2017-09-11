@@ -208,13 +208,6 @@
 .button_default.button_secondary, .button_secondary.select_default {
   background-color: #FF3B49;
 }
-.button_default:hover, .select_default:hover {
-  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
-  opacity: 1;
-}
 .button_default i, .select_default i {
   display: inline-block;
   vertical-align: middle;
@@ -914,6 +907,12 @@ div.popup_mc > div.popup_container > header h1 {
 }
 div.popup_mc > div.popup_container > form {
   background-color: #fff;
+}
+div.popup_mc > div.popup_container > form.active {
+  display: block;
+}
+div.popup_mc > div.popup_container > form.noactive {
+  display: none;
 }
 div.popup_mc > div.popup_container > form div.field {
   display: -webkit-flex;

@@ -119,7 +119,7 @@
 			<header>
 				<h1>CR&Eacute;ER UN TEMPLATE</h1>
 			</header>
-			<form method="post" action="?module=user&action=template" enctype="multipart/form-data">
+			<form method="post" action="?module=user&action=template" class="active" id="formAddOrder" enctype="multipart/form-data">
 				<div class="content_block popup-blocks">
 					<div>
 						<div class="field">
@@ -156,6 +156,15 @@
 				</div>
 				<footer class="row row-hori-center">
 					<button type="submit" class="button_default button_secondary">Envoyer ma commande</button>
+				</footer>
+			</form>
+			<form action="#" id="formConfirmationAddOrder" class="noactive">
+				<div class="field">
+					<p style="text-align: center">Etant donné que votre abonnement ne vous autorise pas à commander des templates, vous avez la possibilité de passer commande pour seulement 10€.<p>
+				</div>
+				<footer class="row row-hori-center">
+					<button class="button_default button_secondary" id="valideAddOrder">Payer 10.00€</button>
+					<button class="button_default button_secondary" data-close-popup id="cancelAddOrder">Annuler</button>
 				</footer>
 			</form>
 		</div>

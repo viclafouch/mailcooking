@@ -101,64 +101,46 @@ function stripe_subscription(booking_id, action) {
   	return handler;
 }
 
+function stripe_order() {
+	var handler = StripeCheckout.configure({
+		key: publicKey,
+		token: function(token) {
+			var $metadata = '<input type="hidden" name="stripeToken" value="'+token.id+'"/>'+
+			'<input type="hidden" name="stripeEmail" value="'+token.email+'"/>';
 
-
-var subscriptionParam = StripeCheckout.configure({
-  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
-  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-  	locale: 'auto',
-  	token: function(token) {
-	    var $input = $('<input type=hidden name=stripeToken />').val(token.id);
-	    var $theEmail = $('<input type=hidden name=stripeEmail />').val(token.email);
-			// $('[data-send-subscription='+plan+'"]').append($input).append($theEmail).submit();
-			console.log(plan);
-  	},
-  	name: 'Mailcooking',
-    zipCode: true,
-    currency: 'EUR'
-});
-
-$(document).on('click', '[data-btn-subscribe]', function(e) {
-	e.preventDefault();
-	var plan = $(this).data('btn-subscribe');
-	if (plan == 1) {
-		subscriptionParam.open({
-			amount: 4800,
-			description: firstPlanName,
-		});
-	}
-});
-
-// window.addEventListener('popstate', function() {
-//   	handlerTip.close();
-// });
-
-var handleUpgradeTip = StripeCheckout.configure({
-  	key: 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
-  	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-  	locale: 'auto',
-  	token: function(token) {
-	    var $inputToken = $('<input type=hidden name=stripeToken />').val(token.id);
-	    var $inputPlan = $('<input type=hidden name=plan />').val('1');
-			$('#paiement-form-1').append($inputToken).append($inputPlan).submit();
-  	}
-});
-
-$(document).on('click', '#btn__upgradeToTip', function(e) {
-	e.preventDefault();
-	handleUpgradeTip.open({
-	    name: 'Mailcooking',
-	    description: 'Abonnement tip',
-	    zipCode: true,
-	    amount: 4800,
-	    currency: 'EUR'
+			$('#formAddOrder').prepend($metadata);
+			$('#formAddOrder').submit();
+		}
 	});
-})
+  	return handler;
+}
 
-// // Close Checkout on page navigation:
-// window.addEventListener('popstate', function() {
-//   	handleUpgradeTip.close();
-// });
+$(document).on('click', '#valideAddOrder', function(event) {
+	event.preventDefault();
+	handler = stripe_order();
+	$.ajax({ 
+	    type: 'GET', 
+	    url: '?module=user&action=template', 
+	    data: { stripeOrder: true }, 
+	    dataType: 'json',
+	    success: function (data) { 
+	    	handler.open({
+				key: data.key,
+				image: data.image,
+				locale: data.locale,
+				name: data.name,
+			    zipCode: data.zipCode,
+			    currency: data.currency,
+			    amount: data.amount,
+				description: data.description,
+			});
+	    },
+	});
+
+	$(window).on('popstate', function() {
+		handler.close();
+	});
+});
 
 // I : Activation/Desactivation de la sidebar 
 function activateSidebar(btn) {
@@ -321,15 +303,6 @@ $(document).ready(function(){
 		hidePopup(popup);
 	});
 
-	/* Active le formulaire de création de commande */
-	$(document).on('click', '[data-popup-order]', function(){
-		let popup = $('#templateOrder');
-
-		popup.addClass('active');
-
-		hidePopup(popup);
-	});
-
 	/* Navigation dans le menu du profil */
 	$(document).on('click', '[data-link-profil]', function(e){
 		e.preventDefault();
@@ -421,7 +394,6 @@ $(document).ready(function(){
 			htmlAccount(this, 'add');
 			accordeon.css('height',  h + x +'px');
 			$(rowAccountAdd).insertBefore($(this).parents('li'));
-			console.log(flagAdd);
 		}
 	});
 
@@ -625,6 +597,32 @@ document.addEventListener("turbolinks:load", function() {
 	}
 
 	/*----------  Templates  ----------*/
+
+	/* Active le formulaire de création de commande */
+	$(document).on('click', '[data-popup-order]', function(){
+		let popup = $('#templateOrder');
+
+		popup.addClass('active');
+
+		hidePopup(popup);
+	});
+
+	$(document).on('click', '#formAddOrder button', function(e) {
+		e.preventDefault();
+		$('#formAddOrder').addClass('noactive').removeClass('active');
+		$('#formConfirmationAddOrder').addClass('active').removeClass('noactive');
+	});
+
+	$(document).on('click', '#cancelAddOrder', function(e) {
+		e.preventDefault();
+		let popup = $('#templateOrder');
+		hidePopup(popup);
+		setTimeout(function(){
+			$('#formAddOrder').addClass('active').removeClass('noactive');
+			document.getElementById('formAddOrder').reset();
+			$('#formConfirmationAddOrder').addClass('noactive').removeClass('active');
+		}, 800)
+	});
 
 	/* Active/montre le menu cliqué */
 	$(document).on('click', '.link_container a', function(){
