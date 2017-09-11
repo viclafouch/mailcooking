@@ -35,10 +35,10 @@ var srcImg; // Image à exporter
 var mediasMobile; // Media Query
 var viewDesktop = true; // Mode d'affichage du builder
 var invalidExport; // Invalidité de l'export
+var datas = ['cta', 'text', 'spacer', 'img'];
 
 // Bout de code pour correction dans de l'app Gmail
 var fixGmailApp = '<table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td align="center"><table class="container" align="center" width="650" border="0" cellpadding="0" cellspacing="0"><tr><td height="30"><table class="gmapp" align="center" width="650" border="0" cellpadding="0" cellspacing="0"  style="border-collapse:collapse;border:0px;"><tbody><tr><td><div class="gmapp" style="white-space:nowrap; font:15px courier; color:#F4F3F1;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</div></td></tr><tr><td><img class="gmapp" src="images/spacer.png" width="650" height="1" style="min-width:650px;width:650px" border="0" /></td></tr></tbody></table></td></tr></table></td></tr></table>';
-
 /*----------  Functions  ----------*/
 
 /**
@@ -143,7 +143,14 @@ var hLengthMax = 10; // Taille de l'historique max
 // V : Action après l'undo/redo
 function actionAfterUndoRedo(element){
     if (element) { 
-        $('[data-target]').click();
+        for (var i = 0; i < datas.length; i++) {
+            if (element.getAttribute('data-'+datas[i])) {
+                var id = element.getAttribute('data-'+datas[i]);
+                var el = document.querySelector('[data-'+datas[i]+'="'+id+'"]');
+                el.click();
+            }
+        }
+
     } else {
         hideSidebar();
     }
@@ -164,7 +171,7 @@ function saveInStack(object) {
     var arrayStack = [contentToObserve.innerHTML];
 
     if (object) {
-        var proto = document.querySelector(object);
+        var proto = document.querySelector('[data-target]');
     } else {
         var proto = undefined;
     }
@@ -174,7 +181,7 @@ function saveInStack(object) {
     if (h.length > hLengthMax) {
         h.shift();
     }
-    console.log('save');
+    console.log(h);
 }
 
 // VI : Undo 
@@ -182,7 +189,7 @@ function undo() {
     if (positionInArray - 1 >= 0) {
         positionInArray =  positionInArray - 1;
         var lastDOM = h[positionInArray][0];
-        var obj = h[positionInArray][1];
+        var obj = h[positionInArray + 1][1];
         contentToObserve.innerHTML = lastDOM;
         actionAfterUndoRedo(obj);
         buttonsUndoRedo[1].removeAttribute('disabled');

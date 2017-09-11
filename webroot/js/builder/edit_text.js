@@ -60,7 +60,6 @@ var min; // Valeur min à insérer
 var webSaveFonts = ['Arial','Andale Mono','Arial Black','Bitstream Vera Sans','Courier','Courier New','DejaVu Serif','DejaVu Sans Mono','Georgia','Geneva','Helvetica','Impact','Kalimati','Liberation Sans','Liberation Mono','Lucida Console','FreeSans','FreeMono','Times New Roman', 'Times','Trebuchet MS','FreeSerif', 'Liberation Serif','Lucida Sans','Lucida Grande','Lucida Sans Unicode','Luxi Sans','monospace','Monaco','Norasi','serif', 'sans-serif','Verdana','Tahoma'];
 
 var flagEditor;
-var flagInEdit;
 var flagSpin;
 var flagMinicolor;
 
@@ -492,11 +491,6 @@ function changeSpinner(change, element) {
                 if (oldValue != ui.value) {
                     flagSpin = input;
                 }
-                // if ($(element).attr('data-img')) {
-                //     if ($(event.target).attr('data-change') == 'height') {
-                //         $(element).attr('height', ui.value);
-                //     }
-                // }
             },
             change: function(event, ui) {
                 var oldValue = parseFloat($(element).css(style));
@@ -558,7 +552,7 @@ function changeMinicolor(change, element) {
     $(document).on('blur', change, function(e){
         if (checkHandle(e)) {
             if (flagMinicolor) {
-                saveInStack(element);
+                saveInStack(true);
                 flagMinicolor = undefined;
             }
         }
@@ -578,7 +572,7 @@ function alignmentText(element) {
                 $(this).addClass('active');
                 alignmentSection = $(this).attr('id');
                 $(element).css('text-align', alignmentSection);
-                saveInStack();
+                saveInStack(true);
             }
         });
     })();
@@ -631,8 +625,7 @@ function familyText(element) {
                      $(element).css('font-family', val+", Arial, sans-serif");
                 }
                 $(element).attr('style', $(element).attr('style').replace('"', "'").replace('"', "'"));
-                console.log('save');
-                saveInStack();
+                saveInStack(true);
             }
         });
     })();
@@ -721,8 +714,7 @@ function linkObjet(element){
                     var newValue = $('[data-href]').attr('href');
                 }
                 if (oldValue != newValue) {
-                    console.log('save');
-                    saveInStack();
+                    saveInStack(true);
                 }
             }   
         });
@@ -815,7 +807,6 @@ function hideSidebar() {
     $('.field_item_sidebar').hide();
     $('#storage_email [data-content]').removeClass('activeover');
     $('[data-text], [data-img], [data-cta], [data-spacer]')
-    .removeAttr('data-target')
     .removeClass('active noactive');
     $('[data-menu], [data-task]').removeClass('active');
     $('[data-menu]#items_sidebar').addClass('active');
@@ -856,27 +847,24 @@ $(document).ready(function() {
         $(this).removeClass('noactive');
     });
 
-    /* Disparition des items */
-    $(document).on("click", '#storage_email', function(e) {
-        disappearItem(e);
-    });
-
     /* Sauvegarde dans l'historique */
     $(document).click(function(e) {
         if (flagEditor) {
             flagEditor = false;
-            saveInStack();
+            saveInStack(true);
         }
 
         if (flagSpin) {
             var id = flagSpin.attr('data-change');
-            console.log($(e.target));
-            if ($(e.target).parents('#'+id).length > 0) {
-                console.log('dedans non save');
-            } else {
-                console.log('save');
+            if ($(e.target).parents('#'+id).length < 1) {
+                saveInStack(true);
                 flagSpin = undefined;
             }
         }
+    });
+
+    /* Disparition des items */
+    $(document).on("click", '#storage_email', function(e) {
+        disappearItem(e);
     });
 });

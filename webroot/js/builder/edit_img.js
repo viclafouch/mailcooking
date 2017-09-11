@@ -147,7 +147,7 @@ var saveCroppie = function(input, selection) {
                 url : "?module=user&action=email_builder",
                 success : function(html) {
                     selection.attr('src', html);
-                    saveInStack();
+                    saveInStack(true);
                 }
             });
         });

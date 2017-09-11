@@ -278,6 +278,8 @@ function creatSortable(container) {
             $('[data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
             $('[medium-editor-index]').removeAttr('medium-editor-index');
             $('[data-original-title]').removeAttr('data-original-title');
+
+            creatMediumEditor();
         },
         /* Event lorqu'un item est déplacé dans un autre container */
         remove: function(event, ui) {},
@@ -321,16 +323,8 @@ function duplicateSection(targetClic) {
 
     newID(duplicatedSection);
 
-    $('[data-content]').removeClass('activeover');
-    $('[contenteditable]').removeAttr('contenteditable');
-    $('[spellcheck]').removeAttr('spellcheck');
-    $('[data-medium-editor-element]').removeAttr('data-medium-editor-element');
-    $('[data-medium-editor-editor-index]').removeAttr('data-medium-editor-editor-index');
-    $('[medium-editor-index]').removeAttr('medium-editor-index');
-    $('[data-original-title]').removeAttr('data-original-title');
-
-    creatMediumEditor();
-
+    reloadMediumEditor();
+    
     saveInStack();
 }
 
