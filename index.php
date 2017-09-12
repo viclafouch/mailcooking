@@ -37,9 +37,17 @@
 
 		$subscriber = selecttable('subscribers', $option);
 
-		if ($subscriber  && !empty($subscriber)) {
+		if ($subscriber && !empty($subscriber)) {
 			$_SESSION['subscriber'] = $subscriber[0];
 			$plan = $_SESSION['subscriber']['plan'];
+
+			if ($plan == 1) {
+				$templateMax = 0;
+			} elseif ($plan == 2) {
+				$templateMax = 3;
+			} elseif ($plan == 3) {
+				$templateMax = 5;
+			}
 		}
 	}
 

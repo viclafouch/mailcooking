@@ -9,3 +9,5 @@
 
 	define("DEFAULT_MODULE", "home");
 	define("DEFAULT_ACTION", "index");
+	$priceTemplate = 200;
+	$currency = '€';

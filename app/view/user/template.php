@@ -160,10 +160,29 @@
 			</form>
 			<form action="#" id="formConfirmationAddOrder" class="noactive">
 				<div class="field">
-					<p style="text-align: center">Etant donné que votre abonnement ne vous autorise pas à commander des templates, vous avez la possibilité de passer commande pour seulement 10€.<p>
+					<?php if (isset($subscriber)) { ?>
+						<?php if ($plan == 1) { $payToTemplate = true; ?>
+							<p style="text-align: center">Etdssssant donné que votre abonnement ne vous autorise pas à commander des templates, vous avez la possibilité de passer commande pour seulement <?= $priceTemplate.$currency; ?>.<p>
+						<?php } else {
+						 	if ($countUserTemplate + 1 > $templateMax) { $payToTemplate = true; ?>
+						 		<p style="text-align: center">Vous avez atteint le nombre max de commandes. Pour obtenir ce template, vous devez soit passer à l'abonnement suivant, ou payer <?= $priceTemplate.$currency; ?>.<p>
+						 	<?php } else { ?>
+								<p style="text-align: center">Il vous restera <?= $templateMax - $countUserTemplate + 1;?> template(s) gratuit(s) après cette commande.<p>
+						 	<?php }
+						}		
+					} else { ?>
+						<p style="text-align: center">Il est obligatoire de posséder un abonnement pour pouvoir passer une commande.<p>
+					<?php } ?>
 				</div>
 				<footer class="row row-hori-center">
-					<button class="button_default button_secondary" id="valideAddOrder">Payer 10.00€</button>
+					<?php if (isset($subscriber)) { ?>
+						<?php if (isset($payToTemplate)) { ?>
+							<button class="button_default button_secondary" id="payAddOrder">Payer <?= $priceTemplate.$currency; ?></button>
+						<?php } else { ?>
+							<button class="button_default button_secondary" id="valideAddOrder">Valider ma commande</button>
+					<?php } } else { ?>
+						<a href="?module=user&action=account" class="button_default button_secondary button_href">Souscrire à un abonnement</a>
+					<?php } ?>
 					<button class="button_default button_secondary" data-close-popup id="cancelAddOrder">Annuler</button>
 				</footer>
 			</form>

@@ -115,7 +115,7 @@ function stripe_order() {
   	return handler;
 }
 
-$(document).on('click', '#valideAddOrder', function(event) {
+$(document).on('click', '#payAddOrder', function(event) {
 	event.preventDefault();
 	handler = stripe_order();
 	$.ajax({ 

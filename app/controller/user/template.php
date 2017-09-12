@@ -234,6 +234,10 @@
 				$template = read_templates('all', 'DESC');
 			}
 
+			$options = array ("wherecolumn" => "id_user", 
+								"wherevalue" => $sessionID);
+			$countUserTemplate = counttable("template_commande", $options);
+
 			metadatas('Mes templates', 'Description', 'none');
 
 			include_once("app/view/user/template.php");
@@ -247,25 +251,51 @@
 	 */
 
 	else {
+		function creatOrder($post) {
+			include_once("app/model/user/template/creat_order.php");
 
-		include_once("app/model/user/template/creat_order.php");
+			$default_statut = 0;
 
-		$default_statut = 0;
+			$new_order = new_order($post, $_SESSION["user"]["user_id"], $default_statut);
 
-		$new_order = new_order($_POST, $_SESSION["user"]["user_id"], $default_statut);
+			if (!$new_order) { location('user', 'template', 'notif=nok'); } 
 
-		if (!$new_order) { location('user', 'template', 'notif=nok'); } 
+			else {
 
-		else {
+				$new_folder = $new_order.'_'.substr(str_replace(' ', '_', $post["nom_commande"]),0,15);
+				@mkdir($chemin.'commandes/'.$new_folder."", 0777, true);
 
-			$new_folder = $new_order.'_'.substr(str_replace(' ', '_', $_POST["nom_commande"]),0,15);
-			@mkdir($chemin.'commandes/'.$new_folder."", 0777, true);
+				$folder = $chemin.'commandes/'.$new_folder.'/';
 
-			$folder = $chemin.'commandes/'.$new_folder.'/';
+				move_uploaded_file($_FILES['file_commande']['tmp_name'], $folder.$_FILES['file_commande']['name']);
 
-			move_uploaded_file($_FILES['file_commande']['tmp_name'], $folder.$_FILES['file_commande']['name']);
+				location('user', 'template', "notif=ok"); 
+			}
+		}
 
-			location('user', 'template', "notif=ok"); 
+		if (isset($_POST['stripeToken'])) {
+			include_once('app/controller/user/checkout.php');
+			if (isset($validation)) {
+				creatOrder($_POST);
+			} else {
+				location('user', 'template', 'notif=nok');
+			}
+		} else {
+			if (isset($subscriber)) {
+				if ($plan == 1) {
+					location('user', 'template', 'paiement=nok');
+				} else {
+					$options = array ("wherecolumn" => "id_user", 
+								"wherevalue" => $sessionID);
+					$countUserTemplate = counttable("template_commande", $options);
+
+					if ($countUserTemplate + 1 > $templateMax) {  
+						location('user', 'template', 'paiement=nok');
+					} else { creatOrder($_POST); }
+				}
+			} else {
+				location('user', 'template', 'subscription=nok');
+			}
 		}
 	}
 
