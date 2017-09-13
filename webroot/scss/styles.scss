@@ -696,6 +696,11 @@ div.popup_mc > div.popup_container {
             &::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); @include border-radius(50px); }
             &::-webkit-scrollbar-thumb { border-radius: 50px; background: adjust-lightness(#444, 40); }
         }
+
+        &#formConfirmationAddOrder > div.field {
+            @include flex(row nowrap, center, center);
+            p { text-align: center; }
+        }
     }
 }
 

@@ -20,6 +20,7 @@
 
 		$id_user = $_SESSION['user']["user_id"];
 		$societe_user = mb_strtolower(substr($_SESSION['user']["societe"], 0, 3));
+		
 		$chemin = "client/".$id_user."_".$societe_user."/";
 
 

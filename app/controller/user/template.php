@@ -111,7 +111,12 @@
 									perso <i class="material-icons">perm_identity</i>
 								<?php } ?>
 								</p>
-								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
+								<?php if ($temp['id_allow'] != 'all') { 
+									$timestamp = new DateTime($temp['upload_template_date']);
+									$templateDate = $timestamp->format('d/m/Y');
+								?>
+										<p><strong>Commande terminée</strong> le <?= $templateDate ?></p>
+								<?php } ?>
 								<p>Utilisé actuellement dans <strong><?= $countMailsEditor; ?></strong> email<?php if ($countMailsEditor > 1) { ?>s<?php } ?></p>
 							</div>
 						</div>
@@ -234,9 +239,11 @@
 				$template = read_templates('all', 'DESC');
 			}
 
-			$options = array ("wherecolumn" => "id_user", 
-								"wherevalue" => $sessionID);
-			$countUserTemplate = counttable("template_commande", $options);
+			$options = array (
+						"wherecolumn" => "user_id", 
+						"wherevalue" => $sessionID
+				);
+			$countUserTemplate = counttable("template_counter", $options);
 
 			metadatas('Mes templates', 'Description', 'none');
 
@@ -251,47 +258,56 @@
 	 */
 
 	else {
-		function creatOrder($post) {
+		function creatOrder($post, $paid, $path, $sessionID, $count = false) {
 			include_once("app/model/user/template/creat_order.php");
 
 			$default_statut = 0;
 
-			$new_order = new_order($post, $_SESSION["user"]["user_id"], $default_statut);
+			$date = date('Y-m-d');
+			$expiration = date('Y-m-d', strtotime('+1 year', strtotime($date)));
 
-			if (!$new_order) { location('user', 'template', 'notif=nok'); } 
+			$new_order = new_order($post, $sessionID, $default_statut, $paid, $date);
+
+			if ($count) {
+				$newTemplateCount = newTemplateCount($new_order, $sessionID, $expiration);
+			}
+
+			if (!$new_order) { location('user', 'template', 'order=nok'); } 
 
 			else {
 
 				$new_folder = $new_order.'_'.substr(str_replace(' ', '_', $post["nom_commande"]),0,15);
-				@mkdir($chemin.'commandes/'.$new_folder."", 0777, true);
+				@mkdir($path.'commandes/'.$new_folder."", 0777, true);
 
-				$folder = $chemin.'commandes/'.$new_folder.'/';
+				$folder = $path.'commandes/'.$new_folder.'/';
 
 				move_uploaded_file($_FILES['file_commande']['tmp_name'], $folder.$_FILES['file_commande']['name']);
 
-				location('user', 'template', "notif=ok"); 
+				location('user', 'template', "order=ok"); 
 			}
 		}
 
 		if (isset($_POST['stripeToken'])) {
 			include_once('app/controller/user/checkout.php');
-			if (isset($validation)) {
-				creatOrder($_POST);
+			if (!isset($err)) {
+				creatOrder($_POST, 1, $chemin, $sessionID);
 			} else {
-				location('user', 'template', 'notif=nok');
+				location('user', 'template', 'err='.$err);
 			}
 		} else {
 			if (isset($subscriber)) {
 				if ($plan == 1) {
 					location('user', 'template', 'paiement=nok');
 				} else {
-					$options = array ("wherecolumn" => "id_user", 
-								"wherevalue" => $sessionID);
-					$countUserTemplate = counttable("template_commande", $options);
+					$options = array (
+								"wherecolumn" => "user_id", 
+								"wherevalue" => $sessionID
+						);
+					$countUserTemplate = counttable("template_counter", $options);
 
 					if ($countUserTemplate + 1 > $templateMax) {  
 						location('user', 'template', 'paiement=nok');
-					} else { creatOrder($_POST); }
+					} else { creatOrder($_POST, 0, $chemin, $sessionID, true); }
 				}
 			} else {
 				location('user', 'template', 'subscription=nok');

@@ -26,7 +26,14 @@ var contentTitle; // Valeur du titre
 var flagAlert = false; // Etat de l'alerte de notification
 var loaderHTML = '<div class="loader"><span></span></div>';
 var publicKey = 'pk_test_jdtjz4b05ADqlx5k093fsmgK';
-
+var StripeErr = {
+	Card: 'Votre carte bancaire est invalide, le paiement a echoué',
+	RateLimit: 'Trop de requêtes ont été envoyées à Stripe, le paiement a echoué',
+	InvalidRequest: 'Paramètres invalide, le paiement a echoué',
+	Authentication: 'Authentication à Stripe incorrecte, le paiement a echoué',
+	ApiConnection: 'La communication avec Stripe a été perdue, le paiement a echoué',
+	Base: 'Une erreur a s\'est produite, le paiement a echoué',
+}
 
 /*----------  Fonctions  ----------*/
 
@@ -109,7 +116,8 @@ function stripe_order() {
 			'<input type="hidden" name="stripeEmail" value="'+token.email+'"/>';
 
 			$('#formAddOrder').prepend($metadata);
-			$('#formAddOrder').submit();
+			$('#formAddOrder').unbind('submit');
+			document.getElementById('formAddOrder').submit();
 		}
 	});
   	return handler;
@@ -607,10 +615,16 @@ document.addEventListener("turbolinks:load", function() {
 		hidePopup(popup);
 	});
 
-	$(document).on('click', '#formAddOrder button', function(e) {
+	$(document).on('submit', '#formAddOrder', function(e) {
 		e.preventDefault();
 		$('#formAddOrder').addClass('noactive').removeClass('active');
 		$('#formConfirmationAddOrder').addClass('active').removeClass('noactive');
+	});
+
+	$(document).on('submit', '#formConfirmationAddOrder', function(e) {
+		e.preventDefault();
+		$('#formAddOrder').unbind('submit');
+		document.getElementById('formAddOrder').submit();
 	});
 
 	$(document).on('click', '#cancelAddOrder', function(e) {

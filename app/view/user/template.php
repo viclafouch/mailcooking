@@ -3,12 +3,6 @@
 	include("app/view/layout/user/header.php"); 
 ?>
 
-<?php if (isset($_GET["notif"])): ?>
-		<?php if ($_GET["notif"] == "ok"): ?>
-			<div class="alert"><p>Commande envoyé !</p></div>
-		<?php endif ?>
-<?php endif ?>
-
 <div class="container container_template">
 	<div class="block full_block">
 		<div class="pannel pannel_heading">
@@ -83,7 +77,12 @@
 									perso <i class="material-icons">perm_identity</i>
 								<?php } ?>
 								</p>
-								<p><strong>Commande terminée</strong> le 24 Mai 2016</p>
+								<?php if ($temp['id_allow'] != 'all') { 
+									$timestamp = new DateTime($temp['upload_template_date']);
+									$templateDate = $timestamp->format('d/m/Y');
+								?>
+										<p><strong>Commande terminée</strong> le <?= $templateDate ?></p>
+								<?php } ?>
 								<p>Utilisé actuellement dans <strong><?= $countMailsEditor; ?></strong> email<?php if ($countMailsEditor > 1) { ?>s
 								<?php } ?></p>
 							</div>
@@ -158,20 +157,20 @@
 					<button type="submit" class="button_default button_secondary">Envoyer ma commande</button>
 				</footer>
 			</form>
-			<form action="#" id="formConfirmationAddOrder" class="noactive">
+			<form action="?module=user&action=template" id="formConfirmationAddOrder" class="noactive">
 				<div class="field">
 					<?php if (isset($subscriber)) { ?>
 						<?php if ($plan == 1) { $payToTemplate = true; ?>
-							<p style="text-align: center">Etdssssant donné que votre abonnement ne vous autorise pas à commander des templates, vous avez la possibilité de passer commande pour seulement <?= $priceTemplate.$currency; ?>.<p>
+							<p>Etdssssant donné que votre abonnement ne vous autorise pas à commander des templates, vous avez la possibilité de passer commande pour seulement <?= $priceTemplate.$currency; ?>.<p>
 						<?php } else {
 						 	if ($countUserTemplate + 1 > $templateMax) { $payToTemplate = true; ?>
-						 		<p style="text-align: center">Vous avez atteint le nombre max de commandes. Pour obtenir ce template, vous devez soit passer à l'abonnement suivant, ou payer <?= $priceTemplate.$currency; ?>.<p>
+						 		<p>Vous avez atteint le nombre max de commandes. Pour obtenir ce template, vous devez soit passer à l'abonnement suivant, ou payer <?= $priceTemplate.$currency; ?>.<p>
 						 	<?php } else { ?>
-								<p style="text-align: center">Il vous restera <?= $templateMax - $countUserTemplate + 1;?> template(s) gratuit(s) après cette commande.<p>
+								<p>Il vous restera <?= $templateMax - ($countUserTemplate + 1);?> template(s) gratuit(s) après cette commande.<p>
 						 	<?php }
 						}		
 					} else { ?>
-						<p style="text-align: center">Il est obligatoire de posséder un abonnement pour pouvoir passer une commande.<p>
+						<p>Il est obligatoire de posséder un abonnement pour pouvoir passer une commande.<p>
 					<?php } ?>
 				</div>
 				<footer class="row row-hori-center">

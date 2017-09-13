@@ -24,6 +24,7 @@
 						<th>Commentaire</th>
 						<th>Date de création</th>
 						<th>Statut</th>
+						<th>Paiement oneshot</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -45,6 +46,13 @@
 						<td><?= htmlspecialchars(substr($order["commentaire_commande"],0,10)); ?>...</td>
 						<td><?= $order["date_creat"]; ?></td>
 						<td><span class="statut statut<?= $keep_status ?>"><?= $order["status"]; ?></span></td>
+						<td>
+							<?php if (boolval($order["paid"])) { ?>
+								Oui
+							<?php } else { ?>
+								Non
+							<?php } ?>
+						</td>
 					</tr>
 				<?php } ?>
 				</tbody>

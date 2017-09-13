@@ -990,6 +990,19 @@ div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-thumb {
   border-radius: 50px;
   background: #aaaaaa;
 }
+div.popup_mc > div.popup_container > form#formConfirmationAddOrder > div.field {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+div.popup_mc > div.popup_container > form#formConfirmationAddOrder > div.field p {
+  text-align: center;
+}
 
 /*----------  Alerte  ----------*/
 div.alert {

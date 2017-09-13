@@ -19,26 +19,14 @@
 		<?php } ?>
 
 		<!-- Custom [CSS]-->
-		<link rel="stylesheet" href="webroot/css/back/styles.css?8766">
+		<link rel="stylesheet" href="webroot/css/back/styles.css">
 		<?php 
 			if ($_GET['action'] == 'email_builder') { ?>
 		<link rel="stylesheet" href="webroot/css/back/builder.css">
 		<?php } ?>
 
-	  	<!-- Lib [JS]-->
-		<script defer src="lib/js/jquery/jquery-3.1.1.min.js"></script>
-		<script defer src="lib/js/croppie/croppie-2.4.1.min.js"></script>
-		<script defer src="lib/js/html2canvas/html2canvas.js" type="text/javascript"></script>
-		<script defer src="lib/js/jquery-ui/jquery-ui.min.js"></script>
-		<script defer src="lib/js/jquery-minicolors/jquery.minicolors.min.js"></script>
-
 		<script src="https://checkout.stripe.com/checkout.js"></script>
 
-		<!-- Custom [JS]-->
-		<script defer src="webroot/js/script.js"></script>
-
-		<!-- Improve perfs -->
-		<script defer src="lib/js/turbolinks/turbolinks.js"></script>
 		<meta name="turbolinks-cache-control" content="no-cache">
 	</head>
 
