@@ -2,34 +2,41 @@
 <html lang="fr">
 	<head>
 		<title><?= PAGE_TITLE; ?></title>
+
 		<meta name="description" content="" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-		<!-- Lib [CSS]-->
-		<link rel="stylesheet" href="lib/css/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="lib/css/jquery-ui/jquery-ui.structure.min.css">
-		<?php 
-			if ($_GET['action'] == 'email_builder') { ?>
-			<link rel="stylesheet" href="lib/css/medium-editor/medium-editor.min.css">
-			<link rel="stylesheet" href="lib/css/croppie/croppie-2.4.1.css">
-			<link rel="stylesheet" href="lib/css/jquery-minicolors/jquery.minicolors.css">
-
-			<link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Lato|Lobster|Montserrat|Open+Sans|Roboto" rel="stylesheet">
-		<?php } ?>
-
-		<!-- Custom [CSS]-->
-		<link rel="stylesheet" href="webroot/css/back/styles.css">
-		<?php 
-			if ($_GET['action'] == 'email_builder') { ?>
-		<link rel="stylesheet" href="webroot/css/back/builder.css">
-		<?php } ?>
-
-		<script src="https://checkout.stripe.com/checkout.js"></script>
-
 		<meta name="turbolinks-cache-control" content="no-cache">
-	</head>
+		<meta name="theme-color" content="#f6f6f6">
+		<meta name="msapplication-navbutton-color" content="#f6f6f6">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="twitter:card" content="#" />
+		<meta name="twitter:site" content="#" />
+		<meta name="twitter:title" content="#" />
+		<meta name="twitter:description" content="#" />
+		<meta name="twitter:image" content="#" />
+		<meta property="og:type" content="#" />
+		<meta property="og:title" content="#" />
+		<meta property="og:description" content="#" />
+		<meta property="og:url" content="#" />
+		<meta property="og:site_name" content="#" />
+		<meta property="og:image" content="#" />
+		<meta property="fb:app_id" content="#" />
 
+   		<link rel="icon" type="image/png" href="favicon.png"/>
+   		<link rel="shortcut icon" type="image/x-icon" href="favicon-16x16.png" />
+		<link rel="apple-touch-icon" href="icon-iphone.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="icon-ipad.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="icon-retina.png" />
+		<link rel="alternate" href="#" hreflang="fr" />
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">		
+		<link href="<?= $MC_fonts; ?>" rel="stylesheet">
+		<link rel="stylesheet" href="webroot/css/back/min/styles.min.css">
+
+		<script async src="https://checkout.stripe.com/checkout.js"></script>
+	</head>
 	<body>
 		<main>
 			<aside data-turbolinks-permanent class="sidebar" id="sidebar">

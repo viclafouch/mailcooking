@@ -8,6 +8,9 @@
 	// Selecttable / Counttable
 	include_once("core/coremodel.php");
 
+	// Config
+	include_once("app/config/config.inc.php");
+
 	/**
 	 *
 	 * Récupération du dossier client selon la session
@@ -38,22 +41,13 @@
 
 		$subscriber = selecttable('subscribers', $option);
 
-		if ($subscriber && !empty($subscriber)) {
+		if (!empty($subscriber)) {
 			$_SESSION['subscriber'] = $subscriber[0];
 			$plan = $_SESSION['subscriber']['plan'];
 
-			if ($plan == 1) {
-				$templateMax = 0;
-			} elseif ($plan == 2) {
-				$templateMax = 3;
-			} elseif ($plan == 3) {
-				$templateMax = 5;
-			}
+			$templateMax = $MC_templateMax[$plan];
 		}
 	}
-
-	// Config
-	include_once("app/config/config.inc.php");
 
 	// Securités
 	include_once("core/coresecu.php");

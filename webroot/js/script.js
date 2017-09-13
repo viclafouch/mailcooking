@@ -57,6 +57,7 @@ $.fn.hasAttr = function(name) {
 
 $(document).on('click', '[data-btn-upgrade], [data-btn-subscribe]', function(event) {
 	event.preventDefault();
+	console.log('ok');
 
 	if ($(this).hasAttr('data-btn-subscribe')) {
 		var booking_id = $(this).data('btn-subscribe');
