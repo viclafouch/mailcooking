@@ -13,6 +13,16 @@
 						insertAlert('Commande envoyée !', true);
 					</script>
 				<?php }
+				if ($_GET["order"] == "max") { ?>
+					<script>
+						insertAlert('Vous avez atteint le nombre max de templates', false);
+					</script>
+				<?php }
+				if ($_GET["order"] == "subscription") { ?>
+					<script>
+						insertAlert('Vous devez posséder un abonnement', false);
+					</script>
+				<?php }
 			}
 			if (isset($_GET["err"])) { ?>
 				<script>

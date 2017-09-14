@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+	require_once('vendor/autoload.php');
 
 	/**
 	 *
@@ -7,16 +9,62 @@
 	 *
 	 */
 
+	$appName = 'Mailcooking';
+
 	define("DEFAULT_MODULE", "home");
 	define("DEFAULT_ACTION", "index");
 
 	$priceTemplate = 200;
 	$currency = '€';
-	
-	$MC_templateMax = array(
-		'1' => 0, 
-		'2' => 3,
-		'3' => 5,
+
+	$stripeKeys = array(
+	  "secret_key"      => 'sk_test_PS2zQTpRTNObBqwvbCkMtC8p',
+	  "publishable_key" => 'pk_test_jdtjz4b05ADqlx5k093fsmgK'
+	);
+
+	$stripeImg = 'https://stripe.com/img/documentation/checkout/marketplace.png';
+
+	\Stripe\Stripe::setApiKey($stripeKeys['secret_key']);
+
+	$MC_subscriptions = array (
+		$MC_ftSub = array(
+			'id' => 1,
+			'price' => 48,
+			'name' => 'Abonnement tip',
+			'publicModels' => true,
+			'users' => 1,
+			'privateTemplate' => false,
+			'implementCode' => false,
+			'API' => false,
+			'advice' => false,
+			'StripeID' => 'tip',
+		),
+
+		$MC_SdSub = array(
+			'id' => 2,
+			'price' => 72,
+			'name' => 'Abonnement top',
+			'publicModels' => true,
+			'users' => 3,
+			'privateTemplate' => 3,
+			'implementCode' => false,
+			'API' => 1,
+			'advice' => false,
+			'StripeID' => 'top',
+		),
+
+		$MC_TdSub = array(
+			'id' => 3,
+			'price' => 108,
+			'name' => 'Abonnement tip top',
+			'publicModels' => true,
+			'users' => 100,
+			'privateTemplate' => 5,
+			'implementCode' => true,
+			'API' => 10,
+			'advice' => true,
+			'StripeID' => 'tiptop',
+		)
 	);
 
 	$MC_fonts = array(

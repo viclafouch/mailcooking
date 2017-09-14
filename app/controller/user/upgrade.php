@@ -25,9 +25,7 @@
 	 */
 
 	if (isset($_POST['stripeToken'])) {
-
-		require_once('app/config/config_stripe.php');
-
+		
 		try {
 
 			/**
@@ -48,23 +46,24 @@
 
 			if ($sub) {
 
-				$sub_id = $sub[0]['subscription_id'];
+				$subscriptionStripe = \Stripe\Subscription::retrieve($sub[0]['subscription_id']);
 
-				$subscription = \Stripe\Subscription::retrieve($sub_id);
-
-				if ($subscription && isset($_POST['stripePlan'])) {
+				if ($subscriptionStripe && isset($_POST['stripePlan'])) {
 					$plan = $_POST['stripePlan'];
-					if ($plan == 1) { $subscription->plan = "tip"; $subscription->save();}
-					elseif ($plan == 2) { $subscription->plan = "top"; $subscription->save();}
-					elseif ($plan == 3) { $subscription->plan = "tiptop"; $subscription->save();}
+
+					foreach ($MC_subscriptions as $key => $subscription) {
+						if ($plan == $subscription['id']) { 
+							$subscriptionStripe->plan = $subscription['StripeID']; 
+							$subscriptionStripe->save();
+						}
+					}
 				}
 
 				include_once('app/model/user/account/payment/upgrade.php');
-
 				$upgrade = upgrade($sessionID, $plan);
 
 				/* Supprime les users additionnels */
-				if ($sub[0]['plan'] > $_POST['stripePlan']) {
+				if ($sub[0]['plan'] > $plan) {
 
 					include_once('app/model/user/account/payment/delete_users_add.php');
 					delete_users($sessionID);
@@ -77,38 +76,21 @@
 			}
 			
 		} catch(\Stripe\Error\Card $e) {
-			// Since it's a decline, \Stripe\Error\Card will be caught
-			$body = $e->getJsonBody();
-			$err  = $body['error'];
-
-			print('Status is:' . $e->getHttpStatus() . "\n");
-			print('Type is:' . $err['type'] . "\n");
-			print('Code is:' . $err['code'] . "\n");
-			// param is '' in this case
-			print('Param is:' . $err['param'] . "\n");
-			print('Message is:' . $err['message'] . "\n");
+			$err = 'Card';
 		} catch (\Stripe\Error\RateLimit $e) {
-			echo "Too many requests made to the API too quickly";
-			// Too many requests made to the API too quickly
+			$err = 'RateLimit';
 		} catch (\Stripe\Error\InvalidRequest $e) {
-			echo "Invalid parameters were supplied to Stripe's API";
-			var_dump(get_object_vars($e)['jsonBody']['error']);
-			// Invalid parameters were supplied to Stripe's API
+			$err = 'InvalidRequest';	
 		} catch (\Stripe\Error\Authentication $e) {
-			echo "Authentication with Stripe's API failed";
-			// Authentication with Stripe's API failed
-			// (maybe you changed API keys recently)
+			$err = 'Authentication';
 		} catch (\Stripe\Error\ApiConnection $e) {
-			echo "Network communication with Stripe failed";
-			// Network communication with Stripe failed
+			$err = 'ApiConnection';
 		} catch (\Stripe\Error\Base $e) {
-			// Display a very generic error to the user, and maybe send
-			// yourself an email
-			echo "Display a very generic error to the user, and maybe send";
+			$err = 'Base';
+			// Envoyer un email à l'administrateur avec la réponse
 		} catch (Exception $e) {
-			echo "Something else happened, completely unrelated to Stripe";
-			// Something else happened, completely unrelated to Stripe
+			$err = 'Une erreur a s\'est produite, le paiement a echoué';
 		}
 	} else {
-		die('Une erreur est survenue');
+		$err = 'Une erreur a s\'est produite, le paiement a echoué';
 	}

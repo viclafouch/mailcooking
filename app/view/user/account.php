@@ -31,106 +31,6 @@
 			</div>
 		</div>
 	</div>
-<!-- 	<div class="block full_block" data-task="inf">
-		<div class="pannel pannel_body pannel_title">
-			<h2>Informations de compte</h2>
-		</div>
-		<div class="pannel pannel_body">
-			<div class="col nowrap">
-				<div class="bg_field row nowrap row-hori-between">
-					<div class="col nowrap col-verti-around">
-						<span>Société</span>
-						<p>Indiquez la société dans laquelle vous travaillez</p>
-					</div>
-					<div class="col nowrap col-verti-around">
-						<button data-info="societe" class="button_default button_primary">Modifier</button>
-						<p><span data-count="societe">1</span> société sauvegardée</p>
-					</div>
-				</div>
-				<div id="societe" class="info_accordeon">
-					<div class="col nowrap">
-						<div class="row nowrap sm_field">
-							<p><strong>Voici les sociétés que vous avez ajoutées :</strong></p>
-						</div>
-						<ul class="col nowrap sm_field" id="societe_list">
-							<li class="row row-hori-between nowrap">
-								<p>Google</p>
-								<p>	
-									<a href="#" data-delete='societe' title="">Supprimer</a>
-								</p>
-							</li>
-							<li class="row row-hori-between nowrap">
-								<p>Uber</p>
-								<p>	
-									<a href="#" data-delete='societe' title="">Supprimer</a>
-								</p>
-							</li>
-							<li class="row row-hori-between nowrap">
-								<p><strong><a href="#" data-add="societe" title="">Ajouter une société</a></strong></p>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col nowrap">
-				<div class="bg_field row nowrap row-hori-between">
-					<div class="col nowrap col-verti-around">
-						<span>Nom</span>
-						<p>Indiquez votre nom / prénom en cas de contact de Mailcooking</p>
-					</div>
-					<div class="col nowrap col-verti-around">
-						<button data-info="prenom" class="button_default button_primary">Modifier</button>
-						<p>Prénom sauvegardé</p>
-					</div>
-				</div>
-				<div id="prenom" class="info_accordeon">
-					<div class="col nowrap">
-						<div class="row nowrap sm_field">
-							<p><strong>Nom / Prénom :</strong></p>
-						</div>
-						<ul class="col nowrap sm_field" id="name_list">
-							<li class="row row-hori-between nowrap">
-								<p><span id="lastName">de la Fouchardière</span> <span id="firstName">Victor</span></p>
-								<p>	
-									<a href="#" data-modif='prenom' title="">Modifier</a>
-								</p>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col nowrap">
-				<div class="bg_field row nowrap row-hori-between">
-					<div class="col nowrap col-verti-around">
-						<span>Numéro de téléphone</span>
-						<p>Ajoutez un numéro de téléphone au cas où vous auriez des problèmes d’identification</p>
-					</div>
-					<div class="col nowrap col-verti-around">
-						<button data-info="phone" class="button_default button_primary">Modifier</button>
-						<p><span data-count="phone">1</span> numéro de téléphone enregistré</p>
-					</div>
-				</div>
-				<div id="phone" class="info_accordeon">
-					<div class="col nowrap">
-						<div class="row nowrap sm_field">
-							<p><strong>Les numéros de téléphone que vous avez ajoutés :</strong></p>
-						</div>
-						<ul class="col nowrap sm_field" id="phone_list">
-							<li class="row row-hori-between nowrap">
-								<p>FR +33 626922635</p>
-								<p>	
-									<a href="#" data-delete='phone' title="">Supprimer</a>
-								</p>
-							</li>
-							<li class="row row-hori-between nowrap">
-								<p><strong><a href="#" data-add="phone" title="">Ajouter numéro de téléphone</a></strong></p>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
 	<div class="block full_block" data-task="inf">
 		<div class="pannel pannel_body pannel_title">
 			<h2>Informations de connexion</h2>
@@ -219,7 +119,8 @@
 					</div>
 					<div class="col nowrap col-verti-around">
 						<button data-info="user" class="button_default button_primary">Modifier</button>
-						<p><span data-count="user"><?= count($users_additional); ?></span><?php if (isset($_SESSION['subscriber'])) { ?><?php if ($plan == 1): ?>/1<?php elseif($plan == 2): ?>/3<?php endif; } ?> utilisateurs enregistré(s)</p>
+						<p><span data-count="user"><?= count($users_additional); ?></span><?php if (isset($_SESSION['subscriber'])) { if ($plan != 3): ?>/<?= $_SESSION['subscription']['users']; endif; ?>
+						<?php } ?>utilisateurs enregistré(s)</p>
 					</div>
 				</div>
 				<div id="user" class="info_accordeon">
@@ -259,111 +160,76 @@
 		</div>
 		<div class="pannel pannel_body">
 			<div class="row_cards row row-hori-around nowrap">
-				<div class="card_block col nowrap">
+				<?php foreach ($MC_subscriptions as $key => $subscription): ?>
+					<div class="card_block col nowrap">
 					<header class="card_heading col col-hori-center col-verti-center nowrap">
-						<span class="card_price">48&euro;<sub>/Mo</sub></span>
-						<span class="card_name">Abonnement tip</span>
+						<span class="card_price"><?= $subscription['price'].$currency;?><sub>/Mo</sub></span>
+						<span class="card_name"><?= $subscription['name']; ?></span>
 					</header>
 					<div class="card_body">
 						<ul class="col nowrap">
-							<li><span>Utilisateur(s) :</span>1</li>
+							<li><span>Utilisateur(s) :</span><?= $subscription['users']; ?></li>
+
+							<?php if ($subscription['publicModels']): ?>
 							<li><span>Modèles publics : </span><i class="material-icons ok">done</i></li>
+							<?php else: ?>
+							<li><span>Modèles publics : </span><i class="material-icons nok">clear</i></li>
+							<?php endif; ?>
+
+							<?php if ($subscription['privateTemplate']): ?>
+							<li><span>Templates dédiés : </span><?= $subscription['privateTemplate']; ?></li>
+							<?php else: ?>
 							<li><span>Templates dédiés : </span><i class="material-icons nok">clear</i></li>
-							<li><span>Implémentation de templates : </span><i class="material-icons nok">clear</i></li>
-							<li><span>API :</span><i class="material-icons nok">clear</i></li>
-							<li><span>Conseils : </span><i class="material-icons nok">clear</i></li>
-						</ul>
-					</div>
-					<?php
-					if ($subcription) {
-						if ($plan == 1) { ?>
-					<span class="subactual">Abonnement validé</span>
-						<?php } else { ?>
-					<footer class="card_footer">
-						<form action="?module=user&action=upgrade" data-send-upgrade="1" method="POST">
-							<button data-btn-upgrade="1" class="button_default">Upgrade</button>
-						</form>
-					</footer>
-						<?php } 
-					}
-					else { ?>
-					<footer class="card_footer">
-						<form action="?module=user&action=subscribe" data-send-subscription="1" method="POST">
-							<button data-btn-subscribe="1" class="button_default">S'abonner</button>
-						</form>
-					</footer>
-					<?php } ?>
-				</div>
-				<div class="card_block col nowrap">
-					<header class="card_heading col col-hori-center col-verti-center nowrap">
-						<span class="card_price">72&euro;<sub>/Mo</sub></span>
-						<span class="card_name">Abonnement top</span>
-					</header>
-					<div class="card_body">
-						<ul class="col nowrap">
-							<li><span>Utilisateur(s) :</span> 3</li>
-							<li><span>Modèles publics : </span><i class="material-icons ok">done</i></li>
-							<li><span>Templates dédiés : </span>3</li>
-							<li><span>Implémentation de templates : </span><i class="material-icons nok">clear</i></li>
-							<li><span>API :</span>1</li>
-							<li><span>Conseils : </span><i class="material-icons nok">clear</i></li>
-						</ul>
-					</div>
-					<?php
-					if ($subcription) {
-						if ($plan == 2) { ?>
-					<span class="subactual">Abonnement validé</span>
-						<?php } else { ?>
-					<footer class="card_footer">
-						<form action="?module=user&action=upgrade" data-send-upgrade="2" method="POST">
-							<button data-btn-upgrade="2" class="button_default">Upgrade</button>
-						</form>
-					</footer>
-						<?php } 
-					}
-					else { ?>
-					<footer class="card_footer">
-						<form action="?module=user&action=subscribe" data-send-subscription="2" method="POST">
-							<button data-btn-subscribe="2" class="button_default">S'abonner</button>
-						</form>
-					</footer>
-					<?php } ?>
-				</div>
-				<div class="card_block col nowrap">
-					<header class="card_heading col col-hori-center col-verti-center nowrap">
-						<span class="card_price">108&euro;<sub>/Mo</sub></span>
-						<span class="card_name">Abonnement tip top</span>
-					</header>
-					<div class="card_body">
-						<ul class="col nowrap">
-							<li><span>Utilisateur(s) :</span> illimité</li>
-							<li><span>Modèles publics : </span><i class="material-icons ok">done</i></li>
-							<li><span>Templates dédiés : </span>5</li>
+							<?php endif; ?>
+
+							<?php if ($subscription['implementCode']): ?>
 							<li><span>Implémentation de templates : </span><i class="material-icons ok">done</i></li>
-							<li><span>API :</span>10+</li>
+							<?php else: ?>
+							<li><span>Implémentation de templates : </span><i class="material-icons nok">clear</i></li>
+							<?php endif; ?>
+
+							<?php if ($subscription['API']): ?>
+							<li><span>API : </span><?= $subscription['API']; ?></li>
+							<?php else: ?>
+							<li><span>API : </span><i class="material-icons nok">clear</i></li>
+							<?php endif; ?>
+
+							<?php if ($subscription['advice']): ?>
 							<li><span>Conseils : </span><i class="material-icons ok">done</i></li>
+							<?php else: ?>
+							<li><span>Conseils : </span><i class="material-icons nok">clear</i></li>
+							<?php endif; ?>
 						</ul>
 					</div>
 					<?php 
-					if ($subcription) {
-						if ($plan == 3) { ?>
-					<span class="subactual">Abonnement validé</span>
-						<?php } else { ?>
-					<footer class="card_footer">
-						<form action="?module=user&action=upgrade" data-send-upgrade="3" method="POST">
-							<button data-btn-upgrade="3" class="button_default">Upgrade</button>
-						</form>
-					</footer>
-						<?php } 
-					}
-					else { ?>
-					<footer class="card_footer">
-						<form action="?module=user&action=subscribe" data-send-subscription="3" method="POST">
-							<button data-btn-subscribe="3" class="button_default">S'abonner</button>
-						</form>
-					</footer>
-					<?php } ?>
-				</div>
+						if (isset($_SESSION['subscriber'])) {
+
+							if ($plan == $subscription['id']) { ?>
+
+							<span class="subactual">Abonnement validé</span>
+						
+							<?php } 
+
+							else { ?>
+							
+							<footer class="card_footer">
+								<form action="?module=user&action=upgrade" data-send-upgrade="<?= $subscription['id']; ?>" method="POST">
+									<button data-btn-upgrade="<?= $subscription['id']; ?>" class="button_default">Upgrade</button>
+								</form>
+							</footer>
+							<?php } 
+						}
+						else { ?>
+							<footer class="card_footer">
+								<form action="?module=user&action=subscribe" data-send-subscription="<?= $subscription['id']; ?>" method="POST">
+									<button data-btn-subscribe="<?= $subscription['id']; ?>" class="button_default">S'abonner</button>
+								</form>
+							</footer>
+						<?php 
+						} 
+					?>
+					</div>
+				<?php endforeach ?>
 			</div>
 		</div>
 	</div>
@@ -404,7 +270,50 @@
 	</div>
 	<div class="popup_mc" id="stoppedSubscription">
 		<div class="popup_background"></div>
-		<div class="popup_container"></div>
+		<div class="popup_container">
+			<header>
+				<h1>Votre abonnement</h1>
+			</header>
+			<form method="post" action="?module=user&action=account">
+				<div class="content_block popup-blocks">
+					<div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Nom de l'abonnement :</label>
+							</div>
+							<div class="overside aside">
+
+								<?php if (isset($_SESSION['subscription'])): ?>
+								<p><?= $_SESSION['subscription']['name']; ?> <i class="material-icons ok">done</i></p>
+								<?php else: ?>
+								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
+								<?php endif; ?>
+
+							</div>
+						</div>
+						<div class="field">
+							<div class="oneside aside">
+								<label>Date du prochain prévèlement :</label>
+							</div>
+							<div class="overside aside">
+
+								<?php if (isset($_SESSION['subscription'])): ?>
+								<p><?= date('d/m/Y', $sub[0]['date_end_trial']); ?> <i class="material-icons ok">done</i></p>
+								<?php else: ?>
+								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
+								<?php endif; ?>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<?php if (isset($_SESSION['subscription'])): ?>
+				<footer>
+					<button class="button_default button_secondary" id="stopSubscription">Stopper l'abonnement</button>
+				</footer>
+				<?php endif; ?>
+			</form>
+		</div>
 	</div>
 	<?php } ?>
 </div>

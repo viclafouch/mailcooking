@@ -313,13 +313,13 @@
 			}
 
 			$save = save($_POST['emailTitle'], 
-						$_POST['emailDom'],
-						$_POST['emailbackground'], 
-						$_POST['emailID'],
-						1,
-						$savedBy,
-						$_SESSION['user']['user_id']
-					);
+				$_POST['emailDom'],
+				$_POST['emailbackground'], 
+				$_POST['emailID'],
+				1,
+				$savedBy,
+				$sessionID
+			);
 		}
 	}
 
@@ -351,7 +351,7 @@
 
 				if (!empty($template)) {
 
-					if ($mail[0]['id_user'] == $_SESSION['user']['user_id']) {
+					if ($mail[0]['id_user'] == $sessionID) {
 						
 						metadatas('Email_builder', 'Description', 'none');
 
@@ -385,7 +385,7 @@
 		if ($template) {
 			include_once('app/model/user/email/insert_email.php');
 
-			$mail = new_email($_GET['template'], $_SESSION['user']['user_id'], $template[0]['DOM']);
+			$mail = new_email($_GET['template'], $sessionID, $template[0]['DOM']);
 
 			if ($mail) {
 

@@ -26,8 +26,6 @@
 
 	if (isset($_POST['stripeToken'])) {
 
-		require_once('app/config/config_stripe.php');
-
 		try {
 
 			$token  = $_POST['stripeToken'];

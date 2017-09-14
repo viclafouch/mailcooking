@@ -21,7 +21,7 @@
 	 *
 	 */
 
-	if (!isset($_POST["nom_commande"])) {
+
 
 		/**
 		 *
@@ -30,56 +30,54 @@
 		 *
 		 */
 
-		if (isset($_GET["id"])) {
+	if (isset($_GET["id"])) {
 
-			include_once("app/model/user/template/preview_template.php");
+		include_once("app/model/user/template/preview_template.php");
 
-			if ($_GET['allow'] == 0) {
-				$temp = preview_template($_GET["id"], 'all');
-			} else {
-				$temp = preview_template($_GET['id'], $_SESSION['user']['user_id']);
-			}
-
-			echo $temp[0]["DOM"];
-
-		} elseif (isset($_GET['stripeOrder'])) {
-			$data = [
-			    'key' => 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
-			    'image' => 'https://stripe.com/img/documentation/checkout/marketplace.png',
-			    'locale' => 'auto',
-			    'name' => 'MailCooking',
-			    'zipCode' => false,
-			    'currency' => 'EUR',
-			    'description' => '1 commande de template',
-			    'amount' => 20000
-			];
-			echo json_encode($data);
-		}
-
-		/**
-		 *
-		 * Fonction d'appel des templates lors de la modification des filtres
-		 * CCP : Retourne X lignes de template
-		 *
-		 */
-
-		elseif (isset($_POST['templates'])) {
+		if ($_GET['allow'] == 0) { $temp = preview_template($_GET["id"], 'all'); } 
+		else { $temp = preview_template($_GET['id'], $sessionID); }
 		
+		echo $temp[0]["DOM"];
+		return;
+
+	} 
+
+	if (isset($_GET['stripeOrder'])) {
+		$data = [
+		    'key' => $stripeKeys['publishable_key'],
+		    'image' => $stripeImg,
+		    'locale' => 'auto',
+		    'name' => $appName,
+		    'zipCode' => false,
+		    'currency' => 'EUR',
+		    'description' => '1 commande de template',
+		    'amount' => $priceTemplate * 100,
+		];
+		echo json_encode($data);
+		return;
+	}
+
+	/**
+	 *
+	 * Fonction d'appel des templates lors de la modification des filtres
+	 * CCP : Retourne X lignes de template
+	 *
+	 */
+
+	if (!empty($_POST)) {
+
+		if (isset($_POST['templates'])) {
+	
 			include_once("app/model/user/template/read_templates.php");
 
-			if ($_POST['templates'] == 1 && $_POST['orderby'] == 1) {
-				$template = read_templates($_SESSION["user"]["user_id"], 'DESC');
-			}
-			elseif ($_POST['templates'] == 0 && $_POST['orderby'] == 1) {
-				$template = read_templates('all', 'DESC');
-			}
-			elseif ($_POST['templates'] == 1 && $_POST['orderby'] == 0) {
-				$template = read_templates($_SESSION["user"]["user_id"], 'ASC');
-			}
-			elseif ($_POST['templates'] == 0 && $_POST['orderby'] == 0) {
-				$template = read_templates("all", 'ASC');
-			}
-			
+			if (boolval($_POST['templates'])) { $whose = $sessionID; }
+			else { $whose = 'all'; }
+
+			if (boolval($_POST['orderby'])) { $orderBy = 'DESC'; }
+			else { $orderBy = 'ASC'; }
+
+			$template = read_templates($whose, $orderBy);
+		
 			foreach ($template as $key => $temp) { ?>
 				<?php 
 
@@ -90,10 +88,6 @@
 					$countMailsEditor = counttable("mail_editor", $options);
 
 					$commande = get_infos(intval($temp["id_template_commande"]));
-			
-					$id_user = $commande[0]["id_user"];
-					$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
-					$chemin = "client/".$id_user."_".$societe_user."/";
 
 					$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
 				?>
@@ -129,15 +123,18 @@
 						<div class="popup_action_template">
 							<ul class="col nowrap">
 								<li data-popup-preview>Prévisualiser</li>
+
 								<?php if ($temp['id_allow'] != 'all'): ?>
 								<li>Demander une modification</li>
 								<li>Supprimer</li>	
 								<?php endif ?>
+
 							</ul>
 						</div>
 					</div>
 				</li>
-			<?php }
+			<?php  }
+			return;
 		}
 
 		/**
@@ -150,6 +147,8 @@
 			include_once('app/model/user/template/update_title_template.php');
 
 			update_title_template($_POST['idTemplate'], $_POST['template_title']);
+
+			return;
 		}
 
 		/**
@@ -163,12 +162,12 @@
 			
 			$options = array( 	"wherecolumn"	=>	"id_template",
 								"wherevalue"	=>	$_POST['template_id']);
-	
+
 			$template = selecttable("template_mail", $options);
 
 			include_once('app/model/user/email/insert_email.php');
 
-			$id_mail = new_email($template[0]['id_template'], $_SESSION["user"]["user_id"], $template[0]['DOM']);
+			$id_mail = new_email($template[0]['id_template'], $sessionID, $template[0]['DOM']);
 
 			if ($id_mail) {
 
@@ -192,7 +191,7 @@
 
 					$options = array( 	"wherecolumn"	=>	"id_commande",
 								"wherevalue"	=>	$template[0]['id_template_commande']);
-	
+
 					$order = selecttable("template_commande", $options);
 
 					$folder = $order[0]["id_commande"].'_'.substr(str_replace(' ', '_', $order[0]["nom_commande"]),0,15);
@@ -211,108 +210,105 @@
 			}
 
 			echo $id_mail; 
+			return;
 		}
 
 		/**
 		 *
-		 * Affichage de la vue
+		 * Fonction de création d'une commande
 		 *
 		 */
 
-		else {
-			protec();
+		if (isset($_POST["nom_commande"])) {
+			function creatOrder($post, $paid, $path, $sessionID, $count = false) {
+				include_once("app/model/user/template/creat_order.php");
 
-			include_once('app/model/user/template/valide_order.php');
+				$default_statut = 0;
 
-			include_once("app/model/user/template/read_templates.php");
+				$date = date('Y-m-d');
+				$expiration = date('Y-m-d', strtotime('+1 year', strtotime($date)));
 
-			$options = array ("wherecolumn" => "id_allow", 
-								"wherevalue" => $_SESSION['user']['user_id']);
-			$perso = counttable("template_mail", $options);
+				$new_order = new_order($post, $sessionID, $default_statut, $paid, $date);
 
-			if ($perso >= 1) {
-				$public = false;
-				$template = read_templates($_SESSION["user"]["user_id"], 'DESC');
+				if ($count) {
+					$newTemplateCount = newTemplateCount($new_order, $sessionID, $expiration);
+				}
+
+				else {
+
+					$new_folder = $new_order.'_'.substr(str_replace(' ', '_', $post["nom_commande"]),0,15);
+					@mkdir($path.'commandes/'.$new_folder."", 0777, true);
+
+					$folder = $path.'commandes/'.$new_folder.'/';
+
+					move_uploaded_file($_FILES['file_commande']['tmp_name'], $folder.$_FILES['file_commande']['name']);
+
+					location('user', 'template', "order=valide");
+					exit(0);
+				}
 			}
-			else {
-				$public = true;
-				$template = read_templates('all', 'DESC');
+
+			if (isset($_POST['stripeToken'])) {
+				include_once('app/controller/user/checkout.php');
+				if (!isset($err)) {
+					creatOrder($_POST, 1, $chemin, $sessionID);
+				} else {
+					location('user', 'template', 'err='.$err);
+				}
+			} else {
+				if (isset($subscriber)) {
+					$options = array (
+							"wherecolumn" => "user_id", 
+							"wherevalue" => $sessionID
+					);
+					$countUserTemplate = counttable("template_counter", $options);
+
+					if ($countUserTemplate + 1 > intval($_SESSION['subscription']['privateTemplate'])) { 
+						location('user', 'template', 'order=max'); } 
+					else { 
+						creatOrder($_POST, 0, $chemin, $sessionID, true); 
+					}
+				} else {
+					location('user', 'template', 'order=subscription');
+				}
 			}
-
-			$options = array (
-						"wherecolumn" => "user_id", 
-						"wherevalue" => $sessionID
-				);
-			$countUserTemplate = counttable("template_counter", $options);
-
-			metadatas('Mes templates', 'Description', 'none');
-
-			include_once("app/view/user/template.php");
-		}		
+			return;
+		}
 	}
 
 	/**
 	 *
-	 * Fonction de création d'une commande
+	 * Affichage de la vue
 	 *
 	 */
 
 	else {
-		function creatOrder($post, $paid, $path, $sessionID, $count = false) {
-			include_once("app/model/user/template/creat_order.php");
+		protec();
 
-			$default_statut = 0;
+		include_once('app/model/user/template/valide_order.php');
 
-			$date = date('Y-m-d');
-			$expiration = date('Y-m-d', strtotime('+1 year', strtotime($date)));
+		include_once("app/model/user/template/read_templates.php");
 
-			$new_order = new_order($post, $sessionID, $default_statut, $paid, $date);
+		$options = array ("wherecolumn" => "id_allow", 
+							"wherevalue" => $sessionID);
+		$perso = counttable("template_mail", $options);
 
-			if ($count) {
-				$newTemplateCount = newTemplateCount($new_order, $sessionID, $expiration);
-			}
-
-			if (!$new_order) { location('user', 'template', 'order=nok'); } 
-
-			else {
-
-				$new_folder = $new_order.'_'.substr(str_replace(' ', '_', $post["nom_commande"]),0,15);
-				@mkdir($path.'commandes/'.$new_folder."", 0777, true);
-
-				$folder = $path.'commandes/'.$new_folder.'/';
-
-				move_uploaded_file($_FILES['file_commande']['tmp_name'], $folder.$_FILES['file_commande']['name']);
-
-				location('user', 'template', "order=ok"); 
-			}
+		if ($perso >= 1) {
+			$public = false;
+			$template = read_templates($sessionID, 'DESC');
+		}
+		else {
+			$public = true;
+			$template = read_templates('all', 'DESC');
 		}
 
-		if (isset($_POST['stripeToken'])) {
-			include_once('app/controller/user/checkout.php');
-			if (!isset($err)) {
-				creatOrder($_POST, 1, $chemin, $sessionID);
-			} else {
-				location('user', 'template', 'err='.$err);
-			}
-		} else {
-			if (isset($subscriber)) {
-				if ($plan == 1) {
-					location('user', 'template', 'paiement=nok');
-				} else {
-					$options = array (
-								"wherecolumn" => "user_id", 
-								"wherevalue" => $sessionID
-						);
-					$countUserTemplate = counttable("template_counter", $options);
+		$options = array (
+					"wherecolumn" => "user_id", 
+					"wherevalue" => $sessionID
+			);
+		$countUserTemplate = counttable("template_counter", $options);
 
-					if ($countUserTemplate + 1 > $templateMax) {  
-						location('user', 'template', 'paiement=nok');
-					} else { creatOrder($_POST, 0, $chemin, $sessionID, true); }
-				}
-			} else {
-				location('user', 'template', 'subscription=nok');
-			}
-		}
-	}
+		metadatas('Mes templates', 'Description', 'none');
 
-	
+		include_once("app/view/user/template.php");
+	}	

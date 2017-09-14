@@ -42,10 +42,7 @@
 
 				$users = selecttable('users_additional', $option);
 
-				if ($plan == 1 && count($users) >= 1) {
-					errorAjax('Vous avez atteint le nombre max d\'utilisateurs'); 
-					return false;
-				} elseif ($plan == 2 && count($users) >= 3)  {
+				if (count($users) >= $_SESSION['subscription']['users']) {
 					errorAjax('Vous avez atteint le nombre max d\'utilisateurs'); 
 					return false;
 				}
@@ -190,34 +187,40 @@
 
 	/**
 	 *
+	 * Affichage de popup Stripe
+	 *
+	 */
+
+	if (isset($_GET['booking_id'])) {
+
+		foreach ($MC_subscriptions as $key => $subscription) {
+			if ($_GET['booking_id'] == $subscription['id']) {
+				$data = [
+				    'key' => $stripeKeys['publishable_key'],
+				    'image' => 'https://stripe.com/img/documentation/checkout/marketplace.png',
+				    'locale' => 'auto',
+				    'name' => $appName,
+				    'zipCode' => true,
+				    'currency' => 'EUR',
+				    'description' => $subscription['name'] .' - 1 mois',
+				    'amount' => $subscription['price'] * 100,
+				];
+			}
+		}
+
+		echo json_encode($data);
+		return;
+	
+	}
+
+	/**
+	 *
 	 * Affichage de la vue
 	 *
 	 */
 
-
 	else {
-		metadatas('Mon compte', 'Description', 'none');
-
-		$option = array( 
-			'wherecolumn' 	=> 	'user_id',
-			'wherevalue'	=>	$sessionID,
-		);
-
-		$sub = selecttable('subscribers', $option);
-
-		if (count($sub) > 0) {
-			$subcription = true;
-			$plan = $sub[0]['plan'];
-			if ($plan == 1) {
-				$subName = 'Abonnement tip';
-			} elseif ($plan == 2) {
-				$subName = 'Abonnement top';
-			} elseif ($plan == 3) {
-				$subName = 'Abonnement tip top';
-			}
-		} else {
-			$subcription = false;
-		}	
+		metadatas('Mon compte', 'Description', 'none');	
 
 		$option = array( 
 			'wherecolumn' 	=> 	'user_additional_admin_id',
@@ -226,84 +229,5 @@
 
 		$users_additional = selecttable('users_additional', $option);
 
-		/**
-		 *
-		 * Popup de confirmation d'annulation d'abonnement
-		 *
-		 */
-
-		if (isset($_GET['popupStopSub'])) { ?>
-
-		<header>
-			<h1>Votre abonnement</h1>
-		</header>
-		<form method="post" action="?module=user&action=account">
-			<div class="content_block popup-blocks">
-				<div>
-					<div class="field">
-						<div class="oneside aside">
-							<label>Nom de l'abonnement :</label>
-						</div>
-						<div class="overside aside">
-							<?php if ($subcription): ?>
-								<p><?= $subName; ?> <i class="material-icons ok">done</i></p>
-							<?php else: ?>
-								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
-							<?php endif; ?>
-						</div>
-					</div>
-					<div class="field">
-						<div class="oneside aside">
-							<label>Date du prochain prévèlement :</label>
-						</div>
-						<div class="overside aside">
-							<?php if ($subcription): ?>
-								<p><?= date('d/m/Y', $sub[0]['date_end_trial']); ?> <i class="material-icons ok">done</i></p>
-							<?php else: ?>
-								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
-							<?php endif; ?>
-						</div>
-					</div>
-				</div>
-			</div>
-			<?php if ($subcription): ?>
-			<footer>
-				<button class="button_default button_secondary" id="stopSubscription">Stopper l'abonnement</button>
-			</footer>
-			<?php endif; ?>
-		</form>
-
-		<?php }
-
-		else {
-			if (isset($_GET['booking_id']) && is_numeric($_GET['booking_id'])) {
-				$plan = $_GET['booking_id'];
-				$data = [
-				    'key'      	=> 'pk_test_jdtjz4b05ADqlx5k093fsmgK',
-				    'image'    => 'https://stripe.com/img/documentation/checkout/marketplace.png',
-				    'locale'       => 'auto',
-				    'name' => 'Entrepriseeeeeeeeee',
-				    'zipCode'      => true,
-				    'currency' => 'EUR',
-				];
-				if ($plan == 1) {
-					$amount = 4800;
-					$description = 'Abonnement Tip';
-				} elseif ($plan == 2) {
-					$amount = 7200;
-					$description = 'Abonnement Top';
-				} elseif ($plan == 3) {
-					$amount = 10800;
-					$description = 'Abonnement Tip Top';
-				}
-				$data['amount'] = $amount;
-				$data['description'] = $description;
-
-				if (in_array('amount', $data) && in_array('description', $data)) {
-					echo json_encode($data);
-				}
-			} else {
-				include_once("app/view/user/account.php");
-			}
-		}
+		include_once("app/view/user/account.php");
 	}

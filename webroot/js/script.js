@@ -504,14 +504,12 @@ $(document).ready(function(){
 	/* Active la popup de détails d'abonnement */
 	$(document).on('click', '[data-popup]', function(e){
 		e.preventDefault();
-		let data = $(this).data('popup');
-		let popup = $('#'+data);		
+		let data = this.getAttribute('data-popup');
+		let popup = document.getElementById(data);	
 
-		popup.addClass('active');
+		popup.classList.add('active');
 
-		popup.find('.popup_container').load('?module=user&action=account&popupStopSub');
-
-		hidePopup(popup);
+		hidePopup($(popup));
 	});
 
 	/* Demande de suppression de l'abonnement */
@@ -634,7 +632,9 @@ document.addEventListener("turbolinks:load", function() {
 		hidePopup(popup);
 		setTimeout(function(){
 			$('#formAddOrder').addClass('active').removeClass('noactive');
-			document.getElementById('formAddOrder').reset();
+			if (document.getElementById('formAddOrder')) {
+				document.getElementById('formAddOrder').reset();
+			}
 			$('#formConfirmationAddOrder').addClass('noactive').removeClass('active');
 		}, 800)
 	});

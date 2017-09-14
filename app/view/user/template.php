@@ -49,10 +49,6 @@
 			<?php foreach ($template as $key => $temp) {
 
 			$commande = get_infos(intval($temp["id_template_commande"]));
-			
-			$id_user = $commande[0]["id_user"];
-			$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
-			$chemin = "client/".$id_user."_".$societe_user."/";
 
 			$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
 
@@ -163,10 +159,10 @@
 						<?php if ($plan == 1) { $payToTemplate = true; ?>
 							<p>Etdssssant donné que votre abonnement ne vous autorise pas à commander des templates, vous avez la possibilité de passer commande pour seulement <?= $priceTemplate.$currency; ?>.<p>
 						<?php } else {
-						 	if ($countUserTemplate + 1 > $templateMax) { $payToTemplate = true; ?>
+						 	if ($countUserTemplate + 1 > intval($_SESSION['subscription']['privateTemplate'])) { $payToTemplate = true; ?>
 						 		<p>Vous avez atteint le nombre max de commandes. Pour obtenir ce template, vous devez soit passer à l'abonnement suivant, ou payer <?= $priceTemplate.$currency; ?>.<p>
 						 	<?php } else { ?>
-								<p>Il vous restera <?= $templateMax - ($countUserTemplate + 1);?> template(s) gratuit(s) après cette commande.<p>
+								<p>Il vous restera <?= intval($_SESSION['subscription']['privateTemplate']) - ($countUserTemplate + 1);?> template(s) gratuit(s) après cette commande.<p>
 						 	<?php }
 						}		
 					} else { ?>

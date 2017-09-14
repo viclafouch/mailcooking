@@ -20,11 +20,8 @@
 	if (isset($_SESSION['user'])) {
 		
 		$sessionID = $_SESSION['user']['user_id'];
-
-		$id_user = $_SESSION['user']["user_id"];
 		$societe_user = mb_strtolower(substr($_SESSION['user']["societe"], 0, 3));
-		
-		$chemin = "client/".$id_user."_".$societe_user."/";
+		$chemin = "client/".$sessionID."_".$societe_user."/";
 
 
 		/**
@@ -44,8 +41,12 @@
 		if (!empty($subscriber)) {
 			$_SESSION['subscriber'] = $subscriber[0];
 			$plan = $_SESSION['subscriber']['plan'];
-
-			$templateMax = $MC_templateMax[$plan];
+			
+			foreach ($MC_subscriptions as $key => $value) {
+				if ($value['id'] == $plan) {
+					$_SESSION['subscription'] = $value;
+				}
+			}
 		}
 	}
 

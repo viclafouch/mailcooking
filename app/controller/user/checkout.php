@@ -23,9 +23,7 @@
 	 * Le POST est obligatoire 
 	 *
 	 */
-
-	require_once('app/config/config_stripe.php');
-
+	
 	$options = array( 	
 			"wherecolumn"	=>	"user_id",
 			"wherevalue"	=>	$sessionID);
