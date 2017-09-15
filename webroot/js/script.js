@@ -1479,4 +1479,68 @@ document.addEventListener("turbolinks:load", function() {
 		}
 	});
 /*=====  End of Commandes_page  ======*/
+
+/*======================================
+=            Template Admin            =
+======================================*/
+
+	$(document).on('click', '[data-popup-template]', function(){
+		let popup = $('#addTemplatePublic');
+		popup.addClass('active');
+
+		hidePopup(popup);
+	});
+
+	$(document).on('submit', '#formAddTemplate', function(e){
+		e.preventDefault();
+		if (!$(this).attr('data-appened')) {
+			$(this).attr('data-appened', 'true');
+			 
+	        var $form = $('#formAddTemplate');
+	        var formdata = (window.FormData) ? new FormData($form[0]) : null;
+	        var data = (formdata !== null) ? formdata : $form.serialize();
+			var dom = $('#templateDOM').val();
+			var medias = $('#templateQuery').val();
+
+	        $.ajax({
+	            url: "?module=admin&action=templates",
+	            type: "POST",
+	            contentType: false,
+	            processData: false,
+	            dataType: 'json',
+	            data: data,
+	            complete: function (html) {
+	              	var newDom = dom.replace(new RegExp('images/', 'g'), html.responseText+'/');
+					$('#formAddTemplate footer').html(
+						'<button id="validePreview" class="button_default button_secondary">Valider le template</button>'
+					);
+					$('#addTemplatePublic header').hide();
+					$('#addTemplatePublic .content_block').html(newDom);
+					
+					$(document).on('click', '.content_block a', function(e){
+						e.preventDefault();
+					});
+
+					$(document).on('click', '#validePreview', function(e){
+						e.preventDefault();
+						var container = $('.popup_container .content_block');
+						cheminImage = html.responseText;
+						cheminThumbs = cheminImage.replace('images', 'thumbnails');
+						html2canvas(container, {
+							onrendered: function(canvas) {
+								$.ajax({
+				                    type: "POST",
+				                    data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminThumbs },
+				                    url : "?module=admin&action=commandes"
+				                });
+							}
+						});
+					});
+	            }
+	        });
+		}
+	});
+
+/*=====  End of Template Admin  ======*/
+
 });

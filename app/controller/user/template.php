@@ -79,7 +79,7 @@
 			$template = read_templates($whose, $orderBy);
 		
 			foreach ($template as $key => $temp) { ?>
-				<?php 
+				<?php
 
 					include_once('app/model/user/template/valide_order.php');
 					
@@ -87,14 +87,19 @@
 										"wherevalue" => $temp['id_template']);
 					$countMailsEditor = counttable("mail_editor", $options);
 
-					$commande = get_infos(intval($temp["id_template_commande"]));
-
-					$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
+					if ($whose == 'all') {
+						$folder = 'template_public_'.$temp['id_template'];
+						$path = './template_all/'.$folder;
+					} else {
+						$commande = get_infos(intval($temp["id_template_commande"]));
+						$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
+						$path = $chemin.'templates/'.$folder;
+					}
 				?>
 
 				<li class="row nowrap row-hori-between li_template" data-allow="<?php if ($temp['id_allow'] == 'all') { ?>0<?php } else { ?>1<?php } ?>" data-template="<?= $temp['id_template']; ?>">
 					<div class="row nowrap">
-						<div style="background: url('<?= $chemin.'templates/'.$folder.'/thumbnails/thumbnail.png'; ?>');" data-popup-preview class="col nowrap col_template_thumbs">
+						<div style="background: url('<?= $path.'/thumbnails/thumbnail.png'; ?>');" data-popup-preview class="col nowrap col_template_thumbs">
 						</div>
 						<div class="col nowrap col_template_descr">
 							<p class="title_row"><span class="title_template" contenteditable="false" onpaste="return false;" spellcheck="false"><?= $temp['title_template']?></span>&nbsp;</p>

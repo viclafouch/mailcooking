@@ -83,3 +83,5 @@
 	}
 
 	$MC_fonts = substr($link, 0, -3);
+
+	$pathToPublicTemplate = 'template_all/';

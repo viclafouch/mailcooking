@@ -86,8 +86,8 @@
 			$options = array( "wherecolumn"	=>	"id_commande",
 							"wherevalue"	=>	$template_mail[0]['id_template_commande']);
 
-			if ($template_mail[0]['id_template_commande'] == 0) {
-				echo "template_all/template_public_".$template_mail[0]['id_template']."/";
+			if ($template_mail[0]['id_template_commande'] == null) {
+				echo "template_all/template_public_".$template_mail[0]['id_template']."/thumbnails/";
 			}
 
 			else {
