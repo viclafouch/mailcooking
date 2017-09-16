@@ -3,7 +3,7 @@
 	include("app/view/layout/user/header.php"); 
 ?>
 
-<div class="container container_orders">
+<div class="container container_template_admin">
 	<div class="block full_block">
 		<div class="pannel pannel_heading">
 			<div class="row nowrap row-verti-center row-hori-between">
@@ -16,7 +16,36 @@
 	</div>
 	<div class="block full_block"> 
 		<div class="pannel pannel_body">
-			
+			<div class="col nowrap">
+				<div class="row row-verti-center nowrap line_custom_search_template">
+					<span class="text_additional">Templates</span>
+					<div class="select-wrapper">
+						<select class="select_default button_primary" data-select-template id="selectDisplayType">
+							<option value="false">Public</option>
+							<option value="true">Perso</option>
+						</select>
+					</div>
+					<span class="text_additional">Utilisateur : </span>
+					<div class="select-wrapper">
+						<select class="select_default button_primary"  data-select-template id="selectDisplayUser">
+							<option value="false">Selectionner un utilisateur</option>
+							<?php foreach ($users as $key => $user): ?>
+								<option value="<?= $user['user_id'] ?>"><?php echo htmlspecialchars($user['first_name']).' '.htmlspecialchars($user['last_name']); ?></option>
+							<?php endforeach ?>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="block full_block">
+		<div class="pannel pannel_body list_template">
+			<ul class="row wrap">
+				<?php foreach ($templatePublic as $key => $tp): ?>
+					<li style="background: url('<?= $pathToPublicTemplate.'template_public_'.$tp['id_template'].'/thumbnails/thumbnail.png'; ?>');" data-popup-preview>
+					</li>
+				<?php endforeach ?>
+			</ul>
 		</div>
 	</div>
 	<div class="popup_mc" id="addTemplatePublic">

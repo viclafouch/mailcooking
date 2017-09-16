@@ -27,7 +27,7 @@
 						<?php if (is_null($mail[0]['saved_by'])) {
 							echo "Jamais sauvegardé";
 						} else {
-							echo "Dernière modification effectuée par".htmlspecialchars($mail[0]['saved_by'])."";
+							echo "Dernière modification effectuée par ".htmlspecialchars($mail[0]['saved_by'])."";
 						} ?>
 					</p>
 					<?php } ?>

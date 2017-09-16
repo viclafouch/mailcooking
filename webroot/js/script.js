@@ -55,9 +55,12 @@ $.fn.hasAttr = function(name) {
    return this.attr(name) !== undefined;
 };
 
+$(document).on('click', '.animation_blink', function(){
+	$(this).removeClass('animation_blink');
+});
+
 $(document).on('click', '[data-btn-upgrade], [data-btn-subscribe]', function(event) {
 	event.preventDefault();
-	console.log('ok');
 
 	if ($(this).hasAttr('data-btn-subscribe')) {
 		var booking_id = $(this).data('btn-subscribe');
@@ -430,7 +433,6 @@ $(document).ready(function(){
 				success : function(respons) {
 				  	if (respons.error) {
 						insertAlert(respons[0], false);
-						console.log(flagAdd);
 						return false;
 					}
 					paramRow.find('p:first-child').html(value);
@@ -676,15 +678,16 @@ document.addEventListener("turbolinks:load", function() {
 			var dateSelected = $(this).val();
 			var allowSelected = $("#selectDisplayAllow").val();
 		}
-
-		$.ajax({
-			type: "POST",
-			data: { templates: allowSelected, orderby: dateSelected },
-			url : "?module=user&action=template", 
-			success : function(data) {
-				$('.list_template ul').html(data);
-			}
-		});
+		if (allowSelected && dateSelected) {
+			$.ajax({
+				type: "POST",
+				data: { templates: allowSelected, orderby: dateSelected },
+				url : "?module=user&action=template", 
+				success : function(data) {
+					$('.list_template ul').html(data);
+				}
+			});
+		}
 	});
 
 	/* Création d'un email à partir d un template */
@@ -1484,6 +1487,38 @@ document.addEventListener("turbolinks:load", function() {
 =            Template Admin            =
 ======================================*/
 
+	/* Changement des selects */
+	$(document).on('change', '[data-select-template]', function(e) {
+		var templateUser;
+		if ($(this).attr('id') == 'selectDisplayUser') {
+			var user = JSON.parse($(this).val());
+			if (user) { 
+				$("#selectDisplayType").val('true');
+				templateUser = user;
+			}
+		}
+
+		if ($(this).attr('id') == 'selectDisplayType') {
+			var type = JSON.parse($(this).val());
+			if (!type) { 
+				$("#selectDisplayUser").val('false'); 
+				templateUser = 'all';
+			} else {
+				$("#selectDisplayUser").addClass('animation_blink');
+			}
+		}
+		if (templateUser) {
+			$.ajax({
+				type: "GET",
+				data: { selectTemplate: templateUser },
+				url : "?module=admin&action=templates", 
+				success : function(html) {
+					$('.list_template ul').html(html);
+				}
+			});
+		}
+	});
+
 	$(document).on('click', '[data-popup-template]', function(){
 		let popup = $('#addTemplatePublic');
 		popup.addClass('active');
@@ -1501,6 +1536,7 @@ document.addEventListener("turbolinks:load", function() {
 	        var data = (formdata !== null) ? formdata : $form.serialize();
 			var dom = $('#templateDOM').val();
 			var medias = $('#templateQuery').val();
+			var title = $('#templateName').val();
 
 	        $.ajax({
 	            url: "?module=admin&action=templates",
@@ -1523,15 +1559,48 @@ document.addEventListener("turbolinks:load", function() {
 
 					$(document).on('click', '#validePreview', function(e){
 						e.preventDefault();
-						var container = $('.popup_container .content_block');
+						var container = $('#addTemplatePublic .content_block');
 						cheminImage = html.responseText;
-						cheminThumbs = cheminImage.replace('images', 'thumbnails');
 						html2canvas(container, {
 							onrendered: function(canvas) {
 								$.ajax({
 				                    type: "POST",
-				                    data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminThumbs },
-				                    url : "?module=admin&action=commandes"
+				                    data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminImage, dom: dom, medias: medias, title: title},
+				                    url : "?module=admin&action=templates",
+				                    complete: function (html) {
+				                    	var data = JSON.parse(html.responseText);
+				                    	var templateID = data[1];
+				                    	$('#addTemplatePublic [data-section]').each(function(){
+											var id = Math.floor(Math.random() * 16777215).toString(16);
+										    $(this).attr('data-section', id);
+											var section = $('[data-section="'+id+'"]');
+											cheminImage = data[0];
+											cheminThumbs = cheminImage.replace('images', 'thumbnails');
+											html2canvas(section, {
+												onrendered: function(canvas) {
+													$.ajax({
+									                    type: "POST",
+									                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
+									                    url : "?module=admin&action=templates",
+									                });
+												}
+											});
+										}).promise().done(function () { 
+											dom = $('#addTemplatePublic .content_block').html();
+										    $.ajax({
+							                    type: "POST",
+							                    data: {templateID: templateID, DOM: dom},
+							                    url : "?module=admin&action=templates",
+												complete: function(html) {
+													if (JSON.parse(html.responseText) === true) {
+														insertAlert('Template public inséré !', true);
+													} else {
+														insertAlert('Une erreur est survenue', false);
+													}
+												},
+							                });
+										});
+				                    }
 				                });
 							}
 						});
@@ -1542,5 +1611,4 @@ document.addEventListener("turbolinks:load", function() {
 	});
 
 /*=====  End of Template Admin  ======*/
-
 });

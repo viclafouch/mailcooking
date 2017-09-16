@@ -92,10 +92,6 @@
 						<div class="popup_action_template">
 							<ul class="col nowrap">
 								<li data-popup-preview>Prévisualiser</li>
-								<?php if ($temp['id_allow'] != 'all'): ?>
-								<li>Demander une modification</li>
-								<li>Supprimer</li>	
-								<?php endif ?>
 							</ul>
 						</div>
 					</div>

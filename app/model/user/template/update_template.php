@@ -1,7 +1,6 @@
 <?php 
 
-	function update_template($orderID, $statut)
-	{
+	function update_template($orderID, $statut) {
 		global $connexion;
 
 		try 

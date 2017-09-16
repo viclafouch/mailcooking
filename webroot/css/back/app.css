@@ -2264,3 +2264,46 @@ div.container_orders div#orderPopup div.popup_container footer a#cancelUpload {
   color: #FF3B49;
   font-weight: 600;
 }
+
+/*----------  Template Admin  ----------*/
+div.container_template_admin {
+  overflow: scroll !important;
+}
+div.container_template_admin select#selectDisplayUser {
+  padding-right: 50px;
+}
+div.container_template_admin div.list_template > ul {
+  width: 100%;
+}
+div.container_template_admin div.list_template > ul > li {
+  height: 170px;
+  padding: 15px 0;
+  background-attachment: scroll !important;
+  background-size: 100% auto !important;
+  background-position: top !important;
+  background-repeat: no-repeat !important;
+  margin-right: 30px;
+  width: 120px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+select.animation_blink {
+  -webkit-animation: mc_blink 1s linear infinite 0s;
+  animation: mc_blink 1s linear infinite 0s;
+}
+@-webkit-keyframes mc_blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+@keyframes mc_blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
