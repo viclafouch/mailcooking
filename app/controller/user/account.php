@@ -134,51 +134,32 @@
 		 *
 		 */
 
-		elseif (isset($_POST['cancelSubscription'])) {
+		elseif (isset($_POST['cancelSubscription'], $_SESSION['subscriber']['subscription_id'])) {
 
 			if (password_verify($_POST['cancelSubscription'], $_SESSION['user']['user_password'])) {
 
-				$option = array( 
-					'wherecolumn' 	=> 	'user_id',
-					'wherevalue'	=>	$sessionID,
-				);
-
-				$sub = selecttable('subscribers', $option);	
-
-				$sub_id = $sub[0]['subscription_id'];
-
-				if ($sub_id) {
-
+				try {
+					$subscription = \Stripe\Subscription::retrieve($_SESSION['subscriber']['subscription_id']);
+					$subscription->cancel();
 					include_once('/app/model/user/account/payment/cancel.php');
-					$cancel_subscription = cancel_subscription($sub_id);
-					if ($sub_id) { $validation = true; }
-					else { errorAjax('Une erreur s\'est produite'); }
-					
-					if ($validation) {
-						try {
-							require_once('app/config/config_stripe.php');
-							$subscription = \Stripe\Subscription::retrieve($sub_id);
-							$subscription->cancel();
-							unset($_SESSION['subscriber']);
-						} 
-						catch(\Stripe\Error\Card $e) {
-							errorAjax('Une erreur s\'est produite');
-						} catch (\Stripe\Error\RateLimit $e) {
-							errorAjax('Une erreur s\'est produite');
-						} catch (\Stripe\Error\InvalidRequest $e) {
-							errorAjax('Une erreur s\'est produite');
-						} catch (\Stripe\Error\Authentication $e) {
-							errorAjax('Une erreur s\'est produite');
-						} catch (\Stripe\Error\ApiConnection $e) {
-							errorAjax('Une erreur s\'est produite');
-						} catch (\Stripe\Error\Base $e) {
-							errorAjax('Une erreur s\'est produite');
-						} catch (Exception $e) {
-							errorAjax('Une erreur s\'est produite');
-						}
-					} else { errorAjax('Une erreur s\'est produite'); }
+					$cancel_subscription = cancel_subscription($_SESSION['subscriber']['subscription_id']);
+					unset($_SESSION['subscriber'], $_SESSION['subscription']);
+				} 
+				catch(\Stripe\Error\Card $e) {
+					errorAjax('Une erreur s\'est produite');
+				} catch (\Stripe\Error\RateLimit $e) {
+					errorAjax('Une erreur s\'est produite');
+				} catch (\Stripe\Error\InvalidRequest $e) {
+					errorAjax('Une erreur s\'est produite');
+				} catch (\Stripe\Error\Authentication $e) {
+					errorAjax('Une erreur s\'est produite');
+				} catch (\Stripe\Error\ApiConnection $e) {
+					errorAjax('Une erreur s\'est produite');
+				} catch (\Stripe\Error\Base $e) {
+					errorAjax('Une erreur s\'est produite');
+				} catch (Exception $e) {
+					errorAjax('Une erreur s\'est produite');
 				}
-
 			} else {
 				errorAjax('Le mot de passe est incorrect');
 			}

@@ -119,8 +119,12 @@
 					</div>
 					<div class="col nowrap col-verti-around">
 						<button data-info="user" class="button_default button_primary">Modifier</button>
-						<p><span data-count="user"><?= count($users_additional); ?></span><?php if (isset($_SESSION['subscriber'])) { if ($plan != 3): ?>/<?= $_SESSION['subscription']['users']; endif; ?>
-						<?php } ?>utilisateurs enregistré(s)</p>
+						<p>
+							<span data-count="user"><?= count($users_additional); ?></span>
+							<?php if (isset($_SESSION['subscriber'])) { 
+								if ($plan != 3): ?>/<?= $_SESSION['subscription']['users']; endif; ?>
+							<?php } ?>utilisateurs enregistré(s)
+						</p>
 					</div>
 				</div>
 				<div id="user" class="info_accordeon">
@@ -283,7 +287,7 @@
 							</div>
 							<div class="overside aside">
 
-								<?php if (isset($_SESSION['subscription'])): ?>
+								<?php if (isset($_SESSION['subscriber'])): ?>
 								<p><?= $_SESSION['subscription']['name']; ?> <i class="material-icons ok">done</i></p>
 								<?php else: ?>
 								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
@@ -297,8 +301,8 @@
 							</div>
 							<div class="overside aside">
 
-								<?php if (isset($_SESSION['subscription'])): ?>
-								<p><?= date('d/m/Y', $sub[0]['date_end_trial']); ?> <i class="material-icons ok">done</i></p>
+								<?php if (isset($_SESSION['subscriber'])): ?>
+								<p><?= date('d/m/Y', $_SESSION['subscriber']['date_end_trial']); ?> <i class="material-icons ok">done</i></p>
 								<?php else: ?>
 								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
 								<?php endif; ?>
@@ -307,7 +311,7 @@
 						</div>
 					</div>
 				</div>
-				<?php if (isset($_SESSION['subscription'])): ?>
+				<?php if (isset($_SESSION['subscriber'])): ?>
 				<footer>
 					<button class="button_default button_secondary" id="stopSubscription">Stopper l'abonnement</button>
 				</footer>

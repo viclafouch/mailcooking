@@ -151,7 +151,7 @@
 			</form>
 			<form action="?module=user&action=template" id="formConfirmationAddOrder" class="noactive">
 				<div class="field">
-					<?php if (isset($subscriber)) { ?>
+					<?php if (isset($_SESSION['subscriber'])) { ?>
 						<?php if ($plan == 1) { $payToTemplate = true; ?>
 							<p>Etdssssant donné que votre abonnement ne vous autorise pas à commander des templates, vous avez la possibilité de passer commande pour seulement <?= $priceTemplate.$currency; ?>.<p>
 						<?php } else {
@@ -166,7 +166,7 @@
 					<?php } ?>
 				</div>
 				<footer class="row row-hori-center">
-					<?php if (isset($subscriber)) { ?>
+					<?php if (isset($_SESSION['subscriber'])) { ?>
 						<?php if (isset($payToTemplate)) { ?>
 							<button class="button_default button_secondary" id="payAddOrder">Payer <?= $priceTemplate.$currency; ?></button>
 						<?php } else { ?>

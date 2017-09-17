@@ -242,7 +242,7 @@
 
 					move_uploaded_file($_FILES['file_commande']['tmp_name'], $folder.$_FILES['file_commande']['name']);
 
-					location('user', 'template', "order=valide");
+					location('user', 'template', "notif=0&message=ordervalide");
 					exit(0);
 				}
 			}
@@ -252,7 +252,7 @@
 				if (!isset($err)) {
 					creatOrder($_POST, 1, $chemin, $sessionID);
 				} else {
-					location('user', 'template', 'err='.$err);
+					location('user', 'template', 'notif=1&message=paiement');
 				}
 			} else {
 				if (isset($subscriber)) {
@@ -263,12 +263,12 @@
 					$countUserTemplate = counttable("template_counter", $options);
 
 					if ($countUserTemplate + 1 > intval($_SESSION['subscription']['privateTemplate'])) { 
-						location('user', 'template', 'order=max'); } 
+						location('user', 'template', 'notif=1&message=ordermax'); } 
 					else { 
 						creatOrder($_POST, 0, $chemin, $sessionID, true); 
 					}
 				} else {
-					location('user', 'template', 'order=subscription');
+					location('user', 'template', 'notif=1&message=subscription');
 				}
 			}
 			return;
