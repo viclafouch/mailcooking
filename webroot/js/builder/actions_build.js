@@ -374,6 +374,10 @@ function cancelTemplate(orderID) {
 // Démarrage des modules d'actions du builder
 $(document).ready(function() {
 
+    if (getUrlParameter('action') == 'email_builder') {
+        document.body.setAttribute('data-turbolinks', 'false');
+    }
+
     /* Création du premier élément dans l'historique */
     saveInStack();
 

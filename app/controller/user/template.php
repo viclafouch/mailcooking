@@ -302,9 +302,9 @@
 		}
 
 		$options = array (
-					"wherecolumn" => "user_id", 
-					"wherevalue" => $sessionID
-			);
+			"wherecolumn" => "user_id", 
+			"wherevalue" => $sessionID
+		);
 		$countUserTemplate = counttable("template_counter", $options);
 
 		metadatas('Mes templates', 'Description', 'none');

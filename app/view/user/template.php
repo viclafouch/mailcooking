@@ -50,8 +50,13 @@
 
 			$commande = get_infos(intval($temp["id_template_commande"]));
 
-			$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
-
+			if ($public) {
+				$folder = 'template_public_'.$temp['id_template'];
+				$path = $pathToPublicTemplate.$folder.'/thumbnails/thumbnail.png';
+			} else {
+				$folder = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
+				$path = $chemin.'templates/'.$folder.'/thumbnails/thumbnail.png';
+			}
 				// Compter le nombre de mails utilisés par le template
 				$options = array ("wherecolumn" => "template_id", 
 									"wherevalue" => $temp['id_template']);
@@ -59,7 +64,7 @@
 			?>
 				<li class="row nowrap row-hori-between li_template" data-list-templates data-allow="<?php if ($temp['id_allow'] == 'all') { ?>0<?php } else { ?>1<?php } ?>" data-template="<?= $temp['id_template']; ?>">
 					<div class="row nowrap">
-						<div style="background: url('<?= $chemin.'templates/'.$folder.'/thumbnails/thumbnail.png'; ?>');" data-popup-preview class="col nowrap col_template_thumbs">
+						<div style="background: url('<?= $path; ?>');" data-popup-preview class="col nowrap col_template_thumbs">
 						</div>
 						<div class="col nowrap col_template_descr">
 							<p>

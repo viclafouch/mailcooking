@@ -37,7 +37,7 @@
 		</div>
 		<div class="pannel pannel_body">
 			<div class="col nowrap">
-				<div class="bg_field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between" data-field="email">
 					<div class="col nowrap col-verti-around">
 						<span>Adresse e-mail</span>
 						<?php if (!isset($_SESSION['additional'])) { ?>
@@ -76,7 +76,7 @@
 								</p>
 							</li>
 							<li class="row row-hori-between nowrap">
-								<p><strong><a href="#" title="">Ajouter une adresse email</a></strong></p>
+								<p><a href="#" title="">Ajouter une adresse email</a></p>
 							</li>
 						</ul>
 					</div>
@@ -84,7 +84,7 @@
 				<?php } ?>
 			</div>
 			<div class="col nowrap">
-				<div class="bg_field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between" data-field="password">
 					<div class="col nowrap col-verti-around">
 						<span>Mot de passe</span>
 						<p>Choisissez un mot de passe unique pour protéger votre compte</p>
@@ -97,7 +97,7 @@
 				<div id="password" class="info_accordeon">
 					<div class="col nowrap">
 						<div class="row nowrap sm_field">
-							<p><strong>Votre mot de passe actuel :</strong></p>
+							<p>Votre mot de passe actuel :</p>
 						</div>
 						<ul class="col nowrap sm_field" id="password_list">
 							<li class="row row-hori-between nowrap">
@@ -112,7 +112,7 @@
 			</div>
 			<?php if (!isset($_SESSION['additional'])) { ?>
 			<div class="col nowrap">
-				<div class="bg_field row nowrap row-hori-between">
+				<div class="bg_field row nowrap row-hori-between" data-field="user">
 					<div class="col nowrap col-verti-around">
 						<span>Utilisateurs</span>
 						<p>Ajoutez des d'utilisateurs à votre compte selon votre abonnement.</p>
@@ -144,7 +144,7 @@
 								</li>
 							<?php endforeach ?>
 							<li class="row row-hori-between nowrap">
-								<p><strong><a href="#" data-add="user" title="">Ajouter un utilisateur</a></strong></p>
+								<p><a href="#" data-add="user" title="">Ajouter un utilisateur</a></p>
 							</li>
 						</ul>
 					</div>

@@ -107,7 +107,6 @@
 			);
 
 			$user = selecttable('users_additional', $option);
-
 			if ($user[0]['user_additional_admin_id'] == $sessionID) {
 				$delete = delete_user($id);
 				if (!$delete) { errorAjax('Une erreur est survenue'); return false; }
@@ -172,7 +171,7 @@
 	 *
 	 */
 
-	if (isset($_GET['booking_id'])) {
+	elseif (isset($_GET['booking_id'])) {
 
 		foreach ($MC_subscriptions as $key => $subscription) {
 			if ($_GET['booking_id'] == $subscription['id']) {
