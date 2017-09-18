@@ -165,12 +165,21 @@
 					$newName  = $newPath.explode('/', $src)[4];
 					$copied = copy($src , $newName);
 				} else {
-					$newDom = str_replace($src, "images/".$name_img[5], $dom);
-					$dom = $newDom;
+					if (strpos($src, $pathToPublicTemplate) != 0) {
+						$newDom = str_replace($src, "images/".$name_img[5], $dom);
+						$dom = $newDom;
 
-					$newPath = $path.'/';
-					$newName  = $newPath.explode('/', $src)[5];
-					$copied = copy($src , $newName);
+						$newPath = $path.'/';
+						$newName  = $newPath.explode('/', $src)[5];
+						$copied = copy($src , $newName);
+					} else {
+						$newDom = str_replace($src, "images/".$name_img[3], $dom);
+						$dom = $newDom;
+
+						$newPath = $path.'/';
+						$newName  = explode('/', $src)[3];
+						$copied = copy($src, $newPath.$newName);
+					}
 				}
 			}
 

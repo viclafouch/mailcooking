@@ -769,6 +769,48 @@ nav.navigation form:hover, nav.navigation form.focus {
   border-color: rgba(0, 0, 0, 0.2);
 }
 
+div.popup_mc#stoppedSubscription footer {
+  height: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+div.popup_mc#stoppedSubscription footer p {
+  padding: 5px;
+}
+div.popup_mc#stoppedSubscription button {
+  margin: 10px auto;
+}
+div.popup_mc#stoppedSubscription i {
+  color: #fff;
+  border: 1px solid white;
+  font-size: 10px;
+  padding: 3px;
+  border-radius: 50%;
+}
+div.popup_mc#stoppedSubscription i.ok {
+  background-color: #4CAF50;
+}
+div.popup_mc#stoppedSubscription i.nok {
+  background-color: #F44336;
+}
+div.popup_mc#stoppedSubscription .errorMessage {
+  color: red;
+}
+div.popup_mc#stoppedSubscription .loader {
+  margin-top: 30px;
+}
+
 /*----------  Container  ----------*/
 div.novisible {
   height: 65px;
@@ -1462,47 +1504,6 @@ div.container_template div.list_template > ul div.popup_action_template ul li:ho
 /*----------  Profil  ----------*/
 div.container_profil {
   overflow-y: scroll !important;
-}
-div.container_profil div.popup_mc#stoppedSubscription footer {
-  height: 100px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: column nowrap;
-          flex-flow: column nowrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-div.container_profil div.popup_mc#stoppedSubscription footer p {
-  padding: 5px;
-}
-div.container_profil div.popup_mc#stoppedSubscription button {
-  margin: 10px auto;
-}
-div.container_profil div.popup_mc#stoppedSubscription i {
-  color: #fff;
-  border: 1px solid white;
-  font-size: 10px;
-  padding: 3px;
-  border-radius: 50%;
-}
-div.container_profil div.popup_mc#stoppedSubscription i.ok {
-  background-color: #4CAF50;
-}
-div.container_profil div.popup_mc#stoppedSubscription i.nok {
-  background-color: #F44336;
-}
-div.container_profil div.popup_mc#stoppedSubscription .errorMessage {
-  color: red;
-}
-div.container_profil div.popup_mc#stoppedSubscription .loader {
-  margin-top: 30px;
 }
 div.container_profil div.settings_menu {
   position: relative;

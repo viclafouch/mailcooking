@@ -1842,10 +1842,8 @@ function exportDocument(storageID) {
 
             var fallBackFonts = $(this).css('font-family').split(',');
             familyName = familyName.replace('+', ' ');
-            console.log(familyName);
 
             $(this).css('font-family', fallBackFonts[1]+', '+fallBackFonts[2]+', '+familyName+'');
-            console.log( $(this).css('font-family'));
         }
     });
 

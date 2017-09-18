@@ -11,7 +11,7 @@
 					<h1>Mes emails</h1>
 				</div>
 				<div class="row row-verti-center nowrap">
-					<button class="button_default button_primary">Créer un email</button>
+					<button class="button_default button_primary">Besoin d'aide ?</button>
 				</div>
 			</div>
 		</div>

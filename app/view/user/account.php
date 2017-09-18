@@ -24,9 +24,9 @@
 				<div class="link_block">
 					<a href="#" data-link-profil="sub" title="">Abonnement</a>
 				</div>
-				<div class="link_block">
+				<!-- <div class="link_block">
 					<a href="#" data-link-profil="fac" title="">Factures</a>
-				</div>
+				</div> -->
 				<?php } ?>
 			</div>
 		</div>
@@ -270,53 +270,6 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-	</div>
-	<div class="popup_mc" id="stoppedSubscription">
-		<div class="popup_background"></div>
-		<div class="popup_container">
-			<header>
-				<h1>Votre abonnement</h1>
-			</header>
-			<form method="post" action="?module=user&action=account">
-				<div class="content_block popup-blocks">
-					<div>
-						<div class="field">
-							<div class="oneside aside">
-								<label>Nom de l'abonnement :</label>
-							</div>
-							<div class="overside aside">
-
-								<?php if (isset($_SESSION['subscriber'])): ?>
-								<p><?= $_SESSION['subscription']['name']; ?> <i class="material-icons ok">done</i></p>
-								<?php else: ?>
-								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
-								<?php endif; ?>
-
-							</div>
-						</div>
-						<div class="field">
-							<div class="oneside aside">
-								<label>Date du prochain prévèlement :</label>
-							</div>
-							<div class="overside aside">
-
-								<?php if (isset($_SESSION['subscriber'])): ?>
-								<p><?= date('d/m/Y', $_SESSION['subscriber']['date_end_trial']); ?> <i class="material-icons ok">done</i></p>
-								<?php else: ?>
-								<p>Aucun abonnement <i class="material-icons nok">clear</i></p>
-								<?php endif; ?>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<?php if (isset($_SESSION['subscriber'])): ?>
-				<footer>
-					<button class="button_default button_secondary" id="stopSubscription">Stopper l'abonnement</button>
-				</footer>
-				<?php endif; ?>
-			</form>
 		</div>
 	</div>
 	<?php } ?>

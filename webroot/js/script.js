@@ -94,6 +94,11 @@ $(document).on('click', '[data-btn-upgrade], [data-btn-subscribe]', function(eve
 	});
 });
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 function stripe_subscription(booking_id, action) {
 	var handler = StripeCheckout.configure({
 		key: publicKey,
@@ -305,9 +310,20 @@ document.addEventListener("turbolinks:load", function(e) {
 			return false;
 		}, false);
 
+		document.querySelectorAll('[data-link]').forEach( function(element, index) {
+			element.addEventListener('click', function(e){
+				var url = this.getAttribute('data-link');
+				Turbolinks.visit(url);
+			}, false);
+		});
+
 		document.querySelectorAll('[data-popup-preview]').forEach( function(element, index) {
 			element.addEventListener('click', function(e) {
-				let elementLi = this.parentElement.parentElement;
+				if (this.nodeName.toLowerCase() == 'li') {
+					var elementLi = parents(this)[3];
+				} else {
+					var elementLi = parents(this)[1];
+				}
 				let elementLiId = elementLi.getAttribute('data-template');
 				let elementLiAllow = elementLi.getAttribute('data-allow');
 				let popupPreview = document.getElementById('templatePreview');
@@ -1611,6 +1627,8 @@ document.addEventListener("turbolinks:load", function(e) {
 												});
 											}).promise().done(function () { 
 												dom = $('#addTemplatePublic .content_block').html();
+												dom = dom.replaceAll('/preview/', '/template_public_'+templateID+'/images/');
+												console.log(dom);
 											    $.ajax({
 								                    type: "POST",
 								                    data: {templateID: templateID, DOM: dom},

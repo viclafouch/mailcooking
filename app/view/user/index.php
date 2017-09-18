@@ -11,7 +11,7 @@
 					<h1>Tableau de bord</h1>
 				</div>
 				<div class="row row-verti-center nowrap">
-					<button class="button_default button_primary">Créer un email</button>
+					<a class="button_default button_primary button_href" data-turbolinks="false" href="./">Quitter l'application</a>
 				</div>
 			</div>
 		</div>
@@ -25,11 +25,11 @@
 							<i class="material-icons">add_shopping_cart</i>
 						</div>
 						<div class="col nowrap square_name col-verti-center">
-							<span class="square_count">25</span>
-							<p class="square_subject">Commandes en cours</p>
+							<span class="square_count"><?= $totalP; ?></span>
+							<p class="square_subject">Template disponibles</p>
 						</div>
 					</div>
-					<footer class="square_footer row row-hori-between row-verti-center">
+					<footer class="square_footer row row-hori-between row-verti-center" data-link="?module=user&action=template">
 						<p>Voir les détails</p>
 						<i class="material-icons">arrow_forward</i>
 					</footer>
@@ -40,11 +40,17 @@
 							<i class="material-icons">stars</i>
 						</div>
 						<div class="col nowrap square_name col-verti-center">
-							<span class="square_count">1</span>
-							<p class="square_subject">Abonnement tip</p>
+							<?php if (isset($_SESSION['subscriber'])): ?>
+								<span class="square_count">1</span>
+								<p class="square_subject"><?= $_SESSION['subscription']['name']; ?></p>
+							<?php else: ?>
+								<span class="square_count">0</span>
+								<p class="square_subject">Aucun abonnement</p>
+							<?php endif ?>
+						
 						</div>
 					</div>
-					<footer class="square_footer row row-hori-between row-verti-center">
+					<footer class="square_footer row row-hori-between row-verti-center" data-popup="stoppedSubscription">
 						<p>Voir les détails</p>
 						<i class="material-icons">arrow_forward</i>
 					</footer>
@@ -55,11 +61,11 @@
 							<i class="material-icons">email</i>
 						</div>
 						<div class="col nowrap square_name col-verti-center">
-							<span class="square_count">42</span>
+							<span class="square_count"><?= $Eperso ?></span>
 							<p class="square_subject">Emails</p>
 						</div>
 					</div>
-					<footer class="square_footer row row-hori-between row-verti-center">
+					<footer class="square_footer row row-hori-between row-verti-center" data-link="?module=user&action=emails">
 						<p>Voir les détails</p>
 						<i class="material-icons">arrow_forward</i>
 					</footer>

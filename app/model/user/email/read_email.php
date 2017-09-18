@@ -1,17 +1,13 @@
 <?php 
 
-	function read_email($id)			
-	{
+	function read_email($id) {
 		global $connexion;
 
-		try 
-		{
-			// On voit la requête
+		try {
 			$query = $connexion->prepare('SELECT * 
 											FROM template_mail
 												WHERE id_template=:id');
 
-			// On initialise le paramètre
 			$query->bindParam(':id', $id, PDO::PARAM_INT);
 
 			$query->execute();
@@ -21,8 +17,7 @@
 			return $email;
 		}
 		
-		catch (Exception $e) 
-		{
+		catch (Exception $e) {
 			die("Erreur SQL : " . $e->getMessage());
 		}
 	}
