@@ -65,15 +65,28 @@ Une fois que avez cloné le dossier sur votre serveur local, munissez-vous de vo
 Composer install
 ```
 
-Pour ce qui est du préprocesseur __SASS__, l'installation de [COMPASS](http://compass-style.org/) est donc obligatoire, démarrez donc votre compilateur via la commande :
+Pour ce qui est de Gulp, car oui, le site est entièrement automatisé via Gulp (minification / optimisation / compression / concaténation / compilation et autres mots en tion). Munissez-vous de votre terminal et tapez la commande suivante : 
+
 ```
-Compass watch
+npm install
 ```
+
+Si tout s'est bien passé durant l'installation des paquets de Gulp, démarrez-le à l'aide de la commande suivante : 
+
+```
+gulp
+```
+
+Si erreur, me contacter. Je pense qu'un paquet doit s'installer sur votre ordinateur complet, mais je ne sais plus lequel.
 
 Durant votre optimisation, des envoie d'emails vont être nécessaire. Assurez-vous donc d'avoir un __serveur mail opérationnel__. 
 Pour Mac, tout est déjà installé dans votre serveur local __Mamp__ (il y a peut etre des paramètres à changer...). Pour les Windowsiens, il existe __sendMail__, je vous laisse donc suivre [ce petit tutoriel](https://www.grafikart.fr/blog/mail-local-wamp) pour l'installation de l'application.
 
 Et voilà, vous êtes prêt pour optimiser Mailcooking, n'oubliez d'y __inclure la base de données__ ;)
+
+### Configurations
+
+Un fichier de configuration est disponible dans app/config/config.inc.php permettant de modifier un abonnement, un chemin de dossier ou encore les clés de Stripe.
 
 ### Stripe
 
@@ -86,12 +99,12 @@ Les __clefs publiques & privées__ du site sont des clefs de test. Il ne faudra 
 Les clefs sont : 
 
 ```php
-$stripe = array(
-"secret_key"      => getenv('sk_test_PS2zQTpRTNObBqwvbCkMtC8p'),
-"publishable_key" => getenv('pk_test_jdtjz4b05ADqlx5k093fsmgK')
+$stripeKeys = array(
+  "secret_key"      => 'sk_test_PS2zQTpRTNObBqwvbCkMtC8p',
+  "publishable_key" => 'pk_test_jdtjz4b05ADqlx5k093fsmgK'
 );
 
-\Stripe\Stripe::setApiKey("sk_test_PS2zQTpRTNObBqwvbCkMtC8p");
+\Stripe\Stripe::setApiKey($stripeKeys['secret_key']);
 ```
 
 Elles peuvent être également trouvées sur [API Keys - Stripe Dashboard](https://dashboard.stripe.com/account/apikeys)
