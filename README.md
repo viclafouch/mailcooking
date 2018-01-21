@@ -121,7 +121,7 @@ Vous pouvez me contacter par __tel ou par mail__ (JC & Antoine ont mes coordonn�
 
 ## Versioning
 
-La version finalisée par Victor de la Fouchardière se trouve ici : https://github.com/viclafouch/mailcooking/releases/tag/v1
+La version finalisée par Victor de la Fouchardière se trouve ici : https://github.com/viclafouch/mailcooking/releases/tag/v1.1
 
 ## Conclusion
 
