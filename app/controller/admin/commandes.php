@@ -20,7 +20,6 @@
 	 */
 	
 	if (!empty($_POST)) {
-
 		/**
 		 *
 		 * Valeur en cours : 1
@@ -146,17 +145,21 @@
 		 *
 		 */
 		
-		elseif (isset($_POST['testEmail'])) {
-
-			$options = array( 	"wherecolumn"	=>	"id_template_commande",
-								"wherevalue"	=>	$_POST['testEmail']);
-	
+		elseif (isset($_POST['testemail'])&&isset($_POST['commandevspublic'])) {
+			if($_POST['commandevspublic'] == 'commande'){
+				$options = array("wherecolumn"	=>	"id_template_commande",
+								"wherevalue"	=>	$_POST['testemail']);
+			}
+			else{
+				$options = array( "wherecolumn"	=>	"id_template",
+								"wherevalue"	=>	$_POST['testemail']);
+			}
 			$commande = selecttable("template_mail", $options);
 
 			include_once('app/model/user/email/insert_email.php');
-
+			
 			$id_mail = new_email($commande[0]['id_template'], $_SESSION["user"]["user_id"], $commande[0]['DOM']);
-
+			
 			if ($id_mail) {
 
 				$options = array( 	
@@ -165,7 +168,6 @@
 					"limit" => 1);
 
 				$email = selecttable("mail_editor", $options);
-
 				$timestamp = new DateTime($email[0]['timestamp']);
 				$email_date = $timestamp->format('d-m-Y');
 				
@@ -174,8 +176,8 @@
 				@mkdir($chemin.'emails/'.$new_folder."", 0777, true);
 
 			}
-
-			echo $id_mail; 
+			// echo $new_folder;
+			echo $id_mail;
 		}
 
 		/**
@@ -188,68 +190,84 @@
 		 */
 		
 		elseif (isset($_POST['cancelUpload'])) {
-			$orderID = $_POST['cancelUpload'];
-			include_once('app/model/user/template/valide_order.php');
-	
-			$commande = get_infos(intval($orderID));
+			if($_POST['comOrPub'] == 'commande'){
+				$orderID = $_POST['cancelUpload'];
+				include_once('app/model/user/template/valide_order.php');
+		
+				$commande = get_infos(intval($orderID));
 
-			include_once('app/model/admin/update_commande.php');
+				include_once('app/model/admin/update_commande.php');
 
-			$update = update_commande($orderID, 1);
-
-			$id_user = $commande[0]["id_user"];
-			$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
-			$chemin = "client/".$id_user."_".$societe_user."/";
-
-			$template = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
-
-			$path = $chemin.'templates/'.$template;
-
-			if (file_exists($path.'/images')) {
-				removeFiles(glob($path.'/images/*'));
-				rmdir($path.'/images');
-			}
-			if (file_exists($path.'/thumbnails')) {
-				removeFiles(glob($path.'/thumbnails/*'));
-				rmdir($path.'/thumbnails');
-			}
-			if (file_exists($path)) {
-				removeFiles(glob($path));
-				rmdir($path);
-			}
-
-			$template = selecttable('template_mail', 
-				array(	'wherecolumn' 	=> 	'id_template_commande',
-						'wherevalue'	=>	$commande[0]["id_commande"]
-			));
-
-			$email = selecttable('mail_editor', 
-				array(	'wherecolumn' 	=> 	'template_id',
-						'wherevalue'	=>	$template[0]["id_template"]
-			));
-
-			include_once('app/model/user/email/delete_email.php');
-
-			foreach ($email as $key => $value) {
-				$path = $chemin.'emails/';
-				$timestamp = new DateTime($value['timestamp']);
-				$email_date = $timestamp->format('d-m-Y');
+				$update = update_commande($orderID, 1);
 				
-				$folder = ''.$value['id_mail'].'_'.$email_date.'';
-				$path = $path.$folder;
+				$id_user = $commande[0]["id_user"];
+				$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
+				$chemin = "client/".$id_user."_".$societe_user."/";
+					
+				$template = $commande[0]["id_commande"].'_'.substr(str_replace(' ', '_', $commande[0]["nom_commande"]),0,15);
+				
+				$path = $chemin.'templates/'.$template;
+
+				if (file_exists($path.'/images')) {
+					removeFiles(glob($path.'/images/*'));
+					rmdir($path.'/images');
+				}
+				if (file_exists($path.'/thumbnails')) {
+					removeFiles(glob($path.'/thumbnails/*'));
+					rmdir($path.'/thumbnails');
+				}
+				if (file_exists($path)) {
+					removeFiles(glob($path));
+					rmdir($path);
+				}
+
+				$template = selecttable('template_mail', 
+					array(	'wherecolumn' 	=> 	'id_template_commande',
+							'wherevalue'	=>	$commande[0]["id_commande"]
+				));
+
+				$email = selecttable('mail_editor', 
+					array(	'wherecolumn' 	=> 	'template_id',
+							'wherevalue'	=>	$template[0]["id_template"]
+				));
+
+				include_once('app/model/user/email/delete_email.php');
+
+				foreach ($email as $key => $value) {
+					$path = $chemin.'emails/';
+					$timestamp = new DateTime($value['timestamp']);
+					$email_date = $timestamp->format('d-m-Y');
+					
+					$folder = ''.$value['id_mail'].'_'.$email_date.'';
+					$path = $path.$folder;
+
+					if (file_exists($path)) {
+						removeFiles(glob($path.'/*'));
+						rmdir($path);
+					}
+					delete_email($value['id_mail'], $_SESSION['user']['user_id']);
+				}
+
+				include_once('app/model/user/template/delete_template.php');
+			
+			delete_template($orderID);
+			echo '?module=admin&action=commandes';
+			}
+			else{
+				$orderID = $_POST['cancelUpload'];
+				include_once('app/model/user/template/delete_template_from_id.php');
+	
+				delete_template_from_id($orderID);
+						
+					
+				$path = 'template_public_'.$orderID;
 
 				if (file_exists($path)) {
 					removeFiles(glob($path.'/*'));
 					rmdir($path);
 				}
-				delete_email($value['id_mail'], $_SESSION['user']['user_id']);
+				echo '?module=admin&action=templates';
 			}
-
-			include_once('app/model/user/template/delete_template.php');
-
-			delete_template($orderID);
-
-			echo '?module=admin&action=commandes';
 		}
 
 		/**
@@ -262,37 +280,37 @@
 		 */
 		
 		elseif (isset($_POST['valideTemplate'])) {
-
 			$orderID = $_POST['valideTemplate'];
-			
-			include_once('app/model/user/template/valide_order.php');
+
+			if($_POST['comOrPub'] == 'commande'){
+				include_once('app/model/user/template/valide_order.php');
 	
-			$commande = get_infos(intval($orderID));
+				$commande = get_infos(intval($orderID));
+	
+				include_once('app/model/admin/update_commande.php');
+	
+				$update_order = update_commande($orderID, 3);	
+			
 
-			include_once('app/model/admin/update_commande.php');
+				include_once('app/model/user/template/update_template.php');
 
-			$update_order = update_commande($orderID, 3);
-
-			include_once('app/model/user/template/update_template.php');
-
-			$update_template = update_template($orderID, 1);
-
-			$template = selecttable('template_mail', 
-				array(	'wherecolumn' 	=> 	'id_template_commande',
-						'wherevalue'	=>	$commande[0]["id_commande"]
-			));
-
-			$email = selecttable('mail_editor', 
+				$update_template = update_template($orderID, 1);
+			
+				$template = selecttable('template_mail', 
+					array(	'wherecolumn' 	=> 	'id_template_commande',
+							'wherevalue'	=>	$commande[0]["id_commande"]
+				));
+				$email = selecttable('mail_editor', 
 				array(	'wherecolumn' 	=> 	'template_id',
 						'wherevalue'	=>	$template[0]["id_template"]
 			));
-
+			
 			include_once('app/model/user/email/delete_email.php');
-
+			
 			$id_user = $commande[0]["id_user"];
 			$societe_user = mb_strtolower(substr($commande[0]["societe"], 0, 3));
 			$chemin = "client/".$id_user."_".$societe_user."/";
-
+		
 			foreach ($email as $key => $value) {
 				$path = $chemin.'emails/';
 				$timestamp = new DateTime($value['timestamp']);
@@ -307,7 +325,17 @@
 				}
 				delete_email($value['id_mail'], $_SESSION['user']['user_id']);
 			}
-			echo '?module=admin&action=commandes';		
+			
+			echo '?module=admin&action=commandes';	
+				
+			}
+			else{
+				include_once('app/model/user/template/update_template_from_id.php');
+
+				$update_template_from_id = update_template_from_id($orderID, 1);
+
+				echo '?module=admin&action=templates';
+			}
 		}
 		
 		/**

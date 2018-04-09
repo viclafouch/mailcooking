@@ -1,6 +1,6 @@
 <?php 
 	// Appel du layout header
-	include("app/view/layout/user/header.php"); 
+	include("app/view/layout/user/header.php");
 ?>
 
 <div class="container container_builder">
@@ -9,12 +9,16 @@
 			<div id="storage_template" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['DOM'])); ?></div>
 			<div id="storage_medias" style="display: none;"><?php echo htmlspecialchars_decode(html_entity_decode($template[0]['medias'])); ?></div>
 			<div id="storage_email_to_export" style="display: none"></div>
-
 			<header class="header_builder header_builder_left row row-verti-center row-hori-between nowrap">
 				<?php if ($template[0]['statut'] == 0 && $_SESSION['user']['valide'] == 2) { ?>
 					<div class="row row-hori-center">
-						<span data-template="<?= $template[0]['id_template_commande']; ?>" class="btn_Test_template" id="valideTemplate"><i class="material-icons">done</i> <span>Valider</span></span>
-						<span data-template="<?= $template[0]['id_template_commande']; ?>" class="btn_Test_template" id="cancelTemplate"><i class="material-icons">clear</i> <span>Annuler</span></span>
+						<?php if  ($template[0]['id_template_commande']) {?>
+							<span data-templatecommande="<?= $template[0]['id_template_commande']; ?>" class="btn_Test_template" id="valideTemplate"><i class="material-icons">done</i> <span>Valider</span></span>
+							<span data-templatecommande="<?= $template[0]['id_template_commande']; ?>" class="btn_Test_template" id="cancelTemplate"><i class="material-icons">clear</i> <span>Annuler</span></span>
+						<?php } else{ ?>
+							<span data-templatepublic="<?= $template[0]['id_template']; ?>" class="btn_Test_template" id="valideTemplate"><i class="material-icons">done</i> <span>Valider</span></span>
+							<span data-templatepublic="<?= $template[0]['id_template']; ?>" class="btn_Test_template" id="cancelTemplate"><i class="material-icons">clear</i> <span>Annuler</span></span>
+						<?php } ?>
 					</div>
 					<input id="documentTitle" style="display: none;" value='<?= htmlspecialchars($mail[0]['email_name']); ?>'/>
 				<?php } else { ?>
@@ -27,7 +31,22 @@
 						<?php if (is_null($mail[0]['saved_by'])) {
 							echo "Jamais sauvegardé";
 						} else {
-							echo "Dernière modification effectuée par ".htmlspecialchars($mail[0]['saved_by'])."";
+							if ($mail[0]['as_campaign'] == 0) {
+								echo "Dernière modification effectuée par ".htmlspecialchars($mail[0]['saved_by'])."";
+							}
+							else{
+								$date = explode('-', substr(htmlspecialchars($mail[0]['date_export']),0, 10));
+								$formatedDate = $date[2] .'/'. $date[1] .'/'. $date[0];
+								if($mail[0]['export_type'] == 'toApi'){
+									echo "Campagne poussée vers le routeur le ".$formatedDate." par ".htmlspecialchars($mail[0]['saved_by'])."";
+								}
+								elseif($mail[0]['export_type'] == 'download'){
+									echo "Campagne téléchargée le ".$formatedDate." par ".htmlspecialchars($mail[0]['saved_by'])."";
+								}
+								else{
+									echo "Dernière modification effectuée par ".htmlspecialchars($mail[0]['saved_by'])."";
+								}
+							}
 						} ?>
 					</p>
 					<?php } ?>
@@ -40,6 +59,7 @@
 					<span class="icon-action" id="mobileView"><i class="material-icons">phone_iphone</i></span>
 					<span class="icon-action" id="saveDocument"><i class="material-icons">save</i></span>						
 					<span class="icon-action" id="exportDocument"><i class="material-icons">file_download</i></span>
+					<span class="icon-action" id="pushToApi"><i class="material-icons">airplay</i></span>
 				</div>
 			</header>
 			<div class="content_email">
@@ -71,17 +91,29 @@
 								</div>
 							</div>
 						</div>
+						<div id="color-link" class="field_item_sidebar" data-display-text>
+							<div class="col nowrap">
+								<label>Couleur des liens</label>
+								<div class="item">
+									<input type="text" data-change="color-link" spellcheck="false" autocomplete="off" value="#ffffff" class="choose_color" />
+								</div>
+							</div>
+						</div>
 						<div id="font-family" class="field_item_sidebar" data-display-text data-display-cta>
 							<div class="col nowrap">
 								<label>Police</label>
 								<select data-change="font-family">
 									<option value="Arial" id="Arial">Arial</option>
-									<option value="Open Sans" id="Open+Sans">Open Sans</option>
-									<option value="Roboto" id="Roboto">Roboto</option>
-									<option value="Lato" id="Lato">Lato</option>
-									<option value='Montserrat' id="Montserrat">Montserrat</option>
-									<option value="Lobster" id="Lobster">Lobster</option>
-									<option value="Kaushan Script" id="Kaushan+Script">Kaushan Script</option>
+									<?php
+										foreach ($MC_fontArray as $key => $font) {
+											foreach ($googleFonts as $key => $googleFont) {
+												if($font == $googleFont['font_name']){
+													$backUpFont = $googleFont['backup_font'];
+												}
+											}
+											echo'<option value="'.$font.'" id="'.str_replace("","+",$font).'" data-backup="'.$backUpFont.'">'.$font.'</option>';
+										}
+									?>
 								</select>
 							</div>
 						</div>
@@ -253,6 +285,75 @@
 			<p>Merci de patienter...</p>
 		</div>
 	</div>
+
+		<div class="popup_mc" id="popupApi">
+			<div class="popup_background"></div>
+			<div class="popup_container">
+			<?php if($apis){ ?>
+				<header><h1>WELCOME BRO</h1></header>
+				<form method="post" class="active" id="apiForm" enctype="multipart/form-data">
+					<div class="content_block popup-blocks">
+						<div class="field">
+							<div class="oneside aside">
+								<label for="templateName">Selectionner l'API : </label>
+							</div>
+							<div class="overside aside">
+								<p>
+									<select id="api_list" required>
+										<option selected disabled value="">Selectionner l'API</option>
+										<?php foreach ($apis as $key => $api): ?>
+											<option data-mirror="<?php echo $api["mirror"] ?>" data-unsub="<?php echo $api["unsub"] ?>" value="<?php echo $api["api_id"] ?>"><?php echo $api["router_name"] .'-'. substr($api["api_info"]["api_key"], 0, 10) .'...';  ?></option>
+										<?php endforeach ?>
+									</select>
+								</p>
+							</div>
+						</div>
+						<div class="field">
+							<div class="oneside aside">
+								<label for="templateName">Objet de la campagne : </label>
+							</div>
+							<div class="overside aside">
+								<p>
+									<input id="subject" type="text" autocomplete="off" spellcheck="false" name="object"  placeholder="<?php echo htmlspecialchars($mail[0]['email_name']) ?>" required="required">
+								</p>
+							</div>
+						</div>
+					</div>
+					<footer class="row row-hori-center">
+						<button data-step="getList" type="submit" class="button_default button_secondary">Etape suivante</button>
+					</footer>
+				</form>
+				<?php }else{ ?>
+					<header><h1>OUPS</h1></header>
+					<div class="content_block popup-blocks">
+						<div class="field" style="text-align:center;padding:40px">
+							<p>
+								<?php
+									if($_SESSION['subscriber']['plan'] == 1){
+										echo "Désolé cette fonctionnalité n'est pas disponible avec votre abonnement";
+									}
+									else{
+										echo "Vous n'avez encore configuré aucun API";
+									}								
+								?>
+							</p>
+						</div>
+					</div>
+					<footer class="row row-hori-center">
+						<a href="?module=user&action=account" class="button_default button_secondary button_href">
+								<?php
+									if($_SESSION['subscriber']['plan'] == 1){
+										echo "Changer d'abonnement";
+									}
+									else{
+										echo "Configurer un API";
+									}								
+								?>
+						</a>
+					</footer>
+				<?php } ?>
+			</div>
+		</div>
 </div>
 <?php 
 	// Appel du layout footer

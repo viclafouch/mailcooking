@@ -60,26 +60,33 @@
 
 			if (isset($_POST['stripePlan'])) {
 				$plan = $_POST['stripePlan'];
+
 				if ($plan == 1) {
 					$sub = \Stripe\Subscription::create(array(
-					  	"customer" => $customer->id,
-					  	"plan" => "tip",
+						"customer" => $customer->id,
+						"plan" => "tip",
+						"metadata" => array("name" => 'Abonnement plan tip'),
+						'tax_percent' => 20,
 					));
 					if ($sub) { $validation = 1; } 
 					else { die('Une erreur est survenue'); }
 				}
 				elseif ($plan == 2) {
 					$sub = \Stripe\Subscription::create(array(
-					  	"customer" => $customer->id,
-					  	"plan" => "top",
+						"customer" => $customer->id,
+						"plan" => "top",
+						"metadata" => array("name" =>'Abonnement plan top'),
+						'tax_percent' => 20,
 					));
 					if ($sub) { $validation = 2; } 
 					else { die('Une erreur est survenue'); }
 				}
 				elseif ($plan == 3) {
 					$sub = \Stripe\Subscription::create(array(
-					  	"customer" => $customer->id,
-					  	"plan" => "tiptop",
+						"customer" => $customer->id,
+						"plan" => "tiptop",
+						"metadata" => array("name" => 'Abonnement plan tip top'),
+						'tax_percent' => 20,
 					));
 					if ($sub) { $validation = 3; } 
 					else { die('Une erreur est survenue'); }
@@ -131,9 +138,10 @@
 			$id_subscription = $sub->id;
 			$id_user = $sessionID;
 			$period_end = $sub->current_period_end;
+			$status_stripe = $sub->status;
 
 			include_once('app/model/user/account/payment/subscribe.php');
-			$subscribe = subscribe($id_user, $id_costumer, $id_subscription, $validation, $period_end);
+			$subscribe = subscribe($id_user, $id_costumer, $id_subscription, $validation, $period_end, $status_stripe);
 
 			if ($subscribe) {
 				location('user', 'account', 'plan='.$validation);

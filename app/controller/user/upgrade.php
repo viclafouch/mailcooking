@@ -24,7 +24,7 @@
 	 *
 	 */
 
-	if (isset($_POST['stripeToken'])) {
+	if (isset($_POST['plan'])) {
 		
 		try {
 
@@ -35,43 +35,50 @@
 			 *
 			 */
 
-			$token  = $_POST['stripeToken'];
+			// $token  = $_POST['stripeToken'];
 
 			$option = array( 
 				'wherecolumn' 	=> 	'user_id',
 				'wherevalue'	=>	$sessionID,
 			);
 
+			$newPlan = $_POST['plan'];
+			$subscription_proration_date = $_POST['plasubscription_proration_daten'];
+			// echo 'le plan est '.$newPlan; 
+
 			$sub = selecttable('subscribers', $option);	
 
 			if ($sub) {
-
 				$subscriptionStripe = \Stripe\Subscription::retrieve($sub[0]['subscription_id']);
-
-				if ($subscriptionStripe && isset($_POST['stripePlan'])) {
-					$plan = $_POST['stripePlan'];
-
+				
+				if ($subscriptionStripe) {
 					foreach ($MC_subscriptions as $key => $subscription) {
-						if ($plan == $subscription['id']) { 
-							$subscriptionStripe->plan = $subscription['StripeID']; 
-							$subscriptionStripe->save();
+						if ($newPlan == $subscription['id']) {
+							\Stripe\Subscription::update($sub[0]['subscription_id'], [
+								'items' => [
+									[
+										'id' => $subscriptionStripe->items->data[0]->id,
+										'plan' => $subscription['StripeID'],
+									],
+								],
+								'proration_date' => $subscription_proration_date,
+							]);
 						}
 					}
 				}
 
 				include_once('app/model/user/account/payment/upgrade.php');
-				$upgrade = upgrade($sessionID, $plan);
+				$upgrade = upgrade($sessionID, $newPlan);
 
 				/* Supprime les users additionnels */
-				if ($sub[0]['plan'] > $plan) {
-
+				if ($sub[0]['plan'] > $newPlan) {
 					include_once('app/model/user/account/payment/delete_users_add.php');
 					delete_users($sessionID);
-
+					delete_api($sessionID);
 				}
 
 				if ($upgrade) {
-					location('user', 'account', 'plan='.$plan);
+					location('user', 'account', 'plan='.$newPlan);
 				}
 			}
 			

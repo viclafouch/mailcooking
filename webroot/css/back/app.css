@@ -378,6 +378,10 @@ p, input, span, a {
   outline: none;
 }
 
+#storage_email a {
+  font-size: inherit;
+}
+
 /*----------  Progress bar  ----------*/
 .turbolinks-progress-bar {
   height: 5px;
@@ -811,6 +815,56 @@ div.popup_mc#stoppedSubscription .loader {
   margin-top: 30px;
 }
 
+/*----------  defaut_paiement  ----------*/
+#defaut_paiement {
+  text-align: center;
+  background: rgba(6, 118, 178, 0.8);
+  position: fixed;
+  bottom: 20px;
+  left: 10%;
+  width: 80%;
+  z-index: 9999;
+  padding: 10px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+#defaut_paiement > * {
+  margin: 5px 0;
+}
+#defaut_paiement h3 {
+  color: white;
+  font-size: 28px;
+  font-family: 'bariolbold';
+}
+#defaut_paiement p {
+  color: white;
+}
+#defaut_paiement button {
+  margin-left: 0 auto;
+  margin-right: 0 auto;
+  background: #FF3B49;
+}
+#defaut_paiement i {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  color: white;
+}
+
 /*----------  Container  ----------*/
 div.novisible {
   height: 65px;
@@ -982,16 +1036,16 @@ div.popup_mc > div.popup_container > header h1 {
   font-size: 28px;
   text-transform: uppercase;
 }
-div.popup_mc > div.popup_container > form {
+div.popup_mc > div.popup_container > form, div.popup_mc > div.popup_container .contain-pop {
   background-color: #fff;
 }
-div.popup_mc > div.popup_container > form.active {
+div.popup_mc > div.popup_container > form.active, div.popup_mc > div.popup_container .contain-pop.active {
   display: block;
 }
-div.popup_mc > div.popup_container > form.noactive {
+div.popup_mc > div.popup_container > form.noactive, div.popup_mc > div.popup_container .contain-pop.noactive {
   display: none;
 }
-div.popup_mc > div.popup_container > form div.field {
+div.popup_mc > div.popup_container > form div.field, div.popup_mc > div.popup_container .contain-pop div.field {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1011,7 +1065,7 @@ div.popup_mc > div.popup_container > form div.field {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-div.popup_mc > div.popup_container > form div.field .aside {
+div.popup_mc > div.popup_container > form div.field .aside, div.popup_mc > div.popup_container .contain-pop div.field .aside {
   width: 50%;
   height: 100%;
   display: -webkit-box;
@@ -1029,16 +1083,16 @@ div.popup_mc > div.popup_container > form div.field .aside {
           align-items: center;
   text-align: left;
 }
-div.popup_mc > div.popup_container > form div.field .aside label, div.popup_mc > div.popup_container > form div.field .aside p {
+div.popup_mc > div.popup_container > form div.field .aside label, div.popup_mc > div.popup_container > form div.field .aside p, div.popup_mc > div.popup_container .contain-pop div.field .aside label, div.popup_mc > div.popup_container .contain-pop div.field .aside p {
   width: 100%;
 }
-div.popup_mc > div.popup_container > form div.field .aside.overside p {
+div.popup_mc > div.popup_container > form div.field .aside.overside p, div.popup_mc > div.popup_container .contain-pop div.field .aside.overside p {
   text-align: center;
 }
-div.popup_mc > div.popup_container > form div.field .aside.oneside p, div.popup_mc > div.popup_container > form div.field .aside.oneside label {
+div.popup_mc > div.popup_container > form div.field .aside.oneside p, div.popup_mc > div.popup_container > form div.field .aside.oneside label, div.popup_mc > div.popup_container .contain-pop div.field .aside.oneside p, div.popup_mc > div.popup_container .contain-pop div.field .aside.oneside label {
   margin: 0;
 }
-div.popup_mc > div.popup_container > form p, div.popup_mc > div.popup_container > form label, div.popup_mc > div.popup_container > form input, div.popup_mc > div.popup_container > form textarea {
+div.popup_mc > div.popup_container > form p, div.popup_mc > div.popup_container > form label, div.popup_mc > div.popup_container > form input, div.popup_mc > div.popup_container > form textarea, div.popup_mc > div.popup_container .contain-pop p, div.popup_mc > div.popup_container .contain-pop label, div.popup_mc > div.popup_container .contain-pop input, div.popup_mc > div.popup_container .contain-pop textarea {
   color: #444;
   font-size: 16px;
   margin: 0;
@@ -1047,10 +1101,10 @@ div.popup_mc > div.popup_container > form p, div.popup_mc > div.popup_container 
   box-sizing: border-box;
   position: relative;
 }
-div.popup_mc > div.popup_container > form p:-webkit-autofill, div.popup_mc > div.popup_container > form label:-webkit-autofill, div.popup_mc > div.popup_container > form input:-webkit-autofill, div.popup_mc > div.popup_container > form textarea:-webkit-autofill {
+div.popup_mc > div.popup_container > form p:-webkit-autofill, div.popup_mc > div.popup_container > form label:-webkit-autofill, div.popup_mc > div.popup_container > form input:-webkit-autofill, div.popup_mc > div.popup_container > form textarea:-webkit-autofill, div.popup_mc > div.popup_container .contain-pop p:-webkit-autofill, div.popup_mc > div.popup_container .contain-pop label:-webkit-autofill, div.popup_mc > div.popup_container .contain-pop input:-webkit-autofill, div.popup_mc > div.popup_container .contain-pop textarea:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #fff inset;
 }
-div.popup_mc > div.popup_container > form input, div.popup_mc > div.popup_container > form textarea {
+div.popup_mc > div.popup_container > form input, div.popup_mc > div.popup_container > form textarea, div.popup_mc > div.popup_container .contain-pop input, div.popup_mc > div.popup_container .contain-pop textarea {
   outline: 0;
   width: 100%;
   border-bottom: 1px solid #999999;
@@ -1059,21 +1113,21 @@ div.popup_mc > div.popup_container > form input, div.popup_mc > div.popup_contai
   resize: none;
   background-color: transparent;
 }
-div.popup_mc > div.popup_container > form input:focus, div.popup_mc > div.popup_container > form input:valid, div.popup_mc > div.popup_container > form textarea:focus, div.popup_mc > div.popup_container > form textarea:valid {
+div.popup_mc > div.popup_container > form input:focus, div.popup_mc > div.popup_container > form input:valid, div.popup_mc > div.popup_container > form textarea:focus, div.popup_mc > div.popup_container > form textarea:valid, div.popup_mc > div.popup_container .contain-pop input:focus, div.popup_mc > div.popup_container .contain-pop input:valid, div.popup_mc > div.popup_container .contain-pop textarea:focus, div.popup_mc > div.popup_container .contain-pop textarea:valid {
   color: #444;
 }
-div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar {
+div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar, div.popup_mc > div.popup_container .contain-pop textarea::-webkit-scrollbar {
   width: 9px;
 }
-div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-track {
+div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-track, div.popup_mc > div.popup_container .contain-pop textarea::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 50px;
 }
-div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-thumb {
+div.popup_mc > div.popup_container > form textarea::-webkit-scrollbar-thumb, div.popup_mc > div.popup_container .contain-pop textarea::-webkit-scrollbar-thumb {
   border-radius: 50px;
   background: #aaaaaa;
 }
-div.popup_mc > div.popup_container > form#formConfirmationAddOrder > div.field {
+div.popup_mc > div.popup_container > form#formConfirmationAddOrder > div.field, div.popup_mc > div.popup_container .contain-pop#formConfirmationAddOrder > div.field {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1088,7 +1142,7 @@ div.popup_mc > div.popup_container > form#formConfirmationAddOrder > div.field {
       -ms-flex-align: center;
           align-items: center;
 }
-div.popup_mc > div.popup_container > form#formConfirmationAddOrder > div.field p {
+div.popup_mc > div.popup_container > form#formConfirmationAddOrder > div.field p, div.popup_mc > div.popup_container .contain-pop#formConfirmationAddOrder > div.field p {
   text-align: center;
 }
 
@@ -1905,10 +1959,26 @@ div.container_profil table.table_fac i {
   color: #444;
   cursor: pointer;
 }
+.container_emails .pannel_title button.selection {
+  margin: 10px 5px;
+  padding: 10px;
+  min-width: 140px;
+  background-color: #757575;
+}
+.container_emails .pannel_title button.selection i {
+  color: #fff;
+  padding-right: 10px;
+}
+.container_emails .pannel_title button.active {
+  background-color: #FF3B49;
+}
 .container_emails .emails_list {
   padding: 15px 0;
   overflow-x: hidden;
-  height: 150px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
 }
 .container_emails .emails_list > div {
   position: absolute;
@@ -1948,7 +2018,7 @@ div.container_profil table.table_fac i {
 .container_emails .email, .container_emails .sortable_placeholder_email_list {
   width: 150px;
   min-width: 150px;
-  height: 150px;
+  min-height: 150px;
   position: relative;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -1957,6 +2027,7 @@ div.container_profil table.table_fac i {
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   cursor: move;
+  margin: 10px;
   -moz-transition: box-shadow 0.3s ease 0s;
   -o-transition: box-shadow 0.3s ease 0s;
   -webkit-transition: box-shadow 0.3s ease;
@@ -2025,6 +2096,38 @@ div.container_profil table.table_fac i {
 .container_emails .email div.toolbox_email i:hover, .container_emails .sortable_placeholder_email_list div.toolbox_email i:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
+}
+.container_emails .email .badge, .container_emails .sortable_placeholder_email_list .badge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.container_emails .email .badge::after, .container_emails .sortable_placeholder_email_list .badge::after {
+  font-family: 'Material Icons';
+  color: #fff;
+  font-size: 14px;
+  line-height: 24px;
+}
+.container_emails .email .campaign, .container_emails .sortable_placeholder_email_list .campaign {
+  background-color: #0676B2;
+}
+.container_emails .email .campaign::after, .container_emails .sortable_placeholder_email_list .campaign::after {
+  content: 'done';
+  font-weight: bold;
+}
+.container_emails .email .saved, .container_emails .sortable_placeholder_email_list .saved {
+  background-color: #FF9E22;
+}
+.container_emails .email .saved::after, .container_emails .sortable_placeholder_email_list .saved::after {
+  content: 'create';
 }
 .container_emails .sortable_placeholder_email_list {
   background-color: #f0f0f0;
@@ -2306,6 +2409,18 @@ div.container_template_admin div.list_template > ul > li {
   margin-right: 30px;
   width: 120px;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  position: relative;
+  cursor: pointer;
+}
+div.container_template_admin div.list_template > ul > li span {
+  background: #0676B2;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 3px 0;
 }
 
 select.animation_blink {

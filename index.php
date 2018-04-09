@@ -16,7 +16,8 @@
 	 * Récupération du dossier client selon la session
 	 *
 	 */
-	
+
+
 	if (isset($_SESSION['user'])) {
 		
 		$sessionID = $_SESSION['user']['user_id'];
@@ -78,3 +79,4 @@
 	else { 
 		die("Page not found");	
 	}
+?>

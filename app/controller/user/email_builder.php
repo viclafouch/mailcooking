@@ -72,7 +72,7 @@
 		 */
 
 		elseif (isset($_POST['idMail4Thumbs'])) {
-
+			
 			$options = array( "wherecolumn"	=>	"id_mail",
 							"wherevalue"	=>	$_POST['idMail4Thumbs']);
 		
@@ -95,6 +95,14 @@
 				$chemin = ''.$chemin.'templates/';
 				$id = $template_mail[0]['id_template_commande'];
 				$new_folder = $id.'_'.substr(str_replace(' ', '_', $template_commande[0]["nom_commande"]),0,15);
+				
+				if($_POST['testmail'] != 'notest'){
+					$options = array( "wherecolumn"	=>	"user_id",
+							"wherevalue"	=>	$template_mail[0]['id_allow']);
+
+					$user = selecttable("users", $options);
+					$chemin = 'client/'. $template_mail[0]['id_allow'] .'_'. mb_strtolower(substr($user[0]['societe'], 0, 3)) .'/templates/';
+				}
 				echo ''.$chemin.''.$new_folder.'/thumbnails/';
 			}
 		}
@@ -117,6 +125,10 @@
 			$fixGmailApp = $_POST['fixGmail'];
 			$chemin = $chemin.'exports';
 			$path = $chemin.'/images';
+			$content = $_POST['content'];
+			$uid = uniqid();
+			$medias = $_POST['medias'];
+
 			$link = "https://fonts.googleapis.com/css?family=";
 
 			$options = array( 
@@ -133,7 +145,12 @@
 		
 			$template_mail = selecttable("template_mail", $options);
 
-			$medias = $template_mail[0]['medias'];
+			$options = array( 
+				"wherecolumn"	=>	"id",
+				"wherevalue"	=>	1
+			);
+		
+			$global_style = selecttable("global_style", $options)[0]['global_style'];
 
 			if (count(glob($chemin."/*")) === 0 ) {
 				@mkdir($path, 0777, true);
@@ -145,44 +162,73 @@
 				}
 			}
 
-			foreach ($fonts as $key => $font) {
-				$update_link = $link.$font.'|';
-				$link = $update_link;
+			if(isset($fonts)){
+				foreach ($fonts as $key => $font) {
+					$update_link = $link.$font.'|';
+					$link = $update_link;
+				}
+				$googleFontLink = substr($link, 0, -1);
 			}
+			
+			if(($content !== 'getHtml') && ($content !=='getHtmlUrl')){
+				foreach ($i as $key => $src) {
+					//Url de l'image
+					$mystring = $src;
+					//On cherchje le mot template
+					$findme = 'template';
+					//On lance la fonction de recherche du mot template dans la source de l'image
+					$pos = strpos($mystring, $findme);
+					//renvie un tableau du nom du lien explosé par la valeur / 
+					$name_img = explode("/", $src);
 
-			$googleFontLink = substr($link, 0, -1);
-
-			foreach ($i as $key => $src) {
-				$mystring = $src;
-				$findme = 'template';
-				$pos = strpos($mystring, $findme);
-				$name_img = explode("/", $src);
-				if ($pos === false) {
-					$newDom = str_replace($src, "images/".$name_img[4], $dom);
-					$dom = $newDom;
-
-					$newPath = $path.'/';
-					$newName  = $newPath.explode('/', $src)[4];
-					$copied = copy($src , $newName);
-				} else {
-					if (strpos($src, $pathToPublicTemplate) != 0) {
-						$newDom = str_replace($src, "images/".$name_img[5], $dom);
+					// Si on ne trouve pas le mot template dans la source de l'image
+					// Cela signifie que toutes les images ont été remplacé et 
+					// donc déposées dans le nouveau folder
+					if ($pos === false) {
+						$newDom = str_replace($src, "images/".$name_img[4], $dom);
 						$dom = $newDom;
 
 						$newPath = $path.'/';
-						$newName  = $newPath.explode('/', $src)[5];
+						$newName  = $newPath.explode('/', $src)[4];
 						$copied = copy($src , $newName);
-					} else {
-						$newDom = str_replace($src, "images/".$name_img[3], $dom);
-						$dom = $newDom;
+					} 
+					//Si toute les images n'ont pas été remplacées
+					else {
+						//S'il s'agit d'un template public
+						if (strpos($src, $pathToPublicTemplate) === 0) {
+							$newDom = str_replace($src, "images/".$name_img[3], $dom);
+							$dom = $newDom;
 
-						$newPath = $path.'/';
-						$newName  = explode('/', $src)[3];
-						$copied = copy($src, $newPath.$newName);
+							$newPath = $path.'/';
+							$newName  = $newPath.$name_img[3];
+							$copied = copy($src , $newName);
+
+						} 
+						//S'il s'agit d'un template public
+						else {
+							$newDom = str_replace($src, "images/".$name_img[5], $dom);
+							$dom = $newDom;
+
+							$newPath = $path.'/';
+							$copied = copy($src, $newPath.$name_img[5]);
+						}
 					}
 				}
 			}
+			else{
+				include_once('app/model/user/builder/aws.php');
+				foreach ($i as $key => $src) {
+					$racine_url = explode("?","http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'])[0];
+					$urlImg = $racine_url .'/'. $src;
+					$linkImg = uploadImg($urlImg, $_SESSION['user']['societe'], $uid);
 
+					if($linkImg){
+						$newDom = str_replace($src, $linkImg, $dom);
+						$dom = $newDom;
+					}
+				}
+				$fixGmailApp = str_replace('images/spacer.png', 'https://s3.eu-west-3.amazonaws.com/mailcooking/spacer.png', $fixGmailApp);
+			}
 			/*================================================
 			=            Création du fichier HTML            =
 			================================================*/
@@ -220,20 +266,26 @@
 			$family->setAttribute('type', 'text/css');
 			$head->appendChild($family);
 
-			$styles = $document->createElement('style', 'body { text-size-adjust:none; -webkit-text-size-adjust:none; -ms-text-size-adjust:none; padding:0; margin:0; background-color:'.$background.'!important; } .ReadMsgBody{ width:100%; } .ExternalClass{ width:100%; } .gmapp{ display:none; display:none!important;}');
+			$styles = $document->createElement('style', str_replace("{{BACKGROUND}}",$background,$global_style) .' '.$medias);
 			$styles->setAttribute('type', 'text/css');
 			$head->appendChild($styles);
 
-			$query = $document->createElement('style', $medias);
-			$query->setAttribute('type', 'text/css');
-			$head->appendChild($query);
+			if(isset($fonts)){
+				foreach ($fonts as $key => $font) {
 
-			foreach ($fonts as $key => $font) {
-				$theFont = str_replace('+', ' ', $font);
-				$fallBack = "[style*='".$theFont."'] { font-family: '".$theFont."', Arial, sans-serif !important }";
-				$fallBackFonts = $document->createElement('style', $fallBack);
-				$fallBackFonts->setAttribute('type', 'text/css');
-				$head->appendChild($fallBackFonts);
+					$theFont = str_replace('+', ' ', $font);
+					
+					foreach ($googleFonts as $key => $googleFont) {
+						if($theFont == $googleFont['font_name']){
+							$backUpFont = "'".$googleFont['backup_font'] ."'";
+						}
+					}
+
+					$fallBack = "[style*='".$theFont."'] { font-family: '".$theFont."', ".$backUpFont.", sans-serif !important }";
+					$fallBackFonts = $document->createElement('style', $fallBack);
+					$fallBackFonts->setAttribute('type', 'text/css');
+					$head->appendChild($fallBackFonts);
+				}
 			}
 
 			$body = $document->createElement('body', $newDom);
@@ -251,36 +303,75 @@
 			fwrite($fh, $data);
 
 			/*=====  End of Création du fichier HTML  ======*/
+			include_once('app/model/user/builder/update_email.php');
+			if($content !== 'getHtml'){
+				if (count(glob($path."/*")) !== 0 ) {
 
-			if (count(glob($path."/*")) !== 0 ) {
-
-				$zip = new ZipArchive();
-				$rootPath = realpath($path);
-
-				$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
-
-				$files = new RecursiveIteratorIterator(
-				    new RecursiveDirectoryIterator($rootPath),
-				    RecursiveIteratorIterator::LEAVES_ONLY
-				);
-				$zip->addFile($file,'index.html');
-
-				foreach ($files as $name => $file)
-				{
-				    if (!$file->isDir())
-				    {
-				        $filePath = $file->getRealPath();
-				        $relativePath = substr($filePath, strlen($rootPath) + 1);
-
-				        $zip->addFile($filePath, 'images/'.$relativePath);
-				    }
+					$zip = new ZipArchive();
+					$rootPath = realpath($path);
+	
+					$zip->open($chemin.'/'.$_POST['titleExport'].'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+	
+					$files = new RecursiveIteratorIterator(
+						new RecursiveDirectoryIterator($rootPath),
+						RecursiveIteratorIterator::LEAVES_ONLY
+					);
+					$zip->addFile($file,'index.html');
+	
+					foreach ($files as $name => $file)
+					{
+						if (!$file->isDir())
+						{
+							$filePath = $file->getRealPath();
+							$relativePath = substr($filePath, strlen($rootPath) + 1);
+	
+							$zip->addFile($filePath, 'images/'.$relativePath);
+						}
+					}
+					$zip->close();
+					if($content == 'getZipUrl'){
+						$update = set_as_campaign($email_id, 1, 'download');
+						if($update){
+							echo $chemin.'/'.$_POST['titleExport'].'.zip';
+						}
+					}
+					elseif($content == 'getHtmlUrl'){
+						include_once('app/model/user/builder/aws.php');
+						// echo $file;
+						$linkHtml = uploadImg($chemin."/index.html", $_SESSION['user']['societe'], $uid);
+						if($linkHtml){
+							$update = set_as_campaign($email_id, 1, 'toApi');
+							if($update){
+								echo $linkHtml;
+							}
+						}
+					}
+					else{
+						function file2base64($source) {
+							$bin_data_source = fread(fopen($source, "r"), filesize($source)); // reading as binary string
+							$b64_data_source = base64_encode($bin_data_source);               // BASE64 encodage
+							return $b64_data_source;
+						}
+						$base_64 = file2base64($chemin.'/'.$_POST['titleExport'].'.zip');
+						$update = set_as_campaign($email_id, 1, 'toApi');
+						if($update){
+							echo $base_64;
+						}
+					}
 				}
-				$zip->close();
-
-				echo $chemin.'/'.$_POST['titleExport'].'.zip';
 			}
+			else{
+				$update = set_as_campaign($email_id, 1, 'toApi');
+				if($update){
+					echo html_entity_decode($newDom);
+				}
+			}
+			
 		}
 		
+
+		
+
 		/**
 		 *
 		 * Fonction de sauvegarde de l'email
@@ -289,7 +380,7 @@
 		 */
 		
 		elseif (isset($_POST['emailID'])) {
-
+			
 			include_once('app/model/user/builder/update_email.php');
 			
 			$options = array( 	
@@ -341,7 +432,7 @@
 	 */
 	
 	else if (isset($_GET['id'])) {
-
+		
 		if (is_numeric($_GET['id'])) {
 
 			$options = array( 	"wherecolumn"	=>	"id_mail",
@@ -362,8 +453,15 @@
 
 					if ($mail[0]['id_user'] == $sessionID) {
 						
-						metadatas('Email_builder', 'Description', 'none');
+						$option2 = array( 
+							'wherecolumn' 	=> 	'user_admin_id',
+							'wherevalue'	=>	$sessionID,
+						);
+						$apis = selecttable('api', $option2);
 
+						$_SESSION['apis'] = $apis;
+
+						metadatas('Email_builder', 'Description', 'none');
 						include_once("app/view/user/builder.php");
 					} 
 					else { die('ce n\'est pas ton mail'); }
@@ -388,7 +486,7 @@
 		$options = array( 	
 			"wherecolumn"	=>	"id_template",
 			"wherevalue"	=>	$_GET['template']);
-
+			
 		$template = selecttable("template_mail", $options);
 
 		if ($template) {

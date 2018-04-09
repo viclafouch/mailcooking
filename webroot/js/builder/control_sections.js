@@ -332,9 +332,17 @@ function duplicateSection(targetClic) {
 
 // Démarrage des modules de contrôle de sections
 $(document).ready(function() {
-    
-    /* Génération du draggable des thumbnails */
-    creatDraggable('.thumbnail');
+
+    /* Génération du draggable des thumbnails */ 
+    var checkIfThumbsAreLoaded = setInterval(function(){ 
+       generateDraggable();
+    }, 100);
+    function generateDraggable(){
+        if($('.thumbnail').length){
+            clearInterval(checkIfThumbsAreLoaded);
+            creatDraggable('.thumbnail');
+        }
+    }
 
     /* Génération du sortable des sections */
     creatSortable('#storage_email');

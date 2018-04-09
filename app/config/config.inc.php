@@ -22,7 +22,8 @@
 	  "publishable_key" => 'pk_test_jdtjz4b05ADqlx5k093fsmgK'
 	);
 
-	$stripeImg = 'https://stripe.com/img/documentation/checkout/marketplace.png';
+
+	$stripeImg = 'http://www.mailcooking.com/img/mc-stripe.jpg';
 
 	\Stripe\Stripe::setApiKey($stripeKeys['secret_key']);
 
@@ -67,17 +68,24 @@
 		)
 	);
 
-	$MC_fonts = array(
-		'Kaushan Script',
-		'Lato',
-		'Lobster',
-		'Montserrat',
-		'Open Sans',
-		'Roboto'
-	);
+	//AWS KEYS
+	$IAM_KEY = 'AKIAIBWMTNQPZZOLJZPA';
+	$IAM_SECRET = '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';
+	$bucketName = 'mailcooking';
+
+
+
+	$googleFonts = selecttable("google_fonts");
+
+	foreach ($googleFonts as $key => $value) {
+		$MC_fontArray[$key] = $value['font_name'];
+	}
+	
+	sort($MC_fontArray);
 
 	$link = 'https://fonts.googleapis.com/css?family=';
-	foreach ($MC_fonts as $key => $value) {
+	
+	foreach ($MC_fontArray as $key => $value) {
 		$update_link = $link.str_replace(' ', '+',$value).'%7C';
 		$link = $update_link;
 	}
@@ -85,3 +93,12 @@
 	$MC_fonts = substr($link, 0, -3);
 
 	$pathToPublicTemplate = 'template_all/';
+
+	date_default_timezone_set('Europe/Paris');
+
+	// ini_set("SMTP","smtp.gmail.com"); // must be set to your own local ISP
+	ini_set( 'smtp_port', '1025' ); // assumes no authentication (passwords) required 
+	ini_set( 'sendmail_from', 'fauchet.jeancharles@gmail.com' ); // can be any e-mail address, but must be set
+
+	
+	

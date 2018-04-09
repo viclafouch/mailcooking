@@ -231,6 +231,7 @@
 
 				if ($count) {
 					$newTemplateCount = newTemplateCount($new_order, $sessionID, $expiration);
+					location('user', 'template', "notif=0&message=ordervalide");
 				}
 
 				else {

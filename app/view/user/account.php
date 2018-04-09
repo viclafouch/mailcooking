@@ -1,8 +1,7 @@
 <?php 
 	// Appel du layout header
-	include("app/view/layout/user/header.php"); 
+	include("app/view/layout/user/header.php");
 ?>
-
 <div class="container container_profil">
 	<div class="block full_block">
 		<div class="pannel pannel_heading">
@@ -24,9 +23,9 @@
 				<div class="link_block">
 					<a href="#" data-link-profil="sub" title="">Abonnement</a>
 				</div>
-				<!-- <div class="link_block">
+				<div class="link_block">
 					<a href="#" data-link-profil="fac" title="">Factures</a>
-				</div> -->
+				</div>
 				<?php } ?>
 			</div>
 		</div>
@@ -36,7 +35,7 @@
 			<h2>Informations de connexion</h2>
 		</div>
 		<div class="pannel pannel_body">
-			<div class="col nowrap">
+			<!-- <div class="col nowrap">
 				<div class="bg_field row nowrap row-hori-between" data-field="email">
 					<div class="col nowrap col-verti-around">
 						<span>Adresse e-mail</span>
@@ -59,7 +58,7 @@
 					<?php } ?>
 				</div>
 				<?php if (!isset($_SESSION['additional'])) { ?>
-				<div id="email" class="info_accordeon">
+				<div id="email" class="info_accordeon"> 
 					<div class="col nowrap">
 						<div class="row nowrap sm_field">
 							<p><strong>Voici les adresses e-mail que vous avez ajoutées :</strong></p>
@@ -82,7 +81,8 @@
 					</div>
 				</div>
 				<?php } ?>
-			</div>
+			</div> -->
+			<!-- ACCORDEON MDP -->
 			<div class="col nowrap">
 				<div class="bg_field row nowrap row-hori-between" data-field="password">
 					<div class="col nowrap col-verti-around">
@@ -91,7 +91,7 @@
 					</div>
 					<div class="col nowrap col-verti-around">
 						<button data-info="password" class="button_default button_primary">Modifier</button>
-						<p>Modifié le 24/04/2016</p>
+						<p>Ne jamais divulger votre mot de passe</p>
 					</div>
 				</div>
 				<div id="password" class="info_accordeon">
@@ -110,6 +110,95 @@
 					</div>
 				</div>
 			</div>
+			
+
+			<!-- ACCORDEON ADRESSES -->
+
+			<?php if (!isset($_SESSION['additional'])) { ?>
+			<div class="col nowrap">
+				<div class="bg_field row nowrap row-hori-between" data-field="adresse_factu">
+					<div class="col nowrap col-verti-around">
+						<span>Adresse de facturation</span>
+						<p>Renseignez l'adresse qui apparaitra sur vos factures</p>
+					</div>
+					<div class="col nowrap col-verti-around">
+						<button data-info="adresse_factu" class="button_default button_primary">Modifier</button>
+						<p><?php
+							if($_SESSION['user']['adress']){
+								echo 'adresse renseignée';
+							}
+							else{
+								echo 'adresse non renseignée';
+							}
+						 ?></p>
+					</div>
+				</div>
+				<div id="adresse_factu" class="info_accordeon">
+						<div class="col nowrap">
+							<div class="row nowrap sm_field">
+								<p>Votre adresse :</p>
+							</div>
+							<ul class="col nowrap sm_field" id="adresse_factu">
+								<li class="row row-hori-between nowrap">
+									<p><?php if($_SESSION['user']['adress']){
+											echo $_SESSION['user']['adress'];
+										}
+										else{
+											echo 'adresse non renseignée';
+										} ?>
+									</p>
+									<p>	
+										<a href="#" title="" data-modif="adresse_factu">Modifier</a>
+									</p>
+								</li>
+							</ul>
+						</div>
+				</div>
+			</div>		
+			<?php } ?>
+
+			<?php if (!isset($_SESSION['additional'])) { ?>
+			<!-- ACCORDEON CARTES -->
+			<div class="col nowrap">
+				<div class="bg_field row nowrap row-hori-between" data-field="payment">
+					<div class="col nowrap col-verti-around">
+						<span>Moyens de paiement</span>
+						<p>Managez vos moyens de paiement</p>
+					</div>
+					<div class="col nowrap col-verti-around">
+						<button data-info="payment" class="button_default button_primary">Modifier</button>
+						<p><?php
+							if(count($cards) > 1){
+								echo count($cards) .' cartes enregistrées'; 
+							}
+							else{
+								echo count($cards) .' carte enregistrée'; 
+							}
+						 ?></p>
+					</div>
+				</div>
+				<div id="payment" class="info_accordeon">
+					<?php foreach ($cards as $key => $card): ?>
+						<div class="col nowrap">
+							<div class="row nowrap sm_field">
+								<p><?php echo $card -> brand; ?>:</p>
+							</div>
+							<ul class="col nowrap sm_field" id="paiement_list">
+								<li class="row row-hori-between nowrap">
+									<p>XXX XXX XXX <?php echo $card -> last4; ?></p>
+									<p>	
+									<form action="?module=user&action=updatecard" data-update-card="" method="POST">
+										<input type="submit" title="" data-paymentdefaut="updatecard" value="Mettre à jour vos informations"/>
+									</form>
+									</p>
+								</li>
+							</ul>
+						</div>
+					<?php endforeach ?>
+				</div>
+			</div>
+			<?php } ?>
+			<!-- ACCORDEON UTILISATEURS -->
 			<?php if (!isset($_SESSION['additional'])) { ?>
 			<div class="col nowrap">
 				<div class="bg_field row nowrap row-hori-between" data-field="user">
@@ -122,7 +211,7 @@
 						<p>
 							<span data-count="user"><?= count($users_additional); ?></span>
 							<?php if (isset($_SESSION['subscriber'])) { 
-								if ($plan != 3): ?>/<?= $_SESSION['subscription']['users']; endif; ?>
+							?>/<?= $_SESSION['subscription']['users'];?>
 							<?php } ?>utilisateurs enregistré(s)
 						</p>
 					</div>
@@ -151,17 +240,61 @@
 				</div>
 			</div>
 			<?php } ?>
+
+			<!-- ACCORDEON API -->
+			<?php if (!isset($_SESSION['additional'])) { ?>
+			<div class="col nowrap">
+				<div class="bg_field row nowrap row-hori-between" data-field="api">
+					<div class="col nowrap col-verti-around">
+						<span>API</span>
+						<p>Configurez vos API pour pousser vos messsages vers votre routeur</p>
+					</div>
+					<div class="col nowrap col-verti-around">
+						<button data-info="api" class="button_default button_primary">Modifier</button>
+						<p>
+							<span data-count="api"><?= count($api); ?></span>
+							<?php if ($_SESSION['subscription']['API']) { 
+							?>/<?= $_SESSION['subscription']['API'];?>
+							<?php } ?>API enregistré(s)
+						</p>
+					</div>
+				</div>
+				<div id="api" class="info_accordeon">
+					<div class="col nowrap">
+						<div class="row nowrap sm_field">
+							<p><strong>Voici les comptes API que vous avez ajoutés :</strong></p>
+						</div>
+						<ul class="col nowrap sm_field" id="api_list">
+							<?php foreach ($api as $key => $api_conf): ?>
+								<li>
+									<form class="row row-hori-between nowrap form-account" id="<?= $api_conf['api_id'];?>" action="">
+										<p><?= $api_conf['router_name'];?></p>
+										<p><?= substr($api_conf['api_info']['api_key'], 0, 20) .'...';?></p>
+										<p>	
+											<input type="submit" title="" data-delete="api" value="Supprimer"/>
+										</p>
+									</form>
+								</li>
+							<?php endforeach ?>
+							<li class="row row-hori-between nowrap">
+								<p><a href="#" data-add="api" title="">Ajouter un API</a></p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<?php } ?>
 		</div>		
 	</div>
 	<?php if (!isset($_SESSION['additional'])) { ?>
 	<div class="block full_block" data-task="sub" style="display: none;">
-		<div class="pannel pannel_body pannel_title">
+		<!-- <div class="pannel pannel_body pannel_title">
 			<h2>Votre abonnement actuel : </h2>
 			<p class="legend"><button data-popup="stoppedSubscription" class="button_legend">Les détails</button></p>
 		</div>
 		<div class="pannel pannel_body pannel_legend">
 			<p>Nos tarifs sont clairs et fixes. Vous aurez la possibilité de mettre votre compte en pause en fonction de votre activité et de le relancer quand vous le souhaiterez, sans perte de données.</p>
-		</div>
+		</div> -->
 		<div class="pannel pannel_body">
 			<div class="row_cards row row-hori-around nowrap">
 				<?php foreach ($MC_subscriptions as $key => $subscription): ?>
@@ -207,22 +340,36 @@
 					</div>
 					<?php 
 						if (isset($_SESSION['subscriber'])) {
-
 							if ($plan == $subscription['id']) { ?>
 
 							<span class="subactual">Abonnement validé</span>
-						
+							<footer class="card_footer">
+									<button class="button_default" id="stopSubscriptionFromPricingTable" data-popup="stoppedSubscription">
+										Stopper l'abonnement
+									</button>
+							</footer>
 							<?php } 
 
 							else { ?>
 							
 							<footer class="card_footer">
 								<form action="?module=user&action=upgrade" data-send-upgrade="<?= $subscription['id']; ?>" method="POST">
-									<button data-btn-upgrade="<?= $subscription['id']; ?>" class="button_default">Upgrade</button>
+									<button data-btn-upgrade="<?= $subscription['id']; ?>" class="button_default">
+										<?php
+											if ($plan > $subscription['id']){
+												echo 'Downgrade';
+											}
+											else{
+												echo 'Upgrade';
+											}
+										?>
+									</button>
 								</form>
 							</footer>
-							<?php } 
+							<?php 
+							
 						}
+					}
 						else { ?>
 							<footer class="card_footer">
 								<form action="?module=user&action=subscribe" data-send-subscription="<?= $subscription['id']; ?>" method="POST">
@@ -237,37 +384,33 @@
 			</div>
 		</div>
 	</div>
-	<div class="block full_block" data-task="fac" style="display: none;">
+	
+	<div class="block full_block" data-task="fac" style="display:none">
 		<div class="pannel pannel_body pannel_title">
-			<h2>Vos factures (3)</h2>
-			<p class="legend"><button class="button_legend">Mes informations de paiement</button></p>
+			<h2>Vos paiements (<?php echo count($invoices) ?>)</h2>
+			<!-- <p class="legend"><button class="button_legend">Pour plus d'informations, veuillez nous contacter</button></p> -->
 		</div>
 		<div class="pannel pannel_body container_to_table">
 			<table class="table_fac">
 				<thead>
 					<tr>
-						<th>ID de facture</th>
-						<th>Abonnement</th>
+						<th>Id facture</th>
+						<th>Désignation</th>
 						<th>Montant (ttc)</th>
 						<th>Date</th>
 						<th>PDF</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>5893</td>
-						<td>Abonnemen tip</td>
-						<td>108€</td>
-						<td>27/04/2017</td>
-						<td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
-					</tr>
-					<tr>
-						<td>4781</td>
-						<td>Abonnemen top</td>
-						<td>78€</td>
-						<td>29/01/2017</td>
-						<td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
-					</tr>
+					<?php if($invoices): foreach ($invoices as $key => $invoice): ?>
+						<tr>
+							<td>FA-MC-<?php echo explode('-', $invoice['date_created'])[1]. explode('-',$invoice['date_created'])[2].'-'. $invoice['id_payment'] ?></td>
+							<td><?php echo $invoice['designation'] ?></td>
+							<td><?php echo $invoice['amount'] ?>€</td>
+							<td><?php echo $invoice['date_created'] ?></td>
+							<td><i data-adress="<?php echo $_SESSION['user']['adress']?>" data-facture="<?php echo $_SESSION['user']['societe'] ?>" class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+						</tr>
+					<?php endforeach;endif ?>
 				</tbody>
 			</table>
 		</div>
@@ -278,4 +421,5 @@
 <?php 
 	// Appel du layout footer
 	include("app/view/layout/user/footer.php"); 
+	echo '<script>var apiList = '.$api_available.';</script>';
 ?>

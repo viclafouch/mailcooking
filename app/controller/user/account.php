@@ -13,7 +13,7 @@
 	 */
 
 	protec();
-
+	
 	/**
 	 *
 	 * Affichage de la vue
@@ -92,6 +92,65 @@
 
 		/**
 		 *
+		 * Fonction d'ajout d'un API
+		 *
+		 */
+		if (isset($_POST['add_api'])){
+			if (isset($_SESSION['subscriber'])){
+				// Global variables
+				$field_name = array_keys($_POST)[0];
+				$user = $_SESSION['user']['user_id'];
+				$router_name = $_POST['router_name'];
+				$api_key = $_POST['api_key'];
+				$api_secret = $_POST['api_secret'];
+
+				$option = array( 
+					'wherecolumn' 	=> 	'user_admin_id',
+					'wherevalue'	=>	$sessionID,
+				);
+
+
+				$apis = selecttable('api', $option);
+
+				if (count($apis) >= $_SESSION['subscription']['API']) {
+					errorAjax('Vous avez atteint le nombre max d\'utilisateurs'); 
+					return false;
+				}
+
+				
+				include_once('/app/model/user/account/api/add_api.php');
+
+				$table_name = getTableName($router_name);
+
+				if($table_name){
+					$ifExists = checkIfApiExists($table_name, $api_key);
+					if(!$ifExists){
+						$id = insertInMainTable($user, $router_name);
+						if($id){
+
+							$insert = insertInApiTable($table_name,$id, $api_key, $api_secret);
+							if(!$insert){
+								errorAjax("Erreur lors de l'ajout");
+							}
+						}
+						else{
+							errorAjax("Erreur lors de l'ajout");
+						}
+					}
+					else{
+						errorAjax('Cet APi a déjà été configuré'); 
+						return false; 
+					}
+				}
+
+			} else{
+				errorAjax('Un abonnement est requis'); 
+				return false; 
+			}
+		}
+
+		/**
+		 *
 		 * Fonction de suppression de user additionnel
 		 *
 		 */
@@ -100,7 +159,6 @@
 			$id = $_POST['idAccount'];
 
 			include_once('/app/model/user/account/additional/delete_user.php');
-
 			$option = array( 
 				'wherecolumn' 	=> 	'user_additional_id',
 				'wherevalue'	=>	$id,
@@ -116,6 +174,22 @@
 
 		/**
 		 *
+		 * Fonction de suppression d'un api
+		 *
+		 */
+
+		elseif (isset($_POST['idApi'])) {
+			$id = $_POST['idApi'];
+
+			include_once('/app/model/user/account/api/delete_api.php');
+
+			$delete = delete_api($id);
+			if (!$delete) { errorAjax('Une erreur est survenue'); return false; }
+			echo $delete;
+		}
+
+		/**
+		 *
 		 * Fonction de modification de mot de passe
 		 *
 		 */
@@ -124,9 +198,13 @@
 			include_once('/app/model/user/account/modif.php');
 			$hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
 			$update = update_user('password', $hash);
-			if (!$update) { errorAjax(); }
+			if (!$update) { errorAjax('une erreur est survenue'); }
 		}
-
+		elseif (isset($_POST['adress'])) {
+			include_once('/app/model/user/account/modif.php');
+			$update = update_user('adress', $_POST['adress']);
+			if (!$update) { errorAjax('une erreur est survenue'); }
+		}
 		/**
 		 *
 		 * Fonction d'annulation de son abonnement
@@ -143,6 +221,8 @@
 					include_once('/app/model/user/account/payment/cancel.php');
 					$cancel_subscription = cancel_subscription($_SESSION['subscriber']['subscription_id']);
 					unset($_SESSION['subscriber'], $_SESSION['subscription']);
+					include_once('app/model/user/account/payment/delete_users_add.php');
+					delete_api($sessionID);
 				} 
 				catch(\Stripe\Error\Card $e) {
 					errorAjax('Une erreur s\'est produite');
@@ -165,34 +245,84 @@
 		}
 	}
 
+	elseif(isset($_GET['update'])) {
+
+		$customer = $_SESSION['subscriber']['customer_id'];
+		$subscriptionId = $_SESSION['subscriber']['subscription_id'];
+
+		$subscription = \Stripe\Subscription::retrieve($subscriptionId);
+		$proration_date = time();
+
+		foreach ($MC_subscriptions as $key => $subscription) {
+			if ($_GET['booking_id'] == $subscription['id']) {
+				$stripeId = $subscription['StripeID'];
+				$stripeName = $subscription['name'];
+			}
+		}
+
+		if($_GET['booking_id'] < $subscriptionId){
+			$upAndDown = 'Downgrade';
+		}
+		else{
+			$upAndDown = 'Upgrade';
+		}
+
+		$items = [
+			[
+				'id' => $subscription->items->data[0]->id,
+				'plan' => $stripeId, # Switch to new plan
+			],
+		];
+		$subscriptionStripe = \Stripe\Invoice::upcoming(
+			[
+				'customer' => $customer,
+				'subscription' => $subscriptionId,
+				'subscription_items' => $items,
+				'subscription_proration_date' => $proration_date,
+			]
+		);
+
+		echo json_encode($subscriptionStripe);
+		return;
+	}
+
 	/**
 	 *
 	 * Affichage de popup Stripe
 	 *
 	 */
+	elseif (isset($_GET['defautpayment'])) {
+		$data = [
+			'key' => $stripeKeys['publishable_key'],
+			'image' => 'http://www.mailcooking.com/img/mc-stripe.jpg',
+			'locale' => 'auto',
+			'name' => $appName,
+			'zipCode' => true,
+			'description' =>  'Mise à jour de vos informations bancaires',
+			'label' => 'Mettre à jour'
+		];
+		echo json_encode($data);
+		return;
 
-	elseif (isset($_GET['booking_id'])) {
-
+	}
+	elseif (isset($_GET['subscribing']) && isset($_GET['booking_id'])) {
 		foreach ($MC_subscriptions as $key => $subscription) {
 			if ($_GET['booking_id'] == $subscription['id']) {
 				$data = [
 				    'key' => $stripeKeys['publishable_key'],
-				    'image' => 'https://stripe.com/img/documentation/checkout/marketplace.png',
+				    'image' => 'http://www.mailcooking.com/img/mc-stripe.jpg',
 				    'locale' => 'auto',
 				    'name' => $appName,
 				    'zipCode' => true,
 				    'currency' => 'EUR',
 				    'description' => $subscription['name'] .' - 1 mois',
-				    'amount' => $subscription['price'] * 100,
+					'amount' => $subscription['price'] * 100
 				];
 			}
 		}
-
 		echo json_encode($data);
-		return;
-	
+		// return;
 	}
-
 	/**
 	 *
 	 * Affichage de la vue
@@ -206,8 +336,21 @@
 			'wherecolumn' 	=> 	'user_additional_admin_id',
 			'wherevalue'	=>	$sessionID,
 		);
-
+		$option2 = array( 
+			'wherecolumn' 	=> 	'user_admin_id',
+			'wherevalue'	=>	$sessionID,
+		);
 		$users_additional = selecttable('users_additional', $option);
+		$api = selecttable('api', $option2);
 
+		$api_available = getApiList();
+		if($_SESSION['subscriber']){
+			$cards = \Stripe\Customer::retrieve($_SESSION['subscriber']['customer_id']) -> sources -> data;
+			$option = array( 
+				'wherecolumn' 	=> 	'customer_email',
+				'wherevalue'	=>	$_SESSION['user']['user_email'],
+			);
+			$invoices = selecttable('payments_stripe', $option);
+		}
 		include_once("app/view/user/account.php");
 	}

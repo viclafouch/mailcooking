@@ -44,8 +44,8 @@
 			  	"currency" => "eur",
 			  	"customer" => $customer->id,
 				"description" => $_POST['nom_commande'],
+				"metadata" => array("name" => $_POST['nom_commande'])
 			));
-
 		} catch(\Stripe\Error\Card $e) {
 			$err = 'Card';
 		} catch (\Stripe\Error\RateLimit $e) {

@@ -30,7 +30,7 @@
 						<select class="select_default button_primary"  data-select-template id="selectDisplayUser">
 							<option value="false">Selectionner un utilisateur</option>
 							<?php foreach ($users as $key => $user): ?>
-								<option value="<?= $user['user_id'] ?>"><?php echo htmlspecialchars($user['first_name']).' '.htmlspecialchars($user['last_name']); ?></option>
+								<option value="<?= $user['user_id'] ?>"><?php echo htmlspecialchars($user['user_email']) ?></option>
 							<?php endforeach ?>
 						</select>
 					</div>
@@ -42,7 +42,8 @@
 		<div class="pannel pannel_body list_template">
 			<ul class="row wrap">
 				<?php foreach ($templatePublic as $key => $tp): ?>
-					<li style="background: url('<?= $pathToPublicTemplate.'template_public_'.$tp['id_template'].'/thumbnails/thumbnail.png'; ?>');" data-popup-preview>
+					<li style="background: url('<?= $pathToPublicTemplate.'template_public_'.$tp['id_template'].'/thumbnails/thumbnail.png'; ?>');" data-popup-preview data-template="<?php echo $tp['id_template'] ?>" data-allow="<?php echo $tp['id_allow'] ?>">
+						<span><?php echo $tp['title_template'] ?></span>
 					</li>
 				<?php endforeach ?>
 			</ul>
@@ -104,6 +105,10 @@
 				</footer>
 			</form>
 		</div>
+	</div>
+	<div class="popup_mc" id="templatePreview">
+		<div class="popup_background"></div>
+		<div class="popup_container"></div>
 	</div>
 </div>
 

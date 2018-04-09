@@ -1,7 +1,7 @@
 <?php 
 
-	function subscribe($user_id, $customer_id, $subscription_id, $plan, $date_end_trial) {
-
+	function subscribe($user_id, $customer_id, $subscription_id, $plan, $date_end_trial, $status_stripe) {
+	    
 		global $connexion;
 
 		try {
@@ -9,12 +9,14 @@
 											customer_id,
 											subscription_id, 
 											plan,
-											date_end_trial)
+											date_end_trial,
+											status_stripe)
 							VALUES (:user_id, 
 									:customer_id,
 									:subscription_id,
 									:plan, 
-									:date_end_trial)";
+									:date_end_trial,
+									:status_stripe)";
 
 			$query = $connexion->prepare($req);
 
@@ -23,6 +25,7 @@
 			$query->bindValue(':subscription_id', $subscription_id, PDO::PARAM_STR);
 			$query->bindValue(':plan', $plan, PDO::PARAM_STR);
 			$query->bindValue(':date_end_trial', $date_end_trial, PDO::PARAM_STR);
+			$query->bindValue(':status_stripe', $status_stripe, PDO::PARAM_STR);
 
 			$query->execute();
 			

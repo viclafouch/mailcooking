@@ -70,7 +70,7 @@
 		} elseif (isset($_POST['DOM'], $_POST['templateID'])) {
 			include_once('app/model/admin/update_template.php');
 
-			if (update_template($_POST['templateID'], 1, $_POST['DOM'])) {
+			if (update_template($_POST['templateID'], 0, $_POST['DOM'])) {
 				echo json_encode(true);
 			}
 		}
@@ -114,7 +114,7 @@
 		);
 	
 		$templatePublic = selecttable("template_mail", $options);
-	
+
 		$users = selecttable("users");
 		
 		metadatas('Les utilisateurs', 'Description', 'none');

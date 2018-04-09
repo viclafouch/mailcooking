@@ -43,7 +43,32 @@
 									));
 									return false;
 								}
-								location('home', 'index');
+
+								$userLog = array(
+									user_email => $user[0]["user_additional_email"],
+									user_password => $_POST['password1']
+								);
+
+								include_once("app/model/user/account/signin/login.php");
+
+								$checkUser = loginUser($userLog);
+					
+								if ($checkUser) {
+									$option = array( 
+										'wherecolumn' 	=> 	'user_id',
+										'wherevalue'	=>	$checkUser['user_additional_admin_id'],
+									);
+									
+									$userLog = selecttable('users', $option);
+									$_SESSION['user'] = $checkUser;
+
+									$_SESSION['additional'] = $checkUser;
+
+									location('user', 'index');
+								}
+								else {
+									location('home', 'index', "valide=ok");
+								}
 							}
 						}
 						else {

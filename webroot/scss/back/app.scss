@@ -306,7 +306,7 @@ h3 { font-size: 21px; color: $primaryColor; line-height: 31px; font-family: 'bar
 main { width: 100%; min-height: 100vh; }
 
 p, input, span, a { font-size: 16px; outline: none; }
-
+#storage_email a{font-size:inherit};
 /*----------  Progress bar  ----------*/
 
 .turbolinks-progress-bar {
@@ -562,6 +562,43 @@ div.popup_mc#stoppedSubscription {
     .loader { margin-top: 30px; }
 }
 
+/*----------  defaut_paiement  ----------*/
+#defaut_paiement{
+    text-align:center;
+    background:rgbaExpress($primaryColor,0.8);
+    position:fixed;
+    bottom:20px;
+    left:10%;
+    width: 80%;
+    z-index:9999;
+    padding: 10px 0;
+    @include flex(column nowrap, space-between, center);
+    @include border-radius(3px);
+    box-shadow: $shadow0;
+    >*{
+        margin: 5px 0;
+    }
+    h3{
+        color:white;
+        font-size:28px;
+        font-family: 'bariolbold';
+    }
+    p{
+        color:white;
+    }
+    button{
+        margin-left:0 auto;
+        margin-right:0 auto;
+        background:$secondaryColor;
+    }
+    i{
+        position:absolute;
+        top:0px;
+        right:10px;
+        color:white;
+    }
+}
+
 /*----------  Container  ----------*/
 
 // Force l'espacement de X px de hauteur
@@ -681,7 +718,7 @@ div.popup_mc > div.popup_container {
         }
     }
 
-    & > form { background-color: #fff;
+    & > form,& .contain-pop { background-color: #fff;
 
         &.active { display: block; }
         &.noactive { display: none; }
@@ -964,10 +1001,8 @@ div.container_template { overflow-y: scroll!important;
                 height: 170px; 
                 padding: 15px 0; 
                 &:not(:last-child) { border-bottom: $primaryBorder; }
-
             }
             li > div { height: 100%; }
-
             li div.col_template_thumbs { 
                 margin-right: 15px; 
                 width: 120px;
@@ -1327,13 +1362,25 @@ div.container_profil { overflow-y: scroll!important;
             color: $primaryTextColor;
             cursor: pointer; 
         }
+        button.selection{
+            margin:10px 5px;
+            padding:10px;
+            min-width:140px;
+            background-color: #757575;
+            i{
+                color:#fff;
+                padding-right:10px;
+            }
+        }
+        button.active{
+            background-color: $secondaryColor;
+        }
     }
 
     .emails_list { 
         padding: 15px 0; 
-        overflow-x: hidden; 
-        height: 150px; 
-
+        overflow-x: hidden;
+        flex-flow: row wrap;
         & > div {
             position: absolute;
             @include box-sizing(border-box);
@@ -1356,13 +1403,14 @@ div.container_profil { overflow-y: scroll!important;
     .email, .sortable_placeholder_email_list  {
         width: 150px;
         min-width: 150px;
-        height: 150px;
+        min-height: 150px;
         position: relative;
         @include box-shadow($shadow0);
         margin-right: 15px;
         @include box-sizing(border-box);
         border: $primaryBorder;
         cursor: move;
+        margin:10px;
         @include single-transition(box-shadow, 0.3s, ease, 0s);
         &:hover { @include box-shadow($shadow1); }
 
@@ -1390,6 +1438,37 @@ div.container_profil { overflow-y: scroll!important;
                 @include opacity(1);
                 @include single-transition(opacity, 0.3s, ease, 0s);
                 &:hover { @include opacity(0.8); }
+            }
+        }
+        .badge{
+            position: absolute;
+            top:-12px;
+            right:-12px;
+            display:block;
+            width:26px;
+            height:26px;
+            border-radius: 50%;
+            text-align:center;
+            vertical-align:middle;
+            @include box-shadow($shadow1);
+            &::after{
+                font-family: 'Material Icons';
+                color:#fff;
+                font-size:14px;
+                line-height:24px;
+            }
+        }
+        .campaign{
+            background-color: $primaryColor;
+            &::after{
+                content:'done';
+                font-weight:bold;
+            }
+        }
+        .saved{
+            background-color: $additionalColor;
+            &::after{
+                content:'create';
             }
         }
     }
@@ -1619,6 +1698,18 @@ div.container_template_admin { overflow: scroll!important;
                 margin-right: 30px; 
                 width: 120px;
                 border: $primaryBorder;
+                position:relative;
+                cursor:pointer;
+                & span{
+                    background:$primaryColor;
+                    color:white;
+                    position:absolute;
+                    bottom:0;
+                    left:0;
+                    width:100%;
+                    text-align:center;
+                    padding:3px 0;
+                }
             }
         }
     }

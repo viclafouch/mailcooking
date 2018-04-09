@@ -266,7 +266,9 @@ div.content_email {
         td[data-text], img[data-img], td[data-spacer], a[data-cta] {
             @include single-transition(opacity, 0.2s, ease, 0s);
         }
-
+        td[data-text] a{
+            text-decoration:none;
+        }
         a[data-cta] { cursor: text!important; }
 
         table, td { outline: none; word-break: break-all; }
@@ -524,7 +526,7 @@ div.field_item_sidebar {
         }
     }
 
-    &#background-color, &#color {
+    &#background-color, &#color, &#color-link {
 
         div.minicolors { padding: 5px; height: 100%; width: 100%; @include box-sizing(border-box); }
 
@@ -870,7 +872,12 @@ div#popupExport {
         }
     }
 }
+div#popupApi {
 
+    select{
+        width:100%;
+    }
+}
 .cssload-thecube {
     width: 73px; height: 73px;
     margin: 0 auto;

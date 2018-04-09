@@ -46,7 +46,10 @@
           $query->bindValue(':nb_phone', $user["nb_phone"], PDO::PARAM_INT);
           $query->bindValue(':gender', 'male', PDO::PARAM_STR);
           $query->bindValue(':valide', 0, PDO::PARAM_INT);
+          
+          $unique = $user["user_email"] .$hash .time();
 
+          $_SESSION['token'] = hash('md5', $unique);
 
           // On exécute la requête
           $query->execute();

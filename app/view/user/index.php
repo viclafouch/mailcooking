@@ -37,6 +37,21 @@
 				<div class="sm_square col nowrap">
 					<div class="square_body row row-hori-between nowrap">
 						<div class="square_ico col col-verti-center">
+							<i class="material-icons">email</i>
+						</div>
+						<div class="col nowrap square_name col-verti-center">
+							<span class="square_count"><?= $Eperso ?></span>
+							<p class="square_subject">Emails</p>
+						</div>
+					</div>
+					<footer class="square_footer row row-hori-between row-verti-center" data-link="?module=user&action=emails">
+						<p>Voir les détails</p>
+						<i class="material-icons">arrow_forward</i>
+					</footer>
+				</div>
+				<div class="sm_square col nowrap">
+					<div class="square_body row row-hori-between nowrap">
+						<div class="square_ico col col-verti-center">
 							<i class="material-icons">stars</i>
 						</div>
 						<div class="col nowrap square_name col-verti-center">
@@ -51,21 +66,6 @@
 						</div>
 					</div>
 					<footer class="square_footer row row-hori-between row-verti-center" data-popup="stoppedSubscription">
-						<p>Voir les détails</p>
-						<i class="material-icons">arrow_forward</i>
-					</footer>
-				</div>
-				<div class="sm_square col nowrap">
-					<div class="square_body row row-hori-between nowrap">
-						<div class="square_ico col col-verti-center">
-							<i class="material-icons">email</i>
-						</div>
-						<div class="col nowrap square_name col-verti-center">
-							<span class="square_count"><?= $Eperso ?></span>
-							<p class="square_subject">Emails</p>
-						</div>
-					</div>
-					<footer class="square_footer row row-hori-between row-verti-center" data-link="?module=user&action=emails">
 						<p>Voir les détails</p>
 						<i class="material-icons">arrow_forward</i>
 					</footer>

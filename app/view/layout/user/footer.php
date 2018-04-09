@@ -1,3 +1,8 @@
+				<?php
+					if(($_SESSION['subscriber']['status_stripe'] === 'past_due') || ($_SESSION['subscriber']['status_stripe'] === 'unpaid')){
+						include_once('app/view/layout/user/defaut_paiement.php');
+					}
+				?>
 				</section>
 			</div>
 		</main>

@@ -151,7 +151,6 @@ var saveCroppie = function(input, selection) {
                 }
             });
         });
-
         $('#popupCroppie').removeClass('active');
     });
 }

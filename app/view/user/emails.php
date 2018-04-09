@@ -11,7 +11,7 @@
 					<h1>Mes emails</h1>
 				</div>
 				<div class="row row-verti-center nowrap">
-					<button class="button_default button_primary">Besoin d'aide ?</button>
+					<a href="?module=user&action=archives" class="button_default button_primary button_href">Archives</a>
 				</div>
 			</div>
 		</div>
@@ -21,10 +21,14 @@
 			<div class="col nowrap">
 				<div class="pannel_title row row-hori-between row-verti-center">
 					<h2>Emails non classés</h2>
-					<a href="?module=user&action=archives">Archives</a>
+					<div class="row nowrap">
+						<button data-select-email="all" class="selection button_default button_secondary active"><i class="material-icons">playlist_add_check</i>Tous</button>
+						<button data-select-email="0" class="selection button_default button_secondary"><i class="material-icons">create</i>Brouillons</button>
+						<button data-select-email="1" class="selection button_default button_secondary"><i class="material-icons">done</i>Emails terminés</button>		
+					</div>
 				</div>
 				<div class="pannel_body">
-					<ul class="row row-verti-center nowrap emails_list">
+					<ul class="row row-verti-center emails_list">
 						<?php $notempty = false; ?>
 						<?php foreach ($emails as $email): ?>
 							<?php if ($email["email_cat_id"] == NULL && $email["saved"] != 0) {
@@ -36,8 +40,9 @@
 								$src = $chemin.'emails/'.$folder;
 							?>
 
-								<li style="background: url('<?= $src; ?>thumbs.png');" class="email" data-email="<?= $email["id_mail"]; ?>">
+								<li style="background: url('<?= $src; ?>thumbs.png');" class="email" data-email="<?= $email["id_mail"]; ?>" data-status="<?php echo $email["as_campaign"]; ?>">
 									<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+									<span class="badge <?php if ($email["as_campaign"] == 1) { echo 'campaign'; }else{ echo 'saved';} ?>"></span>
 								</li>
 							<?php } ?>
 						<?php endforeach ?>
@@ -57,7 +62,7 @@
 					</p>
 				</div>
 				<div class="pannel_body">
-					<ul class="row row-verti-center nowrap emails_list">
+					<ul class="row row-verti-center emails_list">
 						<?php foreach ($emails as $email): ?>
 							<?php if ($cat['cat_id'] == $email['email_cat_id'] && $email["saved"] != 0) {
 
@@ -67,8 +72,9 @@
 								$folder = ''.$email['id_mail'].'_'.$emailDate.'/';
 								$src = $chemin.'emails/'.$folder;
 							?>
-								<li style="background: url('<?= $src; ?>thumbs.png');" class="email" data-email="<?= $email["id_mail"]; ?>">
+								<li style="background: url('<?= $src; ?>thumbs.png');" class="email" data-email="<?= $email["id_mail"]; ?>" data-status="<?php echo $email["as_campaign"]; ?>">
 									<div data-toolbox class="row nowrap row-verti-center row-hori-center toolbox_email"></div>
+									<span class="badge <?php if ($email["as_campaign"] == 1) { echo 'campaign'; }else{ echo 'saved';} ?>"></span>
 								</li>
 							<?php } ?>
 						<?php endforeach ?>

@@ -30,5 +30,10 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0",
     "run-sequence": "^2.0.0"
+  },
+  "dependencies": {
+    "compass": "^0.1.1",
+    "composer": "^1.0.0",
+    "ruby": "^0.6.1"
   }
 }

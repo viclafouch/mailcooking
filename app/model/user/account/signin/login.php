@@ -1,5 +1,4 @@
 <?php 
-
 	function loginAdmin($form)			
 	{
 		global $connexion;
@@ -17,8 +16,9 @@
 
 			$loginAdmin = $query->fetch();
 			$query->closeCursor();
+		
 
-			if ($loginAdmin && password_verify($_POST['user_password'],$loginAdmin['user_password'])) {
+			if ($loginAdmin && password_verify($form["user_password"],$loginAdmin['user_password'])) {
 				return $loginAdmin;
 			}
 		}
@@ -48,7 +48,8 @@
 			$loginUser = $query->fetch();
 			$query->closeCursor();
 
-			if ($loginUser && password_verify($_POST['user_password'],$loginUser['user_additional_password'])) {
+
+			if ($loginUser && password_verify($form["user_password"],$loginUser['user_additional_password'])) {
 				return $loginUser;
 			}
 		}

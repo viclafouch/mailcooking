@@ -1,12 +1,19 @@
 <?php 
 
 	function protec() {
+		
 		if (!isset($_SESSION["user"])) {
 			location('home', 'index', '');
+
 		}
 		else {
-			if ($_SESSION["user"]["valide"] == 0) {
-				die('vous devez confirmé votre compte !');
+			if ($_SESSION["user"]["valide"] === 0) {
+				die('vous devez confirmer votre compte !');
+			}
+
+			if($_SESSION['subscriber']){
+				include_once('app/model/user/account/check_status.php');
+				checkStatus();
 			}
 		}
 	}

@@ -4,7 +4,7 @@
         // Identifiant & port à compléter
         $dns = 'mysql:host=localhost;port=3306;dbname=crmcu309_mc_2016';
         $utilisateur = 'root';
-        $motDePasse='';
+        $motDePasse='mysql';
 
         // Option de connexion
         $options = array (PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",

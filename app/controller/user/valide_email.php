@@ -35,8 +35,48 @@
 	    	@mkdir($chemin.'exports', 0777, true);
 	    	@mkdir($chemin.'emails', 0777, true);
 	    	@mkdir($chemin.'factures', 0777, true);
+			
+			include_once("app/model/user/account/signin/login.php");
 
-	    	location('home', 'index', 'valide=ok');
+			$user = array(
+				user_email => $read_user[0]["user_email"],
+				user_password => $read_user[0]["user_password"]
+			);
+
+			$token = $_SESSION['token'];
+			$key = $_GET['key'];
+
+			if($token && $token === $key){
+				include_once("app/model/user/account/signin/autologin.php");
+				$checkAdmin = autoLoginAdmin($user);
+				$_SESSION["user"] = $checkAdmin;
+				location('user', 'index', 'first=1');
+			}
+			else{
+				$checkAdmin = loginAdmin($user);
+				$checkUser = loginUser($user);
+	
+				if ($checkAdmin || $checkUser) {
+					
+					if ($checkAdmin) { $_SESSION["user"] = $checkAdmin;}
+					else { 
+						$option = array( 
+							'wherecolumn' 	=> 	'user_id',
+							'wherevalue'	=>	$checkUser['user_additional_admin_id'],
+						);
+						
+						$user = selecttable('users', $option);
+						$_SESSION['user'] = $user[0];
+	
+						$_SESSION['additional'] = $checkUser;
+	
+					}
+					location('user', 'index', 'first=1');
+				}
+				else {
+					location('home', 'index', "valide=ok");
+				}	
+			}
 	    }
 	}
 

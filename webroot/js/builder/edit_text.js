@@ -29,6 +29,7 @@
 var dataImg; // ID de l'image séléctionnée
 var alignmentSection; // Alignement de l'objet
 var colorSection; // Couleur de texte de l'objet
+var colorlinkSection; // Couleur des liens de l'objet
 var backgroundSection; // Couleur de fond de l'objet
 var familySection; // Police de texte de l'objet
 var height; // Hauteur de l'objet
@@ -97,7 +98,7 @@ var flagMinicolor;
 
 // I : Création de Medium Editor
 var creatMediumEditor = function() {
-    new MediumEditor('[data-text]', {
+    new MediumEditor('[data-content]:not([data-content=variables]) [data-text]', {
         targetBlank: true,
         spellcheck: false,
         toolbar: {
@@ -131,6 +132,126 @@ var creatMediumEditor = function() {
             // Ajouter un checkbox pour le target=_blank?
             targetCheckbox: false,
             targetCheckboxText: 'Text'
+        },
+
+        // Si le user colle qq chose dans la section
+        paste: {
+            // Force le texte brut
+            forcePlainText: true,
+            // On clean toutes les balises/attr/meta du clipboard
+            cleanPastedHTML: false,
+            // Si on veut remplacer des valeurs
+            cleanReplacements: [],
+            // Clean les attributs
+            cleanAttrs: ['class', 'style', 'dir', 'id'],
+            // Clean les balises et leur enfants
+            cleanTags: ['meta','script','style','img','object','iframe'],
+            // Supprime une balise MAIS garde les balises enfantes
+            unwrapTags: []
+        },
+
+        // Si la section texte est vide de texte
+        placeholder: {
+            // Le placeholder
+            text: 'Votre texte ici...',
+            // Cacher au clic ou pas
+            hideOnClick: true
+        },
+
+        // Possibilité d'utiliser les touches du clavier
+        keyboardCommands: {
+            commands: [
+                {
+                    // La cible
+                    command: 'bold',
+                    // La commande
+                    key: 'B',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                },
+                {
+                    // La cible
+                    command: 'italic',
+                    // La commande
+                    key: 'I',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                },
+                {
+                    // La cible
+                    command: 'underline',
+                    // La commande
+                    key: 'U',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                },
+                {
+                    // La cible
+                    command: 'anchor',
+                    // La commande
+                    key: 'K',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                },
+                {
+                    // La cible
+                    command: 'strikethrough',
+                    // La commande
+                    key: 'M',
+                    // CTRL
+                    meta: true,
+                    // Schift
+                    shift: false,
+                    // ALT
+                    alt: false
+                }
+            ],
+        },
+
+        // Rend un lien cliquable (créer une balise <a> autour du lien collé)
+        autoLink: true,
+        // Empêche le dragging & dropping dans la section
+        imageDragging: false,
+    }).subscribe('editableInput', function (event, editable) {
+        flagEditor = true;
+    });
+
+    new MediumEditor('[data-content=variables] [data-text]', {
+        targetBlank: true,
+        spellcheck: false,
+        anchorPreview: false,
+        toolbar: {
+            // Left style
+            diffLeft: -10,
+            // top style
+            diffTop: -10,
+            // Menu apparait/disparait au clic
+            static: false,
+            // Ajout de boutons
+            buttons: 
+            [
+                { name: 'bold', contentDefault: '<i class="material-icons">format_bold</i>' },
+                { name: 'italic', contentDefault: '<i class="material-icons">format_italic</i>' },
+                { name: 'underline', contentDefault: '<i class="material-icons">format_underlined</i>' },,
+                { name: 'strikethrough', contentDefault: '<i class="material-icons">format_strikethrough</i>' },
+                { name: 'removeFormat', contentDefault: '<i class="material-icons">format_clear</i>' }
+            ]
         },
 
         // Si le user colle qq chose dans la section
@@ -359,6 +480,16 @@ function rgb2hex(rgb){
     ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
+function hex2Rgb(str) { 
+    if ( /^#([0-9a-f]{3}|[0-9a-f]{6})$/ig.test(str) ) { 
+        var hex = str.substr(1);
+        hex = hex.length == 3 ? hex.replace(/(.)/g, '$1$1') : hex;
+        var rgb = parseInt(hex, 16);               
+        return 'rgb(' + [(rgb >> 16) & 255, (rgb >> 8) & 255, rgb & 255].join(',') + ')';
+    } 
+
+    return false; 
+}
 // III : Limite le multi event
 var checkHandle = function(event) {
     event.preventDefault();
@@ -391,6 +522,7 @@ function clicToText(element) {
     alignmentText(element);
     sizeText(element);
     colorText(element);
+    colorlink(element);
     backgroundText(targetTheTargetParent(element));
     familyText(element);
     lineText(element);
@@ -545,12 +677,29 @@ function changeMinicolor(change, element) {
         if (checkHandle(e)) {
             styleValue = $(this).val();
             flagMinicolor = styleValue;
-            $(element).css(style, styleValue);
+            if(style === 'color-link'){
+                flagMincolor =  $(element).attr('data-colorlink');
+                var links = $(element).find('a');
+                links.each(function(i) {
+                    links[i].style.color = styleValue;
+                });
+            }
+            else if(style === 'background-color'){
+                if(styleValue === '#000000'){
+                    $(element).css(style, '#000001');
+                }
+            }
+            else{
+                $(element).css(style, styleValue);
+            }
         }
     });
     $(document).on('blur', change, function(e){
         if (checkHandle(e)) {
             if (flagMinicolor) {
+                if(style === 'color-link'){
+                    $(element).attr('data-colorlink', styleValue);
+                }
                 saveInStack(true);
                 flagMinicolor = undefined;
             }
@@ -595,10 +744,26 @@ function colorText(element) {
     changeMinicolor(input, element);
 }
 
+
+// XVb : Récupération/Modification de la couleur des liens
+function colorlink(element) {
+    let input = '[data-change="color-link"]';
+    colorlinkSection = rgb2hex($(element).attr('data-colorlink') || 'rgb(0, 102, 204)');
+    $(input).attr('value', colorlinkSection).val(colorlinkSection).minicolors('value',colorlinkSection);
+
+    changeMinicolor(input, element);
+}
+
 // XVI : Récupération/Modification de la couleur de fond
 function backgroundText(element) {
     let input = '[data-change="background-color"]';
-    backgroundSection = rgb2hex($(element).css('background-color'));
+    let backgroundSectionHex = $(element).css('background-color');
+
+    if(rgb2hex(backgroundSectionHex) ==='#000000'){
+        backgroundSectionHex = hex2Rgb($('#background_email').val());
+    }
+    backgroundSection = rgb2hex(backgroundSectionHex);
+
     $(input).attr('value', backgroundSection).val(backgroundSection).minicolors('value',backgroundSection);
 
     changeMinicolor(input, element);
@@ -618,12 +783,14 @@ function familyText(element) {
             if (checkHandle(e)) {
                 input = $(this);
                 val = input.val();
+                var backupFont = input.find('option:selected').attr('data-backup') || 'Arial';
+               
                 if (webSaveFonts.includes(val)) {
                     $(element).css('font-family', val);
                 } else {
-                     $(element).css('font-family', val+", Arial, sans-serif");
+                     $(element).css('font-family', val+', '+backupFont+', sans-serif');
                 }
-                $(element).attr('style', $(element).attr('style').replace('"', "'").replace('"', "'"));
+                $(element).attr('style', $(element).attr('style').replaceAll('"', "'"));
                 saveInStack(true);
             }
         });

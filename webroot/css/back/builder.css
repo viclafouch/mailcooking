@@ -285,6 +285,9 @@ div.content_email > div#storage_email td[data-text], div.content_email > div#sto
   -webkit-transition: opacity 0.2s ease 0s;
   transition: opacity 0.2s ease 0s;
 }
+div.content_email > div#storage_email td[data-text] a {
+  text-decoration: none;
+}
 div.content_email > div#storage_email a[data-cta] {
   cursor: text !important;
 }
@@ -663,14 +666,14 @@ div.field_item_sidebar .item::-ms-input-placeholder, div.field_item_sidebar sele
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   opacity: 0.8;
 }
-div.field_item_sidebar#background-color div.minicolors, div.field_item_sidebar#color div.minicolors {
+div.field_item_sidebar#background-color div.minicolors, div.field_item_sidebar#color div.minicolors, div.field_item_sidebar#color-link div.minicolors {
   padding: 5px;
   height: 100%;
   width: 100%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-div.field_item_sidebar#background-color div.minicolors::after, div.field_item_sidebar#color div.minicolors::after {
+div.field_item_sidebar#background-color div.minicolors::after, div.field_item_sidebar#color div.minicolors::after, div.field_item_sidebar#color-link div.minicolors::after {
   content: 'Selectionner une couleur';
   position: absolute;
   padding: 0 !important;
@@ -682,12 +685,12 @@ div.field_item_sidebar#background-color div.minicolors::after, div.field_item_si
   right: 0;
   height: 100%;
 }
-div.field_item_sidebar#background-color div.minicolors_before.active::after, div.field_item_sidebar#color div.minicolors_before.active::after {
+div.field_item_sidebar#background-color div.minicolors_before.active::after, div.field_item_sidebar#color div.minicolors_before.active::after, div.field_item_sidebar#color-link div.minicolors_before.active::after {
   visibility: hidden;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
   opacity: 0;
 }
-div.field_item_sidebar#background-color input.minicolors-input, div.field_item_sidebar#color input.minicolors-input {
+div.field_item_sidebar#background-color input.minicolors-input, div.field_item_sidebar#color input.minicolors-input, div.field_item_sidebar#color-link input.minicolors-input {
   width: calc(100% - 33px);
   text-transform: uppercase;
   border: 0;
@@ -701,7 +704,7 @@ div.field_item_sidebar#background-color input.minicolors-input, div.field_item_s
   position: absolute;
   right: 0;
 }
-div.field_item_sidebar#background-color span.minicolors-swatch, div.field_item_sidebar#color span.minicolors-swatch {
+div.field_item_sidebar#background-color span.minicolors-swatch, div.field_item_sidebar#color span.minicolors-swatch, div.field_item_sidebar#color-link span.minicolors-swatch {
   top: 50%;
   left: 5px;
   width: 18px;
@@ -710,7 +713,7 @@ div.field_item_sidebar#background-color span.minicolors-swatch, div.field_item_s
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-div.field_item_sidebar#background-color div.minicolors-panel, div.field_item_sidebar#color div.minicolors-panel {
+div.field_item_sidebar#background-color div.minicolors-panel, div.field_item_sidebar#color div.minicolors-panel, div.field_item_sidebar#color-link div.minicolors-panel {
   top: 100%;
   left: 5px;
 }
@@ -1104,6 +1107,10 @@ div#popupExport div.popup_container > p {
   bottom: 10%;
   text-align: center;
   color: #444;
+}
+
+div#popupApi select {
+  width: 100%;
 }
 
 .cssload-thecube {

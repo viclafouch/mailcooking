@@ -51,10 +51,6 @@
 	 						<p>Accueil</p>
 					    	<i class="material-icons">home</i>
 					    </a>
-					    <a href="?module=user&action=account" class="noactive" title="">
-					   		<p>Compte</p>
-					     	<i class="material-icons">account_circle</i>
-					    </a>
 					    <a href="?module=user&action=emails" class="noactive" title="">
 					    	<p>Emails</p>
 					    	<i class="material-icons">email</i>
@@ -71,9 +67,13 @@
 					    <?php endif ?>
 	 				</div>
 	 				<div class="others_links col col-hori-center nowrap">
-					    <a href="#" class="noactive">
-					    	<i class="fa fa-life-ring" aria-hidden="true"></i>
+					 	<a href="?module=user&action=account" class="noactive" title="">
+					   		<!-- <p>Compte</p> -->
+					     	<i class="material-icons">account_circle</i>
 					    </a>
+					    <!--<a href="#" class="noactive">
+					    	<i class="fa fa-life-ring" aria-hidden="true"></i>
+					    </a>-->
 					    <a href="#" class="noactive">
 					    	<i class="material-icons">help</i>
 					    </a>
@@ -142,3 +142,65 @@
 						</form>
 					</div>
 				</div>      
+
+
+				<?php if (isset($_SESSION['subscriber'])): ?>
+					<div class="popup_mc" id="upgradeSubscription">
+						<div class="popup_background"></div>
+						<div class="popup_container">
+							<header>
+								<h1>Modification de votre abonnement</h1>
+							</header>
+							<div class="content_block popup-blocks">
+								<div class="contain-pop">
+									<div class="field">
+										<p>
+											La modification de votre abonnement sera répercutée sur votre prochaine facture le <?= date('d/m/Y', $_SESSION['subscriber']['date_end_trial']); ?>.
+										</p>
+									</div>
+									<div class="field">
+										<p>
+											<b>Ainsi, votre prochaine facture sera décomposée de la manière suivante :</b>
+										</p>
+									</div>
+									<div class="field">
+										<div class="oneside aside">
+											<p>Prorata du nouvel abonnement sur le mois en cours :</p>
+										</div>
+										<div class="overside aside">
+											<p><span id="proration"></span> €</p>
+										</div>
+									</div>
+									<div class="field">
+										<div class="oneside aside">
+											<p>Déduction du prorata de l'abonnement actuel :</p>
+										</div>
+										<div class="overside aside">
+											<p>-<span id="actualPlan"></span> €</p>
+										</div>
+									</div>
+									<div class="field">
+										<div class="oneside aside">
+											<p>Montant du nouvel abonnement pour le mois prochain :</p>
+										</div>
+										<div class="overside aside">
+											<p><span id="newPlan"></span> €</p>
+										</div>
+									</div>
+									<div class="field">
+										<div style="float:right">
+											<p>Soit un total d'environ : <span id="nextBill"></span> €</p>
+										</div>
+									</div>
+								</div>
+								<footer>
+									<form method="post" action="?module=user&action=upgrade">
+										<input type="hidden" name="plan" id="booking_id" />
+										<input type="hidden" name="subscription_proration_date" id="subscription_proration_date" />
+										<button class="button_default button_secondary" id="valideUpdateSubscription">Valider la mise à jour de l'abonnement</button>
+									</form>
+								</footer>
+							</div>
+						</div>
+					</div>
+				<?php endif; ?>

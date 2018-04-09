@@ -8,17 +8,17 @@
 	 *
 	 */
 
+	date_default_timezone_set('Europe/Paris');
 
 	try {
         $dns = 'mysql:host=localhost;port=3306;dbname=crmcu309_mc_2016';
         $utilisateur = 'root';
-        $motDePasse='';
+        $motDePasse='mysql';
 
         $options = array (PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
                             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 
         $connexion = new PDO ($dns, $utilisateur, $motDePasse, $options);
-
     } 
 
     catch (Exception $e) {
@@ -89,7 +89,13 @@
 			die("Erreur SQL : " . $e->getMessage());
 		}
 	}
-
+	function removeFiles($path) {
+		foreach($path as $file) {
+			if(is_file($file)) {
+				unlink($file);
+			}
+		}
+	}
 	foreach ($emailsNotSaved as $key => $email) {
 		$user = read_user($email['id_user']);
 		$societe_user = mb_strtolower(substr($user[0]['societe'], 0, 3));
@@ -99,16 +105,97 @@
 		$folder = ''.$email['id_mail'].'_'.$email_date.'';
 		$path = $chemin.$folder;
 		if (file_exists($path)) {
-			function removeFiles($path) {
-				foreach($path as $file) {
-					if(is_file($file)) {
-					    unlink($file);
-					}
-				}
-			}
 			removeFiles(glob($path.'/*'));
 			rmdir($path);
 		}
 		delete_email($email['id_mail']);
 	}
+
+	require_once('vendor/autoload.php');
+	$stripeKeys = array(
+	  "secret_key"      => 'sk_test_PS2zQTpRTNObBqwvbCkMtC8p',
+	  "publishable_key" => 'pk_test_jdtjz4b05ADqlx5k093fsmgK'
+	);
+	
+	\Stripe\Stripe::setApiKey($stripeKeys['secret_key']);
+
+	$invoices = \Stripe\Charge::all([
+	'limit' => 100,
+	// 'source[object]' => 'card',
+	// 'offset' => 61
+	]) -> data;
+
+	usort($invoices, function ($a, $b) {
+		if ($a['created'] == $b['created']) {
+		   return 0;
+	   }
+	   return ($a['created'] < $b['created']) ? -1 : 1;
+	});
+
+	function checkIfExist($id_stripe){
+		global $connexion;
+
+		try {
+			$queryPayment = $connexion->prepare('SELECT * 
+			FROM payments_stripe
+			WHERE id_stripe=:id_stripe');
+
+			$queryPayment->bindParam(':id_stripe', $id_stripe, PDO::PARAM_STR);
+
+			$queryPayment->execute();
+			$payment = $queryPayment->fetch(PDO::FETCH_ASSOC);
+			$queryPayment->closeCursor();
+			return $payment;
+		}
+		catch (Exception $e) {
+			die("Erreur SQL : " . $e->getMessage());		
+		}
+	}
+
+	function insertPayment($id_stripe, $amount, $customer_email, $designation, $date_created){
+		global $connexion;
+
+		try {
+			$query = $connexion->prepare(
+				"INSERT INTO payments_stripe (
+					id_stripe, 
+					amount,
+					customer_email,
+					designation,
+					date_created)
+
+					VALUES (
+					:id_stripe, 
+					:amount,
+					:customer_email,
+					:designation,
+					:date_created)");
+			if(!$designation){
+				$designation = 'Abonnement Mailcooking';
+			}
+			if(!$customer_email){
+				$customer_email = '@';
+			}
+
+			$date_created = gmdate("Y-m-d\TH:i:s\Z", $date_created);
+			
+			$query->bindParam(':id_stripe', $id_stripe, PDO::PARAM_STR);
+			$query->bindParam(':amount', $amount, PDO::PARAM_STR);
+			$query->bindParam(':customer_email', $customer_email, PDO::PARAM_STR);
+			$query->bindParam(':designation', $designation, PDO::PARAM_STR);
+			$query->bindParam(':date_created', $date_created, PDO::PARAM_STR);
+
+			$query->execute();
+		}
+		catch (Exception $e) {
+			die("Erreur SQL : " . $e->getMessage());		
+		}
+	}
+
+	foreach($invoices as $key => $invoice){
+	 	if(!checkIfExist($invoice['id'])){
+	 		insertPayment($invoice['id'],$invoice['amount']/100,$invoice['receipt_email'],$invoice['metadata']['name'],$invoice['created']);
+		}
+	};
+
 ?>
