@@ -96,9 +96,8 @@
 
 	date_default_timezone_set('Europe/Paris');
 
-	// ini_set("SMTP","smtp.gmail.com"); // must be set to your own local ISP
-	ini_set( 'smtp_port', '1025' ); // assumes no authentication (passwords) required 
-	ini_set( 'sendmail_from', 'fauchet.jeancharles@gmail.com' ); // can be any e-mail address, but must be set
+	ini_set( 'smtp_port', '1025' );
+	ini_set( 'sendmail_from', 'fauchet.jeancharles@gmail.com' );
 
 	
 	

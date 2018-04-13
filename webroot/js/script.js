@@ -1771,57 +1771,53 @@ document.addEventListener("turbolinks:load", function(e) {
 		               	$(document).on('click', '#valideUploadOrder', function(e) {
 		               		e.preventDefault();
 							
-							var container = $('#orderPopup .popup_container .content_block');
+							var container = $('#orderPopup .popup_container .content_block')[0];
 							console.log(container);
 							cheminImage = html.responseText;
 							cheminThumbs = cheminImage.replace('images', 'thumbnails');
-							html2canvas(container, {
-								onrendered: function(canvas) {
-									$.ajax({
-										type: "POST",
-										data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminThumbs },
-										url : "?module=admin&action=commandes",
-										complete:function(){
-											$('#orderPopup [data-section]').each(function(){
-												var id = Math.floor(Math.random() * 16777215).toString(16);
-												$(this).attr('data-section', id);
-												var section = $('[data-section="'+id+'"]');
-												cheminImage = html.responseText;
-												cheminThumbs = cheminImage.replace('images', 'thumbnails');
-												html2canvas(section, {
-													onrendered: function(canvas) {
-														$.ajax({
-															type: "POST",
-															data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
-															url : "?module=admin&action=commandes",
-															complete:function(data){
-																console.log(id);
-																console.log(cheminThumbs);
-																console.log(data);
-															}
-														});
-													}
-												});
-											}).promise().done(function () { 
-												var idUser = cheminImage.split('/');
-												idUser = idUser[1].replace(/\D+/g, '');
-												dom = $('#orderPopup .content_block').html();
+							html2canvas(container).then(canvas => {
+								$.ajax({
+									type: "POST",
+									data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminThumbs },
+									url : "?module=admin&action=commandes",
+									complete:function(){
+										$('#orderPopup [data-section]').each(function(){
+											var id = Math.floor(Math.random() * 16777215).toString(16);
+											$(this).attr('data-section', id);
+											var section = $('[data-section="'+id+'"]')[0];
+											cheminImage = html.responseText;
+											cheminThumbs = cheminImage.replace('images', 'thumbnails');
+											html2canvas(section).then(canvas => {
 												$.ajax({
 													type: "POST",
-													data: {addToBdd: idOrder, DOM: dom, mco_template_mobile: medias, userId: idUser },
+													data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
 													url : "?module=admin&action=commandes",
-													success: function(data) {
-														$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
-															'<span class="statut statut2">En attente de test</span>'
-														);
-														$('#orderPopup .popup_container').html(data);
-													},
+													complete:function(data){
+														console.log(id);
+														console.log(cheminThumbs);
+														console.log(data);
+													}
 												});
 											});
-											return false;
-										}
-									});
-								}
+										}).promise().done(function () { 
+											var idUser = cheminImage.split('/');
+											idUser = idUser[1].replace(/\D+/g, '');
+											dom = $('#orderPopup .content_block').html();
+											$.ajax({
+												type: "POST",
+												data: {addToBdd: idOrder, DOM: dom, mco_template_mobile: medias, userId: idUser },
+												url : "?module=admin&action=commandes",
+												success: function(data) {
+													$('[data-order="'+idOrder+'"]').find('.statut').parent('td').html(
+														'<span class="statut statut2">En attente de test</span>'
+													);
+													$('#orderPopup .popup_container').html(data);
+												},
+											});
+										});
+										return false;
+									}
+								});
 							});
 		               	});
 		            }
@@ -1958,54 +1954,50 @@ document.addEventListener("turbolinks:load", function(e) {
 
 						$(document).on('click', '#validePreview', function(e){
 							e.preventDefault();
-							var container = $('#addTemplatePublic .content_block');
+							var container = $('#addTemplatePublic .content_block')[0];
 							cheminImage = html.responseText;
-							html2canvas(container, {
-								onrendered: function(canvas) {
-									$.ajax({
-					                    type: "POST",
-					                    data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminImage, dom: dom, medias: medias, title: title},
-					                    url : "?module=admin&action=templates",
-					                    complete: function (html) {
-					                    	var data = JSON.parse(html.responseText);
-					                    	var templateID = data[1];
-					                    	$('#addTemplatePublic [data-section]').each(function(){
-												var id = Math.floor(Math.random() * 16777215).toString(16);
-											    $(this).attr('data-section', id);
-												var section = $('[data-section="'+id+'"]');
-												cheminImage = data[0];
-												cheminThumbs = cheminImage.replace('images', 'thumbnails');
-												html2canvas(section, {
-													onrendered: function(canvas) {
-														$.ajax({
-										                    type: "POST",
-										                    data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
-										                    url : "?module=admin&action=templates",
-										                });
-													}
-												});
-											}).promise().done(function () { 
-												dom = $('#addTemplatePublic .content_block').html();
-												dom = dom.replaceAll('/preview/', '/template_public_'+templateID+'/images/');
-											    $.ajax({
-								                    type: "POST",
-								                    data: {templateID: templateID, DOM: dom},
+							html2canvas(container).then(canvas => {
+								$.ajax({
+									type: "POST",
+									data: {thumbnail: canvas.toDataURL("image/png"), chemin: cheminImage, dom: dom, medias: medias, title: title},
+									url : "?module=admin&action=templates",
+									complete: function (html) {
+										var data = JSON.parse(html.responseText);
+										var templateID = data[1];
+										$('#addTemplatePublic [data-section]').each(function(){
+											var id = Math.floor(Math.random() * 16777215).toString(16);
+											$(this).attr('data-section', id);
+											var section = $('[data-section="'+id+'"]')[0];
+											cheminImage = data[0];
+											cheminThumbs = cheminImage.replace('images', 'thumbnails');
+											html2canvas(section).then(canvas => {
+												$.ajax({
+													type: "POST",
+													data: {thumb: canvas.toDataURL("image/png"), nameThumb: id, chemin: cheminThumbs },
 													url : "?module=admin&action=templates",
-													complete: function(html) {
-														if (JSON.parse(html.responseText) === true) {
-															$('#addTemplatePublic footer').html(
-																'<button id="testPublic" class="button_default button_secondary">Tester le template</button>'
-															).attr('id',templateID);
-														} else {
-															$('#addTemplatePublic').hide();
-															displayNotif('Une erreur est survenue', false);
-														}
-													}
-								                });
+												});
 											});
-					                    }
-					                });
-								}
+										}).promise().done(function () { 
+											dom = $('#addTemplatePublic .content_block').html();
+											dom = dom.replaceAll('/preview/', '/template_public_'+templateID+'/images/');
+											$.ajax({
+												type: "POST",
+												data: {templateID: templateID, DOM: dom},
+												url : "?module=admin&action=templates",
+												complete: function(html) {
+													if (JSON.parse(html.responseText) === true) {
+														$('#addTemplatePublic footer').html(
+															'<button id="testPublic" class="button_default button_secondary">Tester le template</button>'
+														).attr('id',templateID);
+													} else {
+														$('#addTemplatePublic').hide();
+														displayNotif('Une erreur est survenue', false);
+													}
+												}
+											});
+										});
+									}
+								});
 							});
 						});
 		            }

@@ -68,5 +68,12 @@ typings/
 
 /vendor/
 
+*.pem
+
+ssh.PNG
+
+*.ppk
+
+/vprod/
 
 client/*

@@ -34,6 +34,8 @@
   "dependencies": {
     "compass": "^0.1.1",
     "composer": "^1.0.0",
+    "gulp-replace": "^0.6.1",
+    "gulp-replace-task": "^0.11.0",
     "ruby": "^0.6.1"
   }
 }

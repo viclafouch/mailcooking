@@ -3,6 +3,7 @@
 // Set true if you're in production
 const inProduction = true;
 
+var nameFolder = 'vprod';
 // Put your script library name here
 var libJS = ['turbolinks','jquery', 'jquery-ui', 'croppie', 'html2canvas', 'jquery-minicolors', 'medium-editor'];
 var scriptBuilder = ['edit_img', 'edit_text', 'control_sections', 'control_menus', 'actions_build'];
@@ -21,6 +22,7 @@ const gulp = require('gulp'),
 	print = require('gulp-print'),
 	runSequence = require('run-sequence'),
 	imagemin = require('gulp-imagemin');
+	replace = require('gulp-replace');
 
 /*----------  Styles  ----------*/
 
@@ -129,6 +131,67 @@ gulp.task('builder', function() {
 
 
 gulp.task('default', ['scripts', 'builder','styles', 'watch']);
+
+gulp.task('prod',function(){
+
+	gulp.src('app/**/*')
+    .pipe(gulp.dest(nameFolder + '/app'))
+	
+	gulp.src('client/**/*')
+	.pipe(gulp.dest(nameFolder + '/client'))
+
+	gulp.src('template_all/**/*')
+	.pipe(gulp.dest(nameFolder + '/template_all'))
+	
+	gulp.src('core/**/*')
+	.pipe(gulp.dest(nameFolder + '/core'))
+	
+	gulp.src('vendor/**/*')
+	.pipe(gulp.dest(nameFolder + '/vendor'))
+	
+	gulp.src('webroot/**/*')
+	.pipe(gulp.dest(nameFolder + '/webroot'))
+	
+	gulp.src('*.php')
+	.pipe(gulp.dest(nameFolder));
+
+});
+
+
+gulp.task('config',function(){
+
+	gulp.src(nameFolder + '/server.php')
+	.pipe(replace("'mysql:host=localhost;port=3306;dbname=crmcu309_mc_2016'", "'mysql:host=mc2.c4bpbiq0akz2.us-east-2.rds.amazonaws.com;port=3306;dbname=mc'"))
+	.pipe(replace("'root'", "'crmcurve999'"))
+	.pipe(replace("$motDePasse='mysql'", "$motDePasse='crmcurve999'"))
+	.pipe(gulp.dest(nameFolder));
+
+	gulp.src(nameFolder + '/model/param.inc.php')
+	.pipe(replace("'mysql:host=localhost;port=3306;dbname=crmcu309_mc_2016'", "'mysql:host=mc2.c4bpbiq0akz2.us-east-2.rds.amazonaws.com;port=3306;dbname=mc'"))
+	.pipe(replace("'root'", "'crmcurve999'"))
+	.pipe(replace("$motDePasse='mysql'", "$motDePasse='crmcurve999'"))
+	.pipe(gulp.dest(nameFolder + '/model/'));
+
+	gulp.src(nameFolder + '/app/config/config.inc.php')
+    .pipe(replace("ini_set( 'smtp_port', '1025' );", ''))
+	.pipe(replace("ini_set( 'sendmail_from', 'fauchet.jeancharles@gmail.com' );", ''))
+	.pipe(gulp.dest(nameFolder + '/app/config/'));
+
+	gulp.src(nameFolder + '/app/controller/home/confirm_user.php')
+    .pipe(replace("http://localhost/mailcooking/", 'http://mailcooking.io'))
+	.pipe(gulp.dest(nameFolder + '/app/controller/home/'));
+
+	gulp.src(nameFolder + '/app/controller/user/account.php')
+    .pipe(replace("http://localhost/mailcooking/", 'http://mailcooking.io'))
+	.pipe(gulp.dest(nameFolder + '/app/controller/user/'));
+
+	gulp.src(nameFolder + '/app/controller/home/index.php')
+    .pipe(replace("http://localhost/mailcooking/", 'http://mailcooking.io'))
+	.pipe(gulp.dest(nameFolder + '/app/controller/home/'));
+
+});
+
+
 
 /*----------  Live  ----------*/
 
